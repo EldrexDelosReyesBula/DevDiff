@@ -3,6 +3,9 @@
   "displayName": "DevDiff",
   "description": "Privacy-first, BYOAI inline changelog intelligence for VS Code",
   "version": "1.0.2",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "publisher": "ebula",
   "icon": "asset/devdiff.png",
   "engines": {

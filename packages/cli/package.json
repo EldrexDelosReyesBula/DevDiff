@@ -1,6 +1,9 @@
 {
   "name": "@eldrex/cli",
   "version": "1.0.2",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "description": "Command-line interface for DevDiff — intelligent, privacy-first changelog generation",
   "type": "module",
   "main": "./dist/index.js",

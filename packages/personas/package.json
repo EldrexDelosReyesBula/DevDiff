@@ -1,6 +1,9 @@
 {
   "name": "@eldrex/personas",
   "version": "1.0.2",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "description": "Personality engine for DevDiff — AI output formatting and tones",
   "type": "module",
   "main": "./dist/index.cjs",
