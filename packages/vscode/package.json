@@ -1,0 +1,69 @@
+{
+  "name": "@eldrex/vscode",
+  "displayName": "DevDiff",
+  "description": "Privacy-first, BYOAI inline changelog intelligence for VS Code",
+  "version": "1.0.0",
+  "publisher": "eldrex",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "compile": "tsup",
+    "watch": "tsup --watch",
+    "vscode:prepublish": "npm run compile"
+  },
+  "dependencies": {
+    "@eldrex/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.5.0"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "devdiff.explainDiff",
+        "title": "DevDiff: Explain Staged Changes"
+      },
+      {
+        "command": "devdiff.openSidebar",
+        "title": "DevDiff: Refresh Changelog View"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "devdiff-sidebar-view",
+          "title": "DevDiff",
+          "icon": "$(diff)"
+        }
+      ]
+    },
+    "views": {
+      "devdiff-sidebar-view": [
+        {
+          "type": "webview",
+          "id": "devdiff.sidebar",
+          "name": "Active Changes"
+        }
+      ]
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/EldrexDelosReyesBula/devdiff.git",
+    "directory": "packages/vscode"
+  },
+  "author": "Eldrex Delos Reyes Bula <eldrexdelosreyesbula@gmail.com>",
+  "license": "MIT"
+}

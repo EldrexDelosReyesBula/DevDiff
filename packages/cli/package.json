@@ -1,0 +1,47 @@
+{
+  "name": "@eldrex/cli",
+  "version": "1.0.0",
+  "description": "Command-line interface for DevDiff — intelligent, privacy-first changelog generation",
+  "type": "module",
+  "main": "./dist/index.js",
+  "bin": {
+    "devdiff": "./dist/index.js"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "prettier --check src/**/*.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@eldrex/core": "workspace:*",
+    "commander": "^12.1.0",
+    "picocolors": "^1.0.1",
+    "prompts": "^2.4.2",
+    "chokidar": "^3.6.0",
+    "express": "^4.19.2",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "@types/prompts": "^2.4.9",
+    "@types/express": "^4.17.21",
+    "@types/cors": "^2.8.17",
+    "tsup": "^8.0.0",
+    "typescript": "^5.5.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/EldrexDelosReyesBula/devdiff.git",
+    "directory": "packages/cli"
+  },
+  "keywords": [
+    "changelog",
+    "git-diff",
+    "ai",
+    "developer-tools",
+    "cli"
+  ],
+  "author": "Eldrex Delos Reyes Bula <eldrexdelosreyesbula@gmail.com>",
+  "license": "MIT"
+}

@@ -1,0 +1,14 @@
+node_modules
+dist
+.turbo
+coverage
+.env
+.env.*
+.DS_Store
+.idea
+.vscode/*.log
+packages/vscode/out
+packages/vscode/dist
+docs/.vitepress/dist
+docs/.vitepress/cache
+*.sqlite

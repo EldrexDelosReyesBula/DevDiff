@@ -1,0 +1,43 @@
+{
+  "name": "@eldrex/gateway",
+  "version": "1.0.0",
+  "description": "Standardized automation hub and protocol gateway for DevDiff",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "prettier --check src/**/*.ts",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@eldrex/core": "workspace:*",
+    "@eldrex/personas": "workspace:*",
+    "chokidar": "^3.6.0",
+    "js-yaml": "^4.3.0",
+    "ws": "^8.18.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/ws": "^8.5.10",
+    "tsup": "^8.0.0",
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0"
+  },
+  "author": "DevDiff Contributors",
+  "license": "MIT"
+}
