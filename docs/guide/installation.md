@@ -1,23 +1,90 @@
-# Installation
+# Installation Guide
 
-Install the DevDiff CLI globally via npm or run it directly using npx.
+DevDiff is designed to be lightweight, modular, and easy to deploy across any environment—from local development workstations to enterprise CI/CD runners.
 
-```bash
+## Prerequisites
+
+Before installing the DevDiff suite, ensure your system meets the following requirements:
+
+*   **Node.js:** version `20.x` or `22.x` (LTS recommended)
+*   **Package Manager:** `npm` (v10+), `pnpm` (v9+), or `yarn` (v1.22+)
+*   **Git:** version `2.30.0` or higher installed and added to your system's PATH
+*   **Operating System:** Windows 10/11, macOS Big Sur+, or mainstream Linux distributions (Ubuntu, Debian, Fedora, Arch)
+
+---
+
+## Global CLI Installation
+
+To run the DevDiff CLI command (`devdiff`) from any directory on your computer, install it globally using your preferred package manager:
+
+::: code-group
+
+```bash [npm]
 npm install -g @eldrex/cli
 ```
 
-Or run without installing:
-
-```bash
-npx @eldrex/cli generate
+```bash [pnpm]
+pnpm add -g @eldrex/cli
 ```
 
-## Setup Local Workspace
+```bash [yarn]
+yarn global add @eldrex/cli
+```
 
-Inside your git repository, initialize the DevDiff configuration:
+:::
+
+### Verifying the Installation
+
+After the installation completes, verify that the CLI is correctly installed and accessible:
 
 ```bash
+devdiff --version
+```
+This should output the current version of the CLI (e.g., `1.0.0`).
+
+---
+
+## Running On-Demand (Without Installation)
+
+If you prefer not to install the CLI globally, or if you are running it inside a temporary CI/CD runner, you can execute it on-demand using `npx`:
+
+```bash
+# Generate a changelog explanation
+npx @eldrex/cli generate
+
+# Run configuration setup
+npx @eldrex/cli config
+```
+
+---
+
+## Workspace Setup
+
+To configure DevDiff for a specific project, navigate to your git repository root and initialize the workspace configuration:
+
+```bash
+# Inside your project repository root
 devdiff config
 ```
 
-This will create a `.devdiff.config.json` configuration file in your repository root.
+This interactive command will:
+1. Detect your current Git repository status.
+2. Ask you to choose between local models (Ollama) or cloud models (OpenAI, Gemini, Anthropic).
+3. Create a `.devdiff.config.json` configuration file in your repository root directory.
+
+---
+
+## Troubleshooting Common Installation Errors
+
+### 1. Permission Denied (`EACCES` or `sudo` requirements)
+If you encounter permission errors during global installation on macOS/Linux:
+```bash
+# We recommend using a Node version manager like nvm to avoid sudo, or run:
+sudo npm install -g @eldrex/cli --unsafe-perm=true
+```
+
+### 2. Execution Policies on Windows (PowerShell)
+If you get a script execution warning on Windows PowerShell:
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
