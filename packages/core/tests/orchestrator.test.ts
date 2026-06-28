@@ -7,7 +7,7 @@ describe("MultiAgentOrchestrator", () => {
     await orchestrator.initialize();
 
     const diff = {
-      files: [{ path: "test.ts" }]
+      files: [{ path: "test.ts" }],
     };
 
     const analysis = await orchestrator.analyze(diff);

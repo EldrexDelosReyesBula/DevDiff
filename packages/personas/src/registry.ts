@@ -3,7 +3,6 @@ import { BUILTIN_PERSONAS } from "./built-in";
 
 export { BUILTIN_PERSONAS };
 
-
 export class PersonaRegistry {
   private static customPersonas: Map<string, Persona> = new Map();
 

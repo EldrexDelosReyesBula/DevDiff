@@ -101,11 +101,17 @@ export default defineConfig({
         {
           text: "Accessibility",
           items: [
-            { text: "Screen Reader Support", link: "/accessibility/screen-reader" },
-            { text: "Keyboard Navigation", link: "/accessibility/keyboard-nav" },
+            {
+              text: "Screen Reader Support",
+              link: "/accessibility/screen-reader",
+            },
+            {
+              text: "Keyboard Navigation",
+              link: "/accessibility/keyboard-nav",
+            },
             { text: "WCAG Compliance", link: "/accessibility/wcag-compliance" },
-          ]
-        }
+          ],
+        },
       ],
       "/contributing/": [
         { text: "Code of Conduct", link: "/contributing/code-of-conduct" },
@@ -130,7 +136,8 @@ export default defineConfig({
     ],
 
     footer: {
-      message: "Released under the MIT License. | <a href=\"/privacy-policy\">Privacy Policy</a> | <a href=\"/terms-of-service\">Terms of Service</a>",
+      message:
+        'Released under the MIT License. | <a href="/privacy-policy">Privacy Policy</a> | <a href="/terms-of-service">Terms of Service</a>',
       copyright: `Copyright © 2026-present DevDiff Contributors`,
     },
 

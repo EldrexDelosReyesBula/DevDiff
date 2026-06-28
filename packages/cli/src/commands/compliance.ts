@@ -1,7 +1,12 @@
 import * as fs from "fs/promises";
 import * as path from "path";
 import pc from "picocolors";
-import { loadConfig, COMPLIANCE_FRAMEWORKS, applyCompliance, DevDiffConfig } from "@eldrex/core";
+import {
+  loadConfig,
+  COMPLIANCE_FRAMEWORKS,
+  applyCompliance,
+  DevDiffConfig,
+} from "@eldrex/core";
 
 export async function saveConfig(config: any) {
   const configPath = path.resolve(process.cwd(), ".devdiff.config.js");
@@ -18,7 +23,11 @@ export async function applyComplianceCommand(frameworkId: string) {
     const config = await loadConfig();
     const updatedConfig = await applyCompliance(frameworkId, config);
     await saveConfig(updatedConfig);
-    console.log(pc.green(`\n🔒 Compliance framework '${frameworkId}' applied and config saved successfully.`));
+    console.log(
+      pc.green(
+        `\n🔒 Compliance framework '${frameworkId}' applied and config saved successfully.`,
+      ),
+    );
   } catch (error: any) {
     console.error(pc.red(`\n❌ Error applying compliance: ${error.message}`));
     process.exit(1);
@@ -29,13 +38,17 @@ export async function statusComplianceCommand() {
   try {
     const config = await loadConfig();
     console.log(pc.blue("\n🔒 Checking current compliance status..."));
-    
+
     let isFullyCompliant = true;
     for (const [id, frameworkData] of Object.entries(COMPLIANCE_FRAMEWORKS)) {
       const framework = frameworkData as any;
       const match = checkFrameworkMatch(config, framework.autoConfig);
-      const statusText = match ? pc.green("COMPLIANT") : pc.red("NOT COMPLIANT");
-      console.log(`- ${pc.bold(framework.name)} (${framework.jurisdiction}): ${statusText}`);
+      const statusText = match
+        ? pc.green("COMPLIANT")
+        : pc.red("NOT COMPLIANT");
+      console.log(
+        `- ${pc.bold(framework.name)} (${framework.jurisdiction}): ${statusText}`,
+      );
       if (!match) {
         isFullyCompliant = false;
       }
@@ -49,15 +62,25 @@ export async function statusComplianceCommand() {
 export async function validateComplianceCommand(frameworksStr: string) {
   try {
     const config = await loadConfig();
-    const frameworkIds = frameworksStr.split(",").map(f => f.trim().toLowerCase());
-    
-    console.log(pc.blue(`\n🔒 Validating configuration against frameworks: ${frameworksStr}...`));
-    
+    const frameworkIds = frameworksStr
+      .split(",")
+      .map((f) => f.trim().toLowerCase());
+
+    console.log(
+      pc.blue(
+        `\n🔒 Validating configuration against frameworks: ${frameworksStr}...`,
+      ),
+    );
+
     let allValid = true;
     for (const id of frameworkIds) {
       let resolvedId = id;
-      if (id === 'australian privacy act 1988' || id === 'australian privacy act' || id === 'australia') {
-        resolvedId = 'australia_privacy';
+      if (
+        id === "australian privacy act 1988" ||
+        id === "australian privacy act" ||
+        id === "australia"
+      ) {
+        resolvedId = "australia_privacy";
       }
       const framework = COMPLIANCE_FRAMEWORKS[resolvedId];
       if (!framework) {
@@ -65,7 +88,7 @@ export async function validateComplianceCommand(frameworksStr: string) {
         allValid = false;
         continue;
       }
-      
+
       const missingKeys = getMissingKeys(config, framework.autoConfig);
       if (missingKeys.length === 0) {
         console.log(pc.green(`✅ ${framework.name} compliance: VALID`));
@@ -78,7 +101,7 @@ export async function validateComplianceCommand(frameworksStr: string) {
         allValid = false;
       }
     }
-    
+
     if (!allValid) {
       process.exit(1);
     }
@@ -88,13 +111,20 @@ export async function validateComplianceCommand(frameworksStr: string) {
   }
 }
 
-export async function reportComplianceCommand(options: { format: string; output: string }) {
+export async function reportComplianceCommand(options: {
+  format: string;
+  output: string;
+}) {
   try {
     const config = await loadConfig();
-    console.log(pc.blue(`\n🔒 Generating audit-ready compliance report in '${options.format}' format...`));
-    
+    console.log(
+      pc.blue(
+        `\n🔒 Generating audit-ready compliance report in '${options.format}' format...`,
+      ),
+    );
+
     let reportText = `DEVDIFF COMPLIANCE AUDIT REPORT\nGenerated: ${new Date().toISOString()}\n\n`;
-    
+
     for (const [id, frameworkData] of Object.entries(COMPLIANCE_FRAMEWORKS)) {
       const framework = frameworkData as any;
       const match = checkFrameworkMatch(config, framework.autoConfig);
@@ -109,17 +139,17 @@ export async function reportComplianceCommand(options: { format: string; output:
       }
       reportText += `\n`;
     }
-    
+
     const outPath = path.resolve(process.cwd(), options.output);
     await fs.mkdir(path.dirname(outPath), { recursive: true });
-    
+
     if (options.format.toLowerCase() === "pdf") {
       const pdfBuffer = generateBasicPDF(reportText);
       await fs.writeFile(outPath, pdfBuffer);
     } else {
       await fs.writeFile(outPath, reportText, "utf-8");
     }
-    
+
     console.log(pc.green(`✅ Compliance report written to: ${outPath}`));
   } catch (error: any) {
     console.error(pc.red(`\n❌ Error generating report: ${error.message}`));
@@ -164,7 +194,9 @@ function getMissingKeys(config: any, autoConfig: any, prefix = ""): string[] {
     } else if (val instanceof Object && !Array.isArray(val)) {
       missing.push(...getMissingKeys(config[key], val, fullKey));
     } else if (JSON.stringify(config[key]) !== JSON.stringify(val)) {
-      missing.push(`${fullKey} (expected: ${JSON.stringify(val)}, got: ${JSON.stringify(config[key])})`);
+      missing.push(
+        `${fullKey} (expected: ${JSON.stringify(val)}, got: ${JSON.stringify(config[key])})`,
+      );
     }
   }
   return missing;
@@ -189,7 +221,10 @@ BT
 /F1 10 Tf
 50 720 Td
 12 TL
-${sanitizedText.split('\n').map(line => `(${line}) Tj T*`).join('\n')}
+${sanitizedText
+  .split("\n")
+  .map((line) => `(${line}) Tj T*`)
+  .join("\n")}
 ET
 endstream
 endobj
@@ -206,5 +241,5 @@ startxref
 400
 %%EOF
 `;
-  return Buffer.from(content, 'utf-8');
+  return Buffer.from(content, "utf-8");
 }

@@ -1,5 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { COMPLIANCE_FRAMEWORKS, applyCompliance, deepMerge } from "../src/compliance/frameworks";
+import {
+  COMPLIANCE_FRAMEWORKS,
+  applyCompliance,
+  deepMerge,
+} from "../src/compliance/frameworks";
 import { DevDiffConfig } from "../src/config/schema";
 
 describe("Compliance Frameworks", () => {
@@ -24,18 +28,18 @@ describe("Compliance Frameworks", () => {
         routing: {
           strategy: "priority",
           localOnly: true,
-        }
+        },
       },
-      format: "markdown"
+      format: "markdown",
     };
 
     const source = {
       ai: {
-        cloudProviders: "blocked"
+        cloudProviders: "blocked",
       },
       privacy: {
-        auditLogRetention: 30
-      }
+        auditLogRetention: 30,
+      },
     };
 
     const merged = deepMerge(target, source);
@@ -53,11 +57,11 @@ describe("Compliance Frameworks", () => {
           strategy: "priority",
           complexityThreshold: 0.6,
           localOnly: true,
-        }
+        },
       },
       exclude: [],
       cache: { enabled: true, path: "" },
-      format: "markdown"
+      format: "markdown",
     };
 
     const updated = await applyCompliance("gdpr", config);

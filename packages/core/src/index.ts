@@ -27,9 +27,30 @@ export {
 } from "./ai/providers/base";
 export { SECURITY_ADVISORIES } from "./security/patches";
 export { PrivacyEnforcer, PrivacyDecision } from "./privacy/enforcement";
-export { COMPLIANCE_FRAMEWORKS, applyCompliance, deepMerge } from "./compliance/frameworks";
+export {
+  COMPLIANCE_FRAMEWORKS,
+  applyCompliance,
+  deepMerge,
+} from "./compliance/frameworks";
 export { WebGPUProvider } from "./ai/providers/webgpu-provider";
-export { LocalInferenceChain, WASMProvider, NativeCPUProvider } from "./ai/providers/fallback-chain";
-export { MultiAgentOrchestrator, Agent, AgentAnalysis, AgentDiscussion, AgentMessage, CollaborativeAnalysis, Consensus } from "./agents/orchestrator";
-export { VibeCoderGuardian, Checkpoint, VibeSession, RecoveryResult, VibeSessionReport } from "./resilience/vibe-coder-guardian";
-
+export {
+  LocalInferenceChain,
+  WASMProvider,
+  NativeCPUProvider,
+} from "./ai/providers/fallback-chain";
+export {
+  MultiAgentOrchestrator,
+  Agent,
+  AgentAnalysis,
+  AgentDiscussion,
+  AgentMessage,
+  CollaborativeAnalysis,
+  Consensus,
+} from "./agents/orchestrator";
+export {
+  VibeCoderGuardian,
+  Checkpoint,
+  VibeSession,
+  RecoveryResult,
+  VibeSessionReport,
+} from "./resilience/vibe-coder-guardian";

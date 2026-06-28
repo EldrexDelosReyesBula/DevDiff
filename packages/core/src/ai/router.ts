@@ -391,9 +391,12 @@ export class AIRouter {
     let sessionActive = false;
     let guardian: VibeCoderGuardian | null = null;
     let checkpoint: any = null;
-    
+
     try {
-      const sessionPath = path.resolve(process.cwd(), '.devdiff/vibe-session.json');
+      const sessionPath = path.resolve(
+        process.cwd(),
+        ".devdiff/vibe-session.json",
+      );
       await fs.access(sessionPath);
       sessionActive = true;
     } catch {}
@@ -402,20 +405,22 @@ export class AIRouter {
       try {
         guardian = new VibeCoderGuardian();
         await guardian.loadSession();
-        
+
         let modifiedFiles: string[] = [];
         try {
-          const stdout = execSync("git status --porcelain", { stdio: ["ignore", "pipe", "ignore"] }).toString();
+          const stdout = execSync("git status --porcelain", {
+            stdio: ["ignore", "pipe", "ignore"],
+          }).toString();
           modifiedFiles = stdout
             .split("\n")
-            .map(line => line.slice(3).trim())
+            .map((line) => line.slice(3).trim())
             .filter(Boolean);
         } catch {}
-        
+
         checkpoint = await guardian.preAICheckpoint({
           files: modifiedFiles,
           model: decision.model,
-          prompt: diffText
+          prompt: diffText,
         });
         await guardian.saveSession();
       } catch (gErr) {
@@ -446,26 +451,30 @@ export class AIRouter {
           error: err,
           model: decision.model,
           checkpointId: checkpoint.id,
-          attempt: 1
+          attempt: 1,
         });
         await guardian.saveSession();
-        
-        if (recovery.status === 'retrying' && recovery.nextModel) {
+
+        if (recovery.status === "retrying" && recovery.nextModel) {
           try {
             const fb = this.parseUrl(recovery.nextModel);
-            const fbProvider = this.providers[fb.providerType] || this.providers["ollama"];
-            const result = await fbProvider.generateExplanation(diffText, fb.modelName);
-            
+            const fbProvider =
+              this.providers[fb.providerType] || this.providers["ollama"];
+            const result = await fbProvider.generateExplanation(
+              diffText,
+              fb.modelName,
+            );
+
             guardian.recordAICall(recovery.nextModel, true);
             await guardian.saveSession();
-            
+
             return result;
           } catch (retryErr: any) {
             const finalRecovery = await guardian.handleFailure({
               error: retryErr,
               model: recovery.nextModel,
               checkpointId: checkpoint.id,
-              attempt: 3
+              attempt: 3,
             });
             await guardian.saveSession();
             throw new Error(finalRecovery.message);

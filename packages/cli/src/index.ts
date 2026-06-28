@@ -5,7 +5,13 @@ import { watchCommand } from "./commands/watch";
 import { reportCommand } from "./commands/report";
 import { configCommand } from "./commands/config";
 import { auditCommand } from "./commands/audit";
-import { applyComplianceCommand, statusComplianceCommand, validateComplianceCommand, reportComplianceCommand, listComplianceCommand } from "./commands/compliance";
+import {
+  applyComplianceCommand,
+  statusComplianceCommand,
+  validateComplianceCommand,
+  reportComplianceCommand,
+  listComplianceCommand,
+} from "./commands/compliance";
 import { vibeStartCommand, vibeStatusCommand } from "./commands/vibe";
 import { recoverCommand } from "./commands/recover";
 
@@ -82,7 +88,10 @@ const compliance = program
 compliance
   .command("apply")
   .description("Apply a compliance framework to configuration")
-  .requiredOption("--framework <framework>", "framework ID to apply (e.g. gdpr, hipaa)")
+  .requiredOption(
+    "--framework <framework>",
+    "framework ID to apply (e.g. gdpr, hipaa)",
+  )
   .action(async (options) => {
     await applyComplianceCommand(options.framework);
   });
@@ -97,7 +106,10 @@ compliance
 compliance
   .command("validate")
   .description("Validate current configuration against specified frameworks")
-  .requiredOption("--frameworks <frameworks>", "comma-separated framework IDs to validate")
+  .requiredOption(
+    "--frameworks <frameworks>",
+    "comma-separated framework IDs to validate",
+  )
   .action(async (options) => {
     await validateComplianceCommand(options.frameworks);
   });
@@ -106,7 +118,11 @@ compliance
   .command("report")
   .description("Generate audit-ready compliance report")
   .option("-f, --format <format>", "report format: pdf, txt", "txt")
-  .option("-o, --output <file>", "output report file path", "compliance-report.txt")
+  .option(
+    "-o, --output <file>",
+    "output report file path",
+    "compliance-report.txt",
+  )
   .action(async (options) => {
     await reportComplianceCommand(options);
   });

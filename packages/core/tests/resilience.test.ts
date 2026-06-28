@@ -12,17 +12,20 @@ describe("VibeCoderGuardian", () => {
 
   afterEach(async () => {
     await fs.rm(testFile, { force: true });
-    await fs.rm(path.resolve(process.cwd(), ".devdiff"), { recursive: true, force: true });
+    await fs.rm(path.resolve(process.cwd(), ".devdiff"), {
+      recursive: true,
+      force: true,
+    });
   });
 
   it("creates and restores pre-AI checkpoints successfully", async () => {
     const guardian = new VibeCoderGuardian();
-    
+
     // Save checkpoint
     const checkpoint = await guardian.preAICheckpoint({
       files: [testFile],
       model: "ollama://llama3.2:3b",
-      prompt: "explain this change"
+      prompt: "explain this change",
     });
 
     expect(checkpoint.id).toBeDefined();
@@ -45,14 +48,14 @@ describe("VibeCoderGuardian", () => {
     const checkpoint = await guardian.preAICheckpoint({
       files: [testFile],
       model: "ollama://llama3.2:3b",
-      prompt: "explain this change"
+      prompt: "explain this change",
     });
 
     const recovery = await guardian.handleFailure({
       error: new Error("Connection refused"),
       model: "ollama://llama3.2:3b",
       checkpointId: checkpoint.id,
-      attempt: 1
+      attempt: 1,
     });
 
     expect(recovery.status).toBe("retrying");
