@@ -1,9 +1,9 @@
 {
-  "name": "@eldrex/vscode",
+  "name": "devdiff",
   "displayName": "DevDiff",
   "description": "Privacy-first, BYOAI inline changelog intelligence for VS Code",
   "version": "1.0.0",
-  "publisher": "eldrex",
+  "publisher": "ebula",
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -21,10 +21,8 @@
     "watch": "tsup --watch",
     "vscode:prepublish": "npm run compile"
   },
-  "dependencies": {
-    "@eldrex/core": "workspace:*"
-  },
   "devDependencies": {
+    "@eldrex/core": "workspace:*",
     "@types/vscode": "^1.85.0",
     "tsup": "^8.0.0",
     "typescript": "^5.5.0"
