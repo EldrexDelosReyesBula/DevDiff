@@ -127,7 +127,7 @@ Your Code Changes
 | [`@eldrex/core`](/packages/core)        | Core changelog engine  | [![npm](https://img.shields.io/npm/v/@eldrex/core)](https://www.npmjs.com/package/@eldrex/core) |
 | [`@eldrex/cli`](/packages/cli)          | Command-line interface | [![npm](https://img.shields.io/npm/v/@eldrex/cli)](https://www.npmjs.com/package/@eldrex/cli)   |
 | [`@eldrex/vite`](/packages/vite-plugin) | Vite plugin            | [![npm](https://img.shields.io/npm/v/@eldrex/vite)](https://www.npmjs.com/package/@eldrex/vite) |
-| [`@eldrex/vscode`](/packages/vscode)    | VS Code extension      | [Marketplace](https://marketplace.visualstudio.com/items?itemName=eldrex.devdiff)               |
+| [`@eldrex/vscode`](/packages/vscode)    | VS Code extension      | [Marketplace](https://marketplace.visualstudio.com/items?itemName=ebula.devdiff)               |
 
 ---
 
