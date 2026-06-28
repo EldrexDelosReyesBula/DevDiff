@@ -108,7 +108,7 @@ export default defineConfig({
     ],
 
     footer: {
-      message: "Released under the MIT License.",
+      message: "Released under the MIT License. | <a href=\"/privacy-policy\">Privacy Policy</a> | <a href=\"/terms-of-service\">Terms of Service</a>",
       copyright: `Copyright © 2026-present DevDiff Contributors`,
     },
 
