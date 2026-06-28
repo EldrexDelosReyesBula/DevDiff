@@ -1,6 +1,6 @@
 {
   "name": "@eldrex/vite",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Vite plugin for DevDiff — automatically runs changelog generation on build",
   "type": "module",
   "main": "./dist/index.js",

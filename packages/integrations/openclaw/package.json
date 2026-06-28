@@ -1,6 +1,6 @@
 {
   "name": "@eldrex/openclaw",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "OpenClaw integration and skill adapter for DevDiff",
   "type": "module",
   "main": "./dist/index.cjs",
