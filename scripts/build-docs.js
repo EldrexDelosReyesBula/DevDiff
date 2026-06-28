@@ -4,7 +4,7 @@ const path = require("path");
 
 // 1. Run turbo build
 console.log("Running turbo build...");
-execSync("npx turbo build", { stdio: "inherit" });
+execSync("npx turbo build --force", { stdio: "inherit" });
 
 // 2. Ensure docs/.vitepress/dist/demo exists
 const targetDemoDir = path.join(__dirname, "../docs/.vitepress/dist/demo");
