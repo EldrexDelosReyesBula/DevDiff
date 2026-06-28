@@ -20,6 +20,8 @@ export const ConfigSchema = z.object({
     .object({
       providers: z.array(ProviderSchema).default([]),
       routing: RoutingSchema.default({}),
+      cloudProviders: z.string().optional(),
+      allowedCloudRegions: z.array(z.string()).optional(),
     })
     .default({}),
   exclude: z
@@ -38,8 +40,16 @@ export const ConfigSchema = z.object({
     })
     .default({}),
   format: z.enum(["markdown", "json", "html"]).default("markdown"),
-});
+  privacy: z.record(z.any()).optional(),
+  monitoring: z.record(z.any()).optional(),
+  security: z.record(z.any()).optional(),
+}).passthrough();
 
 export type Provider = z.infer<typeof ProviderSchema>;
 export type Routing = z.infer<typeof RoutingSchema>;
-export type DevDiffConfig = z.infer<typeof ConfigSchema>;
+export type DevDiffConfig = z.infer<typeof ConfigSchema> & {
+  privacy?: Record<string, any>;
+  monitoring?: Record<string, any>;
+  security?: Record<string, any>;
+};
+

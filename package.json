@@ -1,6 +1,6 @@
 {
   "name": "devdiff-monorepo",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "private": true,
   "description": "Privacy-first, BYOAI changelog intelligence for developers",
   "scripts": {

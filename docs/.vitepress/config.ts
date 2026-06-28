@@ -18,7 +18,7 @@ export default defineConfig({
       { text: "API", link: "/api/core" },
       { text: "Integrations", link: "/integrations/vscode" },
       {
-        text: "v1.0.0",
+        text: "v1.0.1",
         items: [
           { text: "Changelog", link: "/changelog/" },
           { text: "Contributing", link: "/contributing/development" },
@@ -45,11 +45,17 @@ export default defineConfig({
             { text: "Token Optimization", link: "/guide/token-optimization" },
             { text: "Security Model", link: "/guide/security" },
             { text: "Privacy Guarantees", link: "/guide/privacy" },
+            { text: "Compliance Frameworks", link: "/guide/compliance" },
+            { text: "Offline-First Design", link: "/guide/offline-first" },
           ],
         },
         {
-          text: "Advanced",
+          text: "Advanced Capabilities",
           items: [
+            { text: "WebGPU local inference", link: "/guide/webgpu-inference" },
+            { text: "Multi-Agent Swarms", link: "/guide/multi-agent" },
+            { text: "Vibe-Coding Mode", link: "/guide/vibe-coding" },
+            { text: "Disaster Recovery", link: "/guide/disaster-recovery" },
             { text: "CI/CD Integration", link: "/guide/ci-cd" },
             { text: "Team Setups", link: "/guide/team-setups" },
             { text: "Custom Providers", link: "/providers/custom" },
@@ -77,6 +83,8 @@ export default defineConfig({
         { text: "Linear Integration", link: "/integrations/linear" },
         { text: "Jira Integration", link: "/integrations/jira" },
         { text: "Slack Notifications", link: "/integrations/slack" },
+        { text: "OpenClaw Integration", link: "/integrations/openclaw" },
+        { text: "Temporal Integration", link: "/integrations/temporal" },
       ],
       "/api/": [
         { text: "Core Library", link: "/api/core" },
@@ -84,6 +92,20 @@ export default defineConfig({
         { text: "Configuration Schema", link: "/api/configuration" },
         { text: "Provider API", link: "/api/provider-api" },
         { text: "Plugin API", link: "/api/plugin-api" },
+        { text: "Guardian API", link: "/api/guardian-api" },
+        { text: "Orchestrator API", link: "/api/orchestrator-api" },
+        { text: "WebGPU Provider", link: "/api/webgpu-provider" },
+        { text: "Compliance API", link: "/api/compliance-api" },
+      ],
+      "/accessibility/": [
+        {
+          text: "Accessibility",
+          items: [
+            { text: "Screen Reader Support", link: "/accessibility/screen-reader" },
+            { text: "Keyboard Navigation", link: "/accessibility/keyboard-nav" },
+            { text: "WCAG Compliance", link: "/accessibility/wcag-compliance" },
+          ]
+        }
       ],
       "/contributing/": [
         { text: "Code of Conduct", link: "/contributing/code-of-conduct" },

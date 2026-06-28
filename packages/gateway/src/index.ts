@@ -55,3 +55,5 @@ export { WebhookOutputter, WebhookConfig } from "./outputs/webhook";
 export { CustomOutputter, CustomOutputPlugin } from "./outputs/custom";
 export { SkillDefinition, SkillLoader } from "./skills/loader";
 export { SkillRegistry } from "./skills/registry";
+export { OUTPUT_FORMATS } from "./outputs/formats";
+

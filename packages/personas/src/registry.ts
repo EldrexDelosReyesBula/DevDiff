@@ -1,23 +1,8 @@
 import { Persona } from "./engine";
-import { developer } from "./built-in/developer";
-import { ceo } from "./built-in/ceo";
-import { dataAnalyst } from "./built-in/data-analyst";
-import { educator } from "./built-in/educator";
-import { robot } from "./built-in/robot";
-import { journalist } from "./built-in/journalist";
-import { pm } from "./built-in/pm";
-import { compliance } from "./built-in/compliance";
+import { BUILTIN_PERSONAS } from "./built-in";
 
-export const BUILTIN_PERSONAS: Record<string, Persona> = {
-  developer,
-  ceo,
-  "data-analyst": dataAnalyst,
-  educator,
-  robot,
-  journalist,
-  pm,
-  compliance,
-};
+export { BUILTIN_PERSONAS };
+
 
 export class PersonaRegistry {
   private static customPersonas: Map<string, Persona> = new Map();

@@ -5,6 +5,9 @@ import { watchCommand } from "./commands/watch";
 import { reportCommand } from "./commands/report";
 import { configCommand } from "./commands/config";
 import { auditCommand } from "./commands/audit";
+import { applyComplianceCommand, statusComplianceCommand, validateComplianceCommand, reportComplianceCommand, listComplianceCommand } from "./commands/compliance";
+import { vibeStartCommand, vibeStatusCommand } from "./commands/vibe";
+import { recoverCommand } from "./commands/recover";
 
 const program = new Command();
 
@@ -70,6 +73,75 @@ program
   .description("Display log audits of past AI provider calls")
   .action(async () => {
     await auditCommand();
+  });
+
+const compliance = program
+  .command("compliance")
+  .description("Manage compliance frameworks (GDPR, CCPA, HIPAA, etc.)");
+
+compliance
+  .command("apply")
+  .description("Apply a compliance framework to configuration")
+  .requiredOption("--framework <framework>", "framework ID to apply (e.g. gdpr, hipaa)")
+  .action(async (options) => {
+    await applyComplianceCommand(options.framework);
+  });
+
+compliance
+  .command("status")
+  .description("Check current compliance status against all frameworks")
+  .action(async () => {
+    await statusComplianceCommand();
+  });
+
+compliance
+  .command("validate")
+  .description("Validate current configuration against specified frameworks")
+  .requiredOption("--frameworks <frameworks>", "comma-separated framework IDs to validate")
+  .action(async (options) => {
+    await validateComplianceCommand(options.frameworks);
+  });
+
+compliance
+  .command("report")
+  .description("Generate audit-ready compliance report")
+  .option("-f, --format <format>", "report format: pdf, txt", "txt")
+  .option("-o, --output <file>", "output report file path", "compliance-report.txt")
+  .action(async (options) => {
+    await reportComplianceCommand(options);
+  });
+
+compliance
+  .command("list")
+  .description("List all supported compliance frameworks")
+  .action(() => {
+    listComplianceCommand();
+  });
+
+const vibe = program
+  .command("vibe")
+  .description("Manage Vibe-Coding resilient session");
+
+vibe
+  .command("start")
+  .description("Start a new vibe coding session")
+  .action(async () => {
+    await vibeStartCommand();
+  });
+
+vibe
+  .command("status")
+  .description("Show active vibe session status")
+  .action(async () => {
+    await vibeStatusCommand();
+  });
+
+program
+  .command("recover")
+  .description("Restore checkpoint from a vibe session")
+  .requiredOption("--checkpoint <checkpointId>", "checkpoint ID to restore")
+  .action(async (options) => {
+    await recoverCommand(options);
   });
 
 program.parse(process.argv);

@@ -1,10 +1,10 @@
 {
   "name": "devdiff",
-  "private": true,
   "displayName": "DevDiff",
   "description": "Privacy-first, BYOAI inline changelog intelligence for VS Code",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "publisher": "ebula",
+  "icon": "asset/devdiff.png",
   "engines": {
     "vscode": "^1.85.0"
   },

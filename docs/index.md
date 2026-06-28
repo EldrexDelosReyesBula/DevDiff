@@ -16,7 +16,7 @@ hero:
       link: https://github.com/EldrexDelosReyesBula/devdiff
     - theme: alt
       text: Try Live Demo
-      link: /demo/
+      link: https://devdiff.vercel.app/demo
 
 features:
   - icon: 🔒

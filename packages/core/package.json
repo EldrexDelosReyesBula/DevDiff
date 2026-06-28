@@ -1,6 +1,6 @@
 {
   "name": "@eldrex/core",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Core engine for DevDiff — intelligent, privacy-first changelog generation",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -25,6 +25,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@eldrex/personas": "workspace:*",
     "diff": "^7.0.0",
     "zod": "^3.23.0",
     "cosmiconfig": "^9.0.0",

@@ -75,6 +75,9 @@ importers:
 
   packages/core:
     dependencies:
+      '@eldrex/personas':
+        specifier: workspace:*
+        version: link:../personas
       chalk:
         specifier: ^5.3.0
         version: 5.6.2
