@@ -1,65 +1,75 @@
-import { Command } from 'commander'
-import { initCommand } from './commands/init'
-import { generateCommand } from './commands/generate'
-import { watchCommand } from './commands/watch'
-import { reportCommand } from './commands/report'
-import { configCommand } from './commands/config'
-import { auditCommand } from './commands/audit'
+import { Command } from "commander";
+import { initCommand } from "./commands/init";
+import { generateCommand } from "./commands/generate";
+import { watchCommand } from "./commands/watch";
+import { reportCommand } from "./commands/report";
+import { configCommand } from "./commands/config";
+import { auditCommand } from "./commands/audit";
 
-const program = new Command()
-
-program
-  .name('devdiff')
-  .description('Privacy-first, BYOAI changelog intelligence for developers')
-  .version('1.0.0')
+const program = new Command();
 
 program
-  .command('init')
-  .description('Initialize DevDiff configuration and install Git hooks in the repository')
-  .option('-f, --force', 'force overwrite of existing configuration files')
+  .name("devdiff")
+  .description("Privacy-first, BYOAI changelog intelligence for developers")
+  .version("1.0.0");
+
+program
+  .command("init")
+  .description(
+    "Initialize DevDiff configuration and install Git hooks in the repository",
+  )
+  .option("-f, --force", "force overwrite of existing configuration files")
   .action(async (options) => {
-    await initCommand(options)
-  })
+    await initCommand(options);
+  });
 
 program
-  .command('generate')
-  .description('Generate AI explanations for current repository changes')
-  .option('-m, --commit-msg-file <file>', 'file path to append the generated explanation (used in Git hooks)')
-  .option('-r, --range <range>', 'Git commit range or branch (e.g. HEAD~1 or main..feature)')
-  .option('-f, --format <format>', 'output format: markdown, json, html')
-  .option('-o, --output <file>', 'output file path to write the changelog')
-  .option('-d, --dry-run', 'dry run mode (simulates AI call)')
+  .command("generate")
+  .description("Generate AI explanations for current repository changes")
+  .option(
+    "-m, --commit-msg-file <file>",
+    "file path to append the generated explanation (used in Git hooks)",
+  )
+  .option(
+    "-r, --range <range>",
+    "Git commit range or branch (e.g. HEAD~1 or main..feature)",
+  )
+  .option("-f, --format <format>", "output format: markdown, json, html")
+  .option("-o, --output <file>", "output file path to write the changelog")
+  .option("-d, --dry-run", "dry run mode (simulates AI call)")
   .action(async (options) => {
-    await generateCommand(options)
-  })
+    await generateCommand(options);
+  });
 
 program
-  .command('watch')
-  .description('Watch Git index for staged changes and print summaries in real-time')
+  .command("watch")
+  .description(
+    "Watch Git index for staged changes and print summaries in real-time",
+  )
   .action(async () => {
-    await watchCommand()
-  })
+    await watchCommand();
+  });
 
 program
-  .command('report')
-  .description('Serve the web dashboard locally and view changelogs')
-  .option('-p, --port <port>', 'port to host the dashboard server', '4200')
+  .command("report")
+  .description("Serve the web dashboard locally and view changelogs")
+  .option("-p, --port <port>", "port to host the dashboard server", "4200")
   .action(async (options) => {
-    await reportCommand(options)
-  })
+    await reportCommand(options);
+  });
 
 program
-  .command('config')
-  .description('Validate and display active configuration')
+  .command("config")
+  .description("Validate and display active configuration")
   .action(async () => {
-    await configCommand()
-  })
+    await configCommand();
+  });
 
 program
-  .command('audit')
-  .description('Display log audits of past AI provider calls')
+  .command("audit")
+  .description("Display log audits of past AI provider calls")
   .action(async () => {
-    await auditCommand()
-  })
+    await auditCommand();
+  });
 
-program.parse(process.argv)
+program.parse(process.argv);

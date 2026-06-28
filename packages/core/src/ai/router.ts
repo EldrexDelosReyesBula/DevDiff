@@ -1,64 +1,64 @@
-import { DevDiffConfig } from '../config/schema'
-import { AIExplanationResult, AIProvider } from './providers/base'
-import { OllamaProvider } from './providers/ollama'
-import { OpenAIProvider } from './providers/openai'
-import { GeminiProvider } from './providers/gemini'
-import { AnthropicProvider } from './providers/anthropic'
-import { ExplanationCache } from './cache'
+import { DevDiffConfig } from "../config/schema";
+import { AIExplanationResult, AIProvider } from "./providers/base";
+import { OllamaProvider } from "./providers/ollama";
+import { OpenAIProvider } from "./providers/openai";
+import { GeminiProvider } from "./providers/gemini";
+import { AnthropicProvider } from "./providers/anthropic";
+import { ExplanationCache } from "./cache";
 
 export interface ModelTier {
-  name: string
-  provider: string
-  maxContextTokens: number
-  maxOutputTokens: number
-  costPer1kInput: number // USD, 0 for local
-  costPer1kOutput: number // USD, 0 for local
-  latencyMs: number // Expected latency
+  name: string;
+  provider: string;
+  maxContextTokens: number;
+  maxOutputTokens: number;
+  costPer1kInput: number; // USD, 0 for local
+  costPer1kOutput: number; // USD, 0 for local
+  latencyMs: number; // Expected latency
   capabilities: {
-    codeAnalysis: number // 0-1 score
-    securityAudit: number // 0-1 score
-    refactoringDetection: number
-    multiFileAnalysis: number
-    structuredOutput: number
-  }
+    codeAnalysis: number; // 0-1 score
+    securityAudit: number; // 0-1 score
+    refactoringDetection: number;
+    multiFileAnalysis: number;
+    structuredOutput: number;
+  };
 }
 
 export interface RoutingDecision {
-  model: string
-  reason: string
-  estimatedTokens: number
-  estimatedCost: number
-  estimatedLatency: number
-  willTruncate: boolean
-  fallbackChain: string[]
+  model: string;
+  reason: string;
+  estimatedTokens: number;
+  estimatedCost: number;
+  estimatedLatency: number;
+  willTruncate: boolean;
+  fallbackChain: string[];
 }
 
 export interface DiffStats {
-  fileCount: number
-  totalChanges: number
-  maxASTDepth: number
-  hasBreakingChanges: boolean
-  estimatedTokens: number
+  fileCount: number;
+  totalChanges: number;
+  maxASTDepth: number;
+  hasBreakingChanges: boolean;
+  estimatedTokens: number;
 }
 
 export interface AnalysisRequirements {
-  estimatedTokens: number
-  requiresCodeAnalysis: boolean
-  requiresSecurityAudit: boolean
-  requiresMultiFile: boolean
-  requiresStructuredOutput: boolean
-  minimumCapabilityScore: number
-  complexityScore: number
+  estimatedTokens: number;
+  requiresCodeAnalysis: boolean;
+  requiresSecurityAudit: boolean;
+  requiresMultiFile: boolean;
+  requiresStructuredOutput: boolean;
+  minimumCapabilityScore: number;
+  complexityScore: number;
 }
 
 export class AIRouter {
-  private config: DevDiffConfig
-  private cache: ExplanationCache
-  private providers: Record<string, AIProvider> = {}
+  private config: DevDiffConfig;
+  private cache: ExplanationCache;
+  private providers: Record<string, AIProvider> = {};
   private models: Record<string, ModelTier> = {
-    'ollama://llama3.2:3b': {
-      name: 'Llama 3.2 3B',
-      provider: 'ollama',
+    "ollama://llama3.2:3b": {
+      name: "Llama 3.2 3B",
+      provider: "ollama",
       maxContextTokens: 128000,
       maxOutputTokens: 8192,
       costPer1kInput: 0,
@@ -72,9 +72,9 @@ export class AIRouter {
         structuredOutput: 0.7,
       },
     },
-    'ollama://llama3.1:8b': {
-      name: 'Llama 3.1 8B',
-      provider: 'ollama',
+    "ollama://llama3.1:8b": {
+      name: "Llama 3.1 8B",
+      provider: "ollama",
       maxContextTokens: 128000,
       maxOutputTokens: 8192,
       costPer1kInput: 0,
@@ -88,9 +88,9 @@ export class AIRouter {
         structuredOutput: 0.8,
       },
     },
-    'ollama://codellama:13b': {
-      name: 'CodeLlama 13B',
-      provider: 'ollama',
+    "ollama://codellama:13b": {
+      name: "CodeLlama 13B",
+      provider: "ollama",
       maxContextTokens: 16384,
       maxOutputTokens: 4096,
       costPer1kInput: 0,
@@ -104,9 +104,9 @@ export class AIRouter {
         structuredOutput: 0.75,
       },
     },
-    'openai://gpt-4o-mini': {
-      name: 'GPT-4o Mini',
-      provider: 'openai',
+    "openai://gpt-4o-mini": {
+      name: "GPT-4o Mini",
+      provider: "openai",
       maxContextTokens: 128000,
       maxOutputTokens: 16384,
       costPer1kInput: 0.00015,
@@ -120,9 +120,9 @@ export class AIRouter {
         structuredOutput: 0.95,
       },
     },
-    'openai://gpt-4o': {
-      name: 'GPT-4o',
-      provider: 'openai',
+    "openai://gpt-4o": {
+      name: "GPT-4o",
+      provider: "openai",
       maxContextTokens: 128000,
       maxOutputTokens: 16384,
       costPer1kInput: 0.0025,
@@ -136,57 +136,66 @@ export class AIRouter {
         structuredOutput: 0.98,
       },
     },
-  }
+  };
 
   constructor(config: DevDiffConfig) {
-    this.config = config
-    this.cache = new ExplanationCache(config.cache.enabled, config.cache.path)
+    this.config = config;
+    this.cache = new ExplanationCache(config.cache.enabled, config.cache.path);
 
     // Initialize providers
-    this.providers['ollama'] = new OllamaProvider()
-    this.providers['openai'] = new OpenAIProvider()
-    this.providers['gemini'] = new GeminiProvider()
-    this.providers['anthropic'] = new AnthropicProvider()
+    this.providers["ollama"] = new OllamaProvider();
+    this.providers["openai"] = new OpenAIProvider();
+    this.providers["gemini"] = new GeminiProvider();
+    this.providers["anthropic"] = new AnthropicProvider();
   }
 
   private parseUrl(url: string): { providerType: string; modelName: string } {
-    const match = url.match(/^([^:]+):\/\/(.+)$/)
+    const match = url.match(/^([^:]+):\/\/(.+)$/);
     if (!match) {
-      return { providerType: 'ollama', modelName: url }
+      return { providerType: "ollama", modelName: url };
     }
     return {
       providerType: match[1].toLowerCase(),
       modelName: match[2],
-    }
+    };
   }
 
   /**
    * Route a change analysis to the optimal model based on context constraints
    */
   route(depth: string, stats: DiffStats): RoutingDecision {
-    const requirements = this.assessRequirements(depth, stats)
+    const requirements = this.assessRequirements(depth, stats);
 
     // Build candidate list meeting requirements
     const candidates = Object.entries(this.models)
-      .filter(([_, model]) => this.meetsMinimumRequirements(model, requirements))
-      .sort((a, b) => this.scoreModel(b[1], requirements) - this.scoreModel(a[1], requirements))
+      .filter(([_, model]) =>
+        this.meetsMinimumRequirements(model, requirements),
+      )
+      .sort(
+        (a, b) =>
+          this.scoreModel(b[1], requirements) -
+          this.scoreModel(a[1], requirements),
+      );
 
     if (candidates.length === 0) {
       // Fallback: use best available with truncation warning
-      const best = Object.entries(this.models).sort((a, b) => b[1].maxContextTokens - a[1].maxContextTokens)[0]
+      const best = Object.entries(this.models).sort(
+        (a, b) => b[1].maxContextTokens - a[1].maxContextTokens,
+      )[0];
 
       return {
         model: best[0],
-        reason: 'No model meets requirements. Using largest context window with truncation.',
+        reason:
+          "No model meets requirements. Using largest context window with truncation.",
         estimatedTokens: stats.estimatedTokens,
         estimatedCost: this.estimateCost(best[0], stats.estimatedTokens),
         estimatedLatency: best[1].latencyMs,
         willTruncate: true,
         fallbackChain: [],
-      }
+      };
     }
 
-    const selected = candidates[0]
+    const selected = candidates[0];
 
     return {
       model: selected[0],
@@ -195,30 +204,42 @@ export class AIRouter {
       estimatedCost: this.estimateCost(selected[0], stats.estimatedTokens),
       estimatedLatency: selected[1].latencyMs,
       willTruncate: stats.estimatedTokens > selected[1].maxContextTokens * 0.8,
-      fallbackChain: candidates.slice(1, 4).map(c => c[0]),
-    }
+      fallbackChain: candidates.slice(1, 4).map((c) => c[0]),
+    };
   }
 
-  private meetsMinimumRequirements(model: ModelTier, req: AnalysisRequirements): boolean {
+  private meetsMinimumRequirements(
+    model: ModelTier,
+    req: AnalysisRequirements,
+  ): boolean {
     // Basic filter on capabilities
-    if (req.requiresSecurityAudit && model.capabilities.securityAudit < req.minimumCapabilityScore) {
-      return false
+    if (
+      req.requiresSecurityAudit &&
+      model.capabilities.securityAudit < req.minimumCapabilityScore
+    ) {
+      return false;
     }
-    if (req.requiresMultiFile && model.capabilities.multiFileAnalysis < req.minimumCapabilityScore) {
-      return false
+    if (
+      req.requiresMultiFile &&
+      model.capabilities.multiFileAnalysis < req.minimumCapabilityScore
+    ) {
+      return false;
     }
-    return true
+    return true;
   }
 
-  private assessRequirements(depth: string, stats: DiffStats): AnalysisRequirements {
+  private assessRequirements(
+    depth: string,
+    stats: DiffStats,
+  ): AnalysisRequirements {
     const depthMultipliers: Record<string, number> = {
       minimal: 0.3,
       standard: 0.5,
       deep: 0.8,
       exhaustive: 1.0,
-    }
+    };
 
-    const multiplier = depthMultipliers[depth] || 0.5
+    const multiplier = depthMultipliers[depth] || 0.5;
 
     return {
       estimatedTokens: stats.estimatedTokens,
@@ -228,151 +249,173 @@ export class AIRouter {
       requiresStructuredOutput: true,
       minimumCapabilityScore: 0.3 + multiplier * 0.5,
       complexityScore: this.calculateComplexity(stats),
-    }
+    };
   }
 
   private calculateComplexity(stats: DiffStats): number {
-    let score = 0
-    score += Math.min(stats.fileCount / 20, 1) * 0.3
-    score += Math.min(stats.totalChanges / 500, 1) * 0.3
-    score += Math.min(stats.maxASTDepth / 10, 1) * 0.2
-    if (stats.hasBreakingChanges) score += 0.2
-    return Math.min(score, 1.0)
+    let score = 0;
+    score += Math.min(stats.fileCount / 20, 1) * 0.3;
+    score += Math.min(stats.totalChanges / 500, 1) * 0.3;
+    score += Math.min(stats.maxASTDepth / 10, 1) * 0.2;
+    if (stats.hasBreakingChanges) score += 0.2;
+    return Math.min(score, 1.0);
   }
 
   private scoreModel(model: ModelTier, req: AnalysisRequirements): number {
-    let score = 0
+    let score = 0;
 
     if (req.estimatedTokens <= model.maxContextTokens * 0.8) {
-      score += 0.3
+      score += 0.3;
     } else if (req.estimatedTokens <= model.maxContextTokens) {
-      score += 0.1
+      score += 0.1;
     }
 
-    score += model.capabilities.codeAnalysis * 0.25
+    score += model.capabilities.codeAnalysis * 0.25;
     if (req.requiresSecurityAudit) {
-      score += model.capabilities.securityAudit * 0.2
+      score += model.capabilities.securityAudit * 0.2;
     }
     if (req.requiresMultiFile) {
-      score += model.capabilities.multiFileAnalysis * 0.15
+      score += model.capabilities.multiFileAnalysis * 0.15;
     }
     if (req.requiresStructuredOutput) {
-      score += model.capabilities.structuredOutput * 0.1
+      score += model.capabilities.structuredOutput * 0.1;
     }
 
     // Cost penalty (prefer local)
     if (model.costPer1kInput > 0) {
-      score -= 0.15
+      score -= 0.15;
     }
 
     if (req.complexityScore > 0.7 && model.latencyMs > 2000) {
-      score -= 0.1
+      score -= 0.1;
     }
 
-    return score
+    return score;
   }
 
   private explainRouting(model: ModelTier, req: AnalysisRequirements): string {
-    const reasons: string[] = []
-    if (model.costPer1kInput === 0) reasons.push('local/free')
-    if (model.capabilities.codeAnalysis >= 0.9) reasons.push('high code analysis capability')
+    const reasons: string[] = [];
+    if (model.costPer1kInput === 0) reasons.push("local/free");
+    if (model.capabilities.codeAnalysis >= 0.9)
+      reasons.push("high code analysis capability");
     if (req.requiresSecurityAudit && model.capabilities.securityAudit >= 0.8) {
-      reasons.push('security audit capable')
+      reasons.push("security audit capable");
     }
     if (req.estimatedTokens > 8000 && model.maxContextTokens >= 128000) {
-      reasons.push('large context window')
+      reasons.push("large context window");
     }
-    return `Selected ${model.name}: ${reasons.join(', ')}`
+    return `Selected ${model.name}: ${reasons.join(", ")}`;
   }
 
   private estimateCost(modelKey: string, estimatedTokens: number): number {
-    const model = this.models[modelKey]
-    if (!model) return 0
-    return (estimatedTokens / 1000) * model.costPer1kInput + (estimatedTokens * 0.3 / 1000) * model.costPer1kOutput
+    const model = this.models[modelKey];
+    if (!model) return 0;
+    return (
+      (estimatedTokens / 1000) * model.costPer1kInput +
+      ((estimatedTokens * 0.3) / 1000) * model.costPer1kOutput
+    );
   }
 
-  async getExplanation(diffText: string, options?: { dryRun?: boolean; depth?: string }): Promise<AIExplanationResult> {
+  async getExplanation(
+    diffText: string,
+    options?: { dryRun?: boolean; depth?: string },
+  ): Promise<AIExplanationResult> {
     if (options?.dryRun) {
       return {
-        summary: '[DRY RUN] Would call AI to generate explanation for this diff.',
-        impact: 'none',
+        summary:
+          "[DRY RUN] Would call AI to generate explanation for this diff.",
+        impact: "none",
         breaking: false,
         files: [],
         relatedIssues: [],
-      }
+      };
     }
 
     // Check cache
-    const cached = await this.cache.get(diffText)
+    const cached = await this.cache.get(diffText);
     if (cached) {
-      return cached.result
+      return cached.result;
     }
 
     // Context-aware routing decision
-    const charCount = diffText.length
-    const estimatedTokens = Math.ceil(charCount / 4)
-    const fileLines = diffText.split('\n')
-    const totalChanges = fileLines.filter(l => l.startsWith('+') || l.startsWith('-')).length
-    
+    const charCount = diffText.length;
+    const estimatedTokens = Math.ceil(charCount / 4);
+    const fileLines = diffText.split("\n");
+    const totalChanges = fileLines.filter(
+      (l) => l.startsWith("+") || l.startsWith("-"),
+    ).length;
+
     const stats: DiffStats = {
       fileCount: (diffText.match(/^diff --git /gm) || []).length || 1,
       totalChanges,
       maxASTDepth: 5,
-      hasBreakingChanges: diffText.includes('breaking') || diffText.includes('BREAKING CHANGE'),
+      hasBreakingChanges:
+        diffText.includes("breaking") || diffText.includes("BREAKING CHANGE"),
       estimatedTokens,
-    }
+    };
 
-    const decision = this.route(options?.depth || 'standard', stats)
-    console.log(`[Intelligent Router] Decision: ${decision.model} - ${decision.reason}`)
+    const decision = this.route(options?.depth || "standard", stats);
+    console.log(
+      `[Intelligent Router] Decision: ${decision.model} - ${decision.reason}`,
+    );
 
     // Extract provider name and model name
-    const { providerType, modelName } = this.parseUrl(decision.model)
-    const provider = this.providers[providerType]
+    const { providerType, modelName } = this.parseUrl(decision.model);
+    const provider = this.providers[providerType];
 
     if (!provider) {
       // Fallback to configured providers if not mapped
-      throw new Error(`Unsupported routed provider type: ${providerType}`)
+      throw new Error(`Unsupported routed provider type: ${providerType}`);
     }
 
     // Apply API key if present in configuration for this provider
-    const matchedConfig = this.config.ai.providers.find(p => p.url.startsWith(providerType))
+    const matchedConfig = this.config.ai.providers.find((p) =>
+      p.url.startsWith(providerType),
+    );
     if (matchedConfig?.apiKey) {
-      if (providerType === 'openai') {
-        this.providers['openai'] = new OpenAIProvider(matchedConfig.apiKey)
-      } else if (providerType === 'gemini') {
-        this.providers['gemini'] = new GeminiProvider(matchedConfig.apiKey)
-      } else if (providerType === 'anthropic') {
-        this.providers['anthropic'] = new AnthropicProvider(matchedConfig.apiKey)
+      if (providerType === "openai") {
+        this.providers["openai"] = new OpenAIProvider(matchedConfig.apiKey);
+      } else if (providerType === "gemini") {
+        this.providers["gemini"] = new GeminiProvider(matchedConfig.apiKey);
+      } else if (providerType === "anthropic") {
+        this.providers["anthropic"] = new AnthropicProvider(
+          matchedConfig.apiKey,
+        );
       }
     }
 
     try {
-      const result = await provider.generateExplanation(diffText, modelName)
-      
+      const result = await provider.generateExplanation(diffText, modelName);
+
       // Save to cache
       await this.cache.set(diffText, {
         result,
         provider: providerType,
         model: modelName,
-      })
+      });
 
-      return result
+      return result;
     } catch (err: any) {
-      console.warn(`Routed AI provider ${decision.model} failed. Falling back to chain: ${decision.fallbackChain.join(', ')}`)
-      
+      console.warn(
+        `Routed AI provider ${decision.model} failed. Falling back to chain: ${decision.fallbackChain.join(", ")}`,
+      );
+
       for (const fallbackModel of decision.fallbackChain) {
         try {
-          const fb = this.parseUrl(fallbackModel)
-          const fbProvider = this.providers[fb.providerType]
+          const fb = this.parseUrl(fallbackModel);
+          const fbProvider = this.providers[fb.providerType];
           if (fbProvider) {
-            const result = await fbProvider.generateExplanation(diffText, fb.modelName)
-            return result
+            const result = await fbProvider.generateExplanation(
+              diffText,
+              fb.modelName,
+            );
+            return result;
           }
         } catch {
           // Continue to next fallback
         }
       }
-      throw err
+      throw err;
     }
   }
 }

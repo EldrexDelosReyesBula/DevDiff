@@ -24,4 +24,5 @@ outputs:
 ---
 
 # Changelog Skill
+
 Generates detailed development changelogs from git changes.

@@ -3,7 +3,7 @@
 ## What is DevDiff?
 
 DevDiff is an intelligent changelog generator that watches your code changes
-and produces human-readable explanations. Unlike raw git diffs, DevDiff 
+and produces human-readable explanations. Unlike raw git diffs, DevDiff
 explains:
 
 - **What** changed (in plain English)
@@ -12,15 +12,15 @@ explains:
 
 ## Why DevDiff?
 
-| | git log | DevDiff |
-|---|---|---|
-| Shows line diffs | ✅ | ✅ |
-| Explains intent | ❌ | ✅ |
-| Detects refactors | ❌ | ✅ |
-| Links to issues | ❌ | ✅ |
-| Privacy-respecting | ✅ | ✅ |
-| Works offline | ✅ | ✅ |
-| Free | ✅ | ✅ |
+|                    | git log | DevDiff |
+| ------------------ | ------- | ------- |
+| Shows line diffs   | ✅      | ✅      |
+| Explains intent    | ❌      | ✅      |
+| Detects refactors  | ❌      | ✅      |
+| Links to issues    | ❌      | ✅      |
+| Privacy-respecting | ✅      | ✅      |
+| Works offline      | ✅      | ✅      |
+| Free               | ✅      | ✅      |
 
 ## Quick Start (30 seconds)
 

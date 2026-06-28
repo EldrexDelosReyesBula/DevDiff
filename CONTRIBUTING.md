@@ -8,14 +8,14 @@ We follow the [Contributor Covenant](CODE_OF_CONDUCT.md). Please read it.
 
 ## Ways to Contribute
 
-| What | Time | Skills |
-|------|------|--------|
-| Report bugs | 5 min | Using DevDiff |
-| Improve docs | 15 min | Writing, code examples |
-| Answer questions | 30 min | DevDiff experience |
-| Fix good-first-issues | 1-2 hours | TypeScript |
-| Add AI providers | 2-4 hours | TypeScript, REST APIs |
-| Core development | Ongoing | TypeScript, ASTs, Git internals |
+| What                  | Time      | Skills                          |
+| --------------------- | --------- | ------------------------------- |
+| Report bugs           | 5 min     | Using DevDiff                   |
+| Improve docs          | 15 min    | Writing, code examples          |
+| Answer questions      | 30 min    | DevDiff experience              |
+| Fix good-first-issues | 1-2 hours | TypeScript                      |
+| Add AI providers      | 2-4 hours | TypeScript, REST APIs           |
+| Core development      | Ongoing   | TypeScript, ASTs, Git internals |
 
 ## Development Setup
 

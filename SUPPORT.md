@@ -4,12 +4,12 @@ DevDiff is a community-supported open-source project. We don't have a paid enter
 
 ## Support Channels
 
-| Channel | Best For | Link |
-|---------|----------|------|
-| 📖 Documentation | Everything | [docs.deviff.dev](https://docs.deviff.dev) |
-| 🐛 GitHub Issues | Bugs, features | [github.com/EldrexDelosReyesBula/devdiff/issues](https://github.com/EldrexDelosReyesBula/devdiff/issues) |
-| 📝 GitHub Discussions | Long-form Q&A, ideas | [github.com/EldrexDelosReyesBula/devdiff/discussions](https://github.com/EldrexDelosReyesBula/devdiff/discussions) |
-| 📧 Email Contact | Private security reports | [eldrexdelosreyesbula@gmail.com](mailto:eldrexdelosreyesbula@gmail.com) |
+| Channel               | Best For                 | Link                                                                                                               |
+| --------------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| 📖 Documentation      | Everything               | [docs.deviff.dev](https://docs.deviff.dev)                                                                         |
+| 🐛 GitHub Issues      | Bugs, features           | [github.com/EldrexDelosReyesBula/devdiff/issues](https://github.com/EldrexDelosReyesBula/devdiff/issues)           |
+| 📝 GitHub Discussions | Long-form Q&A, ideas     | [github.com/EldrexDelosReyesBula/devdiff/discussions](https://github.com/EldrexDelosReyesBula/devdiff/discussions) |
+| 📧 Email Contact      | Private security reports | [eldrexdelosreyesbula@gmail.com](mailto:eldrexdelosreyesbula@gmail.com)                                            |
 
 ## Donation & Sponsorship Channels
 

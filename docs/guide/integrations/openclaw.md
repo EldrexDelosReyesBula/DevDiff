@@ -17,4 +17,5 @@ Use the `devdiff` skill in your OpenClaw workflow YAML configuration:
       - mermaid
     depth: standard
 ```
+
 For local deployments, the OpenClaw skill adapter calls the DevDiff Gateway server on port `3740`.

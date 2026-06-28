@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Plus+Jakarta+Sans:wght@300;400;500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Plus+Jakarta+Sans:wght@300;400;500;700&display=swap");
 
 :root {
-  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -11,13 +11,13 @@
   --border: rgba(255, 255, 255, 0.06);
   --text: #f8fafc;
   --text-muted: #94a3b8;
-  
+
   /* Logo color palette */
-  --primary: #0066ff;        /* Deep Blue */
+  --primary: #0066ff; /* Deep Blue */
   --primary-glow: rgba(0, 102, 255, 0.15);
-  --accent: #7c3aed;         /* Violet */
+  --accent: #7c3aed; /* Violet */
   --accent-glow: rgba(124, 58, 237, 0.15);
-  --cyan: #00e5ff;           /* Iris Cyan */
+  --cyan: #00e5ff; /* Iris Cyan */
   --cyan-glow: rgba(0, 229, 255, 0.15);
 
   background-color: var(--bg);
@@ -27,9 +27,17 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background-image: 
-    radial-gradient(circle at 0% 0%, rgba(124, 58, 237, 0.06) 0%, transparent 45%),
-    radial-gradient(circle at 100% 100%, rgba(0, 102, 255, 0.06) 0%, transparent 45%);
+  background-image:
+    radial-gradient(
+      circle at 0% 0%,
+      rgba(124, 58, 237, 0.06) 0%,
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(0, 102, 255, 0.06) 0%,
+      transparent 45%
+    );
   background-attachment: fixed;
 }
 
@@ -60,7 +68,7 @@ header {
 }
 
 .logo-text {
-  font-family: 'Outfit', sans-serif;
+  font-family: "Outfit", sans-serif;
   font-size: 2rem;
   font-weight: 800;
   letter-spacing: -0.05em;
@@ -96,9 +104,18 @@ header {
 }
 
 @keyframes pulse {
-  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.7); }
-  70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(0, 229, 255, 0); }
-  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 229, 255, 0); }
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 8px rgba(0, 229, 255, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(0, 229, 255, 0);
+  }
 }
 
 .grid {
@@ -128,7 +145,7 @@ header {
 }
 
 h2 {
-  font-family: 'Outfit', sans-serif;
+  font-family: "Outfit", sans-serif;
   font-size: 1.35rem;
   margin-top: 0;
   margin-bottom: 1.5rem;
@@ -163,7 +180,8 @@ h2 svg {
   align-items: center;
 }
 
-.list-item:hover, .list-item.active {
+.list-item:hover,
+.list-item.active {
   background: rgba(0, 102, 255, 0.08);
   border-color: rgba(0, 102, 255, 0.25);
   transform: translateY(-2px);

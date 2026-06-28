@@ -1,12 +1,12 @@
-import { AIExplanationResult } from '../ai/providers/base'
+import { AIExplanationResult } from "../ai/providers/base";
 
 export function formatHTML(result: AIExplanationResult): string {
-  const dateStr = new Date().toLocaleDateString('en-US', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
+  const dateStr = new Date().toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 
   const fileRows = (result.files || [])
     .map(
@@ -15,15 +15,18 @@ export function formatHTML(result: AIExplanationResult): string {
         <div class="file-path">📁 ${f.path}</div>
         <div class="file-explanation">${f.explanation}</div>
       </div>
-    `
+    `,
     )
-    .join('')
+    .join("");
 
   const issuesList = (result.relatedIssues || [])
-    .map((issue) => `<span class="badge issue-badge">#${issue.replace('#', '')}</span>`)
-    .join('')
+    .map(
+      (issue) =>
+        `<span class="badge issue-badge">#${issue.replace("#", "")}</span>`,
+    )
+    .join("");
 
-  const impactClass = `impact-${result.impact.toLowerCase()}`
+  const impactClass = `impact-${result.impact.toLowerCase()}`;
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -284,7 +287,7 @@ export function formatHTML(result: AIExplanationResult): string {
         </div>
       </div>
       `
-          : ''
+          : ""
       }
 
       <section class="card">
@@ -317,7 +320,7 @@ export function formatHTML(result: AIExplanationResult): string {
         </div>
       </section>
       `
-          : ''
+          : ""
       }
     </main>
 
@@ -327,5 +330,5 @@ export function formatHTML(result: AIExplanationResult): string {
   </div>
 </body>
 </html>
-`
+`;
 }

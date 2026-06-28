@@ -26,7 +26,7 @@
 
 ## What is DevDiff?
 
-DevDiff watches your code changes and generates **intelligent, human-readable changelogs** using AI that **you control**. It explains *what* changed and *why* — not just raw git diffs.
+DevDiff watches your code changes and generates **intelligent, human-readable changelogs** using AI that **you control**. It explains _what_ changed and _why_ — not just raw git diffs.
 
 ### 🔒 Privacy-First
 
@@ -122,12 +122,12 @@ Your Code Changes
 
 ## Packages
 
-| Package | Description | Version |
-|---------|-------------|---------|
-| [`@eldrex/core`](/packages/core) | Core changelog engine | [![npm](https://img.shields.io/npm/v/@eldrex/core)](https://www.npmjs.com/package/@eldrex/core) |
-| [`@eldrex/cli`](/packages/cli) | Command-line interface | [![npm](https://img.shields.io/npm/v/@eldrex/cli)](https://www.npmjs.com/package/@eldrex/cli) |
-| [`@eldrex/vite`](/packages/vite-plugin) | Vite plugin | [![npm](https://img.shields.io/npm/v/@eldrex/vite)](https://www.npmjs.com/package/@eldrex/vite) |
-| [`@eldrex/vscode`](/packages/vscode) | VS Code extension | [Marketplace](https://marketplace.visualstudio.com/items?itemName=eldrex.devdiff) |
+| Package                                 | Description            | Version                                                                                         |
+| --------------------------------------- | ---------------------- | ----------------------------------------------------------------------------------------------- |
+| [`@eldrex/core`](/packages/core)        | Core changelog engine  | [![npm](https://img.shields.io/npm/v/@eldrex/core)](https://www.npmjs.com/package/@eldrex/core) |
+| [`@eldrex/cli`](/packages/cli)          | Command-line interface | [![npm](https://img.shields.io/npm/v/@eldrex/cli)](https://www.npmjs.com/package/@eldrex/cli)   |
+| [`@eldrex/vite`](/packages/vite-plugin) | Vite plugin            | [![npm](https://img.shields.io/npm/v/@eldrex/vite)](https://www.npmjs.com/package/@eldrex/vite) |
+| [`@eldrex/vscode`](/packages/vscode)    | VS Code extension      | [Marketplace](https://marketplace.visualstudio.com/items?itemName=eldrex.devdiff)               |
 
 ---
 
@@ -137,6 +137,20 @@ Your Code Changes
 - [BYOAI Guide](https://github.com/EldrexDelosReyesBula/devdiff/tree/main/docs/guide/byoai.md)
 - [Configuration](https://github.com/EldrexDelosReyesBula/devdiff/tree/main/docs/guide/configuration.md)
 - [Contributing](CONTRIBUTING.md)
+
+---
+
+## Sponsors
+
+**DevDiff is funded entirely by the community.**
+
+<p align="center">
+  <a href="https://opencollective.com/devdiff">
+    <img src="https://opencollective.com/devdiff/sponsors.svg?width=890" alt="Sponsors">
+  </a>
+</p>
+
+[Sponsor us on Open Collective →](https://opencollective.com/devdiff)
 
 ---
 

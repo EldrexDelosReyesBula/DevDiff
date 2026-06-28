@@ -10,15 +10,15 @@ Automatically run changelog generation as part of your Vite build pipeline using
    ```
 2. Import in `vite.config.ts`:
    ```typescript
-   import { defineConfig } from 'vite'
-   import devDiffPlugin from '@eldrex/vite'
+   import { defineConfig } from "vite";
+   import devDiffPlugin from "@eldrex/vite";
 
    export default defineConfig({
      plugins: [
        devDiffPlugin({
          enabled: true,
-         output: 'CHANGELOG.md'
-       })
-     ]
-   })
+         output: "CHANGELOG.md",
+       }),
+     ],
+   });
    ```

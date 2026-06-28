@@ -22,11 +22,7 @@ Here is a standard configuration mapping local models, formats, and batch parame
       "localOnly": true
     }
   },
-  "exclude": [
-    "**/node_modules/**",
-    "pnpm-lock.yaml",
-    "package-lock.json"
-  ],
+  "exclude": ["**/node_modules/**", "pnpm-lock.yaml", "package-lock.json"],
   "cache": {
     "enabled": true,
     "path": ".devdiff/cache.json"

@@ -25,4 +25,5 @@ outputs:
 ---
 
 # Release Notes Skill
+
 Formats updates for release logs and customer bulletins.

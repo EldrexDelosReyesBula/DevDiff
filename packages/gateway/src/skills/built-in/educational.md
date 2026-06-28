@@ -26,4 +26,5 @@ outputs:
 ---
 
 # Educational Skill
+
 Explains new coding concepts and architectural movements to help onboarding developers.

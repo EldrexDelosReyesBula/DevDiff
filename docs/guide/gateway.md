@@ -4,13 +4,13 @@ The **DevDiff Gateway** is a persistent server that speaks multiple protocols si
 
 ## Protocol Matrix
 
-| Protocol | Default Port | Description |
-|---|---|---|
-| **HTTP REST** | `3737` | Main API interface for standard web requests. |
-| **WebSocket** | `3738` | Streaming updates and live change feed. |
-| **MCP** | `3739` | Model Context Protocol for LLM agents. |
-| **OpenClaw** | `3740` | Native interface for OpenClaw workflow runners. |
-| **gRPC** | `3741` | High-performance RPC protocol. |
+| Protocol      | Default Port | Description                                     |
+| ------------- | ------------ | ----------------------------------------------- |
+| **HTTP REST** | `3737`       | Main API interface for standard web requests.   |
+| **WebSocket** | `3738`       | Streaming updates and live change feed.         |
+| **MCP**       | `3739`       | Model Context Protocol for LLM agents.          |
+| **OpenClaw**  | `3740`       | Native interface for OpenClaw workflow runners. |
+| **gRPC**      | `3741`       | High-performance RPC protocol.                  |
 
 ## REST API Endpoint Summary
 

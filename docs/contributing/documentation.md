@@ -8,4 +8,5 @@ DevDiff documentation is powered by VitePress.
 cd docs
 pnpm run dev
 ```
+
 Open `:5174` in your browser.

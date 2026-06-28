@@ -37,16 +37,14 @@ features:
   - icon: 🌍
     title: Open Source (MIT)
     details: Free forever. Community-driven. No vendor lock-in. No telemetry.
-
 ---
 
 ## Sponsors & Funding
 
-DevDiff is a community-supported open-source project created and maintained by **Eldrex Delos Reyes Bula**. 
+DevDiff is a community-supported open-source project created and maintained by **Eldrex Delos Reyes Bula**.
 
 If you or your company find value in DevDiff, please consider sponsoring development:
 
 - ☕ **Ko-fi Donations:** [Buy a coffee on Ko-fi](https://ko-fi.com/landecsorg/)
 - 💸 **PayPal Support:** [Send support via PayPal Me](https://www.paypal.com/paypalme/eldrexbula)
 - 🤝 **Open Collective:** [Sponsor us on Open Collective](https://opencollective.com/devdiff)
-

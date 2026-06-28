@@ -13,7 +13,9 @@
       "require": "./dist/index.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",

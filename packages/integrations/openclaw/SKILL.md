@@ -21,7 +21,18 @@ inputs:
   persona:
     type: string
     default: developer
-    enum: [developer, ceo, educator, data-analyst, robot, journalist, pm, compliance, custom]
+    enum:
+      [
+        developer,
+        ceo,
+        educator,
+        data-analyst,
+        robot,
+        journalist,
+        pm,
+        compliance,
+        custom,
+      ]
   format:
     type: string[]
     default: [markdown]
@@ -52,6 +63,7 @@ outputs:
 # DevDiff Skill for OpenClaw
 
 ## Description
+
 Analyzes git repositories and generates intelligent, persona-aware changelogs,
 diagrams, and reports. Supports 8+ output formats and 10+ AI personalities.
 
@@ -74,9 +86,10 @@ diagrams, and reports. Supports 8+ output formats and 10+ AI personalities.
 ## Automation Examples
 
 ### 1. Daily Standup Digest
+
 ```yaml
 name: Morning Standup Report
-schedule: "0 8 * * 1-5"  # 8 AM weekdays
+schedule: "0 8 * * 1-5" # 8 AM weekdays
 skill: devdiff
 inputs:
   repository: .
@@ -88,9 +101,10 @@ output:
 ```
 
 ### 2. Weekly Architecture Review
+
 ```yaml
 name: Weekly Architecture Deep-Dive
-schedule: "0 14 * * 5"  # Friday 2 PM
+schedule: "0 14 * * 5" # Friday 2 PM
 skill: devdiff
 inputs:
   repository: .
@@ -103,6 +117,7 @@ output:
 ```
 
 ### 3. Security Audit on Every PR
+
 ```yaml
 name: Security-Aware PR Review
 trigger: pull_request

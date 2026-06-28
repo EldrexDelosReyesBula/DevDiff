@@ -4,8 +4,8 @@ on:
   push:
     branches: [main]
     paths:
-      - 'docs/**'
-      - '.github/workflows/docs-deploy.yml'
+      - "docs/**"
+      - ".github/workflows/docs-deploy.yml"
 
 permissions:
   contents: read

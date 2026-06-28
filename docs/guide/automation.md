@@ -8,7 +8,7 @@ To setup a continuous changelog builder that checks for changes every 15 minutes
 
 ```yaml
 name: Continuous Changelog
-schedule: "*/15 * * * *"  # Every 15 minutes
+schedule: "*/15 * * * *" # Every 15 minutes
 watcher: git
 trigger: on_commit
 
@@ -17,20 +17,20 @@ pipeline:
     config:
       watch_branches: [main, develop, "feature/*"]
       min_changes: 1
-      
+
   - step: batch_changes
     config:
       window: 15m
       min_batch_size: 1
       max_batch_size: 50
-      
+
   - step: analyze
     config:
       ai:
         routing: auto
       security:
         redact_secrets: true
-        
+
   - step: generate_outputs
     config:
       formats:

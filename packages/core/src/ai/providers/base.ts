@@ -1,17 +1,20 @@
 export interface AIExplanationResult {
-  summary: string
-  impact: 'none' | 'minor' | 'major' | 'breaking'
-  breaking: boolean
+  summary: string;
+  impact: "none" | "minor" | "major" | "breaking";
+  breaking: boolean;
   files: {
-    path: string
-    explanation: string
-  }[]
-  relatedIssues: string[]
+    path: string;
+    explanation: string;
+  }[];
+  relatedIssues: string[];
 }
 
 export interface AIProvider {
-  name: string
-  generateExplanation(diffText: string, modelName: string): Promise<AIExplanationResult>
+  name: string;
+  generateExplanation(
+    diffText: string,
+    modelName: string,
+  ): Promise<AIExplanationResult>;
 }
 
 export const SYSTEM_PROMPT = `You are DevDiff, an AI that analyzes git diffs and writes clear, human-readable changelogs.
@@ -31,33 +34,40 @@ You must respond ONLY with a valid JSON object matching this schema:
   "relatedIssues": []
 }
 
-Do not include any markdown framing (like \`\`\`json ... \`\`\`) in your direct response, only return raw JSON text. If you must use markdown backticks, ensure the JSON is still valid and parseable.`
+Do not include any markdown framing (like \`\`\`json ... \`\`\`) in your direct response, only return raw JSON text. If you must use markdown backticks, ensure the JSON is still valid and parseable.`;
 
 export function parseAIJSONResponse(text: string): AIExplanationResult {
   // Strip any markdown code block wrap if the model ignored instructions
-  let cleaned = text.trim()
-  if (cleaned.startsWith('```')) {
-    cleaned = cleaned.replace(/^```json\s*/i, '').replace(/```$/, '').trim()
+  let cleaned = text.trim();
+  if (cleaned.startsWith("```")) {
+    cleaned = cleaned
+      .replace(/^```json\s*/i, "")
+      .replace(/```$/, "")
+      .trim();
   }
 
   try {
-    const parsed = JSON.parse(cleaned)
+    const parsed = JSON.parse(cleaned);
     return {
-      summary: parsed.summary || 'No summary generated.',
-      impact: ['none', 'minor', 'major', 'breaking'].includes(parsed.impact) ? parsed.impact : 'minor',
+      summary: parsed.summary || "No summary generated.",
+      impact: ["none", "minor", "major", "breaking"].includes(parsed.impact)
+        ? parsed.impact
+        : "minor",
       breaking: Boolean(parsed.breaking),
       files: Array.isArray(parsed.files) ? parsed.files : [],
-      relatedIssues: Array.isArray(parsed.relatedIssues) ? parsed.relatedIssues : [],
-    }
+      relatedIssues: Array.isArray(parsed.relatedIssues)
+        ? parsed.relatedIssues
+        : [],
+    };
   } catch (err) {
-    console.error('Failed to parse AI JSON response:', cleaned)
+    console.error("Failed to parse AI JSON response:", cleaned);
     // Fallback response structure
     return {
       summary: cleaned.substring(0, 500),
-      impact: 'minor',
+      impact: "minor",
       breaking: false,
       files: [],
       relatedIssues: [],
-    }
+    };
   }
 }

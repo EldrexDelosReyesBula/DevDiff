@@ -5,16 +5,16 @@
 **DO NOT OPEN A PUBLIC ISSUE** for security vulnerabilities.
 
 Email: **eldrexdelosreyesbula@gmail.com**  
-Response time: Within 48 hours  
+Response time: Within 48 hours
 
 ## Scope
 
-| In Scope | Out of Scope |
-|----------|-------------|
-| Code injection via diffs | Already-public CVEs in deps |
-| Secret leakage to external AIs | Social engineering |
-| Local model escape | Physical access |
-| Config file injection | User's own API key mishandling |
+| In Scope                       | Out of Scope                   |
+| ------------------------------ | ------------------------------ |
+| Code injection via diffs       | Already-public CVEs in deps    |
+| Secret leakage to external AIs | Social engineering             |
+| Local model escape             | Physical access                |
+| Config file injection          | User's own API key mishandling |
 
 ## Security Guarantees
 
@@ -29,6 +29,7 @@ DevDiff is designed with specific security guarantees:
 ## Responsible Disclosure
 
 We follow a 90-day disclosure policy:
+
 - Acknowledgment within 48 hours
 - Fix within 90 days
 - Coordinated disclosure after fix is released
@@ -36,6 +37,7 @@ We follow a 90-day disclosure policy:
 ## Bug Bounty
 
 We don't currently have a monetary bounty program, but we will:
+
 - Credit you in our security hall of fame
 - Send DevDiff swag
 - Write recommendation if requested
@@ -43,6 +45,6 @@ We don't currently have a monetary bounty program, but we will:
 
 ## Past Advisories
 
-| CVE | Date | Severity | Description |
-|-----|------|----------|-------------|
-| *None yet* | — | — | Let's keep it that way! |
+| CVE        | Date | Severity | Description             |
+| ---------- | ---- | -------- | ----------------------- |
+| _None yet_ | —    | —        | Let's keep it that way! |
