@@ -58,6 +58,16 @@ npx @eldrex/cli config
 
 ---
 
+## VS Code Extension Installation
+
+For an integrated development workflow, install the official VS Code extension:
+- **Marketplace**: [DevDiff on the VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=ebula.devdiff)
+- **Offline Bundle**: Install using the pre-compiled VSIX package: [devdiff-1.0.2.vsix](file:///c:/Users/Eldrex/Downloads/classhost/DevDiff/devdiff-1.0.2.vsix)
+
+For more info, see the [VS Code Extension Guide](/integrations/vscode).
+
+---
+
 ## Workspace Setup
 
 To configure DevDiff for a specific project, navigate to your git repository root and initialize the workspace configuration:
