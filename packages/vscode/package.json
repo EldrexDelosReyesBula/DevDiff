@@ -1,5 +1,6 @@
 {
   "name": "devdiff",
+  "private": true,
   "displayName": "DevDiff",
   "description": "Privacy-first, BYOAI inline changelog intelligence for VS Code",
   "version": "1.0.0",
