@@ -1,0 +1,11 @@
+.vscode/**
+.turbo/**
+src/**
+node_modules/**
+**/*.map
+**/*.ts
+!dist/extension.js
+tsconfig.json
+tsup.config.ts
+.gitignore
+.npmrc
