@@ -1,8 +1,8 @@
 {
   "name": "@eldrex/openclaw",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "registry": "https://registry.npmjs.org"
   },
   "description": "OpenClaw integration and skill adapter for DevDiff",
   "type": "module",

@@ -1,8 +1,8 @@
 {
   "name": "@eldrex/core",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "registry": "https://registry.npmjs.org"
   },
   "description": "Core engine for DevDiff — intelligent, privacy-first changelog generation",
   "type": "module",
