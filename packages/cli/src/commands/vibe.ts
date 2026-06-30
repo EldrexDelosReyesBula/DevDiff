@@ -44,3 +44,18 @@ export async function vibeStatusCommand() {
   console.log(`├── Data loss: ${report.dataLossEvents} ✅`);
   console.log(`└── Recommendation: ${report.recommendations.join(", ")}`);
 }
+
+export async function vibeCommand(action: string) {
+  if (action === "start") {
+    await vibeStartCommand();
+  } else if (action === "status") {
+    await vibeStatusCommand();
+  } else if (action === "stop") {
+    const guardian = new VibeCoderGuardian();
+    await guardian.deleteSession();
+    console.log(pc.yellow("👋 Stopped vibe coding session."));
+  } else {
+    console.log(pc.red(`❌ Unknown action: ${action}. Use start, stop, or status.`));
+  }
+}
+

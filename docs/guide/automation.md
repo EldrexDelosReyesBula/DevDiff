@@ -46,7 +46,7 @@ For Linux servers, save the following service file to `/etc/systemd/system/devdi
 ```ini
 [Unit]
 Description=DevDiff Gateway - AI Code Intelligence
-Documentation=https://docs.deviff.dev
+Documentation=https://devdiff.vercel.app
 After=network.target
 
 [Service]

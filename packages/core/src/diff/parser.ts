@@ -21,6 +21,13 @@ export interface ParsedFileDiff {
   isDeleted: boolean;
   isRename: boolean;
   hunks: DiffHunk[];
+  // release matrix compatibility properties:
+  path?: string;
+  additions?: number;
+  deletions?: number;
+  isBinary?: boolean;
+  content?: string;
+  renamed?: boolean;
 }
 
 export interface ParseResult {
@@ -30,6 +37,11 @@ export interface ParseResult {
     line: number;
     content: string;
   }[];
+  // release matrix compatibility properties:
+  totalAdditions?: number;
+  totalDeletions?: number;
+  isEmpty?: boolean;
+  hasConflicts?: boolean;
 }
 
 export const diffParser = {
@@ -37,15 +49,36 @@ export const diffParser = {
     const files: ParsedFileDiff[] = [];
     const changes: ParseResult["changes"] = [];
 
+    if (!diffText || !diffText.trim()) {
+      return {
+        files: [],
+        changes: [],
+        totalAdditions: 0,
+        totalDeletions: 0,
+        isEmpty: true,
+        hasConflicts: false,
+      };
+    }
+
     const lines = diffText.split(/\r?\n/);
     let currentFile: ParsedFileDiff | null = null;
     let currentHunk: DiffHunk | null = null;
 
     let oldLineNum = 0;
     let newLineNum = 0;
+    let hasConflicts = false;
 
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
+
+      // Conflict detection
+      if (
+        line.startsWith("+<<<<<<<") ||
+        line.startsWith("<<<<<<<") ||
+        line.includes("<<<<<<< HEAD")
+      ) {
+        hasConflicts = true;
+      }
 
       // Check for file header
       if (line.startsWith("diff --git ")) {
@@ -66,6 +99,11 @@ export const diffParser = {
           isDeleted: false,
           isRename: oldPath !== newPath,
           hunks: [],
+          path: newPath || oldPath || "",
+          additions: 0,
+          deletions: 0,
+          isBinary: false,
+          renamed: oldPath !== newPath,
         };
         files.push(currentFile);
         currentHunk = null;
@@ -83,11 +121,29 @@ export const diffParser = {
       if (line.startsWith("deleted file mode ")) {
         currentFile.isDeleted = true;
         currentFile.newPath = null;
+        currentFile.path = currentFile.oldPath || "";
         continue;
       }
 
       if (line.startsWith("rename from ")) {
         currentFile.isRename = true;
+        currentFile.renamed = true;
+        currentFile.oldPath = line.substring("rename from ".length).trim();
+        continue;
+      }
+
+      if (line.startsWith("rename to ")) {
+        currentFile.isRename = true;
+        currentFile.renamed = true;
+        currentFile.newPath = line.substring("rename to ".length).trim();
+        currentFile.path = currentFile.newPath;
+        continue;
+      }
+
+      // Binary files check
+      if (line.startsWith("Binary files ") || line.includes("differ")) {
+        currentFile.isBinary = true;
+        currentFile.content = "[Binary file]";
         continue;
       }
 
@@ -131,6 +187,7 @@ export const diffParser = {
           line: newLineNum,
           content,
         });
+        currentFile.additions = (currentFile.additions || 0) + 1;
         newLineNum++;
       } else if (line.startsWith("-")) {
         const content = line.substring(1);
@@ -144,6 +201,7 @@ export const diffParser = {
           line: oldLineNum,
           content,
         });
+        currentFile.deletions = (currentFile.deletions || 0) + 1;
         oldLineNum++;
       } else if (line.startsWith(" ") || line === "") {
         const content = line.startsWith(" ") ? line.substring(1) : line;
@@ -158,6 +216,20 @@ export const diffParser = {
       }
     }
 
-    return { files, changes };
+    let totalAdditions = 0;
+    let totalDeletions = 0;
+    for (const f of files) {
+      totalAdditions += f.additions || 0;
+      totalDeletions += f.deletions || 0;
+    }
+
+    return {
+      files,
+      changes,
+      totalAdditions,
+      totalDeletions,
+      isEmpty: files.length === 0,
+      hasConflicts,
+    };
   },
 };

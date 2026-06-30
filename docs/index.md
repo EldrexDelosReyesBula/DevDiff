@@ -1,9 +1,9 @@
 ---
 layout: home
 hero:
-  name: DevDiff
-  text: Your Codebase's Memory
-  tagline: Privacy-first, BYOAI changelog intelligence that explains what changed and why.
+  name: "DevDiff"
+  text: "Your Codebase's Memory"
+  tagline: "Privacy-first, BYOAI changelog intelligence that runs entirely on your machine."
   image:
     src: /devdiff-hero.svg
     alt: DevDiff
@@ -12,39 +12,62 @@ hero:
       text: Get Started
       link: /guide/getting-started
     - theme: alt
-      text: View on GitHub
-      link: https://github.com/EldrexDelosReyesBula/devdiff
+      text: Live Demo
+      link: https://devdiff.dev/playground
     - theme: alt
-      text: Try Live Demo
-      link: https://devdiff.vercel.app/demo
+      text: GitHub
+      link: https://github.com/eldrex/devdiff
 
 features:
   - icon: 🔒
     title: Privacy First
-    details: Runs 100% locally by default. Your code never leaves your machine unless you explicitly allow it.
+    details: "Runs 100% locally. Your code never leaves your machine. No telemetry. No cloud required."
   - icon: 🤖
     title: Bring Your Own AI
-    details: Use Ollama, llama.cpp, Transformers.js, or any cloud AI. Full control over your AI stack.
-  - icon: ⚡
-    title: Token Optimized
-    details: Smart diff batching, AST trimming, and caching reduce AI token usage by up to 85%.
+    details: "Use Ollama, OpenAI, Anthropic, or WebGPU. You control the AI, not us."
   - icon: 📝
-    title: Human-Readable Changelogs
-    details: AI-generated explanations that tell you what changed and why, not just line diffs.
-  - icon: 🔌
-    title: Plugs Into Your Workflow
-    details: VS Code, Vite, GitHub Actions, Linear, Jira — works where you work.
+    title: Intelligent Changelogs
+    details: "AI explains what changed and why. Not just line diffs — human-readable summaries."
+  - icon: 🎭
+    title: 8 Personas
+    details: "Developer, CEO, Educator, Robot, Analyst, Journalist, PM, Compliance. Same changes, different perspective."
+  - icon: 📊
+    title: Mermaid Diagrams
+    details: "Architecture changes, dependency graphs, git timelines. Auto-generated from your diffs."
+  - icon: 🛡️
+    title: Vibe Coding Guardian
+    details: "Auto-checkpoints before every AI call. Zero data loss guarantee. Works even when AI fails."
   - icon: 🌍
-    title: Open Source (MIT)
-    details: Free forever. Community-driven. No vendor lock-in. No telemetry.
+    title: 10 Compliance Frameworks
+    details: "GDPR, HIPAA, SOC 2, FedRAMP, ISO 27001, and more. One command: `devdiff compliance apply`."
+  - icon: 🆓
+    title: Free & Open Source
+    details: "MIT licensed. No paid tiers. No usage limits. Community-funded. Forever."
 ---
 
-## Sponsors & Funding
+## Quick Start
 
-DevDiff is a community-supported open-source project created and maintained by **Eldrex Delos Reyes Bula**.
+```bash
+npm install -g @eldrex/cli
+ollama pull llama3.2:3b
+cd your-project
+devdiff init
+devdiff generate
+```
 
-If you or your company find value in DevDiff, please consider sponsoring development:
+[Full Guide →](/guide/getting-started)
 
-- ☕ **Ko-fi Donations:** [Buy a coffee on Ko-fi](https://ko-fi.com/landecsorg/)
-- 💸 **PayPal Support:** [Send support via PayPal Me](https://www.paypal.com/paypalme/eldrexbula)
-- 🤝 **Open Collective:** [Sponsor us on Open Collective](https://opencollective.com/devdiff)
+## Trusted By Developers
+
+DevDiff is designed for developers who care about privacy, security, and understanding their codebase.
+
+- ✅ **Zero cloud leakage** — data classification engine blocks secrets from leaving your machine
+- ✅ **Offline capable** — all AI runs locally with Ollama
+- ✅ **No telemetry** — we don't track anything
+- ✅ **MIT licensed** — truly free, forever
+
+## Sponsors
+
+DevDiff is funded entirely by the community.
+
+[Sponsor on Open Collective →](https://opencollective.com/devdiff)

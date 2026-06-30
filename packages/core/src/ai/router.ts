@@ -1,6 +1,6 @@
 import * as fs from "fs/promises";
 import * as path from "path";
-import { execSync } from "child_process";
+import { ShellSandbox } from "../security/shell-sandbox";
 import { DevDiffConfig } from "../config/schema";
 import { AIExplanationResult, AIProvider } from "./providers/base";
 import { OllamaProvider } from "./providers/ollama";
@@ -408,9 +408,7 @@ export class AIRouter {
 
         let modifiedFiles: string[] = [];
         try {
-          const stdout = execSync("git status --porcelain", {
-            stdio: ["ignore", "pipe", "ignore"],
-          }).toString();
+          const stdout = await ShellSandbox.exec("git", ["status", "--porcelain"]);
           modifiedFiles = stdout
             .split("\n")
             .map((line) => line.slice(3).trim())

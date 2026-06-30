@@ -100,14 +100,26 @@ export class PrivacyEnforcer {
 
   private classify(data: any): string {
     const str = typeof data === "string" ? data : JSON.stringify(data);
-    if (/sk-[a-zA-Z0-9]{32,}/.test(str)) return "api-keys";
+    // API keys — broad pattern: sk- prefix with 8+ alphanumeric chars
+    if (/sk-[a-zA-Z0-9_-]{8,}/.test(str)) return "api-keys";
+    // Private key PEM blocks
     if (/-----BEGIN.*PRIVATE KEY-----/.test(str)) return "secrets";
+    // Generic secret assignments
     if (/(?:password|secret|token|key)\s*[:=]\s*['"][^'"]+['"]/.test(str))
       return "secrets";
+    // Environment variable assignments (KEY=value)
     if (/^[A-Z_]+=/.test(str)) return "environment-vars";
+    // File system paths
     if (/^(?:\/|[A-Z]:\\|~\/)/.test(str)) return "file-paths";
+    // Email addresses
     if (/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/.test(str))
       return "user-emails";
+    // Conventional commit messages (feat:, fix:, chore:, docs:, etc.)
+    if (/^(feat|fix|chore|docs|style|refactor|test|build|ci|perf|revert)(\(.+\))?!?:\s/.test(str))
+      return "commit-messages";
+    // Generic short phrases that look like commit messages
+    if (/^[a-z][\w\s-]{0,80}$/.test(str.trim()) && str.trim().length > 3)
+      return "commit-messages";
     return "source-code";
   }
 }

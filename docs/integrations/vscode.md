@@ -53,7 +53,7 @@ For secure enterprise workstations that lack external internet access:
 
 ## ⚙️ Configuration & Trust Settings
 
-The extension automatically inherits settings from your repository-level `.devdiff.config.json` configuration file.
+The extension automatically inherits settings from your repository-level `.devdiff.config.js` (or `.devdiff.config.json`) configuration file.
 
 ### Overriding Settings in VS Code
 You can customize the extension via your `settings.json`:

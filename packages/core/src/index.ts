@@ -54,3 +54,18 @@ export {
   RecoveryResult,
   VibeSessionReport,
 } from "./resilience/vibe-coder-guardian";
+export { SecurityAudit, AuditEntry } from "./security/security-audit";
+export { ShellSandbox, ShellAccessDeniedError, SHELL_ACCESS_CONFIG } from "./security/shell-sandbox";
+export { NETWORK_ACCESS } from "./security/network-disclosure";
+export { DevDiffEngine } from "./engine";
+export { PromptSanitizer, SanitizationResult } from "./security/sanitization";
+export { SecretScanner } from "./diff/secret-scanner";
+export { VERSION_GUARANTEE } from "./version/guarantee";
+export { checkConfigCompatibility, CompatibilityResult } from "./version/compatibility";
+export {
+  getGitInfo,
+  getDiffStats,
+  getTotalFiles,
+  checkAIStatus,
+} from "./playground/workspace-info";
+

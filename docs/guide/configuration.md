@@ -1,48 +1,49 @@
 # Configuration Guide
 
-DevDiff supports flexible configuration using a `.devdiff.config.json` or `.devdiff.config.yaml` file located in the root directory of your repository. 
+DevDiff supports flexible configuration using a `.devdiff.config.js` file (recommended), `.devdiff.config.json`, or other `.devdiffrc` configurations in the root directory of your repository.
 
 ---
 
 ## Configuration Schema
 
-Here is a full schema reference detailing all available options:
+Here is a full schema reference detailing all available options in `.devdiff.config.js` format:
 
-```json
-{
-  "ai": {
-    "providers": [
+```javascript
+// .devdiff.config.js
+export default {
+  ai: {
+    providers: [
       {
-        "name": "ollama-local",
-        "url": "ollama://llama3.2:3b",
-        "priority": 1
+        name: "ollama-local",
+        url: "ollama://llama3.2:3b",
+        priority: 1
       },
       {
-        "name": "openai-cloud",
-        "url": "openai://gpt-4o-mini",
-        "apiKey": "sk-proj-...",
-        "priority": 2
+        name: "openai-cloud",
+        url: "openai://gpt-4o-mini",
+        apiKey: process.env.OPENAI_API_KEY,
+        priority: 2
       }
     ],
-    "routing": {
-      "strategy": "priority",
-      "complexityThreshold": 0.6,
-      "localOnly": false
+    routing: {
+      strategy: "priority",
+      complexityThreshold: 0.6,
+      localOnly: false
     }
   },
-  "exclude": [
+  exclude: [
     "**/node_modules/**",
     "pnpm-lock.yaml",
     "package-lock.json",
     "dist/**",
     "*.log"
   ],
-  "cache": {
-    "enabled": true,
-    "path": ".devdiff/cache.json"
+  cache: {
+    enabled: true,
+    path: ".devdiff/cache.json"
   },
-  "format": "markdown"
-}
+  format: "markdown"
+};
 ```
 
 ---

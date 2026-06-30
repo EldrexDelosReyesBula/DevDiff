@@ -1,0 +1,40 @@
+export const NETWORK_ACCESS = {
+  "ai-providers": {
+    description: "Send structured diffs to cloud AI providers",
+    trigger: "User configures a cloud provider (OpenAI, Anthropic, etc.)",
+    default: "OFF — Local AI only",
+    disable: "Remove cloud providers from config",
+    data_sent: "Structured diff (secrets redacted)",
+    endpoints: ["https://api.openai.com", "https://api.anthropic.com", "https://api.groq.com"],
+  },
+  "webhook-receivers": {
+    description: "Receive incoming webhooks from GitHub, GitLab, etc.",
+    trigger: "User configures webhook endpoints",
+    default: "OFF — No webhook listeners",
+    disable: "Remove webhook config",
+    data_received: "Webhook payloads (validated and sanitized)",
+    ports: [3737, 3740],
+  },
+  "outgoing-webhooks": {
+    description: "Send changelogs to Slack, Discord, Teams, etc.",
+    trigger: "User configures notification outputs",
+    default: "OFF — Local file output only",
+    disable: "Remove notification config",
+    data_sent: "Generated changelog (never source code)",
+  },
+  "version-check": {
+    description: "Check npm registry for DevDiff updates",
+    trigger: "CLI startup (once per 24h)",
+    default: "ON — Can be disabled",
+    disable: "{ updates: { checkForUpdates: false } }",
+    data_sent: "Package name and current version only",
+    endpoints: ["https://registry.npmjs.org"],
+  },
+  "mcp-server": {
+    description: "Expose MCP protocol for AI agent integration",
+    trigger: "User enables MCP server",
+    default: "OFF",
+    disable: "Remove MCP config",
+    ports: [3739],
+  },
+};

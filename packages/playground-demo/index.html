@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DevDiff Playground — See Your Code's Story</title>
+  <meta name="description" content="Try DevDiff on sample repositories. No installation required. See how AI transforms git diffs into intelligent changelogs for any audience." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.400.0/dist/umd/lucide.min.js"></script>
+
+
+  <style>
+    :root {
+      --bg:       #080d1a;
+      --bg2:      #0d1528;
+      --surface:  #131f35;
+      --surface2: #1a2840;
+      --border:   #243048;
+      --text:     #f0f4ff;
+      --dim:      #8899bb;
+      --muted:    #4d6080;
+      --accent:   #6d5eff;
+      --accent2:  #9d8fff;
+      --cyan:     #00d4ff;
+      --green:    #1eff8e;
+      --yellow:   #ffd166;
+      --red:      #ff6b6b;
+      --grad:     linear-gradient(135deg, #6d5eff, #00d4ff);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    .icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.1em;
+      height: 1.1em;
+      stroke-width: 2.25px;
+      vertical-align: -0.12em;
+    }
+
+    html { scroll-behavior: smooth; }
+
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* ── Hero ──────────────────────────────────────────────────────────────── */
+    .hero {
+      text-align: center;
+      padding: 60px 20px 48px;
+      background: radial-gradient(ellipse 800px 400px at 50% 0%, rgba(109,94,255,.18) 0%, transparent 70%);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%236d5eff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      opacity: .4;
+      pointer-events: none;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(109,94,255,.15);
+      border: 1px solid rgba(109,94,255,.35);
+      color: var(--accent2);
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      letter-spacing: 0.3px;
+    }
+
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 52px);
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.1;
+      margin-bottom: 16px;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: clamp(14px, 2vw, 18px);
+      color: var(--dim);
+      max-width: 560px;
+      margin: 0 auto 32px;
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      padding: 12px 28px;
+      background: var(--grad);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 0 30px rgba(109,94,255,.35);
+      transition: all 0.2s;
+    }
+
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 40px rgba(109,94,255,.5); }
+
+    .btn-outline {
+      padding: 12px 28px;
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent2); }
+
+    /* ── Main layout ───────────────────────────────────────────────────────── */
+    .playground {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .playground { grid-template-columns: 1fr; }
+    }
+
+    /* ── Left panel: repo selector ─────────────────────────────────────────── */
+    .panel-left { display: flex; flex-direction: column; gap: 12px; }
+
+    .panel-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .repo-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .repo-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--grad);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .repo-card:hover { border-color: rgba(109,94,255,.5); transform: translateY(-1px); }
+    .repo-card:hover::before { opacity: 0.04; }
+    .repo-card.active { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), 0 4px 24px rgba(109,94,255,.2); }
+    .repo-card.active::before { opacity: 0.06; }
+
+    .repo-card-content { position: relative; }
+
+    .repo-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .repo-title .repo-icon { font-size: 16px; }
+
+    .repo-desc {
+      font-size: 12px;
+      color: var(--dim);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .repo-meta {
+      display: flex;
+      gap: 10px;
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .repo-meta span { display: flex; align-items: center; gap: 4px; }
+
+    .tag-row { display: flex; flex-wrap: wrap; gap: 4px; }
+
+    .tag {
+      padding: 2px 8px;
+      background: rgba(109,94,255,.12);
+      border: 1px solid rgba(109,94,255,.25);
+      border-radius: 20px;
+      font-size: 10px;
+      color: var(--accent2);
+      font-weight: 500;
+    }
+
+    /* ── Right panel: output ───────────────────────────────────────────────── */
+    .panel-right { display: flex; flex-direction: column; gap: 16px; }
+
+    /* Switchers */
+    .switcher-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .sw-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted);
+    }
+
+    .sw-divider { width: 1px; height: 20px; background: var(--border); margin: 0 4px; }
+
+    .sw-btn {
+      padding: 5px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--dim);
+      cursor: pointer;
+      font-size: 12px;
+      font-family: inherit;
+      font-weight: 500;
+      transition: all 0.18s;
+    }
+
+    .sw-btn:hover { border-color: var(--accent); color: var(--text); }
+
+    .sw-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 12px rgba(109,94,255,.35);
+    }
+
+    /* Output card */
+    .output-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px;
+      min-height: 440px;
+      position: relative;
+    }
+
+    /* Markdown output styles */
+    .md h1 { font-size: 20px; font-weight: 700; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+    .md h2 { font-size: 15px; font-weight: 600; color: var(--cyan); margin: 18px 0 8px; }
+    .md h3 { font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+    .md p  { color: #9ab0cc; margin-bottom: 8px; }
+    .md ul, .md ol { margin: 6px 0 10px 18px; color: #9ab0cc; }
+    .md li { margin-bottom: 3px; }
+    .md strong { color: var(--text); }
+    .md code { background: var(--surface2); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--cyan); }
+    .md pre { background: var(--surface2); padding: 14px; border-radius: 8px; overflow-x: auto; margin: 10px 0; border: 1px solid var(--border); }
+    .md pre code { background: none; padding: 0; color: var(--text); }
+    .md blockquote { border-left: 3px solid var(--accent); padding-left: 14px; color: var(--dim); margin: 10px 0; }
+    .md hr { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+    .md table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+    .md th { background: var(--surface2); padding: 7px 12px; text-align: left; font-size: 11px; text-transform: uppercase; color: var(--dim); }
+    .md td { padding: 7px 12px; border-bottom: 1px solid var(--border); color: #9ab0cc; }
+
+    /* Loading */
+    .loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 380px;
+      gap: 14px;
+      color: var(--muted);
+    }
+
+    .spinner { width: 32px; height: 32px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin .7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Mermaid */
+    .mermaid-wrap { background: #fff; border-radius: 10px; padding: 20px; text-align: center; overflow: auto; }
+
+    /* JSON */
+    .json { font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.7; color: var(--dim); white-space: pre-wrap; }
+    .json .k { color: #818cf8; }
+    .json .s { color: #6ee7b7; }
+    .json .n { color: #fb923c; }
+
+    /* ── Install CTA ───────────────────────────────────────────────────────── */
+    .install-section {
+      text-align: center;
+      padding: 60px 20px;
+      border-top: 1px solid var(--border);
+      background: radial-gradient(ellipse 600px 300px at 50% 100%, rgba(109,94,255,.1) 0%, transparent 70%);
+    }
+
+    .install-section h2 { font-size: clamp(20px, 3vw, 32px); font-weight: 700; margin-bottom: 12px; }
+    .install-section p  { color: var(--dim); margin-bottom: 28px; max-width: 500px; margin-left: auto; margin-right: auto; }
+
+    .install-box {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 16px;
+    }
+
+    .install-box:hover { border-color: var(--accent); background: var(--surface2); }
+    .install-box .dollar { color: var(--green); }
+    .install-box .copy-icon { color: var(--muted); font-size: 16px; }
+
+    .install-note { font-size: 12px; color: var(--muted); }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 24px;
+      background: rgba(8, 13, 26, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: -0.3px;
+    }
+    .nav-brand-logo {
+      font-size: 20px;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    .nav-link {
+      color: var(--dim);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      transition: color 0.18s;
+    }
+    .nav-link:hover {
+      color: var(--text);
+    }
+    .nav-btn {
+      padding: 6px 14px;
+      background: rgba(109,94,255,.15);
+      border: 1px solid rgba(109,94,255,.35);
+      color: var(--accent2);
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover {
+      background: var(--grad);
+      color: #fff;
+      border-color: transparent;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    footer a { color: var(--accent2); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+  <!-- ── Navbar ────────────────────────────────────────────────────────────── -->
+  <nav class="navbar">
+    <a href="https://devdiff.vercel.app" class="nav-brand">
+      <span class="nav-brand-logo"><i data-lucide="zap" class="icon"></i></span>
+      <span>DevDiff</span>
+    </a>
+    <div class="nav-links">
+      <a href="https://devdiff.vercel.app/guide/getting-started" class="nav-link">Guide</a>
+      <a href="https://devdiff.vercel.app/ai-providers/ollama-setup" class="nav-link">AI Providers</a>
+      <a href="https://devdiff.vercel.app/troubleshooting/" class="nav-link">Troubleshooting</a>
+      <a href="https://github.com/EldrexDelosReyesBula/devdiff/releases" class="nav-link">Releases</a>
+      <a href="https://github.com/EldrexDelosReyesBula/devdiff" class="nav-btn">GitHub</a>
+    </div>
+  </nav>
+
+  <!-- ── Hero ──────────────────────────────────────────────────────────────── -->
+  <header class="hero">
+    <div class="badge"><i data-lucide="sparkles" class="icon" style="margin-right:4px"></i> DevDiff Playground — No Installation Required</div>
+    <h1>See Your Code's Story</h1>
+    <p>Watch DevDiff transform git diffs into intelligent changelogs, diagrams, and insights — for any audience.</p>
+    <div class="cta-row">
+      <a href="#playground" class="btn-primary"><i data-lucide="terminal" class="icon" style="margin-right:6px"></i> Try the Demo</a>
+      <div class="btn-outline" onclick="copyInstall()">
+        <span style="color:var(--green)">$</span> npx @eldrex/cli init
+        <span style="margin-left:6px;opacity:0.7"><i data-lucide="copy" class="icon"></i></span>
+      </div>
+    </div>
+
+  </header>
+
+  <!-- ── Playground ─────────────────────────────────────────────────────────── -->
+  <section id="playground" class="playground">
+
+    <!-- Left: repo selector -->
+    <div class="panel-left">
+      <div class="panel-label">Sample Repositories</div>
+      <div id="repo-list"></div>
+    </div>
+
+    <!-- Right: output -->
+    <div class="panel-right">
+
+      <!-- Switchers -->
+      <div class="switcher-row">
+        <span class="sw-label">Persona</span>
+        <div id="persona-sw"></div>
+        <div class="sw-divider"></div>
+        <span class="sw-label">Format</span>
+        <div id="format-sw"></div>
+      </div>
+
+      <!-- Output -->
+      <div class="output-card" id="output-card">
+        <div class="loading"><div class="spinner"></div><p>Loading demo…</p></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Install CTA ─────────────────────────────────────────────────────────── -->
+  <section class="install-section">
+    <h2>Ready to analyze <em style="font-style:normal; background:var(--grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">your</em> code?</h2>
+    <p>This demo uses sample data. To run DevDiff on your actual repository:</p>
+    <div class="install-box" onclick="copyInstall()">
+      <span class="dollar">$</span>
+      <span>npx @eldrex/cli init</span>
+      <span class="copy-icon" style="margin-left:8px;opacity:0.7"><i data-lucide="copy" class="icon"></i></span>
+    </div>
+    <br>
+    <p class="install-note">
+      Or launch the local playground connected to your workspace:<br>
+      <strong style="color:var(--text)">devdiff playground</strong> -&gt; opens at localhost:3737
+    </p>
+
+  </section>
+
+  <footer>
+    <p>
+      <a href="https://github.com/eldrex/devdiff">GitHub</a> ·
+      <a href="https://www.npmjs.com/package/@eldrex/cli">npm</a> ·
+      <a href="#">Documentation</a> ·
+      MIT License
+    </p>
+    <p style="margin-top:8px">This demo runs entirely in your browser. No data is sent to any server.</p>
+  </footer>
+
+  <script>
+    mermaid.initialize({ startOnLoad: false, theme: 'default' });
+
+    // ── Sample repo data with pre-generated changelogs per persona ────────────
+    const DEMOS = [
+      {
+        id: 'nextjs-blog',
+        icon: '⚡',
+        title: 'Next.js Blog — Feature Addition',
+        desc: 'Adding a full comment system with authentication',
+        commits: 5, files: 12,
+        tags: ['Feature Detection', 'Impact Analysis', 'Breaking Change'],
+        changelogs: {
+          developer: `# Changelog — Comment System Feature\n\n## What Changed\n\nAdded a full comment system to the blog platform.\n\n### New Files\n- \`components/CommentSection.tsx\` — main comment UI\n- \`api/comments/route.ts\` — REST endpoint\n- \`lib/db/comments.ts\` — database helpers\n\n### Modified Files\n- \`app/blog/[slug]/page.tsx\` — integrated CommentSection\n- \`prisma/schema.prisma\` — added \`Comment\` model\n\n## Impact\n**Breaking**: Database migration required. Run \`npx prisma migrate deploy\`.\n\n## Risk Level: Medium`,
+          ceo: `# Product Update — Comment System\n\n## Executive Summary\nWe have shipped a user engagement feature that allows readers to comment on blog posts.\n\n## Business Impact\n- **Increased engagement**: Users can now discuss content directly on-site\n- **Competitive parity**: Matches features offered by Substack, Ghost, Medium\n- **No third-party dependency**: Built in-house, full data ownership\n\n## Deployment Required\nA brief maintenance window is needed to update the database schema.`,
+          educator: `# Learning Note — Comment System Implementation\n\n## What This PR Teaches Us\n\n### 1. Full-Stack Feature Flow\nThis commit shows a complete vertical slice through the stack:\n- **Database** → schema change (Prisma model)\n- **API** → new REST route\n- **UI** → React component\n- **Integration** → page-level wiring\n\n### 2. Database Migration Strategy\nThe \`prisma/schema.prisma\` change introduces a \`Comment\` model linked to \`Post\` via a foreign key. Always run migrations before deploying new code.\n\n### 3. Component Composition\n\`CommentSection.tsx\` demonstrates React composition: a container component orchestrating fetch, state, and child rendering.`,
+          robot: `ANALYSIS COMPLETE.\n\n- FILES_MODIFIED: 5\n- FILES_CREATED: 3\n- LINES_ADDED: 312\n- LINES_REMOVED: 8\n- BREAKING_CHANGE: TRUE\n- MIGRATION_REQUIRED: TRUE\n- RISK_SCORE: 0.62\n- FEATURE_TYPE: USER_ENGAGEMENT\n- ESTIMATED_REGRESSION_PROBABILITY: 0.14\n\nRECOMMENDATION: DEPLOY_WITH_MAINTENANCE_WINDOW`,
+        }
+      },
+      {
+        id: 'react-refactor',
+        icon: '🔄',
+        title: 'React App — Class → Hooks Migration',
+        desc: 'Migrating 45 files from class components to modern hooks',
+        commits: 15, files: 45,
+        tags: ['Refactor Detection', 'Architecture Diagram', 'Migration Guide'],
+        changelogs: {
+          developer: `# Refactor — Class to Hooks Migration\n\n## Summary\nMigrated 45 components from class-based to functional with React Hooks.\n\n## Pattern Applied\n\`\`\`typescript\n// Before\nclass UserCard extends Component {\n  state = { user: null }\n  componentDidMount() { fetchUser() }\n  render() { return <div>{this.state.user}</div> }\n}\n\n// After\nfunction UserCard() {\n  const [user, setUser] = useState(null)\n  useEffect(() => { fetchUser().then(setUser) }, [])\n  return <div>{user}</div>\n}\n\`\`\`\n\n## No Breaking Changes\nAll public APIs are preserved. Internal implementation only.`,
+          pm: `# Sprint Release — React Modernization\n\n## Release Notes\n\n**Epic**: Technical Debt Reduction Q3\n**Story Points Completed**: 34\n\n## What Was Delivered\n- Migrated all class components to functional components with hooks\n- Reduced bundle size by approximately 12%\n- Improved hot-reload performance in development\n\n## User Impact\nNone. This is an internal refactor — no user-facing changes.\n\n## Risks\nLow. All 63 unit tests pass. QA approved.`,
+          compliance: `# Compliance Review — Class to Hooks Migration\n\n## Change Classification\n- **Type**: Internal refactor\n- **Data exposure risk**: None\n- **Third-party dependencies added**: None\n- **API surface changes**: None\n\n## Compliance Status\n✅ **GDPR**: No PII handling changes\n✅ **SOC 2**: No authentication or access control modifications\n✅ **WCAG 2.1**: No accessibility regressions detected\n\n## Recommendation\nApprove for deployment. No compliance review escalation required.`,
+          journalist: `# Tech Brief — React Codebase Modernization\n\n## Summary\nThe engineering team completed a major modernization of the application's frontend, migrating from an older programming pattern to React's modern "hooks" approach.\n\n## Why It Matters\nThis kind of modernization, while invisible to users, dramatically improves the team's ability to move quickly. Developers spend less time fighting the codebase and more time building features.\n\n## The Numbers\n- **45 files** updated across the application\n- **12% reduction** in JavaScript bundle delivered to browsers\n- **0 user-facing changes** — purely internal improvement`,
+        }
+      },
+      {
+        id: 'security-fix',
+        icon: '🔒',
+        title: 'Express API — Security Patch',
+        desc: 'Authentication vulnerability fix — JWT validation bypass',
+        commits: 3, files: 8,
+        tags: ['Security Impact', 'CVE Reference', 'Compliance Check'],
+        changelogs: {
+          developer: `# Security Patch — JWT Validation Fix\n\n## 🚨 Critical Vulnerability Fixed\n\n**Type**: Authentication Bypass\n**Severity**: High\n**CVE**: CVE-2024-XXXXX (pending)\n\n## Root Cause\nThe \`/api/admin\` route was using \`jwt.decode()\` instead of \`jwt.verify()\`. Decode does not validate the signature — any token structure would pass.\n\n\`\`\`typescript\n// BEFORE (vulnerable)\nconst user = jwt.decode(token) // ← No signature check!\n\n// AFTER (fixed)\nconst user = jwt.verify(token, process.env.JWT_SECRET) // ← Verified\n\`\`\`\n\n## Remediation\n1. Deploy immediately\n2. Rotate all JWT secrets: \`JWT_SECRET=\$(openssl rand -hex 32)\`\n3. Invalidate all active sessions`,
+          ceo: `# Security Incident Response — Authentication Fix\n\n## Situation\nOur security team identified and patched a critical authentication weakness in our API.\n\n## Business Impact\n- **Risk**: Unauthorized admin access was theoretically possible\n- **Status**: Patched and deployed ✅\n- **Exposure window**: Limited to last 72 hours (detected by automated scanner)\n- **Data accessed**: None confirmed\n\n## Actions Taken\n1. Patch deployed within 4 hours of discovery\n2. Security team rotated all credentials\n3. 30-day audit of access logs initiated\n\n## Communication Required\nNo customer notification required at this time (no confirmed data access).`,
+          compliance: `# Compliance Report — Security Patch\n\n## Incident Classification\n- **Severity**: High\n- **Type**: Authentication Control Failure\n- **Framework Impact**: SOC 2, GDPR\n\n## SOC 2 Controls Affected\n- **CC6.1**: Logical access controls ⚠️ (vulnerability existed)\n- **CC6.6**: Access removal ✅ (sessions invalidated post-patch)\n- **CC7.2**: System monitoring ✅ (automated scanner detected issue)\n\n## Required Actions\n- [ ] Incident report filed within 72h of discovery\n- [ ] Access log audit for exposure window\n- [ ] Pen-test validation of fix within 14 days\n- [ ] Update security training materials`,
+          educator: `# Security Learning — JWT Signature Validation\n\n## The Vulnerability\n\nJSON Web Tokens have two phases:\n\n1. **Decode**: Extract the payload (no security check)\n2. **Verify**: Decode AND validate the cryptographic signature\n\nUsing \`decode\` without \`verify\` is like accepting a passport without checking the hologram.\n\n## The Fix\n\nAlways use \`jwt.verify()\` in production code. The signature proves the token was issued by your server and hasn't been tampered with.\n\n## Defense in Depth\n\nBeyond the fix, this incident shows why automated security scanning matters — the bug existed for 72 hours before detection.`,
+        }
+      },
+      {
+        id: 'monorepo-update',
+        icon: '📦',
+        title: 'Turborepo — Dependency Update',
+        desc: 'Cross-package dependency graph update across 67 files',
+        commits: 8, files: 67,
+        tags: ['Dependency Graph', 'Breaking Changes', 'Migration Path'],
+        changelogs: {
+          developer: `# Dependency Update — Q3 Upgrades\n\n## Package Updates\n\n| Package | From | To | Breaking |\n|---------|------|----|----------|\n| react | 18.2 | 19.0 | ✅ Yes |\n| typescript | 5.3 | 5.5 | ✅ Yes |\n| vitest | 1.6 | 2.0 | ⚠️ Config |\n| eslint | 8.x | 9.x | ✅ Yes |\n\n## Migration Required\n\n### React 19\n- Replace \`ReactDOM.render\` → \`createRoot\`\n- Remove \`forwardRef\` (built into function components)\n\n### ESLint 9\n- Migrate \`eslintrc.js\` → \`eslint.config.js\` flat config`,
+          pm: `# Release — Dependency Modernization Sprint\n\n## Delivered\nUpgraded all major dependencies to current LTS versions.\n\n## Why This Matters\n- Unlocks **React 19 concurrent features** for future sprints\n- **TypeScript 5.5** brings faster type checking (2x in large projects)\n- Security patches in all updated packages\n\n## Timeline\n- Migration: 3 days engineering\n- Testing: 1 day QA\n- Rollout: Zero-downtime deployment\n\n## Risks\nLow — all tests passing. React 19 changes are backward compatible for our use patterns.`,
+          robot: `DEPENDENCY_AUDIT_COMPLETE.\n\n- PACKAGES_UPDATED: 14\n- PACKAGES_ADDED: 2\n- PACKAGES_REMOVED: 1\n- BREAKING_CHANGES: 4\n- SECURITY_ADVISORIES_RESOLVED: 3\n- ESTIMATED_MIGRATION_EFFORT: 12H\n- TEST_SUITE_STATUS: PASSING\n- BUNDLE_SIZE_DELTA: -8.3KB\n- NODE_COMPATIBILITY: OK (18+)\n\nRECOMMENDATION: APPROVE`,
+          educator: `# Dependency Management — What This Upgrade Teaches\n\n## 1. Semantic Versioning in Practice\nMajor version bumps (18→19, 8→9) signal breaking changes. Always read migration guides before upgrading major versions in production.\n\n## 2. Dependency Graphs in Monorepos\nWith 67 files changed, this PR touched \`package.json\` files across multiple packages. In a Turborepo, shared packages like \`@repo/ui\` can affect all consuming apps when their dependencies change.\n\n## 3. The "Update Everything at Once" Strategy\nUpdating multiple packages together (vs. one at a time) reduces the total migration effort but increases the scope of each PR. The tradeoff: faster overall, but harder to bisect if something breaks.`,
+        }
+      },
+      {
+        id: 'vibe-coding',
+        icon: '🚀',
+        title: 'Vibe Session — 50 AI Commits',
+        desc: 'Rapid AI-assisted development: 200 files, 50 commits analyzed',
+        commits: 50, files: 200,
+        tags: ['Batch Analysis', 'Pattern Recognition', 'Consensus Building'],
+        changelogs: {
+          developer: `# Vibe Session Summary — 50 Commits\n\n## Session Overview\n- **Duration**: 4 hours\n- **Commits**: 50\n- **Files**: 200\n- **Lines Added**: 4,200\n- **Lines Removed**: 890\n\n## What Was Built\n\n### Phase 1 (Commits 1-15): Foundation\n- Set up project scaffolding\n- Established data models\n- Created base API routes\n\n### Phase 2 (Commits 16-35): Core Features  \n- Implemented authentication flow\n- Built dashboard UI\n- Connected real-time WebSocket updates\n\n### Phase 3 (Commits 36-50): Polish\n- Added error boundaries\n- Improved accessibility\n- Performance optimization (React.memo, useMemo)\n\n## Checkpoint Saved\n\`ckpt-vibe-session-a8f92\` — recoverable if needed`,
+          ceo: `# Sprint Output — AI-Assisted Development Session\n\n## Executive Summary\nIn a single 4-hour session using AI-assisted development tools, the team shipped the equivalent of approximately 2 weeks of traditional development.\n\n## What Was Delivered\n- Complete authentication system\n- Real-time dashboard with WebSocket updates\n- 200 files of production-ready code\n\n## ROI Analysis\n- Traditional estimate: 80 engineer-hours\n- Actual time: 4 hours\n- **Efficiency multiplier: ~20x**\n\n## Quality Metrics\nAll automated tests pass. Code reviewed by senior engineer before merge.`,
+          journalist: `# Tech Report — AI-Powered Sprint Delivers 2-Week Feature in 4 Hours\n\nA development team recently demonstrated the growing productivity potential of AI-assisted coding, shipping 200 files across 50 rapid commits in a single four-hour session.\n\nThe session produced a complete authentication system and real-time dashboard — functionality that would traditionally take a week or more.\n\n"The AI handles the boilerplate and scaffolding," one developer noted. "I focus on architecture decisions and review."\n\nWhile questions about code quality in AI-generated output remain active in the industry, automated test suites and systematic review processes are emerging as the standard quality gate.`,
+          data_analyst: `# Vibe Session Analytics Report\n\n## Velocity Metrics\n| Metric | Value |\n|--------|-------|\n| Commits/hour | 12.5 |\n| Files/hour | 50 |\n| Lines added/hour | 1,050 |\n| Avg commit size | 88 lines |\n\n## Commit Pattern Analysis\n- **Feature commits**: 32 (64%)\n- **Fix commits**: 11 (22%)\n- **Refactor commits**: 7 (14%)\n\n## Quality Indicators\n- Test coverage: 78% (above 75% target)\n- Linting errors: 0\n- Build warnings: 2 (non-critical)\n\n## Recommendation\nVibe coding sessions show 18x velocity improvement over baseline. Recommend extending to other feature teams.`,
+        }
+      }
+    ];
+
+    const PERSONAS = [
+      { id: 'developer',    label: '👨💻 Dev' },
+      { id: 'ceo',          label: '📊 CEO' },
+      { id: 'educator',     label: '📚 Educator' },
+      { id: 'pm',           label: '📋 PM' },
+      { id: 'journalist',   label: '📰 Press' },
+      { id: 'compliance',   label: '🔒 Legal' },
+      { id: 'robot',        label: '🤖 Robot' },
+      { id: 'data_analyst', label: '📈 Analyst' },
+    ];
+
+    const FORMATS = [
+      { id: 'markdown', label: '📝 Markdown' },
+      { id: 'json',     label: '{ } JSON' },
+    ];
+
+    let selectedRepo   = DEMOS[0].id;
+    let selectedPersona = 'developer';
+    let selectedFormat  = 'markdown';
+
+    function render() {
+      // Repo list
+      document.getElementById('repo-list').innerHTML = DEMOS.map(d => `
+        <div class="repo-card ${d.id === selectedRepo ? 'active' : ''}" onclick="selectRepo('${d.id}')">
+          <div class="repo-card-content">
+            <div class="repo-title"><span class="repo-icon">${d.icon}</span>${d.title}</div>
+            <div class="repo-desc">${d.desc}</div>
+            <div class="repo-meta">
+              <span>📝 ${d.commits} commits</span>
+              <span>📁 ${d.files} files</span>
+            </div>
+            <div class="tag-row">${d.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+          </div>
+        </div>
+      `).join('');
+
+      // Persona buttons
+      document.getElementById('persona-sw').innerHTML = PERSONAS.map(p => `
+        <button class="sw-btn ${p.id === selectedPersona ? 'active' : ''}" onclick="selectPersona('${p.id}')">${p.label}</button>
+      `).join(' ');
+
+      // Format buttons
+      document.getElementById('format-sw').innerHTML = FORMATS.map(f => `
+        <button class="sw-btn ${f.id === selectedFormat ? 'active' : ''}" onclick="selectFormat('${f.id}')">${f.label}</button>
+      `).join(' ');
+
+      // Output
+      const demo = DEMOS.find(d => d.id === selectedRepo);
+      const changelog = demo?.changelogs[selectedPersona]
+                     || demo?.changelogs['developer']
+                     || '*(No sample for this persona/format combination)*';
+
+      const card = document.getElementById('output-card');
+
+      if (selectedFormat === 'json') {
+        const jsonData = { repo: demo?.title, persona: selectedPersona, summary: changelog.split('\n')[2]?.slice(3) || '', raw: changelog };
+        card.innerHTML = `<div class="json">${highlightJSON(JSON.stringify(jsonData, null, 2))}</div>`;
+      } else {
+        card.innerHTML = `<div class="md">${marked.parse(changelog)}</div>`;
+      }
+    }
+
+    function selectRepo(id)     { selectedRepo = id;     render(); }
+    function selectPersona(id)  { selectedPersona = id;  render(); }
+    function selectFormat(id)   { selectedFormat = id;   render(); }
+
+    function highlightJSON(json) {
+      return escH(json)
+        .replace(/("[\w\s]+")\s*:/g, '<span class="k">$1</span>:')
+        .replace(/:\s*(".*?")/g, ': <span class="s">$1</span>')
+        .replace(/:\s*(\d+\.?\d*)/g, ': <span class="n">$1</span>');
+    }
+
+    function escH(s) {
+      return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+
+    function copyInstall() {
+      navigator.clipboard?.writeText('npx @eldrex/cli init').then(() => {
+        const toast = document.createElement('div');
+        toast.style.cssText = 'position:fixed;top:16px;right:16px;background:#1e293b;border:1px solid #2d3f55;border-radius:10px;padding:10px 18px;font-size:13px;color:#f1f5f9;z-index:9999;animation:slideIn .3s ease;box-shadow:0 4px 24px rgba(0,0,0,.4);display:flex;align-items:center;gap:8px;';
+        toast.innerHTML = '<i data-lucide="check" class="icon" style="color:#22c55e"></i> Copied to clipboard!';
+        document.body.appendChild(toast);
+        lucide.createIcons({
+          attrs: { class: 'icon' },
+          nodeList: [toast.querySelector('[data-lucide]')]
+        });
+        setTimeout(() => toast.remove(), 2500);
+      }).catch(() => {});
+    }
+
+    // Inject animation style
+    const style = document.createElement('style');
+    style.textContent = '@keyframes slideIn { from { opacity:0; transform:translateY(-10px); } }';
+    document.head.appendChild(style);
+
+    lucide.createIcons();
+    render();
+
+  </script>
+</body>
+</html>

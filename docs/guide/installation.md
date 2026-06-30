@@ -73,13 +73,13 @@ To configure DevDiff for a specific project, navigate to your git repository roo
 
 ```bash
 # Inside your project repository root
-devdiff config
+devdiff init
 ```
 
 This interactive command will:
 1. Detect your current Git repository status.
-2. Ask you to choose between local models (Ollama) or cloud models (OpenAI, Gemini, Anthropic).
-3. Create a `.devdiff.config.json` configuration file in your repository root directory.
+2. Install Git hook triggers to run automatically on commit.
+3. Create a `.devdiff.config.js` configuration file in your repository root directory.
 
 ---
 

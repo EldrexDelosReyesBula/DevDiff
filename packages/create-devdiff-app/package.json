@@ -1,0 +1,31 @@
+{
+  "name": "create-devdiff-app",
+  "version": "1.0.3",
+  "description": "Scaffold a DevDiff-powered changelog dashboard or CI integration",
+  "type": "module",
+  "bin": {
+    "create-devdiff-app": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --clean",
+    "test": "echo \"No tests for scaffolding tool\""
+  },
+  "keywords": [
+    "devdiff",
+    "changelog",
+    "ai",
+    "scaffold",
+    "template"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "picocolors": "^1.1.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "typescript": "^5.5.0"
+  }
+}

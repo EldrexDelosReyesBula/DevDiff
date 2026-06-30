@@ -1,0 +1,43 @@
+[
+  {
+    "type": "shell-access",
+    "command": "git",
+    "args": [
+      "rev-parse",
+      "HEAD"
+    ],
+    "timestamp": 1782796135417,
+    "caller": "at generateCommand (file:///C:/Users/Eldrex/Downloads/classhost/DevDiff/packages/cli/dist/index.js:174:24)"
+  },
+  {
+    "type": "shell-access",
+    "command": "git",
+    "args": [
+      "diff",
+      "--cached",
+      "--name-only"
+    ],
+    "timestamp": 1782796135466,
+    "caller": "at getStagedFiles (file:///C:/Users/Eldrex/Downloads/classhost/DevDiff/packages/cli/dist/index.js:123:39)"
+  },
+  {
+    "type": "shell-access",
+    "command": "git",
+    "args": [
+      "diff",
+      "--name-only"
+    ],
+    "timestamp": 1782796135515,
+    "caller": "at getUnstagedChanges (file:///C:/Users/Eldrex/Downloads/classhost/DevDiff/packages/cli/dist/index.js:131:39)"
+  },
+  {
+    "type": "shell-access",
+    "command": "git",
+    "args": [
+      "diff",
+      "--cached"
+    ],
+    "timestamp": 1782796135575,
+    "caller": "at generateCommand (file:///C:/Users/Eldrex/Downloads/classhost/DevDiff/packages/cli/dist/index.js:232:37)"
+  }
+]

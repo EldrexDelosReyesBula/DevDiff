@@ -22,7 +22,7 @@ If you configure DevDiff to use local models (such as Ollama, llama.cpp, or Tran
 - **Local Loop:** The code diff and prompt data remain entirely inside your local system memory and CPU/GPU loops. No data is sent over the Internet.
 
 ### B. Cloud Model Processing
-If you explicitly configure cloud AI providers (such as OpenAI, Anthropic, or Google Gemini) in your `.devdiff.config.json` file:
+If you explicitly configure cloud AI providers (such as OpenAI, Anthropic, or Google Gemini) in your `.devdiff.config.js` (or other config) file:
 - **Direct Communication:** DevDiff transmits the pre-trimmed and redacted diff context directly to the respective API endpoints of those providers.
 - **No Intermediaries:** We do not proxy these requests through our own servers. Your credentials (API keys) are loaded from your local environment variables directly into memory during execution.
 - **Provider Policies:** Data transmitted to cloud providers is subject to their respective API privacy policies. (Most providers guarantee that data sent via APIs is not used for model training).

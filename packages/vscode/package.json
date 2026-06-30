@@ -2,20 +2,23 @@
   "name": "devdiff",
   "displayName": "DevDiff",
   "description": "Privacy-first, BYOAI inline changelog intelligence for VS Code",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
-  "publisher": "ebula",
+  "publisher": "eldrex",
   "icon": "asset/devdiff.png",
   "engines": {
     "vscode": "^1.85.0"
   },
   "categories": [
-    "Other"
+    "Other",
+    "Formatters"
   ],
   "activationEvents": [
-    "onStartupFinished"
+    "onStartupFinished",
+    "onCommand:devdiff.showChangelog",
+    "onCommand:devdiff.explainChanges"
   ],
   "main": "./dist/extension.js",
   "scripts": {
@@ -34,31 +37,48 @@
   "contributes": {
     "commands": [
       {
-        "command": "devdiff.explainDiff",
+        "command": "devdiff.showChangelog",
+        "title": "DevDiff: Show Changelog"
+      },
+      {
+        "command": "devdiff.explainChanges",
         "title": "DevDiff: Explain Staged Changes"
       },
       {
-        "command": "devdiff.openSidebar",
-        "title": "DevDiff: Refresh Changelog View"
+        "command": "devdiff.toggleWatch",
+        "title": "DevDiff: Toggle Auto-Watch"
+      },
+      {
+        "command": "devdiff.showOutput",
+        "title": "DevDiff: Show Output Panel"
       }
     ],
-    "viewsContainers": {
-      "activitybar": [
-        {
-          "id": "devdiff-sidebar-view",
-          "title": "DevDiff",
-          "icon": "$(diff)"
+    "configuration": {
+      "title": "DevDiff",
+      "properties": {
+        "devdiff.autoGenerate": {
+          "type": "boolean",
+          "default": false,
+          "description": "Auto-generate explanations when changes are staged"
+        },
+        "devdiff.persona": {
+          "type": "string",
+          "default": "developer",
+          "enum": [
+            "developer",
+            "ceo",
+            "educator",
+            "pm",
+            "compliance"
+          ],
+          "description": "AI persona for explanations"
+        },
+        "devdiff.showGutterAnnotations": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show inline annotations in the editor gutter"
         }
-      ]
-    },
-    "views": {
-      "devdiff-sidebar-view": [
-        {
-          "type": "webview",
-          "id": "devdiff.sidebar",
-          "name": "Active Changes"
-        }
-      ]
+      }
     }
   },
   "repository": {

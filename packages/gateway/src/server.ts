@@ -30,6 +30,8 @@ export interface GatewayConfig {
   grpcPort?: number;
   apiKeys?: string[];
   repoPath: string;
+  /** Allowed CORS origins (in addition to localhost). Default: localhost only. */
+  allowedOrigins?: string[];
 }
 
 export class DevDiffGateway {
@@ -285,15 +287,35 @@ export class DevDiffGateway {
 
     // 1. HTTP Server
     this.httpServer = http.createServer(async (req, res) => {
-      // CORS
-      res.setHeader("Access-Control-Allow-Origin", "*");
-      res.setHeader(
-        "Access-Control-Allow-Methods",
-        "GET, POST, OPTIONS, PUT, DELETE",
-      );
+      // --- Hardened CORS ---
+      // Allowed origins: localhost dashboard + any explicitly configured origins.
+      const allowedOrigins = [
+        "http://localhost:3737",
+        "http://127.0.0.1:3737",
+        ...(this.config.allowedOrigins || []),
+      ];
+      const requestOrigin = req.headers["origin"] || "";
+      const corsOrigin = allowedOrigins.includes(requestOrigin)
+        ? requestOrigin
+        : allowedOrigins[0];
+
+      res.setHeader("Access-Control-Allow-Origin", corsOrigin);
+      res.setHeader("Vary", "Origin");
+      res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
       res.setHeader(
         "Access-Control-Allow-Headers",
         "Content-Type, Authorization, X-API-Key",
+      );
+      res.setHeader("Access-Control-Max-Age", "86400");
+
+      // --- Security Headers (OWASP recommended) ---
+      res.setHeader("X-Content-Type-Options", "nosniff");
+      res.setHeader("X-Frame-Options", "DENY");
+      res.setHeader("X-XSS-Protection", "1; mode=block");
+      res.setHeader("Referrer-Policy", "no-referrer");
+      res.setHeader(
+        "Content-Security-Policy",
+        "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'",
       );
 
       if (req.method === "OPTIONS") {

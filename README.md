@@ -17,8 +17,11 @@
   <a href="https://opensource.org/licenses/MIT">
     <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT">
   </a>
-  <a href="https://opencollective.com/devdiff">
-    <img src="https://img.shields.io/opencollective/all/devdiff?label=sponsors" alt="Open Collective">
+  <a href="https://ko-fi.com/landecsorg/">
+    <img src="https://img.shields.io/badge/Donate-Ko--fi-ff5f5f.svg" alt="Ko-fi">
+  </a>
+  <a href="https://www.paypal.com/paypalme/eldrexbula">
+    <img src="https://img.shields.io/badge/Donate-PayPal-00457c.svg" alt="PayPal">
   </a>
 </p>
 
@@ -131,41 +134,47 @@ Your Code Changes
 
 ---
 
-## Documentation
+---
 
-- [Getting Started](https://github.com/EldrexDelosReyesBula/devdiff/tree/main/docs/guide/getting-started.md)
-- [BYOAI Guide](https://github.com/EldrexDelosReyesBula/devdiff/tree/main/docs/guide/byoai.md)
-- [Configuration](https://github.com/EldrexDelosReyesBula/devdiff/tree/main/docs/guide/configuration.md)
-- [Contributing](CONTRIBUTING.md)
+## 💻 VS Code Extension & Offline Pre-Release
+
+For the VS Code extension, you can install it directly from the marketplace or download the packaged pre-release VSIX file:
+- **Download VSIX**: Get the latest release from [GitHub Releases](https://github.com/EldrexDelosReyesBula/devdiff/releases)
+- For setup instructions, see the [VS Code Extension README](/packages/vscode/README.md).
 
 ---
 
-## Sponsors
+## 📚 Documentation & Help Guides
 
-**DevDiff is funded entirely by the community.**
-
-<p align="center">
-  <a href="https://opencollective.com/devdiff">
-    <img src="https://opencollective.com/devdiff/sponsors.svg?width=890" alt="Sponsors">
-  </a>
-</p>
-
-[Sponsor us on Open Collective →](https://opencollective.com/devdiff)
+- 📖 **Getting Started**: [5-Minute Setup Guide](https://github.com/EldrexDelosReyesBula/devdiff/blob/main/docs/guide/getting-started.md)
+- 🤖 **AI Model Setup**: [Ollama Setup Guide](https://github.com/EldrexDelosReyesBula/devdiff/blob/main/docs/ai-providers/ollama-setup.md)
+- ❌ **Troubleshooting**: [Ollama Errors & Fixes](https://github.com/EldrexDelosReyesBula/devdiff/blob/main/docs/troubleshooting/ollama-errors.md) | [Windows-Specific Issues](https://github.com/EldrexDelosReyesBula/devdiff/blob/main/docs/troubleshooting/windows-issues.md) | [Quick Fixes Matrix](https://github.com/EldrexDelosReyesBula/devdiff/blob/main/docs/troubleshooting/common-fixes.md)
+- 🔒 **Security & Versioning**: [Security Model Policy](https://github.com/EldrexDelosReyesBula/devdiff/blob/main/docs/security/overview.md) | [Immutable Version Strategy](https://github.com/EldrexDelosReyesBula/devdiff/blob/main/docs/versioning/policy.md)
+- 📖 **Full Documentation Site**: [devdiff.vercel.app](https://devdiff.vercel.app)
 
 ---
 
-## Community
+## 🤝 Support & Consulting
 
-- 📝 [GitHub Discussions](https://github.com/EldrexDelosReyesBula/devdiff/discussions)
+DevDiff is a community-supported open-source project created and maintained by **Eldrex Delos Reyes Bula**. 
+
+If you or your organization finds DevDiff valuable, consider supporting or booking professional consulting services:
+- 📧 **Consulting & Priority Support**: [eldrexdelosreyesbula@gmail.com](mailto:eldrexdelosreyesbula@gmail.com)
+- ☕ **Ko-fi Donations**: [Sponsor on Ko-fi](https://ko-fi.com/landecsorg/)
+- 💳 **PayPal Support**: [Donate via PayPal Me](https://www.paypal.com/paypalme/eldrexbula)
+- 📄 **Full Support Channels**: See [SUPPORT.md](/SUPPORT.md)
 
 ---
 
-## Contributing
+## 👥 Community & Contributing
 
-We welcome contributions! See our [Contributing Guide](CONTRIBUTING.md) and [Code of Conduct](CODE_OF_CONDUCT.md).
+- 📝 **Discussions**: [GitHub Discussions](https://github.com/EldrexDelosReyesBula/devdiff/discussions)
+- 🐛 **Bugs & Features**: [GitHub Issues](https://github.com/EldrexDelosReyesBula/devdiff/issues)
+- 🤝 **Contributing**: See [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
 
 ---
 
-## License
+## 📄 License
 
 [MIT](LICENSE) © Eldrex Delos Reyes Bula and Contributors
+
