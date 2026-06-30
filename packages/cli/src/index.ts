@@ -44,12 +44,20 @@ program
     "-r, --range <range>",
     "Git commit range or branch (e.g. HEAD~1 or main..feature)",
   )
-  .option("-f, --format <format>", "output format: markdown, json, html", "markdown")
+  .option(
+    "-f, --format <format>",
+    "output format: markdown, json, html",
+    "markdown",
+  )
   .option("-o, --output <file>", "output file path to write the changelog")
   .option("-d, --dry-run", "dry run mode (simulates AI call)")
   .option("-p, --persona <persona>", "AI persona for output style", "developer")
   .option("--since <range>", "Git revision range (alternative to -r)")
-  .option("--depth <depth>", "Analysis depth (minimal, standard, deep)", "standard")
+  .option(
+    "--depth <depth>",
+    "Analysis depth (minimal, standard, deep)",
+    "standard",
+  )
   .action(async (options) => {
     // Validate persona
     const validPersonas = [
@@ -76,7 +84,9 @@ program
 
 program
   .command("watch")
-  .description("Watch Git index for staged changes and print summaries in real-time")
+  .description(
+    "Watch Git index for staged changes and print summaries in real-time",
+  )
   .option("-p, --persona <persona>", "AI persona for output style", "developer")
   .action(async (options) => {
     await watchCommand(options);
@@ -99,7 +109,9 @@ program
 
 program
   .command("init")
-  .description("Initialize DevDiff configuration and install Git hooks in the repository")
+  .description(
+    "Initialize DevDiff configuration and install Git hooks in the repository",
+  )
   .option("-f, --force", "force overwrite of existing configuration files")
   .option("-y, --yes", "Skip prompts and use defaults")
   .action(async (options) => {
@@ -133,8 +145,13 @@ program
 
 program
   .command("audit [type]")
-  .description("Display log audits of past AI provider calls, network disclosures, or shell logs")
-  .option("-p, --package <package>", "show audit disclosure for a specific package")
+  .description(
+    "Display log audits of past AI provider calls, network disclosures, or shell logs",
+  )
+  .option(
+    "-p, --package <package>",
+    "show audit disclosure for a specific package",
+  )
   .action(async (type, options) => {
     await auditCommand(type, options);
   });

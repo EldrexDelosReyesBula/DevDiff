@@ -74,12 +74,16 @@ export class OllamaProvider implements AIProvider {
       console.log("");
       console.log("❌ Cannot connect to Ollama");
       console.log("");
-      console.log("   DevDiff uses Ollama for local AI. It needs to be running.");
+      console.log(
+        "   DevDiff uses Ollama for local AI. It needs to be running.",
+      );
       console.log("");
 
       if (process.platform === "win32") {
         console.log("   Windows:");
-        console.log("   1. Download Ollama from: https://ollama.com/download/windows");
+        console.log(
+          "   1. Download Ollama from: https://ollama.com/download/windows",
+        );
         console.log("   2. Install and run the Ollama app");
         console.log("   3. Open PowerShell and run: ollama pull llama3.2:3b");
         console.log("   4. Verify it works: ollama list");
@@ -112,4 +116,3 @@ export class OllamaProvider implements AIProvider {
     }
   }
 }
-

@@ -10,7 +10,11 @@ export class DevDiffEngine {
 
   async getStagedFiles(): Promise<Array<{ path: string }>> {
     try {
-      const stdout = await ShellSandbox.exec("git", ["diff", "--cached", "--name-only"]);
+      const stdout = await ShellSandbox.exec("git", [
+        "diff",
+        "--cached",
+        "--name-only",
+      ]);
       return stdout
         .split("\n")
         .map((line) => line.trim())
@@ -41,7 +45,9 @@ export class DevDiffEngine {
     }
   }
 
-  async generateChangelog(options: { format?: "markdown" | "json" | "html" }): Promise<string> {
+  async generateChangelog(options: {
+    format?: "markdown" | "json" | "html";
+  }): Promise<string> {
     try {
       let diffText = await ShellSandbox.exec("git", ["diff", "--cached"]);
       if (!diffText.trim()) {

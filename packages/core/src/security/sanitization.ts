@@ -16,7 +16,8 @@ export interface SanitizationResult {
 const INJECTION_PATTERNS: Array<{ name: string; pattern: RegExp }> = [
   {
     name: "ignore-previous-instructions",
-    pattern: /ignore\s+(all\s+)?(previous|prior|above)\s+(instructions?|prompts?|context)/gi,
+    pattern:
+      /ignore\s+(all\s+)?(previous|prior|above)\s+(instructions?|prompts?|context)/gi,
   },
   {
     name: "new-instructions-override",
@@ -32,7 +33,8 @@ const INJECTION_PATTERNS: Array<{ name: string; pattern: RegExp }> = [
   },
   {
     name: "role-play-override",
-    pattern: /(act\s+as|pretend\s+to\s+be|roleplay\s+as)\s+an?\s+(AI|assistant|ChatGPT|GPT|Claude)/gi,
+    pattern:
+      /(act\s+as|pretend\s+to\s+be|roleplay\s+as)\s+an?\s+(AI|assistant|ChatGPT|GPT|Claude)/gi,
   },
   {
     name: "code-injection-escape",
@@ -44,7 +46,8 @@ const INJECTION_PATTERNS: Array<{ name: string; pattern: RegExp }> = [
   },
   {
     name: "forget-instructions",
-    pattern: /\b(forget|disregard|discard|override)\s+(all\s+)?(previous\s+)?(instructions?|rules?|constraints?)\b/gi,
+    pattern:
+      /\b(forget|disregard|discard|override)\s+(all\s+)?(previous\s+)?(instructions?|rules?|constraints?)\b/gi,
   },
   {
     name: "output-format-hijack",

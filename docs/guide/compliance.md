@@ -1,6 +1,6 @@
 # Compliance Frameworks
 
-DevDiff v1.0.1 "Sentinel" provides built-in configurations to satisfy international and national data compliance frameworks. 
+DevDiff v1.0.1 "Sentinel" provides built-in configurations to satisfy international and national data compliance frameworks.
 
 ## Supported Frameworks
 
@@ -13,29 +13,36 @@ DevDiff v1.0.1 "Sentinel" provides built-in configurations to satisfy internatio
 ## CLI Usage
 
 ### List Supported Frameworks
+
 ```bash
 npx devdiff compliance list
 ```
 
 ### Apply a Framework
+
 To merge a framework's properties into your configuration:
+
 ```bash
 npx devdiff compliance apply --framework gdpr
 npx devdiff compliance apply --framework hipaa
 ```
 
 ### Check Compliance Status
+
 ```bash
 npx devdiff compliance status
 ```
 
 ### Validate Configuration
+
 Validate active configuration against multiple frameworks:
+
 ```bash
 npx devdiff compliance validate --frameworks gdpr,soc2,iso27001
 ```
 
 ### Generate Audit-Ready Report
+
 ```bash
 npx devdiff compliance report --format pdf --output compliance-report.pdf
 ```

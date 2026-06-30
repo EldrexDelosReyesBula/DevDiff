@@ -82,17 +82,15 @@ function fallbackHtml(port: number): string {
 async function readBody(req: http.IncomingMessage): Promise<string> {
   return new Promise((resolve, reject) => {
     let body = "";
-    req.on("data", (chunk) => { body += chunk; });
+    req.on("data", (chunk) => {
+      body += chunk;
+    });
     req.on("end", () => resolve(body));
     req.on("error", reject);
   });
 }
 
-function jsonResponse(
-  res: http.ServerResponse,
-  data: unknown,
-  status = 200,
-) {
+function jsonResponse(res: http.ServerResponse, data: unknown, status = 200) {
   res.writeHead(status, {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
@@ -111,7 +109,11 @@ export async function playgroundCommand(options: PlaygroundOptions = {}) {
 
     // Preflight
     if (req.method === "OPTIONS") {
-      res.writeHead(204, { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "GET,POST", "Access-Control-Allow-Headers": "Content-Type" });
+      res.writeHead(204, {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET,POST",
+        "Access-Control-Allow-Headers": "Content-Type",
+      });
       res.end();
       return;
     }
@@ -160,11 +162,22 @@ export async function playgroundCommand(options: PlaygroundOptions = {}) {
         } catch {}
 
         if (!diffText.trim()) {
-          return jsonResponse(res, { success: false, error: "No changes found for the given range. Try a different --since range." });
+          return jsonResponse(res, {
+            success: false,
+            error:
+              "No changes found for the given range. Try a different --since range.",
+          });
         }
 
-        const result = await generateChangelog({ diffText, repoPath, persona: persona as any });
-        return jsonResponse(res, { success: true, changelog: result.markdown || result.rawResult?.summary || "" });
+        const result = await generateChangelog({
+          diffText,
+          repoPath,
+          persona: persona as any,
+        });
+        return jsonResponse(res, {
+          success: true,
+          changelog: result.markdown || result.rawResult?.summary || "",
+        });
       } catch (err: any) {
         return jsonResponse(res, { success: false, error: err.message }, 500);
       }
@@ -173,13 +186,13 @@ export async function playgroundCommand(options: PlaygroundOptions = {}) {
     if (url.pathname === "/api/personas") {
       return jsonResponse(res, [
         { id: "developer", label: "👨💻 Developer" },
-        { id: "ceo",       label: "📊 CEO" },
-        { id: "educator",  label: "📚 Educator" },
-        { id: "robot",     label: "🤖 Robot" },
+        { id: "ceo", label: "📊 CEO" },
+        { id: "educator", label: "📚 Educator" },
+        { id: "robot", label: "🤖 Robot" },
         { id: "data-analyst", label: "📈 Analyst" },
-        { id: "journalist",   label: "📰 Journalist" },
-        { id: "pm",           label: "📋 PM" },
-        { id: "compliance",   label: "🔒 Compliance" },
+        { id: "journalist", label: "📰 Journalist" },
+        { id: "pm", label: "📋 PM" },
+        { id: "compliance", label: "🔒 Compliance" },
       ]);
     }
 
@@ -217,12 +230,20 @@ export async function playgroundCommand(options: PlaygroundOptions = {}) {
       const hash = execSync("git diff --stat HEAD", {
         stdio: ["ignore", "pipe", "ignore"],
         cwd: repoPath,
-      }).toString().trim().slice(-64);
+      })
+        .toString()
+        .trim()
+        .slice(-64);
 
       if (hash !== lastHash && lastHash !== "") {
         for (const ws of activeSockets) {
           if (ws.readyState === WebSocket.OPEN) {
-            ws.send(JSON.stringify({ type: "workspace-changed", timestamp: Date.now() }));
+            ws.send(
+              JSON.stringify({
+                type: "workspace-changed",
+                timestamp: Date.now(),
+              }),
+            );
           }
         }
       }
@@ -234,17 +255,77 @@ export async function playgroundCommand(options: PlaygroundOptions = {}) {
 
   server.listen(port, () => {
     console.log();
-    console.log(pc.cyan("┌─────────────────────────────────────────────────────────────┐"));
-    console.log(pc.cyan("│") + pc.white("                                                             ") + pc.cyan("│"));
-    console.log(pc.cyan("│") + pc.white(`   🎮 DevDiff Playground                                     `) + pc.cyan("│"));
-    console.log(pc.cyan("│") + pc.white("                                                             ") + pc.cyan("│"));
-    console.log(pc.cyan("│") + pc.white(`   Local:  ${pc.cyan(url.padEnd(49))}`) + pc.cyan("│"));
-    console.log(pc.cyan("│") + pc.white("                                                             ") + pc.cyan("│"));
-    console.log(pc.cyan("│") + pc.white(`   ✅ Workspace: ${pc.white(path.basename(repoPath).slice(0, 43).padEnd(43))}`) + pc.cyan("│"));
-    console.log(pc.cyan("│") + pc.white("                                                             ") + pc.cyan("│"));
-    console.log(pc.cyan("│") + pc.gray("   All data stays on your machine. Zero cloud sync.          ") + pc.cyan("│"));
-    console.log(pc.cyan("│") + pc.white("                                                             ") + pc.cyan("│"));
-    console.log(pc.cyan("└─────────────────────────────────────────────────────────────┘"));
+    console.log(
+      pc.cyan(
+        "┌─────────────────────────────────────────────────────────────┐",
+      ),
+    );
+    console.log(
+      pc.cyan("│") +
+        pc.white(
+          "                                                             ",
+        ) +
+        pc.cyan("│"),
+    );
+    console.log(
+      pc.cyan("│") +
+        pc.white(
+          `   🎮 DevDiff Playground                                     `,
+        ) +
+        pc.cyan("│"),
+    );
+    console.log(
+      pc.cyan("│") +
+        pc.white(
+          "                                                             ",
+        ) +
+        pc.cyan("│"),
+    );
+    console.log(
+      pc.cyan("│") +
+        pc.white(`   Local:  ${pc.cyan(url.padEnd(49))}`) +
+        pc.cyan("│"),
+    );
+    console.log(
+      pc.cyan("│") +
+        pc.white(
+          "                                                             ",
+        ) +
+        pc.cyan("│"),
+    );
+    console.log(
+      pc.cyan("│") +
+        pc.white(
+          `   ✅ Workspace: ${pc.white(path.basename(repoPath).slice(0, 43).padEnd(43))}`,
+        ) +
+        pc.cyan("│"),
+    );
+    console.log(
+      pc.cyan("│") +
+        pc.white(
+          "                                                             ",
+        ) +
+        pc.cyan("│"),
+    );
+    console.log(
+      pc.cyan("│") +
+        pc.gray(
+          "   All data stays on your machine. Zero cloud sync.          ",
+        ) +
+        pc.cyan("│"),
+    );
+    console.log(
+      pc.cyan("│") +
+        pc.white(
+          "                                                             ",
+        ) +
+        pc.cyan("│"),
+    );
+    console.log(
+      pc.cyan(
+        "└─────────────────────────────────────────────────────────────┘",
+      ),
+    );
     console.log();
     console.log(pc.gray("   Press Ctrl+C to stop the playground server."));
     console.log();

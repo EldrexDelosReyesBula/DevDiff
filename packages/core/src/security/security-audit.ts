@@ -19,15 +19,19 @@ export interface AuditEntry {
  * If no key is set, falls back to plaintext for dev environments.
  */
 export class SecurityAudit {
-  private static LOG_PATH = path.resolve(
-    process.cwd(),
-    ".devdiff/security-audit.enc",
-  );
+  private static getLogPath(): string {
+    return (
+      process.env.DEVDIFF_AUDIT_PATH ||
+      path.resolve(process.cwd(), ".devdiff/security-audit.enc")
+    );
+  }
   // Legacy plaintext path (read-only migration)
-  private static LEGACY_PATH = path.resolve(
-    process.cwd(),
-    ".devdiff/security-audit.json",
-  );
+  private static getLegacyPath(): string {
+    return (
+      process.env.DEVDIFF_LEGACY_AUDIT_PATH ||
+      path.resolve(process.cwd(), ".devdiff/security-audit.json")
+    );
+  }
 
   private static getKey(): Buffer | null {
     const envKey = process.env.DEVDIFF_AUDIT_KEY;
@@ -60,17 +64,18 @@ export class SecurityAudit {
 
   static async log(entry: AuditEntry): Promise<void> {
     try {
-      await fs.mkdir(path.dirname(this.LOG_PATH), { recursive: true });
+      const logPath = this.getLogPath();
+      await fs.mkdir(path.dirname(logPath), { recursive: true });
       const key = this.getKey();
       const entryJson = JSON.stringify({ ...entry, timestamp: Date.now() });
 
       if (key) {
         // Encrypted: append one line of base64 per entry (JSONL style)
         const encryptedLine = this.encrypt(entryJson, key) + "\n";
-        await fs.appendFile(this.LOG_PATH, encryptedLine, "utf-8");
+        await fs.appendFile(logPath, encryptedLine, "utf-8");
       } else {
         // Plaintext fallback for dev environments without a key
-        const legacyPath = this.LEGACY_PATH;
+        const legacyPath = this.getLegacyPath();
         let logs: AuditEntry[] = [];
         try {
           const fileContent = await fs.readFile(legacyPath, "utf-8");
@@ -91,7 +96,7 @@ export class SecurityAudit {
 
     if (key) {
       try {
-        const content = await fs.readFile(this.LOG_PATH, "utf-8");
+        const content = await fs.readFile(this.getLogPath(), "utf-8");
         const lines = content.split("\n").filter(Boolean);
         const entries: AuditEntry[] = [];
         for (const line of lines) {
@@ -110,7 +115,7 @@ export class SecurityAudit {
 
     // Plaintext fallback
     try {
-      const fileContent = await fs.readFile(this.LEGACY_PATH, "utf-8");
+      const fileContent = await fs.readFile(this.getLegacyPath(), "utf-8");
       return JSON.parse(fileContent);
     } catch {
       return [];
@@ -121,14 +126,18 @@ export class SecurityAudit {
    * Verify integrity of the encrypted log file.
    * Returns true if all entries can be decrypted without errors.
    */
-  static async verifyIntegrity(): Promise<{ valid: boolean; total: number; corrupted: number }> {
+  static async verifyIntegrity(): Promise<{
+    valid: boolean;
+    total: number;
+    corrupted: number;
+  }> {
     const key = this.getKey();
     if (!key) {
       return { valid: true, total: 0, corrupted: 0 };
     }
 
     try {
-      const content = await fs.readFile(this.LOG_PATH, "utf-8");
+      const content = await fs.readFile(this.getLogPath(), "utf-8");
       const lines = content.split("\n").filter(Boolean);
       let corrupted = 0;
       for (const line of lines) {

@@ -41,8 +41,14 @@ export async function getCommitCount(): Promise<number> {
 /** Returns all local branch names. */
 export async function getBranches(): Promise<string[]> {
   try {
-    const out = await ShellSandbox.exec("git", ["branch", "--format=%(refname:short)"]);
-    return out.split("\n").map((b) => b.trim()).filter(Boolean);
+    const out = await ShellSandbox.exec("git", [
+      "branch",
+      "--format=%(refname:short)",
+    ]);
+    return out
+      .split("\n")
+      .map((b) => b.trim())
+      .filter(Boolean);
   } catch {
     return [];
   }
@@ -51,7 +57,11 @@ export async function getBranches(): Promise<string[]> {
 /** Returns the name of the currently checked-out branch. */
 export async function getCurrentBranch(): Promise<string> {
   try {
-    const out = await ShellSandbox.exec("git", ["rev-parse", "--abbrev-ref", "HEAD"]);
+    const out = await ShellSandbox.exec("git", [
+      "rev-parse",
+      "--abbrev-ref",
+      "HEAD",
+    ]);
     return out.trim();
   } catch {
     return "unknown";
@@ -140,7 +150,9 @@ export async function checkAIStatus(
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 2000);
-    const res = await fetch(`${ollamaHost}/api/tags`, { signal: controller.signal });
+    const res = await fetch(`${ollamaHost}/api/tags`, {
+      signal: controller.signal,
+    });
     clearTimeout(timeoutId);
     if (!res.ok) throw new Error("Non-200");
     const data = (await res.json()) as { models?: { name: string }[] };

@@ -17,6 +17,7 @@ This checks everything and tells you what's wrong.
 **Problem:** DevDiff says there's nothing to analyze.
 
 **Solutions:**
+
 1. Did you stage your changes?
    ```bash
    git add .
@@ -42,6 +43,7 @@ This checks everything and tells you what's wrong.
 **Problem:** You're not in a folder with `.git`.
 
 **Solutions:**
+
 ```bash
 git init
 git add .
@@ -57,6 +59,7 @@ devdiff generate
 **Problem:** The persona flag isn't recognized.
 
 **Solutions:**
+
 ```bash
 # Use the correct syntax:
 devdiff generate --persona developer    # ✅
@@ -74,13 +77,15 @@ devdiff generate persona developer      # ❌ (wrong order)
 ### AI errors (Ollama, OpenAI, etc.)
 
 See dedicated guides:
-- [Ollama Errors](./ollama-errors.md)
-- [Network Errors](./network-errors.md)
+
+- [Ollama Errors](./ollama-errors)
+- [Network Errors](./network-errors)
 
 ---
 
 ## Platform-Specific Issues
 
-- [Windows Issues](./windows-issues.md)
-- [macOS Issues](./macos-issues.md)
-- [Linux Issues](./linux-issues.md)
+- [Windows Issues](./windows-issues)
+- [macOS Issues](./macos-issues)
+- [Linux Issues](./linux-issues)
+

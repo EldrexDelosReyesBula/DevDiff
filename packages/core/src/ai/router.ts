@@ -408,7 +408,10 @@ export class AIRouter {
 
         let modifiedFiles: string[] = [];
         try {
-          const stdout = await ShellSandbox.exec("git", ["status", "--porcelain"]);
+          const stdout = await ShellSandbox.exec("git", [
+            "status",
+            "--porcelain",
+          ]);
           modifiedFiles = stdout
             .split("\n")
             .map((line) => line.slice(3).trim())

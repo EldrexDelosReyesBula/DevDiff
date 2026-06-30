@@ -10,7 +10,9 @@ export interface CompatibilityResult {
  * Compare two semver strings by their individual parts.
  * Returns { major, minor, patch } or null on parse failure.
  */
-function parseSemver(v: string): { major: number; minor: number; patch: number } | null {
+function parseSemver(
+  v: string,
+): { major: number; minor: number; patch: number } | null {
   // Strip leading ^ ~ >= etc.
   const cleaned = v.replace(/^[\^~>=<]+/, "").trim();
   const match = cleaned.match(/^(\d+)\.(\d+)\.(\d+)/);

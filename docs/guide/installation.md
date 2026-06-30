@@ -6,10 +6,10 @@ DevDiff is designed to be lightweight, modular, and easy to deploy across any en
 
 Before installing the DevDiff suite, ensure your system meets the following requirements:
 
-*   **Node.js:** version `20.x` or `22.x` (LTS recommended)
-*   **Package Manager:** `npm` (v10+), `pnpm` (v9+), or `yarn` (v1.22+)
-*   **Git:** version `2.30.0` or higher installed and added to your system's PATH
-*   **Operating System:** Windows 10/11, macOS Big Sur+, or mainstream Linux distributions (Ubuntu, Debian, Fedora, Arch)
+- **Node.js:** version `20.x` or `22.x` (LTS recommended)
+- **Package Manager:** `npm` (v10+), `pnpm` (v9+), or `yarn` (v1.22+)
+- **Git:** version `2.30.0` or higher installed and added to your system's PATH
+- **Operating System:** Windows 10/11, macOS Big Sur+, or mainstream Linux distributions (Ubuntu, Debian, Fedora, Arch)
 
 ---
 
@@ -40,6 +40,7 @@ After the installation completes, verify that the CLI is correctly installed and
 ```bash
 devdiff --version
 ```
+
 This should output the current version of the CLI (e.g., `1.0.0`).
 
 ---
@@ -61,6 +62,7 @@ npx @eldrex/cli config
 ## VS Code Extension Installation
 
 For an integrated development workflow, install the official VS Code extension:
+
 - **Marketplace**: [DevDiff on the VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=ebula.devdiff)
 
 For more info, see the [VS Code Extension Guide](/integrations/vscode).
@@ -77,6 +79,7 @@ devdiff init
 ```
 
 This interactive command will:
+
 1. Detect your current Git repository status.
 2. Install Git hook triggers to run automatically on commit.
 3. Create a `.devdiff.config.js` configuration file in your repository root directory.
@@ -86,14 +89,18 @@ This interactive command will:
 ## Troubleshooting Common Installation Errors
 
 ### 1. Permission Denied (`EACCES` or `sudo` requirements)
+
 If you encounter permission errors during global installation on macOS/Linux:
+
 ```bash
 # We recommend using a Node version manager like nvm to avoid sudo, or run:
 sudo npm install -g @eldrex/cli --unsafe-perm=true
 ```
 
 ### 2. Execution Policies on Windows (PowerShell)
+
 If you get a script execution warning on Windows PowerShell:
+
 ```powershell
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```

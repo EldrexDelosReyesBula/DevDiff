@@ -12,6 +12,7 @@ devdiff doctor
 ## ❌ Error: "model 'llama3.1:8b' not found"
 
 ### What This Means
+
 You have Ollama installed but **the specific AI model is not downloaded**.
 Ollama is the engine — models are separate files (2-4GB each).
 
@@ -41,11 +42,11 @@ devdiff generate
 
 ### Which Model Should I Use?
 
-| Model | Size | RAM Needed | Speed | Quality | Best For |
-|-------|------|------------|-------|---------|----------|
-| `llama3.2:3b` | 2GB | 4GB | Fast | Good | Most users |
-| `llama3.1:8b` | 4GB | 8GB | Medium | Better | Complex analysis |
-| `codellama:13b` | 7GB | 16GB | Slow | Best | Security reviews |
+| Model           | Size | RAM Needed | Speed  | Quality | Best For         |
+| --------------- | ---- | ---------- | ------ | ------- | ---------------- |
+| `llama3.2:3b`   | 2GB  | 4GB        | Fast   | Good    | Most users       |
+| `llama3.1:8b`   | 4GB  | 8GB        | Medium | Better  | Complex analysis |
+| `codellama:13b` | 7GB  | 16GB       | Slow   | Best    | Security reviews |
 
 **Start with `llama3.2:3b` — it's the default and works on most machines.**
 
@@ -54,11 +55,13 @@ devdiff generate
 ## ❌ Error: "ECONNREFUSED" or "fetch failed"
 
 ### What This Means
+
 Ollama is not running. The app is installed but the service isn't active.
 
 ### Fix
 
 #### Windows
+
 ```powershell
 # Check if Ollama is running
 Get-Process ollama -ErrorAction SilentlyContinue
@@ -78,6 +81,7 @@ curl http://localhost:11434/api/tags
 ```
 
 #### macOS
+
 ```bash
 # Check if running
 ps aux | grep ollama
@@ -90,6 +94,7 @@ brew services start ollama
 ```
 
 #### Linux
+
 ```bash
 # Check if running
 systemctl status ollama
@@ -106,19 +111,23 @@ sudo systemctl enable ollama
 ## ❌ Error: "Ollama not found"
 
 ### What This Means
+
 Ollama is not installed on your system.
 
 ### Fix
 
 #### Windows
+
 1. Download from [ollama.com/download/windows](https://ollama.com/download/windows)
 2. Run the installer (OllamaSetup.exe)
 3. After install, open PowerShell:
+
 ```powershell
 ollama pull llama3.2:3b
 ```
 
 #### macOS
+
 ```bash
 brew install ollama
 ollama serve &
@@ -126,6 +135,7 @@ ollama pull llama3.2:3b
 ```
 
 #### Linux
+
 ```bash
 curl -fsSL https://ollama.com/install.sh | sh
 ollama pull llama3.2:3b
@@ -136,9 +146,11 @@ ollama pull llama3.2:3b
 ## ❌ Error: "Out of memory" or crash during generation
 
 ### What This Means
+
 The model is too large for your available RAM.
 
 ### Fix
+
 ```bash
 # Use smaller model
 ollama pull llama3.2:1b    # Only ~1GB
@@ -173,6 +185,6 @@ devdiff doctor
 # ✅ DevDiff config valid
 # ✅ Git repository detected
 # ✅ Staged changes: 3 files
-# 
+#
 # 🎉 All checks passed! Run: devdiff generate
 ```

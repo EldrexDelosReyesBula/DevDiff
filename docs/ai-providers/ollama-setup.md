@@ -9,11 +9,11 @@ No API keys. No data leaves your machine. It's the default AI provider for DevDi
 
 ### 1. Install Ollama
 
-| Platform | Instructions |
-|----------|-------------|
+| Platform    | Instructions                                                                    |
+| ----------- | ------------------------------------------------------------------------------- |
 | **Windows** | [Download installer](https://ollama.com/download/windows) → Run OllamaSetup.exe |
-| **macOS** | `brew install ollama` or [download .dmg](https://ollama.com/download/mac) |
-| **Linux** | `curl -fsSL https://ollama.com/install.sh \| sh` |
+| **macOS**   | `brew install ollama` or [download .dmg](https://ollama.com/download/mac)       |
+| **Linux**   | `curl -fsSL https://ollama.com/install.sh \| sh`                                |
 
 ### 2. Pull a Model
 
@@ -51,13 +51,13 @@ export default {
   ai: {
     providers: [
       {
-        name: 'local-ollama',
-        url: 'ollama://llama3.2:3b',  // Model to use
-        priority: 1                     // Try first
-      }
-    ]
-  }
-}
+        name: "local-ollama",
+        url: "ollama://llama3.2:3b", // Model to use
+        priority: 1, // Try first
+      },
+    ],
+  },
+};
 ```
 
 ### 5. Generate Changelog

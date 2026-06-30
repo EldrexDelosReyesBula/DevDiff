@@ -95,12 +95,20 @@ export async function versionCommand(options: VersionOptions = {}) {
 
     if (!latest) {
       console.log(`  Latest:  ${pc.yellow("(unable to reach npm registry)")}`);
-      console.log(`  Status:  ${pc.gray("⚠️  Offline or registry unreachable")}`);
+      console.log(
+        `  Status:  ${pc.gray("⚠️  Offline or registry unreachable")}`,
+      );
       console.log();
-      console.log(pc.gray("  Your current version continues to work exactly as designed."));
+      console.log(
+        pc.gray(
+          "  Your current version continues to work exactly as designed.",
+        ),
+      );
     } else if (latest === current) {
       console.log(`  Latest:  ${pc.white(`v${latest}`)}`);
-      console.log(`  Status:  ${pc.green("✅ You are on the latest version!")}`);
+      console.log(
+        `  Status:  ${pc.green("✅ You are on the latest version!")}`,
+      );
     } else {
       console.log(`  Latest:  ${pc.cyan(`v${latest}`)}`);
       console.log(`  Status:  ${pc.yellow("⚡ Update available!")}`);
@@ -111,7 +119,11 @@ export async function versionCommand(options: VersionOptions = {}) {
       console.log(pc.gray("  Or stay on your current version — it will"));
       console.log(pc.gray("  continue working exactly as before. 🔒"));
       console.log();
-      console.log(pc.gray(`  See what changed: ${pc.white("devdiff version --changelog")}`));
+      console.log(
+        pc.gray(
+          `  See what changed: ${pc.white("devdiff version --changelog")}`,
+        ),
+      );
     }
 
     console.log();
@@ -122,7 +134,9 @@ export async function versionCommand(options: VersionOptions = {}) {
   console.log();
   console.log(`  ${pc.cyan("DevDiff CLI")}  ${pc.white(`v${current}`)}`);
   console.log(`  Node.js         ${pc.white(process.version)}`);
-  console.log(`  Platform        ${pc.white(`${process.platform} ${process.arch}`)}`);
+  console.log(
+    `  Platform        ${pc.white(`${process.platform} ${process.arch}`)}`,
+  );
 
   // Check config version pin
   try {
@@ -133,14 +147,18 @@ export async function versionCommand(options: VersionOptions = {}) {
       const config = await loadConfig();
       const compat = checkConfigCompatibility(config as any, current);
       if (!compat.compatible) {
-        console.log(`  Config version  ${pc.red("❌ Incompatible")} — ${compat.error}`);
+        console.log(
+          `  Config version  ${pc.red("❌ Incompatible")} — ${compat.error}`,
+        );
       } else if (compat.warning) {
         console.log(`  Config version  ${pc.yellow("⚠️  " + compat.warning)}`);
       } else {
         console.log(`  Config version  ${pc.green("✅ Compatible")}`);
       }
     } else {
-      console.log(`  Config          ${pc.gray("(no .devdiff.config.js found)")}`);
+      console.log(
+        `  Config          ${pc.gray("(no .devdiff.config.js found)")}`,
+      );
     }
   } catch {
     console.log(`  Config          ${pc.gray("(unable to load)")}`);

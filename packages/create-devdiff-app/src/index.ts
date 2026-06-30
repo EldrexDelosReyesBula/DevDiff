@@ -10,16 +10,24 @@ const __dirname = path.dirname(__filename);
 
 function printHelp() {
   console.log();
-  console.log(`  ${pc.cyan("create-devdiff-app")} ${pc.white("<project-name>")} ${pc.gray("[options]")}`);
+  console.log(
+    `  ${pc.cyan("create-devdiff-app")} ${pc.white("<project-name>")} ${pc.gray("[options]")}`,
+  );
   console.log();
   console.log(`  ${pc.gray("Options:")}`);
-  console.log(`    ${pc.white("--template <name>")}   Template to use (default: minimal)`);
-  console.log(`    ${pc.white("--list")}              List all available templates`);
+  console.log(
+    `    ${pc.white("--template <name>")}   Template to use (default: minimal)`,
+  );
+  console.log(
+    `    ${pc.white("--list")}              List all available templates`,
+  );
   console.log(`    ${pc.white("--help")}              Show this help message`);
   console.log();
   console.log(`  ${pc.gray("Available templates:")}`);
   for (const tpl of Object.values(TEMPLATES)) {
-    console.log(`    ${pc.white(tpl.id.padEnd(26))} ${pc.gray(tpl.description)}`);
+    console.log(
+      `    ${pc.white(tpl.id.padEnd(26))} ${pc.gray(tpl.description)}`,
+    );
   }
   console.log();
 }
@@ -31,7 +39,9 @@ function printTemplateList() {
     console.log(`  ${pc.white("●")} ${pc.white(tpl.name)}`);
     console.log(`    ${pc.gray("ID:")} ${pc.cyan(tpl.id)}`);
     console.log(`    ${pc.gray(tpl.description)}`);
-    console.log(`    ${pc.gray("Includes:")} ${tpl.includes.slice(0, 3).join(", ")}${tpl.includes.length > 3 ? " …" : ""}`);
+    console.log(
+      `    ${pc.gray("Includes:")} ${tpl.includes.slice(0, 3).join(", ")}${tpl.includes.length > 3 ? " …" : ""}`,
+    );
     console.log();
   }
 }
@@ -72,7 +82,9 @@ async function main() {
 
   if (!projectName) {
     console.error(pc.red("\n  ❌ Missing project name.\n"));
-    console.error(`  Usage: ${pc.white("create-devdiff-app")} ${pc.cyan("<project-name>")}\n`);
+    console.error(
+      `  Usage: ${pc.white("create-devdiff-app")} ${pc.cyan("<project-name>")}\n`,
+    );
     process.exit(1);
   }
 
@@ -92,10 +104,14 @@ async function main() {
 
   // ── Banner ────────────────────────────────────────────────────────────────
   console.log();
-  console.log(`  ${pc.bold(pc.cyan("⚡ DevDiff App Bootstrapper"))} ${pc.gray("v1.0.3")}`);
+  console.log(
+    `  ${pc.bold(pc.cyan("⚡ DevDiff App Bootstrapper"))} ${pc.gray("v1.0.3")}`,
+  );
   console.log(`  ${pc.gray("═".repeat(50))}`);
   console.log(`  Project:  ${pc.white(projectName)}`);
-  console.log(`  Template: ${pc.green(template.name)} (${pc.cyan(template.id)})`);
+  console.log(
+    `  Template: ${pc.green(template.name)} (${pc.cyan(template.id)})`,
+  );
   console.log();
   console.log(`  ${pc.gray("Includes:")}`);
   for (const item of template.includes) {
@@ -111,7 +127,9 @@ async function main() {
 
   // ── Next steps ────────────────────────────────────────────────────────────
   console.log();
-  console.log(`  ${pc.bold(pc.green("🎉 Project bootstrapped successfully!"))}`);
+  console.log(
+    `  ${pc.bold(pc.green("🎉 Project bootstrapped successfully!"))}`,
+  );
   console.log();
   console.log(`  ${pc.white("Next steps:")}`);
   console.log(`    ${pc.cyan(`cd ${projectName}`)}`);
@@ -121,13 +139,20 @@ async function main() {
 
   if (templateId === "ci-integration") {
     console.log(`  ${pc.bold(pc.yellow("⚡ CI/CD configuration tip:"))}`);
-    console.log(pc.gray("    1. Add OPENAI_API_KEY to your GitHub/GitLab secrets"));
-    console.log(pc.gray("    2. Or update .devdiff.config.js to use local Ollama offline.\n"));
+    console.log(
+      pc.gray("    1. Add OPENAI_API_KEY to your GitHub/GitLab secrets"),
+    );
+    console.log(
+      pc.gray(
+        "    2. Or update .devdiff.config.js to use local Ollama offline.\n",
+      ),
+    );
   }
 
-  console.log(`  ${pc.gray("Documentation: https://github.com/EldrexDelosReyesBula/devdiff")}`);
+  console.log(
+    `  ${pc.gray("Documentation: https://github.com/EldrexDelosReyesBula/devdiff")}`,
+  );
   console.log();
-
 }
 
 main().catch((err) => {

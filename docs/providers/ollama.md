@@ -17,9 +17,9 @@ Ollama allows running open-source large language models (like Llama 3.2, CodeLla
          {
            name: "ollama-local",
            url: "ollama://llama3.2:3b",
-           priority: 1
-         }
-       ]
-     }
+           priority: 1,
+         },
+       ],
+     },
    };
    ```

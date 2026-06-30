@@ -244,10 +244,15 @@ startxref
   return Buffer.from(content, "utf-8");
 }
 
-export async function complianceCommand(action: string, options?: { framework?: string }) {
+export async function complianceCommand(
+  action: string,
+  options?: { framework?: string },
+) {
   if (action === "apply") {
     if (!options?.framework) {
-      console.log(pc.red("❌ Missing framework option. Use -f or --framework."));
+      console.log(
+        pc.red("❌ Missing framework option. Use -f or --framework."),
+      );
       return;
     }
     await applyComplianceCommand(options.framework);
@@ -256,12 +261,15 @@ export async function complianceCommand(action: string, options?: { framework?: 
   } else if (action === "report") {
     await reportComplianceCommand({
       format: "txt",
-      output: "compliance-report.txt"
+      output: "compliance-report.txt",
     });
   } else if (action === "list") {
     listComplianceCommand();
   } else {
-    console.log(pc.red(`❌ Unknown action: ${action}. Use apply, status, report, or list.`));
+    console.log(
+      pc.red(
+        `❌ Unknown action: ${action}. Use apply, status, report, or list.`,
+      ),
+    );
   }
 }
-

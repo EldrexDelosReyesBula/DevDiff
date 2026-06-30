@@ -26,18 +26,18 @@ devdiff generate --persona developer
 
 ## Fix by Symptom
 
-| Symptom | Quick Fix |
-|---------|-----------|
-| Nothing happens | `devdiff --version` (check install) |
-| No changes detected | `git add .` then try again |
-| Unknown option error | Check spelling: `devdiff --help` |
-| Ollama not found | Install: [ollama.com](https://ollama.com) |
-| Model not found | `ollama pull llama3.2:3b` |
-| Connection refused | Start Ollama app |
-| Permission denied | `chmod +x` on Linux/macOS, run as admin on Windows |
-| Out of memory | Use smaller model: `ollama pull llama3.2:1b` |
-| VS Code not working | Reload window: `Ctrl+Shift+P` → `Reload Window` |
-| Config not loading | Check `.devdiff.config.js` syntax |
+| Symptom              | Quick Fix                                          |
+| -------------------- | -------------------------------------------------- |
+| Nothing happens      | `devdiff --version` (check install)                |
+| No changes detected  | `git add .` then try again                         |
+| Unknown option error | Check spelling: `devdiff --help`                   |
+| Ollama not found     | Install: [ollama.com](https://ollama.com)          |
+| Model not found      | `ollama pull llama3.2:3b`                          |
+| Connection refused   | Start Ollama app                                   |
+| Permission denied    | `chmod +x` on Linux/macOS, run as admin on Windows |
+| Out of memory        | Use smaller model: `ollama pull llama3.2:1b`       |
+| VS Code not working  | Reload window: `Ctrl+Shift+P` → `Reload Window`    |
+| Config not loading   | Check `.devdiff.config.js` syntax                  |
 
 ---
 

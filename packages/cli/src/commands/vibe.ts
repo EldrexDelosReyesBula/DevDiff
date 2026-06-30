@@ -55,7 +55,8 @@ export async function vibeCommand(action: string) {
     await guardian.deleteSession();
     console.log(pc.yellow("👋 Stopped vibe coding session."));
   } else {
-    console.log(pc.red(`❌ Unknown action: ${action}. Use start, stop, or status.`));
+    console.log(
+      pc.red(`❌ Unknown action: ${action}. Use start, stop, or status.`),
+    );
   }
 }
-

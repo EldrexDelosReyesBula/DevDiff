@@ -44,11 +44,15 @@ export class GitHubWebhookParser {
     if (options?.secret && options?.rawBody) {
       const sig = headers["x-hub-signature-256"] || headers["x-hub-signature"];
       if (!sig) {
-        console.warn("[GitHubWebhook] Missing signature header — request rejected");
+        console.warn(
+          "[GitHubWebhook] Missing signature header — request rejected",
+        );
         return null;
       }
       if (!this.verifySignature(options.secret, options.rawBody, sig)) {
-        console.warn("[GitHubWebhook] HMAC signature mismatch — request rejected");
+        console.warn(
+          "[GitHubWebhook] HMAC signature mismatch — request rejected",
+        );
         return null;
       }
     }

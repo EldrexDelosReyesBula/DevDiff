@@ -13,17 +13,23 @@ export async function activate(context: vscode.ExtensionContext) {
 
   try {
     engine = new DevDiffEngine({
-      workspacePath: vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || process.cwd(),
+      workspacePath:
+        vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || process.cwd(),
     });
     outputChannel.appendLine("✅ DevDiff engine initialized");
   } catch (error) {
     outputChannel.appendLine(`❌ Engine init failed: ${error}`);
-    vscode.window.showErrorMessage("DevDiff: Failed to initialize. Check output panel for details.");
+    vscode.window.showErrorMessage(
+      "DevDiff: Failed to initialize. Check output panel for details.",
+    );
     return;
   }
 
   // Status bar setup
-  statusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
+  statusBar = vscode.window.createStatusBarItem(
+    vscode.StatusBarAlignment.Right,
+    100,
+  );
   statusBar.text = "$(pulse) DevDiff";
   statusBar.tooltip = "DevDiff — Click to view changelog";
   statusBar.command = "devdiff.showChangelog";
@@ -64,7 +70,9 @@ export async function activate(context: vscode.ExtensionContext) {
 
     outputChannel.appendLine("✅ Git extension integration active");
   } else {
-    outputChannel.appendLine("⚠️ Git extension not found — polling mode active");
+    outputChannel.appendLine(
+      "⚠️ Git extension not found — polling mode active",
+    );
 
     // Fallback: Poll for changes every 5 seconds
     const interval = setInterval(async () => {
@@ -83,11 +91,13 @@ export async function activate(context: vscode.ExtensionContext) {
         "devdiff-changelog",
         "DevDiff Changelog",
         vscode.ViewColumn.Beside,
-        { enableScripts: true }
+        { enableScripts: true },
       );
 
       try {
-        const changelog = await engine.generateChangelog({ format: "markdown" });
+        const changelog = await engine.generateChangelog({
+          format: "markdown",
+        });
         panel.webview.html = renderChangelogHtml(changelog);
       } catch (error) {
         panel.webview.html = renderErrorHtml(error);
@@ -97,50 +107,58 @@ export async function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand("devdiff.explainChanges", async () => {
       await vscode.commands.executeCommand("workbench.view.scm");
 
-      vscode.window.withProgress({
-        location: vscode.ProgressLocation.Notification,
-        title: "DevDiff: Analyzing changes...",
-        cancellable: true,
-      }, async (progress) => {
-        try {
-          progress.report({ message: "Parsing diff..." });
-          const result = await engine.analyze({ staged: true });
+      vscode.window.withProgress(
+        {
+          location: vscode.ProgressLocation.Notification,
+          title: "DevDiff: Analyzing changes...",
+          cancellable: true,
+        },
+        async (progress) => {
+          try {
+            progress.report({ message: "Parsing diff..." });
+            const result = await engine.analyze({ staged: true });
 
-          progress.report({ message: "Generating explanation..." });
-          const explanation = result.summary;
+            progress.report({ message: "Generating explanation..." });
+            const explanation = result.summary;
 
-          vscode.window.showInformationMessage(
-            `DevDiff: ${explanation.slice(0, 100)}...`,
-            "View Full", "Dismiss"
-          ).then(selection => {
-            if (selection === "View Full") {
-              showFullExplanation(explanation);
-            }
-          });
-        } catch (error: any) {
-          vscode.window.showErrorMessage(`DevDiff: ${error.message}`);
-        }
-      });
+            vscode.window
+              .showInformationMessage(
+                `DevDiff: ${explanation.slice(0, 100)}...`,
+                "View Full",
+                "Dismiss",
+              )
+              .then((selection) => {
+                if (selection === "View Full") {
+                  showFullExplanation(explanation);
+                }
+              });
+          } catch (error: any) {
+            vscode.window.showErrorMessage(`DevDiff: ${error.message}`);
+          }
+        },
+      );
     }),
 
     vscode.commands.registerCommand("devdiff.toggleWatch", () => {
       isWatching = !isWatching;
       statusBar.text = isWatching ? "$(eye) DevDiff" : "$(pulse) DevDiff";
       vscode.window.showInformationMessage(
-        isWatching ? "DevDiff: Auto-watch ON" : "DevDiff: Auto-watch OFF"
+        isWatching ? "DevDiff: Auto-watch ON" : "DevDiff: Auto-watch OFF",
       );
     }),
 
     vscode.commands.registerCommand("devdiff.showOutput", () => {
       outputChannel.show();
-    })
+    }),
   );
 
   // Initial check
   await checkForChanges();
 
   outputChannel.appendLine("✅ DevDiff extension ready");
-  vscode.window.showInformationMessage("DevDiff: Ready. Make changes and stage them to see explanations.");
+  vscode.window.showInformationMessage(
+    "DevDiff: Ready. Make changes and stage them to see explanations.",
+  );
 }
 
 async function checkForChanges() {
@@ -154,15 +172,19 @@ async function checkForChanges() {
       return;
     }
 
-    const currentHash = JSON.stringify(stagedFiles.map(f => f.path).sort());
+    const currentHash = JSON.stringify(stagedFiles.map((f) => f.path).sort());
     if (currentHash === lastStagedFiles) return;
 
     lastStagedFiles = currentHash;
 
     statusBar.text = `$(pulse) DevDiff (${stagedFiles.length} staged)`;
-    statusBar.backgroundColor = new vscode.ThemeColor("statusBarItem.warningBackground");
+    statusBar.backgroundColor = new vscode.ThemeColor(
+      "statusBarItem.warningBackground",
+    );
 
-    outputChannel.appendLine(`\n⚡ [${new Date().toLocaleTimeString()}] ${stagedFiles.length} staged file(s)`);
+    outputChannel.appendLine(
+      `\n⚡ [${new Date().toLocaleTimeString()}] ${stagedFiles.length} staged file(s)`,
+    );
 
     // If auto-generate is enabled
     const config = vscode.workspace.getConfiguration("devdiff");
@@ -219,7 +241,7 @@ function showFullExplanation(explanation: string) {
     "devdiff-explanation",
     "DevDiff Staged Changes Explanation",
     vscode.ViewColumn.Active,
-    { enableScripts: true }
+    { enableScripts: true },
   );
   panel.webview.html = renderChangelogHtml(explanation);
 }

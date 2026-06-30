@@ -10,6 +10,7 @@ DevDiff v1.0.1 supports WebGPU-accelerated local model inference. This allows ru
 ## Fallback Chain
 
 If WebGPU is unavailable, DevDiff automatically falls back to:
+
 1. **WebAssembly (WASM)**
 2. **Native CPU**
 3. **Local Ollama instance** (with download instructions)

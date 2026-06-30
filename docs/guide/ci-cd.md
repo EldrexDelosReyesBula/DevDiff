@@ -17,7 +17,7 @@ name: Generate Changelog
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 permissions:
   contents: write
@@ -87,10 +87,10 @@ jobs:
           # Fetch the diff between the branch and target base
           git fetch origin ${{ github.base_ref }}
           DIFF=$(git diff origin/${{ github.base_ref }}...HEAD)
-          
+
           # Generate explanation using DevDiff CLI
           SUMMARY=$(npx @eldrex/cli generate --diff "$DIFF" --persona developer)
-          
+
           # Output to steps context
           echo "summary<<EOF" >> $GITHUB_OUTPUT
           echo "$SUMMARY" >> $GITHUB_OUTPUT
@@ -129,4 +129,5 @@ devdiff_changelog:
   only:
     - main
 ```
- Ensure that `$OPENAI_API_KEY` is configured as a masked variable in your GitLab project CI/CD settings.
+
+Ensure that `$OPENAI_API_KEY` is configured as a masked variable in your GitLab project CI/CD settings.

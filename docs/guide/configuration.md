@@ -16,33 +16,33 @@ export default {
       {
         name: "ollama-local",
         url: "ollama://llama3.2:3b",
-        priority: 1
+        priority: 1,
       },
       {
         name: "openai-cloud",
         url: "openai://gpt-4o-mini",
         apiKey: process.env.OPENAI_API_KEY,
-        priority: 2
-      }
+        priority: 2,
+      },
     ],
     routing: {
       strategy: "priority",
       complexityThreshold: 0.6,
-      localOnly: false
-    }
+      localOnly: false,
+    },
   },
   exclude: [
     "**/node_modules/**",
     "pnpm-lock.yaml",
     "package-lock.json",
     "dist/**",
-    "*.log"
+    "*.log",
   ],
   cache: {
     enabled: true,
-    path: ".devdiff/cache.json"
+    path: ".devdiff/cache.json",
   },
-  format: "markdown"
+  format: "markdown",
 };
 ```
 
@@ -50,16 +50,16 @@ export default {
 
 ## Configuration Options
 
-| Option | Type | Default | Description |
-|---|---|---|---|
-| `ai.providers` | `Array` | *Required* | A list of model provider endpoints and credentials. Supports local (`ollama://`) and cloud (`openai://`, `gemini://`, `anthropic://`). |
-| `ai.routing.strategy` | `string` | `"priority"` | Strategy used by the Intelligent Router. Options: `'priority'`, `'cost'`, `'latency'`. |
-| `ai.routing.complexityThreshold` | `number` | `0.6` | Complexity value above which changes trigger escalation to higher capacity models. |
-| `ai.routing.localOnly` | `boolean` | `true` | When true, prevents the router from selecting any external cloud providers regardless of complexity. |
-| `exclude` | `Array<string>` | `[]` | Glob patterns matching directories, lockfiles, or assets to ignore during git diff scans. |
-| `cache.enabled` | `boolean` | `true` | When true, caches generated changelog outputs locally to prevent redundant LLM token costs. |
-| `cache.path` | `string` | `".devdiff/cache.json"` | Path where the local cache file is stored. |
-| `format` | `string` | `"markdown"` | Default output format for changelogs. Options: `'markdown'`, `'json'`, `'html'`. |
+| Option                           | Type            | Default                 | Description                                                                                                                            |
+| -------------------------------- | --------------- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `ai.providers`                   | `Array`         | _Required_              | A list of model provider endpoints and credentials. Supports local (`ollama://`) and cloud (`openai://`, `gemini://`, `anthropic://`). |
+| `ai.routing.strategy`            | `string`        | `"priority"`            | Strategy used by the Intelligent Router. Options: `'priority'`, `'cost'`, `'latency'`.                                                 |
+| `ai.routing.complexityThreshold` | `number`        | `0.6`                   | Complexity value above which changes trigger escalation to higher capacity models.                                                     |
+| `ai.routing.localOnly`           | `boolean`       | `true`                  | When true, prevents the router from selecting any external cloud providers regardless of complexity.                                   |
+| `exclude`                        | `Array<string>` | `[]`                    | Glob patterns matching directories, lockfiles, or assets to ignore during git diff scans.                                              |
+| `cache.enabled`                  | `boolean`       | `true`                  | When true, caches generated changelog outputs locally to prevent redundant LLM token costs.                                            |
+| `cache.path`                     | `string`        | `".devdiff/cache.json"` | Path where the local cache file is stored.                                                                                             |
+| `format`                         | `string`        | `"markdown"`            | Default output format for changelogs. Options: `'markdown'`, `'json'`, `'html'`.                                                       |
 
 ---
 
@@ -83,5 +83,6 @@ The DevDiff router supports failover chains. If a local model fails to respond o
 ```
 
 Under this configuration:
+
 1. DevDiff initially routes requests to `ollama-primary`.
 2. If the local Ollama service is offline or errors out, DevDiff immediately falls back to `openai-fallback` to complete the request seamlessly.

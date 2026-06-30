@@ -7,11 +7,11 @@ export interface Template {
 }
 
 export const TEMPLATES: Record<string, Template> = {
-
   "enterprise-dashboard": {
     id: "enterprise-dashboard",
     name: "Enterprise Dashboard",
-    description: "Full-featured changelog dashboard with team management, Slack integration, and compliance reporting",
+    description:
+      "Full-featured changelog dashboard with team management, Slack integration, and compliance reporting",
     includes: [
       "DevDiff SDK integration",
       "Custom branding/theming",
@@ -22,22 +22,26 @@ export const TEMPLATES: Record<string, Template> = {
       "Role-based access control",
     ],
     files: {
-      "package.json": JSON.stringify({
-        name: "{{PROJECT_NAME}}",
-        version: "0.1.0",
-        private: true,
-        type: "module",
-        scripts: {
-          dev: "node src/server.js",
-          start: "node src/server.js",
-          "generate-changelog": "devdiff generate --format markdown",
+      "package.json": JSON.stringify(
+        {
+          name: "{{PROJECT_NAME}}",
+          version: "0.1.0",
+          private: true,
+          type: "module",
+          scripts: {
+            dev: "node src/server.js",
+            start: "node src/server.js",
+            "generate-changelog": "devdiff generate --format markdown",
+          },
+          dependencies: {
+            "@eldrex/core": "^1.0.3",
+            express: "^4.19.0",
+            marked: "^13.0.0",
+          },
         },
-        dependencies: {
-          "@eldrex/core": "^1.0.3",
-          "express": "^4.19.0",
-          "marked": "^13.0.0",
-        },
-      }, null, 2),
+        null,
+        2,
+      ),
 
       "src/server.js": `import express from 'express'
 import path from 'path'
@@ -103,7 +107,8 @@ SMTP_PASS=your-app-password
   "startup-changelog": {
     id: "startup-changelog",
     name: "Startup Changelog",
-    description: "Simple, beautiful public changelog page with RSS feed and email integration",
+    description:
+      "Simple, beautiful public changelog page with RSS feed and email integration",
     includes: [
       "DevDiff SDK integration",
       "Public changelog page",
@@ -113,20 +118,25 @@ SMTP_PASS=your-app-password
       "Custom domain support",
     ],
     files: {
-      "package.json": JSON.stringify({
-        name: "{{PROJECT_NAME}}",
-        version: "0.1.0",
-        private: true,
-        type: "module",
-        scripts: {
-          dev: "node src/server.js",
-          "sync-changelog": "devdiff generate -f markdown -o public/changelog.md",
+      "package.json": JSON.stringify(
+        {
+          name: "{{PROJECT_NAME}}",
+          version: "0.1.0",
+          private: true,
+          type: "module",
+          scripts: {
+            dev: "node src/server.js",
+            "sync-changelog":
+              "devdiff generate -f markdown -o public/changelog.md",
+          },
+          dependencies: {
+            "@eldrex/core": "^1.0.3",
+            express: "^4.19.0",
+          },
         },
-        dependencies: {
-          "@eldrex/core": "^1.0.3",
-          "express": "^4.19.0",
-        },
-      }, null, 2),
+        null,
+        2,
+      ),
 
       "src/server.js": `import express from 'express'
 import path from 'path'
@@ -177,7 +187,8 @@ app.listen(PORT, () => console.log(\`Changelog: http://localhost:\${PORT}\`))
   "ci-integration": {
     id: "ci-integration",
     name: "CI/CD Integration",
-    description: "GitHub Actions + GitLab CI integration for automated changelog generation on every PR",
+    description:
+      "GitHub Actions + GitLab CI integration for automated changelog generation on every PR",
     includes: [
       "GitHub Actions workflow",
       "GitLab CI template",
@@ -269,10 +280,11 @@ jobs:
     },
   },
 
-  "minimal": {
+  minimal: {
     id: "minimal",
     name: "Minimal Setup",
-    description: "Bare-bones DevDiff SDK integration — your canvas for custom workflows",
+    description:
+      "Bare-bones DevDiff SDK integration — your canvas for custom workflows",
     includes: [
       "DevDiff SDK (@eldrex/core)",
       "Basic .devdiff.config.js",
@@ -280,19 +292,23 @@ jobs:
       "TypeScript ready",
     ],
     files: {
-      "package.json": JSON.stringify({
-        name: "{{PROJECT_NAME}}",
-        version: "0.1.0",
-        private: true,
-        type: "module",
-        scripts: {
-          generate: "node src/generate.js",
-          dev: "node --watch src/generate.js",
+      "package.json": JSON.stringify(
+        {
+          name: "{{PROJECT_NAME}}",
+          version: "0.1.0",
+          private: true,
+          type: "module",
+          scripts: {
+            generate: "node src/generate.js",
+            dev: "node --watch src/generate.js",
+          },
+          dependencies: {
+            "@eldrex/core": "^1.0.3",
+          },
         },
-        dependencies: {
-          "@eldrex/core": "^1.0.3",
-        },
-      }, null, 2),
+        null,
+        2,
+      ),
 
       "src/generate.js": `import { generateChangelog } from '@eldrex/core'
 import { execSync } from 'child_process'

@@ -115,7 +115,11 @@ export class PrivacyEnforcer {
     if (/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/.test(str))
       return "user-emails";
     // Conventional commit messages (feat:, fix:, chore:, docs:, etc.)
-    if (/^(feat|fix|chore|docs|style|refactor|test|build|ci|perf|revert)(\(.+\))?!?:\s/.test(str))
+    if (
+      /^(feat|fix|chore|docs|style|refactor|test|build|ci|perf|revert)(\(.+\))?!?:\s/.test(
+        str,
+      )
+    )
       return "commit-messages";
     // Generic short phrases that look like commit messages
     if (/^[a-z][\w\s-]{0,80}$/.test(str.trim()) && str.trim().length > 3)

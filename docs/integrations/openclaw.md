@@ -11,13 +11,13 @@ export default {
   ai: {
     providers: [
       {
-        name: 'openclaw-local',
-        url: 'openclaw://localhost:8082',
-        priority: 1
-      }
-    ]
-  }
-}
+        name: "openclaw-local",
+        url: "openclaw://localhost:8082",
+        priority: 1,
+      },
+    ],
+  },
+};
 ```
 
 Once configured, DevDiff will route code explanation queries to your local OpenClaw task gateway.

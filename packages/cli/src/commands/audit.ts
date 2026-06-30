@@ -3,28 +3,32 @@ import * as path from "path";
 import pc from "picocolors";
 import { loadConfig, NETWORK_ACCESS, SecurityAudit } from "@eldrex/core";
 
-const PACKAGE_DISCLOSURES: Record<string, {
-  name: string;
-  description: string;
-  socketScore: number;
-  accesses: { fileSystem: string; shell: string; network: string };
-  neverDoes: string[];
-}> = {
+const PACKAGE_DISCLOSURES: Record<
+  string,
+  {
+    name: string;
+    description: string;
+    socketScore: number;
+    accesses: { fileSystem: string; shell: string; network: string };
+    neverDoes: string[];
+  }
+> = {
   "@eldrex/core": {
     name: "@eldrex/core",
-    description: "Core engine for DevDiff — intelligent, privacy-first changelog generation",
+    description:
+      "Core engine for DevDiff — intelligent, privacy-first changelog generation",
     socketScore: 75,
     accesses: {
       fileSystem: "Read git repos, write changelogs",
       shell: "Yes (git status, git diff, which ollama)",
-      network: "Yes (Cloud AI, webhooks, notifications, default local only)"
+      network: "Yes (Cloud AI, webhooks, notifications, default local only)",
     },
     neverDoes: [
       "Send telemetry or analytics",
       "Read files outside your project",
       "Access environment variables except configured API keys",
-      "Execute arbitrary shell commands"
-    ]
+      "Execute arbitrary shell commands",
+    ],
   },
   "@eldrex/personas": {
     name: "@eldrex/personas",
@@ -33,44 +37,46 @@ const PACKAGE_DISCLOSURES: Record<string, {
     accesses: {
       fileSystem: "No",
       shell: "No",
-      network: "No"
+      network: "No",
     },
     neverDoes: [
       "Send telemetry or analytics",
       "Read files in your workspace",
       "Execute shell commands",
-      "Make network calls"
-    ]
+      "Make network calls",
+    ],
   },
   "@eldrex/dashboard": {
     name: "@eldrex/dashboard",
-    description: "Visual, offline-first dashboard for DevDiff changelog management",
+    description:
+      "Visual, offline-first dashboard for DevDiff changelog management",
     socketScore: 76,
     accesses: {
       fileSystem: "No",
       shell: "No",
-      network: "No (Localhost only, connects to local gateway)"
+      network: "No (Localhost only, connects to local gateway)",
     },
     neverDoes: [
       "Send telemetry or analytics",
       "Read files outside local browser storage",
-      "Make external API calls"
-    ]
+      "Make external API calls",
+    ],
   },
   "@eldrex/cli": {
     name: "@eldrex/cli",
-    description: "Command-line interface for DevDiff — intelligent changelog generation",
+    description:
+      "Command-line interface for DevDiff — intelligent changelog generation",
     socketScore: 74,
     accesses: {
       fileSystem: "Read configurations, write local log cache",
       shell: "Yes (git operations, detect Ollama path)",
-      network: "Yes (Version check registry, default local)"
+      network: "Yes (Version check registry, default local)",
     },
     neverDoes: [
       "Send telemetry or analytics",
       "Access files outside repository scope",
-      "Share data with third parties"
-    ]
+      "Share data with third parties",
+    ],
   },
   "@eldrex/gateway": {
     name: "@eldrex/gateway",
@@ -79,58 +85,61 @@ const PACKAGE_DISCLOSURES: Record<string, {
     accesses: {
       fileSystem: "Read configurations",
       shell: "No",
-      network: "Yes (Binds ports 3737/3740 for local webhooks)"
+      network: "Yes (Binds ports 3737/3740 for local webhooks)",
     },
     neverDoes: [
       "Send telemetry or analytics",
       "Expose unauthenticated connections",
-      "Execute arbitrary scripts"
-    ]
+      "Execute arbitrary scripts",
+    ],
   },
   "@eldrex/vite": {
     name: "@eldrex/vite",
-    description: "Vite plugin for DevDiff — automatically runs changelog generation on build",
+    description:
+      "Vite plugin for DevDiff — automatically runs changelog generation on build",
     socketScore: 71,
     accesses: {
       fileSystem: "Read git config, write CHANGELOG.md",
       shell: "Yes (git diff HEAD~1 on build)",
-      network: "No"
+      network: "No",
     },
     neverDoes: [
       "Send telemetry or analytics",
       "Make network calls",
-      "Access environment variables"
-    ]
+      "Access environment variables",
+    ],
   },
   "@eldrex/vscode": {
     name: "@eldrex/vscode",
-    description: "Privacy-first, BYOAI inline changelog intelligence for VS Code",
+    description:
+      "Privacy-first, BYOAI inline changelog intelligence for VS Code",
     socketScore: 74,
     accesses: {
       fileSystem: "Read git repos, write changelogs",
       shell: "Yes (git status, git diff cached)",
-      network: "No (connects via local gateway/core)"
+      network: "No (connects via local gateway/core)",
     },
     neverDoes: [
       "Send telemetry or analytics",
       "Share data with third parties",
-      "Execute arbitrary scripts"
-    ]
+      "Execute arbitrary scripts",
+    ],
   },
-  "devdiff": {
+  devdiff: {
     name: "devdiff",
-    description: "Privacy-first, BYOAI inline changelog intelligence for VS Code (registered extension identifier)",
+    description:
+      "Privacy-first, BYOAI inline changelog intelligence for VS Code (registered extension identifier)",
     socketScore: 76,
     accesses: {
       fileSystem: "Read git repos, write changelogs",
       shell: "Yes (git status, git diff cached)",
-      network: "No"
+      network: "No",
     },
     neverDoes: [
       "Send telemetry or analytics",
       "Share data with third parties",
-      "Execute arbitrary scripts"
-    ]
+      "Execute arbitrary scripts",
+    ],
   },
   "@eldrex/openclaw": {
     name: "@eldrex/openclaw",
@@ -139,28 +148,39 @@ const PACKAGE_DISCLOSURES: Record<string, {
     accesses: {
       fileSystem: "Bound to git repository scope",
       shell: "No",
-      network: "Yes (Exposes MCP endpoint on port 3739)"
+      network: "Yes (Exposes MCP endpoint on port 3739)",
     },
     neverDoes: [
       "Send telemetry or analytics",
       "Run arbitrary scripts on host machine",
-      "Expose unauthenticated actions"
-    ]
-  }
+      "Expose unauthenticated actions",
+    ],
+  },
 };
 
-export async function auditCommand(type?: string, options?: { package?: string }) {
+export async function auditCommand(
+  type?: string,
+  options?: { package?: string },
+) {
   // Check if specific package audit is requested
   if (options?.package) {
     const pkgName = options.package;
     const pkg = PACKAGE_DISCLOSURES[pkgName];
     if (!pkg) {
       console.log(pc.red(`❌ Unknown package: ${pkgName}`));
-      console.log(pc.yellow(`Supported packages: ${Object.keys(PACKAGE_DISCLOSURES).join(", ")}`));
+      console.log(
+        pc.yellow(
+          `Supported packages: ${Object.keys(PACKAGE_DISCLOSURES).join(", ")}`,
+        ),
+      );
       return;
     }
 
-    console.log(pc.blue(`📊 Security & Privacy Disclosure for ${pc.bold(pkg.name)} (Socket Score: ${pkg.socketScore})`));
+    console.log(
+      pc.blue(
+        `📊 Security & Privacy Disclosure for ${pc.bold(pkg.name)} (Socket Score: ${pkg.socketScore})`,
+      ),
+    );
     console.log("-".repeat(80));
     console.log(`${pc.bold("Description:")} ${pkg.description}`);
     console.log("\n" + pc.bold("Resource Access Permissions:"));
@@ -174,11 +194,21 @@ export async function auditCommand(type?: string, options?: { package?: string }
     console.log("-".repeat(80));
 
     // Show filtered shell logs if they apply
-    if (pkgName === "@eldrex/core" || pkgName === "@eldrex/cli" || pkgName === "@eldrex/vscode" || pkgName === "devdiff" || pkgName === "@eldrex/vite") {
+    if (
+      pkgName === "@eldrex/core" ||
+      pkgName === "@eldrex/cli" ||
+      pkgName === "@eldrex/vscode" ||
+      pkgName === "devdiff" ||
+      pkgName === "@eldrex/vite"
+    ) {
       const logs = await SecurityAudit.getLogs();
       if (logs.length > 0) {
-        console.log(pc.green(`\n🛡️ Recent local shell operations for ${pkg.name}:`));
-        console.log(`${pc.bold("TIMESTAMP".padEnd(25))} | ${pc.bold("COMMAND".padEnd(10))} | ${pc.bold("ARGUMENTS")}`);
+        console.log(
+          pc.green(`\n🛡️ Recent local shell operations for ${pkg.name}:`),
+        );
+        console.log(
+          `${pc.bold("TIMESTAMP".padEnd(25))} | ${pc.bold("COMMAND".padEnd(10))} | ${pc.bold("ARGUMENTS")}`,
+        );
         console.log("-".repeat(80));
         for (const log of logs) {
           const timeStr = new Date(log.timestamp).toLocaleString();
@@ -202,10 +232,14 @@ export async function auditCommand(type?: string, options?: { package?: string }
       console.log(`${pc.bold("Default:")}     ${(value as any).default}`);
       console.log(`${pc.bold("Disable:")}     ${(value as any).disable}`);
       if ((value as any).endpoints) {
-        console.log(`${pc.bold("Endpoints:")}   ${(value as any).endpoints.join(", ")}`);
+        console.log(
+          `${pc.bold("Endpoints:")}   ${(value as any).endpoints.join(", ")}`,
+        );
       }
       if ((value as any).ports) {
-        console.log(`${pc.bold("Ports:")}       ${(value as any).ports.join(", ")}`);
+        console.log(
+          `${pc.bold("Ports:")}       ${(value as any).ports.join(", ")}`,
+        );
       }
       console.log("-".repeat(80));
     }
@@ -218,8 +252,12 @@ export async function auditCommand(type?: string, options?: { package?: string }
       console.log(pc.yellow("ℹ️ No shell access logs recorded yet."));
       return;
     }
-    console.log(pc.green(`✅ Found ${logs.length} audited shell executions:\n`));
-    console.log(`${pc.bold("TIMESTAMP".padEnd(25))} | ${pc.bold("COMMAND".padEnd(10))} | ${pc.bold("ARGUMENTS")}`);
+    console.log(
+      pc.green(`✅ Found ${logs.length} audited shell executions:\n`),
+    );
+    console.log(
+      `${pc.bold("TIMESTAMP".padEnd(25))} | ${pc.bold("COMMAND".padEnd(10))} | ${pc.bold("ARGUMENTS")}`,
+    );
     console.log("=".repeat(80));
     for (const log of logs) {
       const timeStr = new Date(log.timestamp).toLocaleString();

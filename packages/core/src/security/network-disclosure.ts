@@ -5,7 +5,11 @@ export const NETWORK_ACCESS = {
     default: "OFF — Local AI only",
     disable: "Remove cloud providers from config",
     data_sent: "Structured diff (secrets redacted)",
-    endpoints: ["https://api.openai.com", "https://api.anthropic.com", "https://api.groq.com"],
+    endpoints: [
+      "https://api.openai.com",
+      "https://api.anthropic.com",
+      "https://api.groq.com",
+    ],
   },
   "webhook-receivers": {
     description: "Receive incoming webhooks from GitHub, GitLab, etc.",

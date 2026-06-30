@@ -30,7 +30,7 @@ jobs:
         with:
           node-version: 22
           cache: "pnpm"
-          registry-url: "https://npm.pkg.github.com"
+          registry-url: "https://registry.npmjs.org"
           scope: "@eldrex"
 
       - name: Install Dependencies

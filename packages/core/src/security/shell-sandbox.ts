@@ -11,7 +11,7 @@ export class ShellAccessDeniedError extends Error {
 function execAsync(
   command: string,
   args: string[],
-  options: { timeout: number }
+  options: { timeout: number },
 ): Promise<{ stdout: string; stderr: string }> {
   return new Promise((resolve, reject) => {
     const fullCommand = `${command} ${args.join(" ")}`.trim();
@@ -45,7 +45,7 @@ export class ShellSandbox {
     if (!this.ALLOWED_COMMANDS.includes(baseCommand)) {
       throw new ShellAccessDeniedError(
         `Command "${baseCommand}" is not in the allowed list. ` +
-          `Allowed: ${this.ALLOWED_COMMANDS.join(", ")}.`
+          `Allowed: ${this.ALLOWED_COMMANDS.join(", ")}.`,
       );
     }
 
@@ -53,7 +53,7 @@ export class ShellSandbox {
     for (const pattern of this.BLOCKED_PATTERNS) {
       if (pattern.test(fullCommand)) {
         throw new ShellAccessDeniedError(
-          `Command contains blocked pattern: ${pattern}. This is a security precaution.`
+          `Command contains blocked pattern: ${pattern}. This is a security precaution.`,
         );
       }
     }
@@ -71,7 +71,9 @@ export class ShellSandbox {
   }
 
   static disable(): void {
-    console.log("⚠️ Shell access disabled. Git analysis will use isomorphic-git (pure JS).");
+    console.log(
+      "⚠️ Shell access disabled. Git analysis will use isomorphic-git (pure JS).",
+    );
   }
 }
 

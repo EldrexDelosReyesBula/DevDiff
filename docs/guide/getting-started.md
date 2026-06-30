@@ -8,13 +8,13 @@
 
 Before you begin, make sure you have:
 
-| Requirement | Version | Download |
-|-------------|---------|----------|
-| **Node.js** | 20+ | [nodejs.org](https://nodejs.org) |
-| **Git** | 2.40+ | [git-scm.com](https://git-scm.com) |
-| **Ollama** *(recommended)* | Latest | [ollama.com](https://ollama.com) |
+| Requirement                | Version | Download                           |
+| -------------------------- | ------- | ---------------------------------- |
+| **Node.js**                | 20+     | [nodejs.org](https://nodejs.org)   |
+| **Git**                    | 2.40+   | [git-scm.com](https://git-scm.com) |
+| **Ollama** _(recommended)_ | Latest  | [ollama.com](https://ollama.com)   |
 
-> **No Ollama?** You can still use cloud AI providers like OpenAI or Anthropic. See the [AI Providers guide](../ai-providers/ollama-setup.md).
+> **No Ollama?** You can still use cloud AI providers like OpenAI or Anthropic. See the [AI Providers guide](../ai-providers/ollama-setup).
 
 ---
 
@@ -25,6 +25,7 @@ npm install -g @eldrex/cli
 ```
 
 Verify the installation:
+
 ```bash
 devdiff --version
 # DevDiff CLI  v1.0.3
@@ -32,7 +33,7 @@ devdiff --version
 
 ---
 
-## Step 2 — Get a Local AI Model *(one-time)*
+## Step 2 — Get a Local AI Model _(one-time)_
 
 This downloads `llama3.2:3b` (~2 GB). Once downloaded, everything works **offline** — your code never leaves your machine.
 
@@ -104,7 +105,7 @@ devdiff generate --persona educator     # Teaching-style for junior devs
 
 ## No AI? Use Dry Run
 
-Preview what DevDiff *would* send to the AI — without making any API calls:
+Preview what DevDiff _would_ send to the AI — without making any API calls:
 
 ```bash
 devdiff generate --dry-run
@@ -116,8 +117,8 @@ This works in CI environments with no AI configured.
 
 ## What's Next?
 
-- 🤖 **[Configure AI Providers](../ai-providers/ollama-setup.md)** — switch models, add OpenAI, or use WebGPU
-- 🎭 **[Explore Personas](../guide/personas.md)** — all 8 explained
+- 🤖 **[Configure AI Providers](../ai-providers/ollama-setup)** — switch models, add OpenAI, or use WebGPU
+- 🎭 **[Explore Personas](../guide/personas)** — all 8 explained
 - 💻 **[VS Code Extension](https://github.com/EldrexDelosReyesBula/devdiff/releases)** — install the extension for inline annotations
-- ⚙️ **[Configuration Reference](./configuration.md)** — all config options
+- ⚙️ **[Configuration Reference](./configuration)** — all config options
 - ❌ **[Troubleshooting](../troubleshooting/)** — Ollama not found? Start here

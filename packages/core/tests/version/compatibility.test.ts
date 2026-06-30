@@ -48,7 +48,10 @@ describe("checkConfigCompatibility", () => {
   });
 
   it("returns compatible:true with warning on unparseable version", () => {
-    const result = checkConfigCompatibility({ version: "not-a-version" }, "1.0.3");
+    const result = checkConfigCompatibility(
+      { version: "not-a-version" },
+      "1.0.3",
+    );
     expect(result.compatible).toBe(true);
     expect(result.warning).toContain("Could not parse");
   });

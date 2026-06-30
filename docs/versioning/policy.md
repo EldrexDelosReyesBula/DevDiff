@@ -11,10 +11,13 @@ DevDiff follows a strict immutability contract: once a version is published to n
 ## How It Works
 
 ### Versions Never Change
+
 A published version is a snapshot in time. `v1.0.2` on 2026-06-28 works identically on 2027-06-28.
 
 ### Updates Are Always Opt-In
+
 DevDiff **does not auto-update**. You upgrade only when you choose to:
+
 ```bash
 # Upgrade when YOU are ready
 npm install -g @eldrex/cli@latest
@@ -24,6 +27,7 @@ npm install -g @eldrex/cli@1.0.3
 ```
 
 ### Check Your Version
+
 ```bash
 devdiff version           # Shows current version + config compatibility
 devdiff version --check   # Checks npm for the latest release (offline-safe)
@@ -36,10 +40,10 @@ devdiff version --changelog  # Shows release history in your terminal
 
 DevDiff uses [Semantic Versioning](https://semver.org): `MAJOR.MINOR.PATCH`
 
-| Increment | Meaning | Config compatible? |
-|-----------|---------|:------------------:|
-| **Patch** (1.0.x) | Bug fixes, docs, minor improvements | ✅ Always |
-| **Minor** (1.x.0) | New features, new providers, new personas | ✅ Backwards-compatible |
+| Increment         | Meaning                                            |    Config compatible?    |
+| ----------------- | -------------------------------------------------- | :----------------------: |
+| **Patch** (1.0.x) | Bug fixes, docs, minor improvements                |        ✅ Always         |
+| **Minor** (1.x.0) | New features, new providers, new personas          | ✅ Backwards-compatible  |
 | **Major** (x.0.0) | Breaking changes (rare, announced well in advance) | ⚠️ Check migration guide |
 
 ---
@@ -51,13 +55,11 @@ You can lock your project to a specific DevDiff version by adding it to your con
 ```javascript
 // .devdiff.config.js
 export default {
-  version: '1.0.3',   // DevDiff will warn if CLI version mismatches
+  version: "1.0.3", // DevDiff will warn if CLI version mismatches
   ai: {
-    providers: [
-      { name: 'local', url: 'ollama://llama3.2:3b', priority: 1 }
-    ]
-  }
-}
+    providers: [{ name: "local", url: "ollama://llama3.2:3b", priority: 1 }],
+  },
+};
 ```
 
 If the CLI detects a major version mismatch, it will warn you **before** any operation runs.

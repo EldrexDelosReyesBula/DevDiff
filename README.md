@@ -130,7 +130,7 @@ Your Code Changes
 | [`@eldrex/core`](/packages/core)        | Core changelog engine  | [![npm](https://img.shields.io/npm/v/@eldrex/core)](https://www.npmjs.com/package/@eldrex/core) |
 | [`@eldrex/cli`](/packages/cli)          | Command-line interface | [![npm](https://img.shields.io/npm/v/@eldrex/cli)](https://www.npmjs.com/package/@eldrex/cli)   |
 | [`@eldrex/vite`](/packages/vite-plugin) | Vite plugin            | [![npm](https://img.shields.io/npm/v/@eldrex/vite)](https://www.npmjs.com/package/@eldrex/vite) |
-| [`@eldrex/vscode`](/packages/vscode)    | VS Code extension      | [Marketplace](https://marketplace.visualstudio.com/items?itemName=ebula.devdiff)               |
+| [`@eldrex/vscode`](/packages/vscode)    | VS Code extension      | [Marketplace](https://marketplace.visualstudio.com/items?itemName=ebula.devdiff)                |
 
 ---
 
@@ -139,6 +139,7 @@ Your Code Changes
 ## 💻 VS Code Extension & Offline Pre-Release
 
 For the VS Code extension, you can install it directly from the marketplace or download the packaged pre-release VSIX file:
+
 - **Download VSIX**: Get the latest release from [GitHub Releases](https://github.com/EldrexDelosReyesBula/devdiff/releases)
 - For setup instructions, see the [VS Code Extension README](/packages/vscode/README.md).
 
@@ -156,9 +157,10 @@ For the VS Code extension, you can install it directly from the marketplace or d
 
 ## 🤝 Support & Consulting
 
-DevDiff is a community-supported open-source project created and maintained by **Eldrex Delos Reyes Bula**. 
+DevDiff is a community-supported open-source project created and maintained by **Eldrex Delos Reyes Bula**.
 
 If you or your organization finds DevDiff valuable, consider supporting or booking professional consulting services:
+
 - 📧 **Consulting & Priority Support**: [eldrexdelosreyesbula@gmail.com](mailto:eldrexdelosreyesbula@gmail.com)
 - ☕ **Ko-fi Donations**: [Sponsor on Ko-fi](https://ko-fi.com/landecsorg/)
 - 💳 **PayPal Support**: [Donate via PayPal Me](https://www.paypal.com/paypalme/eldrexbula)
@@ -177,4 +179,3 @@ If you or your organization finds DevDiff valuable, consider supporting or booki
 ## 📄 License
 
 [MIT](LICENSE) © Eldrex Delos Reyes Bula and Contributors
-

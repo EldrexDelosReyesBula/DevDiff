@@ -105,12 +105,20 @@ export class NotionOutputter {
   static async createPage(
     config: NotionConfig,
     content: string,
-  ): Promise<{ success: boolean; pageUrl?: string; pageId?: string; error?: string }> {
+  ): Promise<{
+    success: boolean;
+    pageUrl?: string;
+    pageId?: string;
+    error?: string;
+  }> {
     if (!config.token) {
       return { success: false, error: "Notion token is required." };
     }
     if (!config.databaseId && !config.pageId) {
-      return { success: false, error: "Either databaseId or pageId is required." };
+      return {
+        success: false,
+        error: "Either databaseId or pageId is required.",
+      };
     }
 
     const title =

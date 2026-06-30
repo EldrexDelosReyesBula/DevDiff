@@ -11,17 +11,21 @@ Vibe-Coding sessions are rapid, iterative, AI-assisted development periods. The 
 ## CLI Usage
 
 ### Start a Vibe Session
+
 ```bash
 npx devdiff vibe start
 ```
 
 ### Check Session Status
+
 ```bash
 npx devdiff vibe status
 ```
 
 ### Manual Checkpoint Restore
+
 If you need to recover a specific checkpoint:
+
 ```bash
 npx devdiff recover --checkpoint ckpt-1719000300-def456
 ```

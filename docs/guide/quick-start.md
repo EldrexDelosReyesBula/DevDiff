@@ -24,6 +24,7 @@ devdiff generate
 ```
 
 ### What happens behind the scenes:
+
 1. **Diff Extraction:** DevDiff pulls the staged diff from your local git state.
 2. **AST Reduction:** The parser isolates the exact classes, functions, or lines that changed.
 3. **Secret Scan:** Credentials and API keys are automatically redacted.
@@ -68,6 +69,7 @@ devdiff watch
 ```
 
 The watcher will:
-*   Listen to filesystem changes and git commits.
-*   Merge consecutive commits using custom batch windows to optimize tokens.
-*   Post the compiled changelog directly to your configured output adapters (e.g. Slack, webhook endpoints).
+
+- Listen to filesystem changes and git commits.
+- Merge consecutive commits using custom batch windows to optimize tokens.
+- Post the compiled changelog directly to your configured output adapters (e.g. Slack, webhook endpoints).

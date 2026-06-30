@@ -129,7 +129,10 @@ export class SecretScanner {
           return `${prefixPart}[REDACTED:${pattern.type}]${suffixPart}`;
         });
       } else {
-        redacted = redacted.replace(pattern.regex, `[REDACTED:${pattern.type}]`);
+        redacted = redacted.replace(
+          pattern.regex,
+          `[REDACTED:${pattern.type}]`,
+        );
       }
     }
 

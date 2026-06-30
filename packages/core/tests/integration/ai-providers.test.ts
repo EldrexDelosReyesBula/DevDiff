@@ -63,9 +63,8 @@ describe("AI Providers Integration", () => {
 
   describe("OllamaProvider timeout", () => {
     it("throws OllamaNotAvailableError on timeout", async () => {
-      const { OllamaProvider, OllamaNotAvailableError } = await import(
-        "../../src/ai/providers/ollama"
-      );
+      const { OllamaProvider, OllamaNotAvailableError } =
+        await import("../../src/ai/providers/ollama");
       // Very short timeout; no real Ollama server running in tests
       const provider = new OllamaProvider("http://localhost:11434", 1);
       await expect(

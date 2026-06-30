@@ -6,7 +6,8 @@ import { PromptSanitizer } from "../../src/security/sanitization";
 describe("Edge Cases", () => {
   describe("DiffParser edge cases", () => {
     it("handles Windows line endings (CRLF)", () => {
-      const diff = "diff --git a/file.ts b/file.ts\r\n--- a/file.ts\r\n+++ b/file.ts\r\n@@ -1 +1,2 @@\r\n console.log('hello')\r\n+console.log('world')\r\n";
+      const diff =
+        "diff --git a/file.ts b/file.ts\r\n--- a/file.ts\r\n+++ b/file.ts\r\n@@ -1 +1,2 @@\r\n console.log('hello')\r\n+console.log('world')\r\n";
       const result = diffParser.parse(diff);
       expect(result.files).toHaveLength(1);
       expect(result.totalAdditions).toBe(1);

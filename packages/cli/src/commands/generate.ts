@@ -16,8 +16,15 @@ export interface GenerateCmdOptions {
 
 async function getStagedFiles(): Promise<string[]> {
   try {
-    const stdout = await ShellSandbox.exec("git", ["diff", "--cached", "--name-only"]);
-    return stdout.split("\n").map(f => f.trim()).filter(Boolean);
+    const stdout = await ShellSandbox.exec("git", [
+      "diff",
+      "--cached",
+      "--name-only",
+    ]);
+    return stdout
+      .split("\n")
+      .map((f) => f.trim())
+      .filter(Boolean);
   } catch {
     return [];
   }
@@ -26,7 +33,10 @@ async function getStagedFiles(): Promise<string[]> {
 async function getUnstagedChanges(): Promise<string[]> {
   try {
     const stdout = await ShellSandbox.exec("git", ["diff", "--name-only"]);
-    return stdout.split("\n").map(f => f.trim()).filter(Boolean);
+    return stdout
+      .split("\n")
+      .map((f) => f.trim())
+      .filter(Boolean);
   } catch {
     return [];
   }
@@ -40,7 +50,10 @@ async function checkForUncommittedChanges(): Promise<boolean> {
 async function getTotalFiles(): Promise<number> {
   try {
     const stdout = await ShellSandbox.exec("git", ["ls-files"]);
-    return stdout.split("\n").map(f => f.trim()).filter(Boolean).length;
+    return stdout
+      .split("\n")
+      .map((f) => f.trim())
+      .filter(Boolean).length;
   } catch {
     return 0;
   }
@@ -70,7 +83,9 @@ export async function generateCommand(options: GenerateCmdOptions) {
 
   if (!isGitRepo) {
     console.log(pc.red("❌ Not a git repository."));
-    console.log('   Run: git init && git add . && git commit -m "initial commit"');
+    console.log(
+      '   Run: git init && git add . && git commit -m "initial commit"',
+    );
     console.log("   Then try: devdiff generate");
     return;
   }
@@ -79,11 +94,13 @@ export async function generateCommand(options: GenerateCmdOptions) {
   try {
     await ShellSandbox.exec("git", ["rev-parse", "HEAD"]);
   } catch {
-    console.log("📭 No commits yet. DevDiff needs at least one commit to generate a changelog.");
+    console.log(
+      "📭 No commits yet. DevDiff needs at least one commit to generate a changelog.",
+    );
     console.log("");
     console.log("   Quick start:");
     console.log("   1. git add .");
-    console.log("   2. git commit -m \"initial commit\"");
+    console.log('   2. git commit -m "initial commit"');
     console.log("   3. Make some changes");
     console.log("   4. git add .");
     console.log("   5. devdiff generate");
@@ -109,10 +126,12 @@ export async function generateCommand(options: GenerateCmdOptions) {
     console.log("   Current status:");
     console.log(`   • Files in repo: ${await getTotalFiles()}`);
     console.log(`   • Last commit: ${await getLastCommitMessage()}`);
-    console.log(`   • Unstaged changes: ${(await getUnstagedChanges()).length} files`);
+    console.log(
+      `   • Unstaged changes: ${(await getUnstagedChanges()).length} files`,
+    );
     console.log(`   • Staged changes: ${stagedFiles.length} files`);
     console.log("");
-    console.log("   Tip: Use \"devdiff watch\" to monitor changes live!");
+    console.log('   Tip: Use "devdiff watch" to monitor changes live!');
     return;
   }
 

@@ -24,6 +24,7 @@ The official DevDiff VS Code Extension brings privacy-first, BYOAI changelog int
 You can install DevDiff in VS Code in two different ways depending on your security policy:
 
 ### Option A: VS Code Marketplace (Recommended)
+
 1. Open VS Code on your workstation.
 2. Open the Extensions View (`Ctrl+Shift+X` or `Cmd+Shift+X`).
 3. Search for **`ebula.devdiff`** or click the direct marketplace link:
@@ -31,7 +32,9 @@ You can install DevDiff in VS Code in two different ways depending on your secur
 4. Click **Install**.
 
 ### Option B: Local VSIX Bundle (Offline / Air-gapped Environments)
+
 For secure enterprise workstations that lack external internet access:
+
 1. Download the latest packaged `.vsix` file:
    - [devdiff-1.0.2.vsix](file:///c:/Users/Eldrex/Downloads/classhost/DevDiff/devdiff-1.0.2.vsix)
 2. In VS Code, open the Extensions View.
@@ -42,12 +45,12 @@ For secure enterprise workstations that lack external internet access:
 
 ## ⚡ Main Capabilities
 
-| Feature | Description | Benefit |
-| :--- | :--- | :--- |
-| **Active Changes Sidebar** | Integrated view summarizing modified files, lines changed, and complexity markers. | High-level context before commits. |
-| **Status Bar Actions** | Trigger staged changes explanations with a single status bar click. | Frictionless workflow. |
-| **Inline Explanation Previews**| Displays the generated changelog text inline or inside a separate side-by-side editor. | Fast commit message generation. |
-| **Local Swarm Consensuses** | Orchestrates a local agent swarm and shows consensus analysis for staged files. | Deep architectural and security insights. |
+| Feature                         | Description                                                                            | Benefit                                   |
+| :------------------------------ | :------------------------------------------------------------------------------------- | :---------------------------------------- |
+| **Active Changes Sidebar**      | Integrated view summarizing modified files, lines changed, and complexity markers.     | High-level context before commits.        |
+| **Status Bar Actions**          | Trigger staged changes explanations with a single status bar click.                    | Frictionless workflow.                    |
+| **Inline Explanation Previews** | Displays the generated changelog text inline or inside a separate side-by-side editor. | Fast commit message generation.           |
+| **Local Swarm Consensuses**     | Orchestrates a local agent swarm and shows consensus analysis for staged files.        | Deep architectural and security insights. |
 
 ---
 
@@ -56,6 +59,7 @@ For secure enterprise workstations that lack external internet access:
 The extension automatically inherits settings from your repository-level `.devdiff.config.js` (or `.devdiff.config.json`) configuration file.
 
 ### Overriding Settings in VS Code
+
 You can customize the extension via your `settings.json`:
 
 ```json
@@ -68,6 +72,6 @@ You can customize the extension via your `settings.json`:
 ```
 
 ### 🔒 Enterprise Trust Profile
+
 - **Zero Remote Connections**: When `localOnly` is enabled, all execution loops happen on localhost via your local inference provider (WebGPU/Ollama).
 - **Auto-Redaction**: Before compiling any prompt context, credentials and API keys are automatically scanned and redacted locally.
-

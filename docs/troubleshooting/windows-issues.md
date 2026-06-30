@@ -5,6 +5,7 @@
 **Error:** "Running scripts is disabled on this system"
 
 **Fix:**
+
 ```powershell
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
@@ -16,6 +17,7 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 **Warning:** "LF will be replaced by CRLF"
 
 This is harmless. To suppress:
+
 ```bash
 git config core.autocrlf true
 ```

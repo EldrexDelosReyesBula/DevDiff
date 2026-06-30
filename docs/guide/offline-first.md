@@ -11,14 +11,16 @@ DevDiff is designed from the ground up to respect developer privacy and work rel
 ## Config Configuration
 
 To enforce local-first mode, ensure `localOnly` is enabled in your configuration:
+
 ```js
 export default {
   ai: {
     routing: {
-      strategy: 'priority',
-      localOnly: true
-    }
-  }
-}
+      strategy: "priority",
+      localOnly: true,
+    },
+  },
+};
 ```
+
 If a cloud provider is used in `localOnly` mode, the `PrivacyEnforcer` will automatically block the request or fallback to local inference.

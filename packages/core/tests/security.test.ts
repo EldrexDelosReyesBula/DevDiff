@@ -1,24 +1,50 @@
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import { ShellSandbox, ShellAccessDeniedError, SecurityAudit } from "../src/index";
+import {
+  ShellSandbox,
+  ShellAccessDeniedError,
+  SecurityAudit,
+} from "../src/index";
 import * as fs from "fs/promises";
 import * as path from "path";
 
 describe("ShellSandbox and SecurityAudit Tests", () => {
-  const logPath = path.resolve(process.cwd(), ".devdiff/security-audit.json");
+  const uniqueId = Math.random().toString(36).substring(7);
+  const logPath = path.resolve(
+    process.cwd(),
+    `.devdiff/security-audit-test-${uniqueId}.json`,
+  );
+  const encPath = path.resolve(
+    process.cwd(),
+    `.devdiff/security-audit-test-${uniqueId}.enc`,
+  );
 
   beforeEach(async () => {
-    // Clear log file before each test
+    process.env.DEVDIFF_LEGACY_AUDIT_PATH = logPath;
+    process.env.DEVDIFF_AUDIT_PATH = encPath;
+    // Clear log files before each test
     try {
       await fs.unlink(logPath);
     } catch {
       // Ignored if file doesn't exist
     }
+    try {
+      await fs.unlink(encPath);
+    } catch {
+      // Ignored
+    }
   });
 
   afterEach(async () => {
-    // Clean up log file
+    delete process.env.DEVDIFF_LEGACY_AUDIT_PATH;
+    delete process.env.DEVDIFF_AUDIT_PATH;
+    // Clean up log files
     try {
       await fs.unlink(logPath);
+    } catch {
+      // Ignored
+    }
+    try {
+      await fs.unlink(encPath);
     } catch {
       // Ignored
     }
@@ -33,18 +59,18 @@ describe("ShellSandbox and SecurityAudit Tests", () => {
 
     it("should reject commands not on the whitelist", async () => {
       await expect(ShellSandbox.exec("cat", ["package.json"])).rejects.toThrow(
-        ShellAccessDeniedError
+        ShellAccessDeniedError,
       );
     });
 
     it("should reject commands containing blocked patterns", async () => {
       // Trying to inject a blocked pattern
       await expect(
-        ShellSandbox.exec("git", ["status", ";", "rm", "-rf", "/"])
+        ShellSandbox.exec("git", ["status", ";", "rm", "-rf", "/"]),
       ).rejects.toThrow(ShellAccessDeniedError);
 
       await expect(
-        ShellSandbox.exec("git", ["status", "&&", "node"])
+        ShellSandbox.exec("git", ["status", "&&", "node"]),
       ).rejects.toThrow(ShellAccessDeniedError);
     });
   });

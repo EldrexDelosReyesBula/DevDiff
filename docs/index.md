@@ -66,8 +66,9 @@ DevDiff is designed for developers who care about privacy, security, and underst
 - ✅ **No telemetry** — we don't track anything
 - ✅ **MIT licensed** — truly free, forever
 
-## Sponsors
+## Sponsors & Support
 
-DevDiff is funded entirely by the community.
+DevDiff is funded entirely by developer donations and community support.
 
-[Sponsor on Open Collective →](https://opencollective.com/devdiff)
+- [Sponsor on Ko-fi](https://ko-fi.com/landecsorg/)
+- [Donate via PayPal](https://www.paypal.com/paypalme/eldrexbula)

@@ -23,10 +23,12 @@ Start the gateway server on a shared server in your network or cloud infrastruct
 ```bash
 npx @eldrex/gateway
 ```
+
 By default, this launches the multi-protocol engine running:
--   **HTTP Router:** Port `3737` (for REST calls and webhook parsing).
--   **WebSocket Server:** Port `3738` (for live event subscriptions).
--   **MCP Server:** Port `3739` (for Model Context Protocol clients).
+
+- **HTTP Router:** Port `3737` (for REST calls and webhook parsing).
+- **WebSocket Server:** Port `3738` (for live event subscriptions).
+- **MCP Server:** Port `3739` (for Model Context Protocol clients).
 
 ---
 
@@ -79,5 +81,6 @@ Configure webhook triggers in your code hosting provider (GitHub/GitLab) to noti
 ## Step 4: Access Control & Authorization
 
 To verify incoming requests, the gateway verifies authorization headers:
--   All watcher clients or curl triggers must supply the header: `Authorization: Bearer org-secure-secret-token-123`.
--   If signatures do not match, the gateway rejects request processing with a `401 Unauthorized` status.
+
+- All watcher clients or curl triggers must supply the header: `Authorization: Bearer org-secure-secret-token-123`.
+- If signatures do not match, the gateway rejects request processing with a `401 Unauthorized` status.

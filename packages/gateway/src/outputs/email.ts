@@ -53,7 +53,9 @@ export class EmailOutputter {
 
     try {
       const info = await transporter.sendMail(mailOptions);
-      console.log(`[Email] Sent to ${config.to} — Message ID: ${info.messageId}`);
+      console.log(
+        `[Email] Sent to ${config.to} — Message ID: ${info.messageId}`,
+      );
       return true;
     } catch (err: any) {
       console.error(`[Email] Failed to send: ${err.message}`);
