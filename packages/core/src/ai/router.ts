@@ -9,6 +9,9 @@ import { GeminiProvider } from "./providers/gemini";
 import { AnthropicProvider } from "./providers/anthropic";
 import { ExplanationCache } from "./cache";
 import { VibeCoderGuardian } from "../resilience/vibe-coder-guardian";
+import { injectContextIntoPrompt } from "../context/compiler";
+import { OllamaModelDiscovery, OllamaModel } from "./providers/ollama-discovery";
+import { AINotAvailableError } from "../errors";
 
 export interface ModelTier {
   name: string;
@@ -142,6 +145,9 @@ export class AIRouter {
     },
   };
 
+  private discoveredModels: OllamaModel[] = [];
+  private initialized = false;
+
   constructor(config: DevDiffConfig) {
     this.config = config;
     this.cache = new ExplanationCache(config.cache.enabled, config.cache.path);
@@ -151,6 +157,107 @@ export class AIRouter {
     this.providers["openai"] = new OpenAIProvider();
     this.providers["gemini"] = new GeminiProvider();
     this.providers["anthropic"] = new AnthropicProvider();
+  }
+
+  async initialize(): Promise<void> {
+    if (this.initialized) return;
+    this.discoveredModels = await OllamaModelDiscovery.discoverModels();
+    
+    // Register discovered Ollama models dynamically into this.models
+    for (const model of this.discoveredModels) {
+      const modelKey = `ollama://${model.name}`;
+      const isCodeSpecialist = ["codellama", "qwen", "deepseek"].includes(model.family);
+      const paramSize = parseInt(model.parameterSize) || 3;
+      
+      this.models[modelKey] = {
+        name: model.name,
+        provider: "ollama",
+        maxContextTokens: 128000,
+        maxOutputTokens: 8192,
+        costPer1kInput: 0,
+        costPer1kOutput: 0,
+        latencyMs: paramSize > 13 ? 3000 : paramSize > 7 ? 1500 : 800,
+        capabilities: {
+          codeAnalysis: isCodeSpecialist ? 0.9 : 0.7,
+          securityAudit: isCodeSpecialist ? 0.8 : 0.6,
+          refactoringDetection: isCodeSpecialist ? 0.95 : 0.7,
+          multiFileAnalysis: paramSize > 7 ? 0.8 : 0.5,
+          structuredOutput: 0.8,
+        }
+      };
+    }
+
+    if (this.discoveredModels.length > 0) {
+      console.log(`📦 Found ${this.discoveredModels.length} Ollama model(s):`);
+      for (const model of this.discoveredModels) {
+        console.log(`   • ${model.name} (${model.parameterSize}, ${model.family})`);
+      }
+    } else {
+      console.log("📦 No Ollama models found.");
+      console.log("   Install one: ollama pull llama3.2:3b");
+      console.log("   Or pull a code specialist: ollama pull qwen2.5-coder:7b");
+    }
+
+    this.initialized = true;
+  }
+
+  async getBestProvider(): Promise<AIProvider> {
+    await this.initialize();
+
+    // 1. FIRST: Check for discovered Ollama models
+    if (this.discoveredModels.length > 0) {
+      const bestModel = OllamaModelDiscovery.selectBestModel(
+        this.discoveredModels,
+        this.config.preferredModel || (this.config.ai as any)?.preferredModel // User's preference from config
+      );
+      
+      if (bestModel) {
+        console.log(`🤖 Using: ${bestModel.name} (auto-detected, local, free)`);
+        return new OllamaProvider();
+      }
+    }
+    
+    // 2. SECOND: Check for configured cloud providers
+    if (process.env.OPENAI_API_KEY) {
+      console.log("🤖 Using: OpenAI (cloud, your API key)");
+      return new OpenAIProvider(process.env.OPENAI_API_KEY);
+    }
+    
+    if (process.env.ANTHROPIC_API_KEY) {
+      console.log("🤖 Using: Anthropic (cloud, your API key)");
+      return new AnthropicProvider(process.env.ANTHROPIC_API_KEY);
+    }
+    
+    // 3. THIRD: Nothing available — fail with clear message
+    throw new AINotAvailableError("local", {
+      discoveredModels: this.discoveredModels.map(m => m.name),
+      hasCloudKeys: {
+        openai: !!process.env.OPENAI_API_KEY,
+        anthropic: !!process.env.ANTHROPIC_API_KEY,
+        groq: !!process.env.GROQ_API_KEY,
+        gemini: !!process.env.GEMINI_API_KEY,
+      }
+    });
+  }
+
+  /**
+   * Generate fallback chain from ACTUALLY AVAILABLE providers only
+   */
+  getActualFallbackChain(): string[] {
+    const chain: string[] = [];
+    
+    // Add all discovered Ollama models
+    for (const model of this.discoveredModels) {
+      chain.push(`ollama://${model.name}`);
+    }
+    
+    // Add configured cloud providers
+    if (process.env.OPENAI_API_KEY) chain.push("openai://gpt-4o-mini");
+    if (process.env.ANTHROPIC_API_KEY) chain.push("anthropic://claude-3-haiku");
+    if (process.env.GROQ_API_KEY) chain.push("groq://llama3-70b");
+    if (process.env.GEMINI_API_KEY) chain.push("gemini://gemini-1.5-flash");
+    
+    return chain;
   }
 
   private parseUrl(url: string): { providerType: string; modelName: string } {
@@ -175,6 +282,17 @@ export class AIRouter {
       .filter(([_, model]) =>
         this.meetsMinimumRequirements(model, requirements),
       )
+      .filter(([key, model]) => {
+        if (!this.initialized) return true; // Bypass filters in unit tests calling route() directly
+        
+        if (model.provider === "openai" && !process.env.OPENAI_API_KEY) return false;
+        if (model.provider === "anthropic" && !process.env.ANTHROPIC_API_KEY) return false;
+        if (model.provider === "gemini" && !process.env.GEMINI_API_KEY) return false;
+        if (model.provider === "ollama") {
+          return this.discoveredModels.some(m => `ollama://${m.name}` === key);
+        }
+        return true;
+      })
       .sort(
         (a, b) =>
           this.scoreModel(b[1], requirements) -
@@ -322,7 +440,7 @@ export class AIRouter {
 
   async getExplanation(
     diffText: string,
-    options?: { dryRun?: boolean; depth?: string },
+    options?: { dryRun?: boolean; depth?: string; projectContext?: string },
   ): Promise<AIExplanationResult> {
     if (options?.dryRun) {
       return {
@@ -357,6 +475,8 @@ export class AIRouter {
         diffText.includes("breaking") || diffText.includes("BREAKING CHANGE"),
       estimatedTokens,
     };
+
+    await this.initialize();
 
     const decision = this.route(options?.depth || "standard", stats);
     console.log(
@@ -430,7 +550,12 @@ export class AIRouter {
     }
 
     try {
-      const result = await provider.generateExplanation(diffText, modelName);
+      // Build the final diff text — prepend context to the diff if available
+      const contextualDiff = options?.projectContext
+        ? `${options.projectContext}\n\n${diffText}`
+        : diffText;
+
+      const result = await provider.generateExplanation(contextualDiff, modelName);
 
       if (guardian) {
         guardian.recordAICall(decision.model, true);

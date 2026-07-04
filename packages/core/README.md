@@ -31,7 +31,7 @@ console.log(result.formattedOutput)
 
 ## API Reference
 
-Full documentation: [docs.eldrex.dev/core](https://docs.eldrex.dev/core)
+Full documentation: [devdiff.vercel.app](https://devdiff.vercel.app)
 
 ## 🔒 Security & Privacy
 

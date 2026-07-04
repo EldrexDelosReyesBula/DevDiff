@@ -2,6 +2,8 @@ import { Command } from "commander";
 import { initCommand } from "./commands/init";
 import { generateCommand } from "./commands/generate";
 import { watchCommand } from "./commands/watch";
+import { cliErrorBoundary } from "./error-boundary";
+
 import { reportCommand } from "./commands/report";
 import { configCommand } from "./commands/config";
 import { auditCommand } from "./commands/audit";
@@ -10,6 +12,13 @@ import { vibeCommand } from "./commands/vibe";
 import { recoverCommand } from "./commands/recover";
 import { versionCommand } from "./commands/version";
 import { playgroundCommand } from "./commands/playground";
+import { contextCommand } from "./commands/context";
+import { discloseCommand } from "./commands/disclose";
+import { monitorCommand } from "./commands/monitor";
+import { mvpCommand } from "./commands/mvp";
+import { authAddCommand, authListCommand, authRemoveCommand, authTestCommand, authRotateCommand } from "./commands/auth";
+
+
 
 const program = new Command();
 
@@ -165,4 +174,85 @@ program
     await playgroundCommand(options);
   });
 
-program.parse(process.argv);
+program
+  .command("context")
+  .description("Manage project context for accurate AI explanations")
+  .argument("<action>", "generate, show, validate, edit")
+  .action(async (action) => {
+    const validActions = ["generate", "show", "validate", "edit"];
+    if (!validActions.includes(action)) {
+      console.log(`❌ Invalid context action: "${action}"`);
+      console.log(`   Valid options: ${validActions.join(", ")}`);
+      return;
+    }
+    await contextCommand(action as any);
+  });
+
+program
+  .command("disclose")
+  .description("Full disclosure of DevDiff network, filesystem, shell, and AI practices")
+  .action(async () => {
+    await discloseCommand();
+  });
+
+program
+  .command("monitor")
+  .description("Watch outbound and blocked network connections in real-time")
+  .action(async () => {
+    await monitorCommand();
+  });
+
+program
+  .command("mvp")
+  .description("Deferred change summaries for very large diffs or offline mode")
+  .argument("<action>", "status, process, process-all, clear")
+  .option("--id <id>", "specific entry ID to process")
+  .option("--all", "clear all entries (not just processed/failed)")
+  .action(async (action, options) => {
+    const validActions = ["status", "process", "process-all", "clear"];
+    if (!validActions.includes(action)) {
+      console.log(`❌ Invalid action: "${action}". Valid options: ${validActions.join(", ")}`);
+      return;
+    }
+    await mvpCommand(action as any, options);
+  });
+
+program
+  .command("auth")
+  .description("Manage cloud AI provider API keys")
+  .argument("<action>", "add, list, remove, test, rotate")
+  .argument("[provider]", "provider name (openai, anthropic, groq, gemini, deepseek, together)")
+  .action(async (action, provider) => {
+    const validActions = ["add", "list", "remove", "test", "rotate"];
+    if (!validActions.includes(action)) {
+      console.log(`❌ Invalid action: "${action}". Valid options: ${validActions.join(", ")}`);
+      return;
+    }
+
+    if (action === "list") {
+      await authListCommand();
+    } else {
+      if (!provider) {
+        console.log(`❌ Provider name required for action: "${action}".`);
+        console.log(`   e.g. devdiff auth ${action} openai`);
+        return;
+      }
+      const provLower = provider.toLowerCase();
+      if (action === "add") {
+        await authAddCommand(provLower);
+      } else if (action === "remove") {
+        await authRemoveCommand(provLower);
+      } else if (action === "test") {
+        await authTestCommand(provLower);
+      } else if (action === "rotate") {
+        await authRotateCommand(provLower);
+      }
+    }
+  });
+
+cliErrorBoundary(async () => {
+  await program.parseAsync(process.argv);
+});
+
+export { CLIOutputFormatter } from "./ui/output-formatter";
+

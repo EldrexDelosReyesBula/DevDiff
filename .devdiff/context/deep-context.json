@@ -1,0 +1,109 @@
+{
+  "generatedAt": "2026-07-04T09:08:49.846Z",
+  "repositorySize": {
+    "files": 1474,
+    "lines": 1012492,
+    "directories": 102,
+    "languages": {
+      "zst": 250,
+      "json": 493,
+      "ts": 108,
+      "js": 9,
+      "unknown": 5,
+      "md": 81,
+      "yml": 6,
+      "log": 21,
+      "svg": 3,
+      "sh": 12,
+      "tsx": 2,
+      "ps1": 2,
+      "vsix": 4,
+      "yaml": 1,
+      "html": 2,
+      "css": 1
+    }
+  },
+  "structure": {
+    "rootDirectories": [
+      ".changeset",
+      ".devdiff.config.js",
+      ".devdiffignore",
+      ".env",
+      ".github",
+      ".gitignore",
+      ".turbo",
+      "asset",
+      "audit",
+      "CHANGELOG.md",
+      "CODE_OF_CONDUCT.md",
+      "CONTRIBUTING.md",
+      "devdiff-1.0.0.vsix",
+      "devdiff-1.0.2.vsix",
+      "devdiff-1.0.3.vsix",
+      "docs",
+      "GOVERNANCE.md",
+      "LICENSE",
+      "package.json",
+      "packages"
+    ],
+    "keyEntryPoints": [],
+    "testDirectories": [
+      "packages/core/tests",
+      "packages/core/tests/ai",
+      "packages/core/tests/diff",
+      "packages/core/tests/edge-cases",
+      "packages/core/tests/generators",
+      "packages/core/tests/integration",
+      "packages/core/tests/version",
+      "packages/gateway/tests",
+      "packages/integrations/openclaw/tests",
+      "packages/personas/tests"
+    ],
+    "configFiles": [
+      ".devdiff.config.js",
+      "packages/cli/tsup.config.ts",
+      "packages/core/tsup.config.ts",
+      "packages/gateway/tsup.config.ts",
+      "packages/integrations/openclaw/tsup.config.ts",
+      "packages/personas/tsup.config.ts",
+      "packages/vite-plugin/tsup.config.ts",
+      "packages/vscode/tsup.config.ts",
+      "packages/web-dashboard/vite.config.ts"
+    ]
+  },
+  "dependencies": {
+    "runtime": [],
+    "devDependencies": [
+      "@changesets/cli",
+      "@types/node",
+      "prettier",
+      "turbo",
+      "typescript",
+      "vitepress"
+    ],
+    "peerDependencies": [],
+    "detectedFrameworks": []
+  },
+  "patterns": {
+    "namingConventions": [
+      "Monorepo structure detected"
+    ],
+    "commonPrefixes": [
+      "packages/"
+    ],
+    "monorepo": true,
+    "workspacePackages": []
+  },
+  "git": {
+    "totalCommits": 25,
+    "activeBranch": "main",
+    "branches": 1,
+    "contributors": 0,
+    "firstCommit": "2026-06-28 12:28:16 +0800",
+    "lastCommit": "2026-06-30 13:52:01 +0800",
+    "releaseTags": [
+      "v1.0.3",
+      "v1.0.2"
+    ]
+  }
+}

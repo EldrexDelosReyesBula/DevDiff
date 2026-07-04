@@ -18,7 +18,7 @@ export const SECURITY_ADVISORIES = [
     fix: "Input sanitization layer strips injection patterns before AI processing",
     cvss: 7.2,
     cwe: "CWE-77",
-    credit: "Community report via security@devdiff.dev",
+    credit: "Community report via eldrexdelosreyesbula@gmail.com",
   },
   {
     id: "DEVVIFF-SEC-2026-003",

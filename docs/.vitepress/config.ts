@@ -6,19 +6,59 @@ export default defineConfig({
   lang: 'en-US',
   ignoreDeadLinks: true,
 
+  cleanUrls: true,
+  lastUpdated: true,
+  sitemap: {
+    hostname: 'https://devdiff.vercel.app'
+  },
+
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
     ['meta', { name: 'theme-color', content: '#6366f1' }],
-    ['meta', { name: 'og:title', content: 'DevDiff — Your Codebase\'s Memory' }],
-    ['meta', { name: 'og:description', content: 'Privacy-first, BYOAI changelog intelligence for developers.' }],
+    ['meta', { name: 'description', content: 'DevDiff — Privacy-first, BYOAI changelog intelligence. AI-powered git diff explanations that run entirely on your machine. Free and open source.' }],
+    ['meta', { name: 'keywords', content: 'changelog generator, git diff explainer, AI changelog, privacy-first AI, local AI, Ollama, developer tools, open source, BYOAI, code intelligence, git history, automated changelog, vibe coding, code review AI' }],
+    
+    // Open Graph
+    ['meta', { property: 'og:title', content: 'DevDiff — AI-Powered Changelog Intelligence' }],
+    ['meta', { property: 'og:description', content: 'Privacy-first git diff explanations using local AI. No cloud required. Free and open source.' }],
+    ['meta', { property: 'og:image', content: 'https://devdiff.vercel.app/og-image.png' }],
+    ['meta', { property: 'og:url', content: 'https://devdiff.vercel.app' }],
+    ['meta', { property: 'og:type', content: 'website' }],
+    
+    // Twitter Card
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:title', content: 'DevDiff — AI Changelog Intelligence' }],
+    ['meta', { name: 'twitter:description', content: 'Privacy-first git diff explanations using local AI. Free and open source.' }],
+    ['meta', { name: 'twitter:image', content: 'https://devdiff.vercel.app/og-image.png' }],
+    
+    // Canonical URL
+    ['link', { rel: 'canonical', href: 'https://devdiff.vercel.app' }],
+    
+    // Structured Data
+    ['script', { type: 'application/ld+json' }, JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'SoftwareApplication',
+      'name': 'DevDiff',
+      'applicationCategory': 'DeveloperApplication',
+      'operatingSystem': 'Windows, macOS, Linux',
+      'description': 'Privacy-first, BYOAI changelog intelligence for developers',
+      'url': 'https://devdiff.vercel.app',
+      'license': 'https://opensource.org/licenses/MIT',
+      'offers': {
+        '@type': 'Offer',
+        'price': '0',
+        'priceCurrency': 'USD'
+      }
+    })]
   ],
+
 
   themeConfig: {
     logo: '/devdiff-logo.svg',
 
     nav: [
       { text: 'Guide', link: '/guide/getting-started' },
-      { text: 'AI Providers', link: '/ai-providers/ollama-setup' },
+      { text: 'AI Providers', link: '/ai-providers/overview' },
       { text: 'Troubleshooting', link: '/troubleshooting/' },
       { text: 'API', link: '/api/core' },
       {
@@ -41,6 +81,7 @@ export default defineConfig({
             { text: 'Installation', link: '/guide/installation' },
             { text: 'Quick Start', link: '/guide/quick-start' },
             { text: 'Configuration', link: '/guide/configuration' },
+            { text: 'Design System', link: '/guide/design-system' },
           ]
         },
         {
@@ -77,6 +118,7 @@ export default defineConfig({
         {
           text: 'AI Providers',
           items: [
+            { text: 'Overview', link: '/ai-providers/overview' },
             { text: 'Ollama (Local, Free)', link: '/ai-providers/ollama-setup' },
             { text: 'OpenAI', link: '/ai-providers/openai-setup' },
             { text: 'Anthropic', link: '/ai-providers/anthropic-setup' },
@@ -95,9 +137,44 @@ export default defineConfig({
             { text: 'Multi-Agent', link: '/features/multi-agent' },
             { text: 'Compliance', link: '/features/compliance' },
             { text: 'Playground', link: '/features/playground' },
+            { text: 'Project Context', link: '/features/project-context' },
+            { text: 'MVP Mode', link: '/features/mvp-mode' },
           ]
         }
       ],
+
+      '/security/': [
+        {
+          text: 'Security',
+          items: [
+            { text: 'Overview', link: '/security/overview' },
+            { text: 'Privacy', link: '/security/privacy' },
+            { text: 'Compliance Frameworks', link: '/security/compliance' },
+            { text: 'Disclosure', link: '/security/disclosure' },
+            { text: 'Network Guard', link: '/security/network-guard' },
+          ]
+        }
+      ],
+
+      '/compare/': [
+        {
+          text: 'Comparisons',
+          items: [
+            { text: 'Git Log vs DevDiff', link: '/compare/git-log-vs-devdiff' },
+          ]
+        }
+      ],
+
+      '/use-cases/': [
+        {
+          text: 'Use Cases',
+          items: [
+            { text: 'Open Source Maintainers', link: '/use-cases/open-source' },
+            { text: 'Enterprise Development', link: '/use-cases/enterprise' },
+          ]
+        }
+      ],
+
 
       '/integrations/': [
         {
@@ -105,9 +182,11 @@ export default defineConfig({
           items: [
             { text: 'VS Code Extension', link: '/integrations/vscode' },
             { text: 'GitHub Actions', link: '/integrations/github-actions' },
+            { text: 'GitLab CI', link: '/integrations/gitlab-ci' },
             { text: 'Vite Plugin', link: '/integrations/vite-plugin' },
             { text: 'MCP Server', link: '/integrations/mcp-server' },
             { text: 'OpenClaw', link: '/integrations/openclaw' },
+            { text: 'Slack', link: '/integrations/slack' },
           ]
         }
       ],
@@ -118,6 +197,7 @@ export default defineConfig({
           items: [
             { text: 'Overview', link: '/troubleshooting/' },
             { text: 'Ollama Errors', link: '/troubleshooting/ollama-errors' },
+            { text: 'Git Errors', link: '/troubleshooting/git-errors' },
             { text: 'Windows Issues', link: '/troubleshooting/windows-issues' },
             { text: 'macOS Issues', link: '/troubleshooting/macos-issues' },
             { text: 'Linux Issues', link: '/troubleshooting/linux-issues' },
@@ -135,6 +215,7 @@ export default defineConfig({
             { text: 'CLI Reference', link: '/api/cli' },
             { text: 'JavaScript SDK', link: '/api/sdk' },
             { text: 'Webhook API', link: '/api/webhook' },
+            { text: 'Configuration', link: '/api/configuration' },
           ]
         }
       ],
@@ -145,6 +226,7 @@ export default defineConfig({
           items: [
             { text: 'Changelog', link: '/versioning/changelog' },
             { text: 'Version Policy', link: '/versioning/policy' },
+            { text: 'Limitations', link: '/limitations' },
           ]
         }
       ],

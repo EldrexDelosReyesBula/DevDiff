@@ -1,0 +1,79 @@
+{
+  "generatedAt": "2026-07-04T09:32:01.549Z",
+  "repositorySize": {
+    "files": 85,
+    "lines": 10928,
+    "directories": 30,
+    "languages": {
+      "log": 4,
+      "json": 2,
+      "md": 1,
+      "ts": 78
+    }
+  },
+  "structure": {
+    "rootDirectories": [
+      ".turbo",
+      "package.json",
+      "README.md",
+      "src",
+      "tests",
+      "tsconfig.json",
+      "tsup.config.ts"
+    ],
+    "keyEntryPoints": [
+      "src/index.ts"
+    ],
+    "testDirectories": [
+      "tests",
+      "tests/ai",
+      "tests/diff",
+      "tests/edge-cases",
+      "tests/generators",
+      "tests/integration",
+      "tests/version"
+    ],
+    "configFiles": [
+      "tsup.config.ts"
+    ]
+  },
+  "dependencies": {
+    "runtime": [
+      "@eldrex/personas",
+      "diff",
+      "zod",
+      "cosmiconfig",
+      "typescript",
+      "chalk"
+    ],
+    "devDependencies": [
+      "@types/diff",
+      "tsup",
+      "vitest"
+    ],
+    "peerDependencies": [],
+    "detectedFrameworks": [
+      "Vitest"
+    ]
+  },
+  "patterns": {
+    "namingConventions": [],
+    "commonPrefixes": [
+      "src/"
+    ],
+    "monorepo": false,
+    "workspacePackages": []
+  },
+  "git": {
+    "totalCommits": 25,
+    "activeBranch": "main",
+    "branches": 1,
+    "contributors": 0,
+    "firstCommit": "2026-06-28 12:28:16 +0800",
+    "lastCommit": "2026-06-30 13:52:01 +0800",
+    "releaseTags": [
+      "v1.0.3",
+      "v1.0.2"
+    ]
+  }
+}

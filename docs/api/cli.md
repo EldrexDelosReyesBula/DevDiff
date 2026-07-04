@@ -1,149 +1,352 @@
-# CLI Reference
+# CLI Command Dictionary
 
-Detailed guide for `@eldrex/cli` commands, options, and behaviors.
+## Global Flags
 
----
-
-## 🚀 `devdiff init`
-
-Initializes the DevDiff configuration and registers Git hooks in your repository.
-
-```bash
-devdiff init [options]
-```
-
-### Options
-
-- `-f, --force`: Forces overwriting of any existing config file (`.devdiff.config.js`).
-- `-y, --yes`: Skips configuration prompts and uses the default local-first settings immediately.
+| Flag | Short | Description |
+|------|-------|-------------|
+| `--help` | `-h` | Show help for any command |
+| `--version` | `-v` | Show DevDiff version |
+| `--verbose` | | Show detailed output |
+| `--quiet` | `-q` | Suppress non-error output |
+| `--no-color` | | Disable colored output |
+| `--config <path>` | | Use custom config file path |
 
 ---
 
-## 📝 `devdiff generate`
+## Core Commands
 
-Extracts Git diffs (staged by default) and triggers the AI generator to output explanations.
+### `devdiff init`
+
+Initialize DevDiff in a git repository.
 
 ```bash
-devdiff generate [options]
+devdiff init                # Interactive setup
+devdiff init --yes          # Skip prompts, use defaults
+devdiff init --force        # Overwrite existing config
 ```
 
-### Options
+**Creates:**
+- `.devdiff.config.js` — Configuration file
+- `.devdiffignore` — File exclusion patterns
+- `.devdiff/` — Cache, checkpoints, audit logs
+- `.git/hooks/post-commit` — Auto-generate on commit (optional)
 
-- `-p, --persona <persona>`: AI persona to customize output style (defaults to `developer`). Valid choices:
-  - `developer`: Deep technical descriptions of refactors, APIs, and impact.
-  - `ceo`: Executive value-focused summaries for product release updates.
-  - `educator`: Explanations optimized for training and junior engineers.
-  - `robot`: High-precision technical bullet points.
-  - `data-analyst`: Insights on database changes, indices, and schema modifications.
-  - `journalist`: Narrative release summaries.
-  - `pm`: Feature changes and user-facing benefits.
-  - `compliance`: Structured risk checks, security controls, and permission audit logs.
-- `-f, --format <format>`: Output format. Options: `markdown`, `json`, `html` (defaults to `markdown`).
-- `-o, --output <file>`: Writes the generated changelog to a file instead of stdout.
-- `-r, --range <range>`: revision range to diff (e.g. `HEAD~5..HEAD` or `main..feature-branch`).
-- `--since <range>`: Alias for `--range`.
-- `-m, --commit-msg-file <file>`: Hooks mode; appends generated explanations under a comment header inside a commit message temp file.
-- `-d, --dry-run`: Previews the parsed and secret-redacted diff without triggering AI API calls.
-- `--depth <depth>`: Analysis detail depth: `minimal`, `standard`, `deep` (defaults to `standard`).
+**Options:**
+| Option | Description |
+|--------|-------------|
+| `--yes`, `-y` | Accept all defaults |
+| `--force` | Overwrite existing files |
+| `--no-hooks` | Don't install git hooks |
+| `--ai <provider>` | Set default AI provider |
 
 ---
 
-## 👀 `devdiff watch`
+### `devdiff generate`
 
-Launches a local daemon watcher that monitors your repository index.
+Generate changelog from staged changes.
 
 ```bash
-devdiff watch [options]
+devdiff generate                          # Basic generation
+devdiff generate --persona ceo            # Executive summary
+devdiff generate --format mermaid         # Diagram output
+devdiff generate --dry-run                # Preview without AI
+devdiff generate --since "HEAD~5..HEAD"   # Specific range
+devdiff generate --since "24h"            # Time-based range
+devdiff generate --since "1 week"         # Week of changes
+devdiff generate --depth deep             # Detailed analysis
 ```
 
-### Options
+**Options:**
+| Option | Short | Default | Description |
+|--------|-------|---------|-------------|
+| `--persona` | `-p` | `developer` | AI persona for output style |
+| `--format` | `-f` | `markdown` | Output format |
+| `--dry-run` | `-d` | `false` | Template without AI |
+| `--since` | | staged changes | Git revision range |
+| `--output` | `-o` | stdout | Output file path |
+| `--depth` | | `standard` | Analysis depth |
+| `--no-cache` | | `false` | Skip explanation cache |
+| `--include` | | all files | File pattern to include |
+| `--exclude` | | from config | File pattern to exclude |
 
-- `-p, --persona <persona>`: AI persona for active watch summaries (defaults to `developer`).
+**Personas:**
+| Value | Description |
+|-------|-------------|
+| `developer` | Technical, precise, code-focused |
+| `ceo` | Executive summary, business impact |
+| `educator` | Explanatory, verbose, teaching |
+| `robot` | Ultra-concise, machine-parseable |
+| `data-analyst` | Metrics-focused, statistical |
+| `journalist` | Narrative, engaging, story-driven |
+| `pm` | Product-focused, user impact |
+| `compliance` | Security, regulatory, audit |
+
+**Formats:**
+| Value | Description |
+|-------|-------------|
+| `markdown` | Human-readable changelog |
+| `json` | Structured machine-parseable |
+| `mermaid` | Diagram (flowchart, architecture, timeline) |
+
+**Depths:**
+| Value | Description |
+|-------|-------------|
+| `minimal` | File list and basic stats |
+| `standard` | Summary with key changes |
+| `deep` | Detailed per-file analysis |
+| `exhaustive` | Full multi-agent review |
 
 ---
 
-## 🌐 `devdiff report`
+### `devdiff watch`
 
-Starts a local dashboard server to view changelogs visually.
+Watch for changes continuously.
 
 ```bash
-devdiff report [options]
+devdiff watch                    # Watch staged changes
+devdiff watch --auto-generate    # Auto-generate on detection
+devdiff watch --persona pm       # With specific persona
+devdiff watch --debounce 5000    # 5 second debounce
 ```
 
-### Options
-
-- `-p, --port <port>`: Binds the local web dashboard to a specific port (defaults to `4200`).
+**Options:**
+| Option | Default | Description |
+|--------|---------|-------------|
+| `--auto-generate` | `false` | Generate on every change |
+| `--persona` | `developer` | Persona for auto-generation |
+| `--format` | `markdown` | Format for auto-generation |
+| `--debounce` | `2000` | Debounce in milliseconds |
+| `--once` | `false` | Run once and exit |
 
 ---
 
-## 🔒 `devdiff compliance`
+### `devdiff context`
 
-Checks and enforces compliance settings based on selected framework regulations.
+Manage project context for accurate explanations.
 
 ```bash
-devdiff compliance <action> [options]
+devdiff context generate     # Auto-generate from project
+devdiff context show         # Display current context
+devdiff context edit         # Open in $EDITOR
+devdiff context validate     # Check for secrets/issues
+devdiff context update       # Regenerate and merge
 ```
-
-### Arguments
-
-- `<action>`: The compliance task to execute:
-  - `apply`: Merges compliance framework rules directly into your config.
-  - `status`: Displays compliance readiness report comparing your config to active frameworks.
-  - `list`: Lists all supported compliance guidelines (GDPR, HIPAA, SOC 2, ISO 27001, PIPEDA, etc.).
-  - `report`: Exports a full compliance validation report.
-
-### Options
-
-- `-f, --framework <id>`: Specifies the framework ID (e.g., `gdpr`, `hipaa`, `soc2`).
 
 ---
 
-## 💾 `devdiff vibe`
+### `devdiff auth`
 
-Manages resilient vibe-coding checkpoints.
+Manage cloud AI provider API keys.
 
 ```bash
-devdiff vibe <action>
+devdiff auth add <provider>     # Add API key interactively
+devdiff auth list               # Show configured providers
+devdiff auth remove <provider>  # Remove a provider
+devdiff auth test <provider>    # Test key validity
+devdiff auth rotate <provider>  # Replace existing key
 ```
 
-### Arguments
-
-- `<action>`: Vibe checkpoint action:
-  - `start`: Restarts/initializes a clean vibe session.
-  - `stop`: Stops the active session.
-  - `status`: Shows session duration, success rates, and recovery recommendations.
+**Supported providers:**
+`openai`, `anthropic`, `groq`, `gemini`, `deepseek`, `together`
 
 ---
 
-## 🔄 `devdiff recover`
+### `devdiff vibe`
 
-Restores code files to a pre-AI backup checkpoint.
+Vibe coding session management.
 
 ```bash
-devdiff recover [options]
+devdiff vibe start         # Start protected session
+devdiff vibe stop          # End session, save summary
+devdiff vibe status        # View session statistics
+devdiff vibe history       # View past sessions
 ```
 
-### Options
-
-- `-c, --checkpoint <id>`: The specific checkpoint ID (e.g., `ckpt-XXXXXXXXXXXXX`) to restore.
+**Session guarantees:**
+- Auto-checkpoint before every AI call
+- Zero data loss on failure
+- Session report with statistics
 
 ---
 
-## 📊 `devdiff audit`
+### `devdiff compliance`
 
-Displays log trail audits for local security compliance.
+Compliance framework management.
 
 ```bash
-devdiff audit [type] [options]
+devdiff compliance list                    # List all frameworks
+devdiff compliance apply --framework gdpr  # Apply framework
+devdiff compliance status                  # Current compliance status
+devdiff compliance report                  # Generate audit report
+devdiff compliance validate --framework all # Check all frameworks
 ```
 
-### Arguments
+**Frameworks:**
+`gdpr`, `ccpa`, `hipaa`, `soc2`, `fedramp`, `iso27001`, `pipeda`, `lgpd`, `pdpa`, `australia_privacy`
 
-- `[type]`: The type of audit log to inspect:
-  - `ai-calls`: Displays historical logs of AI model calls (tokens, latencies, success statuses).
-  - `network`: Lists network access points, ports, and configuration controls.
-  - `shell`: Lists historical logs of sandboxed shell operations.
+---
 
-### Options
+### `devdiff audit`
 
-- `-p, --package <package>`: Displays detailed security/privacy disclosures and recent shell logs for a specific package (e.g., `@eldrex/core`, `@eldrex/cli`).
+View security and privacy audit logs.
+
+```bash
+devdiff audit ai-calls      # AI call history
+devdiff audit network       # Network access log
+devdiff audit shell         # Shell command log
+devdiff audit all           # Complete audit trail
+devdiff audit export        # Export audit to JSON
+```
+
+---
+
+### `devdiff doctor`
+
+System health check.
+
+```bash
+devdiff doctor              # Full diagnostic
+devdiff doctor --fix        # Auto-fix common issues
+devdiff doctor --json       # Machine-parseable output
+```
+
+**Checks:**
+- Node.js version
+- Git installation and config
+- Ollama installation and status
+- Model availability
+- Network connectivity
+- Disk space
+- Configuration validity
+
+---
+
+### `devdiff disclose`
+
+Full transparency report.
+
+```bash
+devdiff disclose            # Complete disclosure
+devdiff disclose --network  # Network activity only
+devdiff disclose --files    # File access only
+devdiff disclose --ai       # AI processing only
+```
+
+**Shows:**
+- Every network call made
+- Every file accessed
+- Every shell command run
+- AI tokens used
+- Data sent externally (always 0 by default)
+
+---
+
+### `devdiff monitor`
+
+Real-time network activity monitor.
+
+```bash
+devdiff monitor             # Watch all network calls
+devdiff monitor --alerts    # Alert on unauthorized access
+```
+
+---
+
+### `devdiff mvp`
+
+Manage MVP storage queue.
+
+```bash
+devdiff mvp status          # View queued changes
+devdiff mvp process         # Process one queued item
+devdiff mvp process-all     # Process entire queue
+devdiff mvp clear           # Remove processed items
+```
+
+---
+
+### `devdiff playground`
+
+Start local web UI.
+
+```bash
+devdiff playground              # Start at localhost:3737
+devdiff playground --port 8080  # Custom port
+devdiff playground --open       # Auto-open browser
+```
+
+---
+
+### `devdiff recover`
+
+Recover from checkpoints.
+
+```bash
+devdiff recover                    # List available checkpoints
+devdiff recover --checkpoint <id>  # Restore specific checkpoint
+devdiff recover --last             # Restore most recent
+devdiff recover --list             # List all checkpoints
+```
+
+---
+
+### `devdiff version`
+
+Version information.
+
+```bash
+devdiff version            # Current version
+devdiff version --check    # Check for updates
+devdiff version --info     # Detailed version info
+devdiff version --changelog # Version changelog
+```
+
+---
+
+### `devdiff config`
+
+Configuration management.
+
+```bash
+devdiff config              # Show current config
+devdiff config --path       # Show config file path
+devdiff config --validate   # Validate config
+devdiff config --reset      # Reset to defaults
+```
+
+---
+
+## Exit Codes
+
+| Code | Meaning |
+|------|---------|
+| `0` | Success |
+| `1` | General error |
+| `2` | Configuration error |
+| `3` | Git repository error |
+| `4` | AI provider error |
+| `5` | Network error |
+| `6` | Permission error |
+| `7` | Resource limit (memory/disk) |
+
+---
+
+## Environment Variables
+
+| Variable | Purpose |
+|----------|---------|
+| `DEVVIFF_HOME` | Override .devdiff directory |
+| `DEVVIFF_CONFIG` | Override config file path |
+| `DEVVIFF_DISABLE_COLOR` | Disable color output |
+| `DEVVIFF_LOG_LEVEL` | debug, info, warn, error |
+| `OPENAI_API_KEY` | OpenAI API key |
+| `ANTHROPIC_API_KEY` | Anthropic API key |
+| `GROQ_API_KEY` | Groq API key |
+| `GEMINI_API_KEY` | Google Gemini API key |
+| `DEEPSEEK_API_KEY` | DeepSeek API key |
+| `TOGETHER_API_KEY` | Together AI API key |
+| `OLLAMA_HOST` | Custom Ollama URL |
+| `SLACK_WEBHOOK_URL` | Slack webhook |
+| `DISCORD_WEBHOOK_URL` | Discord webhook |
+| `TEAMS_WEBHOOK_URL` | Teams webhook |
+| `TELEGRAM_BOT_TOKEN` | Telegram bot token |

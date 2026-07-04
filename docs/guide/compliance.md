@@ -1,6 +1,6 @@
 # Compliance Frameworks
 
-DevDiff v1.0.1 "Sentinel" provides built-in configurations to satisfy international and national data compliance frameworks.
+DevDiff v1.0.2 "Sentinel" provides built-in configurations to satisfy international and national data compliance frameworks.
 
 ## Supported Frameworks
 

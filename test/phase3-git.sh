@@ -13,7 +13,7 @@ FAIL=0
 
 # Setup
 git init
-git config user.email "test@devdiff.dev"
+git config user.email "test@devdiff.vercel.app"
 git config user.name "Test"
 devdiff init --yes
 

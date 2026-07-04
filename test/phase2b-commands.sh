@@ -10,7 +10,7 @@ echo ""
 mkdir -p /tmp/devdiff-test-repo
 cd /tmp/devdiff-test-repo
 git init 2>/dev/null
-git config user.email "test@devdiff.dev" 2>/dev/null
+git config user.email "test@devdiff.vercel.app" 2>/dev/null
 git config user.name "Test" 2>/dev/null
 
 FAIL=0

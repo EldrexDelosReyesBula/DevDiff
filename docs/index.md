@@ -13,10 +13,11 @@ hero:
       link: /guide/getting-started
     - theme: alt
       text: Live Demo
-      link: https://devdiff.dev/playground
+      link: https://devdiff.vercel.app/playground
     - theme: alt
       text: GitHub
-      link: https://github.com/eldrex/devdiff
+      link: https://github.com/EldrexDelosReyesBula/devdiff
+
 
 features:
   - icon: 🔒

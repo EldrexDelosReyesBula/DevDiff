@@ -83,6 +83,30 @@ See dedicated guides:
 
 ---
 
+### "Vague or inaccurate explanations"
+
+**Problem:** DevDiff says things like "refactored code" or mentions files/functions that don't exist.
+
+**Solutions:**
+
+1. Generate project context — grounds the AI in your codebase:
+   ```bash
+   devdiff context generate
+   ```
+2. Add domain-specific notes to `.devdiff/context.md`:
+   ```bash
+   devdiff context edit
+   ```
+3. For just-the-facts output with no interpretation:
+   ```bash
+   devdiff generate --persona robot
+   ```
+4. For large diffs, consider breaking into smaller commits for more precise explanations.
+
+→ [Full guide: Project Context](../features/project-context)
+
+---
+
 ## Platform-Specific Issues
 
 - [Windows Issues](./windows-issues)

@@ -198,6 +198,15 @@ export async function playgroundCommand(options: PlaygroundOptions = {}) {
 
     // ─── Serve playground HTML ───────────────────────────────────────────────
 
+    if (url.pathname === "/logo.svg") {
+      const logoPath = path.resolve(repoPath, "asset/devdiff.svg");
+      if (fs.existsSync(logoPath)) {
+        res.writeHead(200, { "Content-Type": "image/svg+xml" });
+        res.end(fs.readFileSync(logoPath));
+        return;
+      }
+    }
+
     if (url.pathname === "/" || url.pathname === "/playground") {
       res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
       if (playgroundHtml) {

@@ -6,41 +6,52 @@ This project follows [Semantic Versioning](https://semver.org). Every released v
 
 ---
 
-## [1.0.3] — 2026-06-30 (Hardening Release)
+## [1.0.3] — 2026-07-04 · Hardening Release
 
-The **Hardening** release locks in production-grade stability, a fully functional local playground, `create-devdiff-app` scaffolding, and the immutable versioning contract.
+The **Hardening & Reliability** release locks in production-grade stability, a fully functional local playground, `create-devdiff-app` scaffolding, strict privacy enforcement, and the immutable versioning contract.
 
-### 🔐 Immutable Version Guarantee
-- **`VERSION_GUARANTEE` constant**: Published in `@eldrex/core` — documents the full immutability contract in code. Every published version works exactly as released, forever.
-- **`checkConfigCompatibility()`**: Validates that your `.devdiff.config.js` is compatible with the running CLI version. Warns on minor mismatches, blocks on major version gaps.
-- **`devdiff version --check`**: Fetches the latest version from npm with a 5-second timeout and graceful offline fallback. Displays side-by-side current vs. latest.
-- **`devdiff version --changelog`**: Prints the embedded release history directly in your terminal — no browser required.
+### 🔐 Security & Privacy
+- **API key masking in logs**: Sensitive API keys are now masked dynamically, displaying only the first 6 and last 4 characters.
+- **Secure File Permissions**: Enforced `600` read/write permissions on `.env` files automatically upon creation by the CLI tool.
+- **Network Guard Firewall**: Standardized outbound restrictions blocking 20+ known telemetry/analytics platforms (Mixpanel, Sentry, Datadog) while strictly whitelisting configured local/cloud AI services.
+- **Shell Command Sanitization**: Prevented command chaining and Metacharacter injection (e.g. `&&`, `||`, `;`) inside the CLI execution sandbox.
+- **Path Traversal Protection**: Webhook receivers and file paths now perform strict boundary containment verification against path traversals.
+- **Input Scripting Injection Guard**: Prevents prompt injection, shell escaping, SQL sequences, and path traversal vulnerabilities via strict input/commit message sanitization.
+- **Encrypted Audit Trail**: Individual logs are now secured at rest using AES-256-GCM encryption with local key derivation.
+- **Secure MCP Server**: Enabled authorization tokens by default for stdio and HTTP Model Context Protocol integrations.
 
-### 🎮 Local Playground (`devdiff playground`)
-- **HTTP + WebSocket server** on port `3737` — launch with `devdiff playground`.
-- **REST endpoints**: `/api/workspace` (git info), `/api/stats` (diff statistics), `/api/changelog` (generate live), `/api/personas` (list all 8).
-- **Real-time file-change notifications** via WebSocket — the UI toasts whenever your workspace changes.
-- **Dark glassmorphism UI** (`playground.html`) — sidebar with workspace/AI status, persona pills, format switcher, markdown/Mermaid/JSON output, and a session timer.
+### 🛠️ CLI Improvements
+- **`devdiff auth` command suite**: Native CLI key manager providing interactive addition, listing, deletion, validation, and rotation of cloud AI credentials.
+- **Secure terminal prompts**: Secure hidden password input streams (zero echo) implemented natively for CLI credential gathering.
+- **Terminal Raw Mode Safeguards**: Added robust cleanup hooks restoring terminal state on error or process exits, preventing raw mode hangs.
+- **Interactive Connectivity Tester**: Automated live endpoint handshakes (`fetch` probes) validating key integrity before saving.
+- **`devdiff doctor --fix`**: Integrated self-repair routines correcting common permission, path, and configuration anomalies.
+- **`devdiff monitor`**: Terminal-tail network monitoring dashboard streaming outbound requests in real-time.
+- **`devdiff disclose`**: Privacy dashboard outputting comprehensive lists of filesystem, network, process, and memory limits.
 
-### 🏗️ `create-devdiff-app` Scaffolding
-- New standalone package `create-devdiff-app` — run `npx create-devdiff-app` to scaffold a new project in seconds.
-- **4 templates**: `enterprise-dashboard` (Express + Slack/SMTP), `startup-changelog` (public page + RSS), `ci-integration` (GitHub Actions + GitLab CI), `minimal` (bare SDK).
+### ⚡ Performance & Capping
+- **File Watcher Debounce**: Introduced adaptive debounce limits to prevent CPU usage spikes on rapid workspace changes.
+- **Large-Diff Streaming**: Diff parsers and sanitizers process files as streams, keeping memory spikes under 500MB on vibe coding edits.
+- **IDE Thread Protection**: Dispatched heavy changelog logic to non-blocking microtasks (`setImmediate`), maintaining vscode responsiveness.
+- **Checkers & Monitors**: Automated local storage caching and checkpoint compressions, reducing disk footprint by 60%.
 
-### 🌐 Public Demo Page
-- Self-contained `packages/playground-demo/index.html` — zero server, zero backend. Open in any browser for a live demo with 5 sample repos and all 8 personas.
+### 🧠 AI & Accuracy
+- **Project Context Generation**: Introduced context scrapers grounding the LLM with local README, package metadata, and directory indexes.
+- **Ollama Model Auto-Detection**: Added dynamic model tag queries and code-specific capabilities scoring to routing loops.
+- **Codebase Deep Indexer**: Performs lightweight structural indexing on first run to map monorepo directories and topologies.
+- **AST Fingerprint Similarity**: Replaces token Jaccard similarity with structural regex fingerprinting (exports, methods, hooks) to track complex refactoring.
+- **Extension & Size Prefilters**: Optimized memory overhead by pre-filtering pairs based on type (handling JS->TS migrations) and size brackets.
+- **Import Matching Engine**: Resolves path aliases and relative imports to check for dangling references automatically.
+- **Verification Layer**: Validates generated summaries against the raw diff using AccuracyGuard pre-checks and post-checks.
+- **MVP (Deferred Queue) Mode**: Diffs exceeding 50,000 characters are saved as deferred JSON entries, enabling local templates fallback and async processing.
 
-### 🧪 Pre-Release Verification Matrix
-- **12-phase release gate** (`test/phase1–12` scripts) covering: environment setup, CLI commands, git integration, AI providers, personas, stress testing (1000 files), checkpoint recovery, playground APIs, security audits, and version immutability.
-- **15/15 build tasks** and **100 unit tests** pass cleanly.
+### 🔌 Integrations
+- **CI/CD Actions**: Standardized actions templates for GitHub Actions and GitLab CI.
+- **Webhook connectors**: Out-of-the-box streaming notifications support for Slack, Discord, Microsoft Teams, Telegram, and twilio-enabled WhatsApp.
 
 ### 📚 Documentation
-- VitePress docs updated with full troubleshooting suite: Ollama errors, Windows-specific issues, common fixes matrix.
-- `devdiff generate --dry-run` confirmed working without AI — safe for CI environments.
-
-### 🐛 Bug Fixes
-- Fixed `ws` package bundling in `@eldrex/cli` by marking it as external in `tsup.config.ts`.
-- Exported `getGitInfo`, `getDiffStats`, `getTotalFiles`, `checkAIStatus` from `@eldrex/core` index — resolves runtime import error.
-- Fixed YAML frontmatter syntax error in `docs/index.md` (backtick in feature `details` field).
+- **VitePress Command Reference**: Published a complete CLI Command Dictionary and ports reference guide.
+- **Troubleshooting guides**: Step-by-step resolution steps for Windows pathing, Ollama setup, network diagnostics, and WSL2 configurations.
 
 ---
 

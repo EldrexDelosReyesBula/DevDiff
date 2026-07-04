@@ -75,3 +75,49 @@ export {
   getTotalFiles,
   checkAIStatus,
 } from "./playground/workspace-info";
+
+// Project Context System
+export {
+  ProjectContextScanner,
+  formatContext,
+  loadContext,
+  injectContextIntoPrompt,
+  generateContextFile,
+  validateContextFile,
+} from "./context";
+export type { ScannedContext, LoadedContext } from "./context";
+
+// Accuracy Verification
+export { verifyExplanation } from "./verification/accuracy-check";
+export type { VerificationResult, VerificationIssue } from "./verification/accuracy-check";
+
+// Trust & Reliability System
+export { NetworkGuard } from "./security/network-guard";
+export type { NetworkDecision, NetworkLogEntry } from "./security/network-guard";
+export { MVPDetector, MVPStorage } from "./mvp";
+export type { TemplateSummary, MVPEntry } from "./mvp";
+export { IDEGuardian } from "./performance/ide-guardian";
+export type { SystemHealth } from "./performance/ide-guardian";
+
+// Platform Compatibility, AI Discovery, Deep Context & Security Guards
+export { PlatformCompat } from "./platform/compatibility";
+export type { PlatformInfo, PlatformCheckResult, PlatformIssue } from "./platform/compatibility";
+export * from "./errors";
+export * from "./errors/handler";
+export { OllamaModelDiscovery } from "./ai/providers/ollama-discovery";
+export type { OllamaModel } from "./ai/providers/ollama-discovery";
+export { DeepContextIndexer } from "./context/deep-indexer";
+export type { DeepContext } from "./context/deep-indexer";
+export { AccuracyGuard } from "./verification/pre-generation-check";
+export type { PreCheckResult, PostCheckResult } from "./verification/pre-generation-check";
+export { InjectionGuard } from "./security/injection-guard";
+
+// Diff & Relationship Engine V2
+export { ASTFingerprintExtractor } from "./diff/similarity/ast-fingerprint";
+export type { ASTFingerprint } from "./diff/similarity/ast-fingerprint";
+export { FilePairPrefilter } from "./diff/prefilter";
+export { GitNativeDetector } from "./git/native-detection";
+export type { GitFileChange, GitNativeDiff, GitRename, GitCopy } from "./git/native-detection";
+export { ImportResolver } from "./diff/import-resolver";
+export { FileRelationshipDetectorV2 } from "./diff/relationship-detector-v2";
+export type { FileChange, FileRelationship } from "./diff/relationship-detector-v2";

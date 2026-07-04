@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import { DevDiffEngine } from "@eldrex/core";
+import { ExtensionSecurityGuard } from "./security/extension-guard";
 
 let engine: DevDiffEngine;
 let statusBar: vscode.StatusBarItem;
@@ -11,10 +12,42 @@ export async function activate(context: vscode.ExtensionContext) {
   outputChannel = vscode.window.createOutputChannel("DevDiff");
   outputChannel.appendLine("DevDiff VS Code Extension activated");
 
+  const config = vscode.workspace.getConfiguration("devdiff");
+  const autoStart = config.get("autoStart", false);
+
+  if (autoStart) {
+    outputChannel.appendLine("🚀 Auto-starting DevDiff session...");
+    vscode.window.showInformationMessage(
+      "DevDiff: Auto-started background change monitoring.",
+    );
+  }
+
+  const workspacePath =
+    vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || process.cwd();
+
+  // Validate workspace safety
+  const validation = ExtensionSecurityGuard.validateWorkspace(workspacePath);
+  if (!validation.safe) {
+    outputChannel.appendLine(`❌ Security block: Workspace failed security validation.`);
+    for (const issue of validation.issues) {
+      outputChannel.appendLine(`   [${issue.severity}] ${issue.type}: ${issue.message}`);
+    }
+    vscode.window.showErrorMessage(
+      "DevDiff: Workspace security checks failed. Extension has been disabled for safety.",
+    );
+    return;
+  }
+
+  if (validation.issues.length > 0) {
+    outputChannel.appendLine(`⚠️ Security warnings found in workspace:`);
+    for (const issue of validation.issues) {
+      outputChannel.appendLine(`   [${issue.severity}] ${issue.type}: ${issue.message}`);
+    }
+  }
+
   try {
     engine = new DevDiffEngine({
-      workspacePath:
-        vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || process.cwd(),
+      workspacePath,
     });
     outputChannel.appendLine("✅ DevDiff engine initialized");
   } catch (error) {

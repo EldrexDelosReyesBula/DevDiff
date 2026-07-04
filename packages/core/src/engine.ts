@@ -1,5 +1,10 @@
 import { generateChangelog } from "./generators/changelog";
 import { ShellSandbox } from "./security/shell-sandbox";
+import { loadConfig } from "./config/loader";
+import { MVPDetector } from "./mvp/detector";
+import { MVPStorage, MVPEntry } from "./mvp/storage";
+import { IDEGuardian } from "./performance/ide-guardian";
+import { diffParser } from "./diff/parser";
 
 export class DevDiffEngine {
   private workspacePath: string;
@@ -30,9 +35,45 @@ export class DevDiffEngine {
       const diffArg = options.staged ? ["--cached"] : [];
       const diffText = await ShellSandbox.exec("git", ["diff", ...diffArg]);
 
-      const result = await generateChangelog({
-        diffText,
-        repoPath: this.workspacePath,
+      const config = await loadConfig(this.workspacePath);
+      if (MVPDetector.shouldUseMVP(diffText, config)) {
+        const parsedDiff = diffParser.parse(diffText);
+        const template = MVPDetector.buildTemplateSummary(parsedDiff);
+        const id = await MVPStorage.generateId(this.workspacePath);
+        const entry: MVPEntry = {
+          id,
+          timestamp: new Date().toISOString(),
+          status: "queued",
+          change_range: {
+            from: "HEAD",
+            to: "staged",
+            commits: 1,
+            files: parsedDiff.files.length,
+            additions: template.additions,
+            deletions: template.deletions,
+          },
+          template_summary: `MVP Mode triggered: ${template.filesCount} files changed (${template.additions} additions, ${template.deletions} deletions).`,
+          diff_snapshot: Buffer.from(diffText).toString("base64"),
+          retry_count: 0,
+          max_retries: 3,
+        };
+        await MVPStorage.saveMVP(this.workspacePath, entry);
+
+        return {
+          summary: `[MVP Mode Triggered - Saved as ${id}]\n` +
+            `• Files changed: ${template.filesCount}\n` +
+            `• Additions: ${template.additions} | Deletions: ${template.deletions}\n` +
+            `• Directories affected: ${template.directoriesCount}\n` +
+            `• Largest change: ${template.largestChangeFile}\n` +
+            `• Status: Queued for AI (Run 'devdiff mvp process' to process)`,
+        };
+      }
+
+      const result = await IDEGuardian.processSafely(async () => {
+        return generateChangelog({
+          diffText,
+          repoPath: this.workspacePath,
+        });
       });
 
       return {
@@ -54,10 +95,44 @@ export class DevDiffEngine {
         diffText = await ShellSandbox.exec("git", ["diff"]);
       }
 
-      const result = await generateChangelog({
-        diffText,
-        repoPath: this.workspacePath,
-        format: options.format || "markdown",
+      const config = await loadConfig(this.workspacePath);
+      if (MVPDetector.shouldUseMVP(diffText, config)) {
+        const parsedDiff = diffParser.parse(diffText);
+        const template = MVPDetector.buildTemplateSummary(parsedDiff);
+        const id = await MVPStorage.generateId(this.workspacePath);
+        const entry: MVPEntry = {
+          id,
+          timestamp: new Date().toISOString(),
+          status: "queued",
+          change_range: {
+            from: "HEAD",
+            to: "staged",
+            commits: 1,
+            files: parsedDiff.files.length,
+            additions: template.additions,
+            deletions: template.deletions,
+          },
+          template_summary: `MVP Mode triggered: ${template.filesCount} files changed (${template.additions} additions, ${template.deletions} deletions).`,
+          diff_snapshot: Buffer.from(diffText).toString("base64"),
+          retry_count: 0,
+          max_retries: 3,
+        };
+        await MVPStorage.saveMVP(this.workspacePath, entry);
+
+        return `[MVP Mode Triggered - Saved as ${id}]\n` +
+          `• Files changed: ${template.filesCount}\n` +
+          `• Additions: ${template.additions} | Deletions: ${template.deletions}\n` +
+          `• Directories affected: ${template.directoriesCount}\n` +
+          `• Largest change: ${template.largestChangeFile}\n` +
+          `• Status: Queued for AI (Run 'devdiff mvp process' to process)`;
+      }
+
+      const result = await IDEGuardian.processSafely(async () => {
+        return generateChangelog({
+          diffText,
+          repoPath: this.workspacePath,
+          format: options.format || "markdown",
+        });
       });
 
       return result.formattedOutput;
@@ -66,3 +141,4 @@ export class DevDiffEngine {
     }
   }
 }
+

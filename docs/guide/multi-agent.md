@@ -1,6 +1,6 @@
 # Multi-Agent Swarms
 
-DevDiff v1.0.1 introduces local Multi-Agent Collaboration. Instead of relying on a single generalist LLM, DevDiff spawns a team of highly specialized local AI agents to analyze changes and build consensus.
+DevDiff v1.0.2 introduces local Multi-Agent Collaboration. Instead of relying on a single generalist LLM, DevDiff spawns a team of highly specialized local AI agents to analyze changes and build consensus.
 
 ## Specialized Agents
 
