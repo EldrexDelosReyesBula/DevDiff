@@ -12,3 +12,8 @@ packages/vscode/dist
 docs/.vitepress/dist
 docs/.vitepress/cache
 *.sqlite
+
+# DevDiff local configurations
+.devdiff
+.devdiffignore
+*.pdf

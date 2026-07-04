@@ -1,8 +1,0 @@
-[
-  {
-    "type": "network-block",
-    "domain": "api.mixpanel.com",
-    "reason": "Domain api.mixpanel.com is blacklisted (telemetry/analytics)",
-    "timestamp": 1783172042352
-  }
-]
