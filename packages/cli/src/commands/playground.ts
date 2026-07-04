@@ -159,7 +159,7 @@ export async function playgroundCommand(options: PlaygroundOptions = {}) {
             stdio: ["ignore", "pipe", "ignore"],
             cwd: repoPath,
           }).toString();
-        } catch {}
+        } catch { }
 
         if (!diffText.trim()) {
           return jsonResponse(res, {
@@ -185,7 +185,7 @@ export async function playgroundCommand(options: PlaygroundOptions = {}) {
 
     if (url.pathname === "/api/personas") {
       return jsonResponse(res, [
-        { id: "developer", label: "👨💻 Developer" },
+        { id: "developer", label: "💻 Developer" },
         { id: "ceo", label: "📊 CEO" },
         { id: "educator", label: "📚 Educator" },
         { id: "robot", label: "🤖 Robot" },
@@ -257,7 +257,7 @@ export async function playgroundCommand(options: PlaygroundOptions = {}) {
         }
       }
       lastHash = hash;
-    } catch {}
+    } catch { }
   }, 2000);
 
   const url = `http://localhost:${port}`;
@@ -271,64 +271,64 @@ export async function playgroundCommand(options: PlaygroundOptions = {}) {
     );
     console.log(
       pc.cyan("│") +
-        pc.white(
-          "                                                             ",
-        ) +
-        pc.cyan("│"),
+      pc.white(
+        "                                                             ",
+      ) +
+      pc.cyan("│"),
     );
     console.log(
       pc.cyan("│") +
-        pc.white(
-          `   🎮 DevDiff Playground                                     `,
-        ) +
-        pc.cyan("│"),
+      pc.white(
+        `   🎮 DevDiff Playground                                     `,
+      ) +
+      pc.cyan("│"),
     );
     console.log(
       pc.cyan("│") +
-        pc.white(
-          "                                                             ",
-        ) +
-        pc.cyan("│"),
+      pc.white(
+        "                                                             ",
+      ) +
+      pc.cyan("│"),
     );
     console.log(
       pc.cyan("│") +
-        pc.white(`   Local:  ${pc.cyan(url.padEnd(49))}`) +
-        pc.cyan("│"),
+      pc.white(`   Local:  ${pc.cyan(url.padEnd(49))}`) +
+      pc.cyan("│"),
     );
     console.log(
       pc.cyan("│") +
-        pc.white(
-          "                                                             ",
-        ) +
-        pc.cyan("│"),
+      pc.white(
+        "                                                             ",
+      ) +
+      pc.cyan("│"),
     );
     console.log(
       pc.cyan("│") +
-        pc.white(
-          `   ✅ Workspace: ${pc.white(path.basename(repoPath).slice(0, 43).padEnd(43))}`,
-        ) +
-        pc.cyan("│"),
+      pc.white(
+        `   ✅ Workspace: ${pc.white(path.basename(repoPath).slice(0, 43).padEnd(43))}`,
+      ) +
+      pc.cyan("│"),
     );
     console.log(
       pc.cyan("│") +
-        pc.white(
-          "                                                             ",
-        ) +
-        pc.cyan("│"),
+      pc.white(
+        "                                                             ",
+      ) +
+      pc.cyan("│"),
     );
     console.log(
       pc.cyan("│") +
-        pc.gray(
-          "   All data stays on your machine. Zero cloud sync.          ",
-        ) +
-        pc.cyan("│"),
+      pc.gray(
+        "   All data stays on your machine. Zero cloud sync.          ",
+      ) +
+      pc.cyan("│"),
     );
     console.log(
       pc.cyan("│") +
-        pc.white(
-          "                                                             ",
-        ) +
-        pc.cyan("│"),
+      pc.white(
+        "                                                             ",
+      ) +
+      pc.cyan("│"),
     );
     console.log(
       pc.cyan(
