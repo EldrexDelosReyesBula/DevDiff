@@ -11,6 +11,7 @@ DevDiff uses [Semantic Versioning](https://semver.org). Every published version 
 The **Hardening & Reliability** release locks in production-grade stability, a fully functional local playground, `create-devdiff-app` scaffolding, strict privacy enforcement, and the immutable versioning contract.
 
 ### 🔐 Security & Privacy
+
 - **API key masking in logs**: Sensitive API keys are now masked dynamically, displaying only the first 6 and last 4 characters.
 - **Secure File Permissions**: Enforced `600` read/write permissions on `.env` files automatically upon creation by the CLI tool.
 - **Network Guard Firewall**: Standardized outbound restrictions blocking 20+ known telemetry/analytics platforms (Mixpanel, Sentry, Datadog) while strictly whitelisting configured local/cloud AI services.
@@ -21,6 +22,7 @@ The **Hardening & Reliability** release locks in production-grade stability, a f
 - **Secure MCP Server**: Enabled authorization tokens by default for stdio and HTTP Model Context Protocol integrations.
 
 ### 🛠️ CLI Improvements
+
 - **`devdiff auth` command suite**: Native CLI key manager providing interactive addition, listing, deletion, validation, and rotation of cloud AI credentials.
 - **Secure terminal prompts**: Secure hidden password input streams (zero echo) implemented natively for CLI credential gathering.
 - **Terminal Raw Mode Safeguards**: Added robust cleanup hooks restoring terminal state on error or process exits, preventing raw mode hangs.
@@ -30,12 +32,14 @@ The **Hardening & Reliability** release locks in production-grade stability, a f
 - **`devdiff disclose`**: Privacy dashboard outputting comprehensive lists of filesystem, network, process, and memory limits.
 
 ### ⚡ Performance & Capping
+
 - **File Watcher Debounce**: Introduced adaptive debounce limits to prevent CPU usage spikes on rapid workspace changes.
 - **Large-Diff Streaming**: Diff parsers and sanitizers process files as streams, keeping memory spikes under 500MB on vibe coding edits.
 - **IDE Thread Protection**: Dispatched heavy changelog logic to non-blocking microtasks (`setImmediate`), maintaining vscode responsiveness.
 - **Checkers & Monitors**: Automated local storage caching and checkpoint compressions, reducing disk footprint by 60%.
 
 ### 🧠 AI & Accuracy
+
 - **Project Context Generation**: Introduced context scrapers grounding the LLM with local README, package metadata, and directory indexes.
 - **Ollama Model Auto-Detection**: Added dynamic model tag queries and code-specific capabilities scoring to routing loops.
 - **Codebase Deep Indexer**: Performs lightweight structural indexing on first run to map monorepo directories and topologies.
@@ -46,10 +50,12 @@ The **Hardening & Reliability** release locks in production-grade stability, a f
 - **MVP (Deferred Queue) Mode**: Diffs exceeding 50,000 characters are saved as deferred JSON entries, enabling local templates fallback and async processing.
 
 ### 🔌 Integrations
+
 - **CI/CD Actions**: Standardized actions templates for GitHub Actions and GitLab CI.
 - **Webhook connectors**: Out-of-the-box streaming notifications support for Slack, Discord, Microsoft Teams, Telegram, and twilio-enabled WhatsApp.
 
 ### 📚 Documentation
+
 - **VitePress Command Reference**: Published a complete CLI Command Dictionary and ports reference guide.
 - **Troubleshooting guides**: Step-by-step resolution steps for Windows pathing, Ollama setup, network diagnostics, and WSL2 configurations.
 

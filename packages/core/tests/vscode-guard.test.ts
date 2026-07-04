@@ -4,16 +4,22 @@ import { ExtensionSecurityGuard } from "../../vscode/src/security/extension-guar
 describe("ExtensionSecurityGuard", () => {
   describe("validateWorkspace", () => {
     it("should allow a normal workspace path", () => {
-      const res = ExtensionSecurityGuard.validateWorkspace("C:\\Users\\User\\project");
+      const res = ExtensionSecurityGuard.validateWorkspace(
+        "C:\\Users\\User\\project",
+      );
       // Since it's a test on different OS, let's just make sure it returns the validation object
       expect(res).toHaveProperty("safe");
       expect(res).toHaveProperty("issues");
     });
 
     it("should block system directories", () => {
-      const res = ExtensionSecurityGuard.validateWorkspace("C:\\Windows\\System32");
+      const testPath =
+        process.platform === "win32" ? "C:\\Windows\\System32" : "/etc";
+      const res = ExtensionSecurityGuard.validateWorkspace(testPath);
       expect(res.safe).toBe(false);
-      expect(res.issues.some(i => i.type === "system-path-access")).toBe(true);
+      expect(res.issues.some((i) => i.type === "system-path-access")).toBe(
+        true,
+      );
     });
   });
 
@@ -34,7 +40,7 @@ describe("ExtensionSecurityGuard", () => {
     it("should return true for files inside workspace", () => {
       const res = ExtensionSecurityGuard.isWithinWorkspace(
         "C:\\Users\\User\\project\\src\\index.ts",
-        "C:\\Users\\User\\project"
+        "C:\\Users\\User\\project",
       );
       expect(res).toBe(true);
     });
@@ -43,8 +49,8 @@ describe("ExtensionSecurityGuard", () => {
       expect(() =>
         ExtensionSecurityGuard.isWithinWorkspace(
           "C:\\Users\\User\\other-project\\src\\index.ts",
-          "C:\\Users\\User\\project"
-        )
+          "C:\\Users\\User\\project",
+        ),
       ).toThrow();
     });
   });

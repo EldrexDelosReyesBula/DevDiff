@@ -20,10 +20,10 @@ npm install @eldrex/gateway
 
 ### What This Package Accesses
 
-| Resource | Why | Default | Can Disable |
-|----------|-----|---------|-------------|
-| File System | Read git configuration | Yes | No (core function) |
-| Local Network | Bind ports to receive webhooks | Yes | Yes (by terminating service) |
+| Resource      | Why                            | Default | Can Disable                  |
+| ------------- | ------------------------------ | ------- | ---------------------------- |
+| File System   | Read git configuration         | Yes     | No (core function)           |
+| Local Network | Bind ports to receive webhooks | Yes     | Yes (by terminating service) |
 
 ### Ports Used
 

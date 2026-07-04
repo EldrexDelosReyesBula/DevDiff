@@ -40,7 +40,7 @@ export class GitNativeDetector {
    */
   static async getDiffWithRenames(
     repoPath: string,
-    range: string = "HEAD"
+    range: string = "HEAD",
   ): Promise<GitNativeDiff> {
     const renames: GitRename[] = [];
     const copies: GitCopy[] = [];
@@ -105,7 +105,7 @@ export class GitNativeDetector {
   static async getDiffWithThreshold(
     repoPath: string,
     threshold: number = 50, // Default 50%
-    range: string = "HEAD"
+    range: string = "HEAD",
   ): Promise<GitNativeDiff> {
     // Threshold must be between 1-100
     const t = Math.max(1, Math.min(100, Math.round(threshold)));
@@ -119,7 +119,7 @@ export class GitNativeDetector {
   static async getFileContent(
     repoPath: string,
     filePath: string,
-    revision: string = "HEAD"
+    revision: string = "HEAD",
   ): Promise<string | null> {
     try {
       return execSync(`git show ${revision}:${filePath}`, {
@@ -139,7 +139,7 @@ export class GitNativeDetector {
   static async checkDeprecationHistory(
     repoPath: string,
     filePath: string,
-    maxCommits: number = 20
+    maxCommits: number = 20,
   ): Promise<{
     wasDeprecated: boolean;
     deprecatedSince?: string;
@@ -158,7 +158,7 @@ export class GitNativeDetector {
           encoding: "utf-8",
           maxBuffer: 1024 * 1024,
           stdio: ["ignore", "pipe", "ignore"],
-        }
+        },
       ).trim();
 
       if (deprecatedLog) {
@@ -167,12 +167,15 @@ export class GitNativeDetector {
         // Extract the actual deprecation message
         try {
           const commitHash = deprecatedLog.split(" ")[0];
-          const diffOutput = execSync(`git show ${commitHash} -- "${filePath}"`, {
-            cwd: repoPath,
-            encoding: "utf-8",
-            maxBuffer: 1024 * 1024,
-            stdio: ["ignore", "pipe", "ignore"],
-          });
+          const diffOutput = execSync(
+            `git show ${commitHash} -- "${filePath}"`,
+            {
+              cwd: repoPath,
+              encoding: "utf-8",
+              maxBuffer: 1024 * 1024,
+              stdio: ["ignore", "pipe", "ignore"],
+            },
+          );
 
           const depMatch = diffOutput.match(/@deprecated\s+(.+)/);
           if (depMatch) {
@@ -206,7 +209,7 @@ export class GitNativeDetector {
           encoding: "utf-8",
           maxBuffer: 1024 * 1024,
           stdio: ["ignore", "pipe", "ignore"],
-        }
+        },
       ).trim();
 
       const removalIndicators = [

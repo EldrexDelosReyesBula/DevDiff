@@ -6,7 +6,10 @@ import { ASTFingerprintExtractor } from "../src/diff/similarity/ast-fingerprint"
 import { FilePairPrefilter } from "../src/diff/prefilter";
 import { GitNativeDetector } from "../src/git/native-detection";
 import { ImportResolver } from "../src/diff/import-resolver";
-import { FileRelationshipDetectorV2, FileChange } from "../src/diff/relationship-detector-v2";
+import {
+  FileRelationshipDetectorV2,
+  FileChange,
+} from "../src/diff/relationship-detector-v2";
 import { DeepContext } from "../src/context/deep-indexer";
 
 vi.mock("child_process", async (importOriginal) => {
@@ -88,7 +91,9 @@ describe("FilePairPrefilter", () => {
     };
 
     expect(FilePairPrefilter.isViablePair(deleted, addedSameType)).toBe(true);
-    expect(FilePairPrefilter.isViablePair(deleted, addedDifferentType)).toBe(false);
+    expect(FilePairPrefilter.isViablePair(deleted, addedDifferentType)).toBe(
+      false,
+    );
   });
 });
 
@@ -100,7 +105,7 @@ describe("GitNativeDetector", () => {
   it("parses native rename statuses", async () => {
     const execMock = vi.mocked(child_process.execSync);
     execMock.mockReturnValue(
-      "R100\told_file.ts\tnew_file.ts\nC80\toriginal.ts\tcopy.ts\nM\tmodified.ts"
+      "R100\told_file.ts\tnew_file.ts\nC80\toriginal.ts\tcopy.ts\nM\tmodified.ts",
     );
 
     const diff = await GitNativeDetector.getDiffWithRenames("/mock/repo");
@@ -123,7 +128,7 @@ describe("GitNativeDetector", () => {
 
     const history = await GitNativeDetector.checkDeprecationHistory(
       "/mock/repo",
-      "old_file.ts"
+      "old_file.ts",
     );
     expect(history.wasDeprecated).toBe(true);
     expect(history.deprecatedMessage).toBe("Use NewService instead");
@@ -149,11 +154,14 @@ describe("ImportResolver", () => {
             "@utils/*": ["src/utils/*"],
           },
         },
-      })
+      }),
     );
 
     const resolver = new ImportResolver("/mock/root");
-    const resolved = resolver.resolveToWorkspacePath("@utils/format", "/mock/root/src/index.ts");
+    const resolved = resolver.resolveToWorkspacePath(
+      "@utils/format",
+      "/mock/root/src/index.ts",
+    );
     expect(resolved).toContain(path.normalize("/mock/root/src/utils/format"));
   });
 
@@ -164,17 +172,19 @@ describe("ImportResolver", () => {
     statMock.mockReturnValue({ isFile: () => true } as any);
 
     const resolver = new ImportResolver("/mock/root");
-    vi.spyOn(resolver, "resolveToWorkspacePath").mockReturnValue("/mock/root/src/utils/format.ts");
+    vi.spyOn(resolver, "resolveToWorkspacePath").mockReturnValue(
+      "/mock/root/src/utils/format.ts",
+    );
 
     const changedFiles = new Map<string, string>();
     changedFiles.set(
       "/mock/root/src/index.ts",
-      "import { format } from './utils/format';\nconsole.log(format);"
+      "import { format } from './utils/format';\nconsole.log(format);",
     );
 
     const references = resolver.findDanglingReferences(
       "/mock/root/src/utils/format.ts",
-      changedFiles
+      changedFiles,
     );
     expect(references).toContain("/mock/root/src/index.ts");
   });
@@ -184,9 +194,24 @@ describe("FileRelationshipDetectorV2", () => {
   const mockContext: DeepContext = {
     generatedAt: new Date().toISOString(),
     repositorySize: { files: 5, lines: 100, directories: 1, languages: {} },
-    structure: { rootDirectories: [], keyEntryPoints: [], testDirectories: [], configFiles: [] },
-    dependencies: { runtime: [], devDependencies: [], peerDependencies: [], detectedFrameworks: [] },
-    patterns: { namingConventions: [], commonPrefixes: [], monorepo: false, workspacePackages: [] },
+    structure: {
+      rootDirectories: [],
+      keyEntryPoints: [],
+      testDirectories: [],
+      configFiles: [],
+    },
+    dependencies: {
+      runtime: [],
+      devDependencies: [],
+      peerDependencies: [],
+      detectedFrameworks: [],
+    },
+    patterns: {
+      namingConventions: [],
+      commonPrefixes: [],
+      monorepo: false,
+      workspacePackages: [],
+    },
     git: {
       totalCommits: 10,
       activeBranch: "main",
@@ -207,7 +232,11 @@ describe("FileRelationshipDetectorV2", () => {
     execMock.mockReturnValue(""); // No native renames
 
     const resolver = new ImportResolver("/mock/root");
-    const detector = new FileRelationshipDetectorV2("/mock/root", resolver, mockContext);
+    const detector = new FileRelationshipDetectorV2(
+      "/mock/root",
+      resolver,
+      mockContext,
+    );
 
     const changes: FileChange[] = [
       {

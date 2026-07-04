@@ -31,6 +31,7 @@ devdiff generate -p ceo
 **Tone:** Precise, code-focused, references specific files and functions
 
 **Example output:**
+
 ```
 ## Changes — July 1, 2026
 
@@ -51,11 +52,12 @@ devdiff generate -p ceo
 **Tone:** Business-focused, impact-driven, no jargon
 
 **Example output:**
+
 ```
 ## Product Update — July 1, 2026
 
 ### What Changed
-User login sessions now last 7 days (previously expired daily), 
+User login sessions now last 7 days (previously expired daily),
 reducing re-login friction by ~85%.
 
 ### Business Impact
@@ -75,12 +77,13 @@ Low. Security library updated to latest version.
 **Tone:** Teaching-style, explains concepts, includes learning resources
 
 **Example output:**
+
 ```
 ## What We Changed Today — July 1, 2026
 
 ### 🎓 Refresh Tokens (New Feature)
 
-We added "refresh tokens" to our authentication system. 
+We added "refresh tokens" to our authentication system.
 
 **What's a refresh token?** When you log in, you get two things:
 1. An access token (expires in 1 hour — keeps you logged in short-term)
@@ -100,6 +103,7 @@ Think of it like a hotel key card (access token) + reservation confirmation (ref
 **Tone:** Structured, machine-readable, minimal prose
 
 **Example output:**
+
 ```json
 {
   "timestamp": "2026-07-01T05:00:00Z",
@@ -128,6 +132,7 @@ Think of it like a hotel key card (access token) + reservation confirmation (ref
 **Tone:** Quantitative, risk-scored, impact-measured
 
 **Example output:**
+
 ```
 ## Change Analysis — July 1, 2026
 
@@ -154,18 +159,19 @@ Think of it like a hotel key card (access token) + reservation confirmation (ref
 **Tone:** Narrative, story-driven, written for a general technical audience
 
 **Example output:**
+
 ```
 ## DevDiff v1.0.3: Staying Logged In Just Got Smarter
 
 In this week's release, we tackled one of the most-requested pain points:
 session timeouts. Users were getting logged out mid-work, losing their flow.
 
-Starting today, sessions last 7 days. Under the hood, we've implemented 
-refresh tokens — an industry-standard pattern that keeps sessions alive 
+Starting today, sessions last 7 days. Under the hood, we've implemented
+refresh tokens — an industry-standard pattern that keeps sessions alive
 without sacrificing security.
 
-We also quietly shipped a security library update. Nothing breaking, 
-but keeping dependencies current is the kind of boring-important work 
+We also quietly shipped a security library update. Nothing breaking,
+but keeping dependencies current is the kind of boring-important work
 that keeps projects healthy.
 ```
 
@@ -178,6 +184,7 @@ that keeps projects healthy.
 **Tone:** User-story oriented, ticket-linkable, timeline-aware
 
 **Example output:**
+
 ```
 ## Sprint Update — July 1, 2026
 
@@ -204,6 +211,7 @@ that keeps projects healthy.
 **Tone:** Formal, framework-aware, audit-ready
 
 **Example output:**
+
 ```
 ## Change Control Record — July 1, 2026
 
@@ -249,15 +257,15 @@ Define your own persona in `.devdiff.config.js`:
 ```javascript
 export default {
   personas: {
-    'my-team': {
+    "my-team": {
       systemPrompt: `You are writing a changelog for our internal engineering team.
 Focus on: infrastructure changes, database migrations, API contract changes.
 Format: bullet points, ordered by impact. Skip UI-only changes.`,
-      tone: 'technical-internal',
+      tone: "technical-internal",
       includeFiles: true,
-    }
-  }
-}
+    },
+  },
+};
 ```
 
 ```bash

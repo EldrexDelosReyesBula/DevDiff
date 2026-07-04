@@ -60,7 +60,8 @@ export class OllamaModelDiscovery {
   private static detectModelFamily(name: string): string {
     const lower = name.toLowerCase();
     if (lower.includes("qwen")) return "qwen";
-    if (lower.includes("codellama") || lower.includes("code-llama")) return "codellama";
+    if (lower.includes("codellama") || lower.includes("code-llama"))
+      return "codellama";
     if (lower.includes("llama")) return "llama";
     if (lower.includes("mistral")) return "mistral";
     if (lower.includes("gemma")) return "gemma";
@@ -122,14 +123,14 @@ export class OllamaModelDiscovery {
    */
   static selectBestModel(
     models: OllamaModel[],
-    preference?: string
+    preference?: string,
   ): OllamaModel | null {
     if (models.length === 0) return null;
 
     // If user has a preference and it exists, use it
     if (preference) {
       const preferred = models.find(
-        (m) => m.name === preference || m.name.includes(preference)
+        (m) => m.name === preference || m.name.includes(preference),
       );
       if (preferred) return preferred;
     }
@@ -165,7 +166,8 @@ export class OllamaModelDiscovery {
     else if (paramSize >= 3) score += 10;
 
     // Higher quantization = better quality
-    if (model.quantization.startsWith("Q8") || model.quantization === "F16") score += 15;
+    if (model.quantization.startsWith("Q8") || model.quantization === "F16")
+      score += 15;
     else if (model.quantization.startsWith("Q6")) score += 10;
     else if (model.quantization.startsWith("Q5")) score += 8;
     else if (model.quantization.startsWith("Q4")) score += 5;

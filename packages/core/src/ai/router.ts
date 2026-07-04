@@ -10,7 +10,10 @@ import { AnthropicProvider } from "./providers/anthropic";
 import { ExplanationCache } from "./cache";
 import { VibeCoderGuardian } from "../resilience/vibe-coder-guardian";
 import { injectContextIntoPrompt } from "../context/compiler";
-import { OllamaModelDiscovery, OllamaModel } from "./providers/ollama-discovery";
+import {
+  OllamaModelDiscovery,
+  OllamaModel,
+} from "./providers/ollama-discovery";
 import { AINotAvailableError } from "../errors";
 
 export interface ModelTier {
@@ -162,13 +165,15 @@ export class AIRouter {
   async initialize(): Promise<void> {
     if (this.initialized) return;
     this.discoveredModels = await OllamaModelDiscovery.discoverModels();
-    
+
     // Register discovered Ollama models dynamically into this.models
     for (const model of this.discoveredModels) {
       const modelKey = `ollama://${model.name}`;
-      const isCodeSpecialist = ["codellama", "qwen", "deepseek"].includes(model.family);
+      const isCodeSpecialist = ["codellama", "qwen", "deepseek"].includes(
+        model.family,
+      );
       const paramSize = parseInt(model.parameterSize) || 3;
-      
+
       this.models[modelKey] = {
         name: model.name,
         provider: "ollama",
@@ -183,14 +188,16 @@ export class AIRouter {
           refactoringDetection: isCodeSpecialist ? 0.95 : 0.7,
           multiFileAnalysis: paramSize > 7 ? 0.8 : 0.5,
           structuredOutput: 0.8,
-        }
+        },
       };
     }
 
     if (this.discoveredModels.length > 0) {
       console.log(`📦 Found ${this.discoveredModels.length} Ollama model(s):`);
       for (const model of this.discoveredModels) {
-        console.log(`   • ${model.name} (${model.parameterSize}, ${model.family})`);
+        console.log(
+          `   • ${model.name} (${model.parameterSize}, ${model.family})`,
+        );
       }
     } else {
       console.log("📦 No Ollama models found.");
@@ -208,35 +215,35 @@ export class AIRouter {
     if (this.discoveredModels.length > 0) {
       const bestModel = OllamaModelDiscovery.selectBestModel(
         this.discoveredModels,
-        this.config.preferredModel || (this.config.ai as any)?.preferredModel // User's preference from config
+        this.config.preferredModel || (this.config.ai as any)?.preferredModel, // User's preference from config
       );
-      
+
       if (bestModel) {
         console.log(`🤖 Using: ${bestModel.name} (auto-detected, local, free)`);
         return new OllamaProvider();
       }
     }
-    
+
     // 2. SECOND: Check for configured cloud providers
     if (process.env.OPENAI_API_KEY) {
       console.log("🤖 Using: OpenAI (cloud, your API key)");
       return new OpenAIProvider(process.env.OPENAI_API_KEY);
     }
-    
+
     if (process.env.ANTHROPIC_API_KEY) {
       console.log("🤖 Using: Anthropic (cloud, your API key)");
       return new AnthropicProvider(process.env.ANTHROPIC_API_KEY);
     }
-    
+
     // 3. THIRD: Nothing available — fail with clear message
     throw new AINotAvailableError("local", {
-      discoveredModels: this.discoveredModels.map(m => m.name),
+      discoveredModels: this.discoveredModels.map((m) => m.name),
       hasCloudKeys: {
         openai: !!process.env.OPENAI_API_KEY,
         anthropic: !!process.env.ANTHROPIC_API_KEY,
         groq: !!process.env.GROQ_API_KEY,
         gemini: !!process.env.GEMINI_API_KEY,
-      }
+      },
     });
   }
 
@@ -245,18 +252,18 @@ export class AIRouter {
    */
   getActualFallbackChain(): string[] {
     const chain: string[] = [];
-    
+
     // Add all discovered Ollama models
     for (const model of this.discoveredModels) {
       chain.push(`ollama://${model.name}`);
     }
-    
+
     // Add configured cloud providers
     if (process.env.OPENAI_API_KEY) chain.push("openai://gpt-4o-mini");
     if (process.env.ANTHROPIC_API_KEY) chain.push("anthropic://claude-3-haiku");
     if (process.env.GROQ_API_KEY) chain.push("groq://llama3-70b");
     if (process.env.GEMINI_API_KEY) chain.push("gemini://gemini-1.5-flash");
-    
+
     return chain;
   }
 
@@ -284,12 +291,17 @@ export class AIRouter {
       )
       .filter(([key, model]) => {
         if (!this.initialized) return true; // Bypass filters in unit tests calling route() directly
-        
-        if (model.provider === "openai" && !process.env.OPENAI_API_KEY) return false;
-        if (model.provider === "anthropic" && !process.env.ANTHROPIC_API_KEY) return false;
-        if (model.provider === "gemini" && !process.env.GEMINI_API_KEY) return false;
+
+        if (model.provider === "openai" && !process.env.OPENAI_API_KEY)
+          return false;
+        if (model.provider === "anthropic" && !process.env.ANTHROPIC_API_KEY)
+          return false;
+        if (model.provider === "gemini" && !process.env.GEMINI_API_KEY)
+          return false;
         if (model.provider === "ollama") {
-          return this.discoveredModels.some(m => `ollama://${m.name}` === key);
+          return this.discoveredModels.some(
+            (m) => `ollama://${m.name}` === key,
+          );
         }
         return true;
       })
@@ -555,7 +567,10 @@ export class AIRouter {
         ? `${options.projectContext}\n\n${diffText}`
         : diffText;
 
-      const result = await provider.generateExplanation(contextualDiff, modelName);
+      const result = await provider.generateExplanation(
+        contextualDiff,
+        modelName,
+      );
 
       if (guardian) {
         guardian.recordAICall(decision.model, true);

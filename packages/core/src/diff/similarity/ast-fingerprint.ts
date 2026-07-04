@@ -61,7 +61,7 @@ export class ASTFingerprintExtractor {
       weight: 0.25,
       score: this.jaccardSet(
         [...a.functions, ...a.classes],
-        [...b.functions, ...b.classes]
+        [...b.functions, ...b.classes],
       ),
     });
 
@@ -85,7 +85,7 @@ export class ASTFingerprintExtractor {
       weight: 0.1,
       score: this.jaccardSet(
         [...a.jsxComponents, ...a.hooks],
-        [...b.jsxComponents, ...b.hooks]
+        [...b.jsxComponents, ...b.hooks],
       ),
     });
 
@@ -96,7 +96,9 @@ export class ASTFingerprintExtractor {
       score:
         a.fileSize === 0 && b.fileSize === 0
           ? 1
-          : 1 - Math.abs(a.fileSize - b.fileSize) / Math.max(a.fileSize, b.fileSize),
+          : 1 -
+            Math.abs(a.fileSize - b.fileSize) /
+              Math.max(a.fileSize, b.fileSize),
     });
 
     // Weighted average

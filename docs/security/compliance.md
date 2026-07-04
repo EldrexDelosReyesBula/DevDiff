@@ -10,18 +10,18 @@ DevDiff supports analysis against 10 major compliance frameworks. This page desc
 devdiff compliance list
 ```
 
-| ID | Framework | Focus |
-|----|-----------|-------|
-| `gdpr` | General Data Protection Regulation | EU personal data |
-| `ccpa` | California Consumer Privacy Act | CA consumer privacy |
-| `hipaa` | Health Insurance Portability and Accountability Act | Healthcare PHI |
-| `soc2` | SOC 2 (AICPA) | Security, availability, confidentiality |
-| `pci-dss` | Payment Card Industry Data Security Standard | Payment card data |
-| `fedramp` | Federal Risk and Authorization Management Program | US federal cloud |
-| `iso27001` | ISO/IEC 27001:2022 | Information security management |
-| `nist-csf` | NIST Cybersecurity Framework 2.0 | Cybersecurity risk |
-| `owasp` | OWASP Top 10 | Web app security vulnerabilities |
-| `cis` | CIS Controls v8 | Internet security benchmarks |
+| ID         | Framework                                           | Focus                                   |
+| ---------- | --------------------------------------------------- | --------------------------------------- |
+| `gdpr`     | General Data Protection Regulation                  | EU personal data                        |
+| `ccpa`     | California Consumer Privacy Act                     | CA consumer privacy                     |
+| `hipaa`    | Health Insurance Portability and Accountability Act | Healthcare PHI                          |
+| `soc2`     | SOC 2 (AICPA)                                       | Security, availability, confidentiality |
+| `pci-dss`  | Payment Card Industry Data Security Standard        | Payment card data                       |
+| `fedramp`  | Federal Risk and Authorization Management Program   | US federal cloud                        |
+| `iso27001` | ISO/IEC 27001:2022                                  | Information security management         |
+| `nist-csf` | NIST Cybersecurity Framework 2.0                    | Cybersecurity risk                      |
+| `owasp`    | OWASP Top 10                                        | Web app security vulnerabilities        |
+| `cis`      | CIS Controls v8                                     | Internet security benchmarks            |
 
 ---
 
@@ -30,6 +30,7 @@ devdiff compliance list
 **Use when:** Your product handles EU residents' personal data.
 
 **What DevDiff checks:**
+
 - New fields that look like personal data (names, emails, IPs, health data)
 - Changes to data retention logic
 - Authentication and access control modifications
@@ -48,6 +49,7 @@ devdiff compliance check --framework gdpr
 **Use when:** Your software handles Protected Health Information (PHI).
 
 **What DevDiff checks:**
+
 - PHI field additions or modifications
 - Access control and authentication changes
 - Audit logging coverage
@@ -65,6 +67,7 @@ devdiff compliance check --framework hipaa
 **Use when:** You need to demonstrate security controls to enterprise customers.
 
 **What DevDiff checks (by Trust Service Criteria):**
+
 - **CC6** — Logical access controls
 - **CC7** — System monitoring
 - **A1** — Availability controls
@@ -82,6 +85,7 @@ devdiff compliance check --framework soc2
 **Use when:** Your application stores, processes, or transmits payment card data.
 
 **What DevDiff checks:**
+
 - Credit card number patterns in code or logs
 - Encryption of cardholder data
 - Authentication strength changes
@@ -99,6 +103,7 @@ devdiff compliance check --framework pci-dss
 **Use when:** You want to catch common web application vulnerabilities in your changes.
 
 **What DevDiff checks:**
+
 - A01: Broken access control patterns
 - A02: Cryptographic failures
 - A03: Injection vulnerabilities (SQL, command, LDAP)
@@ -135,7 +140,7 @@ devdiff compliance apply gdpr hipaa soc2
       --framework gdpr,soc2 \
       --format json \
       --output compliance-report.json
-    
+
     # Fail pipeline on violations
     devdiff compliance check --framework gdpr --fail-on violations
 ```

@@ -30,7 +30,8 @@ export class FilePairPrefilter {
     const addedSize = added.content?.split("\n").length || 0;
 
     if (deletedSize > 0 && addedSize > 0) {
-      const ratio = Math.min(deletedSize, addedSize) / Math.max(deletedSize, addedSize);
+      const ratio =
+        Math.min(deletedSize, addedSize) / Math.max(deletedSize, addedSize);
       if (ratio < 0.3) {
         return false; // Too different in size
       }

@@ -28,9 +28,13 @@ export async function activate(context: vscode.ExtensionContext) {
   // Validate workspace safety
   const validation = ExtensionSecurityGuard.validateWorkspace(workspacePath);
   if (!validation.safe) {
-    outputChannel.appendLine(`❌ Security block: Workspace failed security validation.`);
+    outputChannel.appendLine(
+      `❌ Security block: Workspace failed security validation.`,
+    );
     for (const issue of validation.issues) {
-      outputChannel.appendLine(`   [${issue.severity}] ${issue.type}: ${issue.message}`);
+      outputChannel.appendLine(
+        `   [${issue.severity}] ${issue.type}: ${issue.message}`,
+      );
     }
     vscode.window.showErrorMessage(
       "DevDiff: Workspace security checks failed. Extension has been disabled for safety.",
@@ -41,7 +45,9 @@ export async function activate(context: vscode.ExtensionContext) {
   if (validation.issues.length > 0) {
     outputChannel.appendLine(`⚠️ Security warnings found in workspace:`);
     for (const issue of validation.issues) {
-      outputChannel.appendLine(`   [${issue.severity}] ${issue.type}: ${issue.message}`);
+      outputChannel.appendLine(
+        `   [${issue.severity}] ${issue.type}: ${issue.message}`,
+      );
     }
   }
 

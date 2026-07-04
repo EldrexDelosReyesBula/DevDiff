@@ -1,7 +1,4 @@
-{"timestamp":1783157520146,"url":"https://api.openai.com/v1/chat/completions","domain":"api.openai.com","allowed":true,"category":"configured"}
-{"timestamp":1783157520145,"url":"https://sentry.io/api/123/store","domain":"sentry.io","allowed":false,"category":"blocked-telemetry","reason":"Domain sentry.io is blacklisted (telemetry/analytics)"}
-{"timestamp":1783157520146,"url":"https://custom-ai.dev/v1/chat","domain":"custom-ai.dev","allowed":true,"category":"configured"}
-{"timestamp":1783157520145,"url":"http://localhost:11434/api/tags","domain":"localhost","allowed":true,"category":"local"}
-{"timestamp":1783157520147,"url":"https://unauthorized-domain.com/api","domain":"unauthorized-domain.com","allowed":false,"category":"blocked-unknown","reason":"Domain unauthorized-domain.com is not in the allowed list. Add to your configuration if intentional."}
-{"timestamp":1783157520146,"url":"http://127.0.0.1:8000/v1/models","domain":"127.0.0.1","allowed":true,"category":"local"}
-{"timestamp":1783157520143,"url":"https://api.mixpanel.com/track","domain":"api.mixpanel.com","allowed":false,"category":"blocked-telemetry","reason":"Domain api.mixpanel.com is blacklisted (telemetry/analytics)"}
+{"timestamp":1783172042353,"url":"https://sentry.io/api/123/store","domain":"sentry.io","allowed":false,"category":"blocked-telemetry","reason":"Domain sentry.io is blacklisted (telemetry/analytics)"}
+{"timestamp":1783172042355,"url":"https://unauthorized-domain.com/api","domain":"unauthorized-domain.com","allowed":false,"category":"blocked-unknown","reason":"Domain unauthorized-domain.com is not in the allowed list. Add to your configuration if intentional."}
+{"timestamp":1783172042354,"url":"http://127.0.0.1:8000/v1/models","domain":"127.0.0.1","allowed":true,"category":"local"}
+{"timestamp":1783172042355,"url":"https://custom-ai.dev/v1/chat","domain":"custom-ai.dev","allowed":true,"category":"configured"}

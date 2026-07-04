@@ -42,13 +42,13 @@ export default {
   ai: {
     providers: [
       {
-        name: 'openai-gpt4o',
-        url: 'openai://gpt-4o-mini',    // Model to use
-        priority: 1                      // Try this first
-      }
-    ]
-  }
-}
+        name: "openai-gpt4o",
+        url: "openai://gpt-4o-mini", // Model to use
+        priority: 1, // Try this first
+      },
+    ],
+  },
+};
 ```
 
 ### 4. Generate Changelog
@@ -61,19 +61,25 @@ devdiff generate
 
 ## Available Models
 
-| Model | Cost | Speed | Quality | Best For |
-|-------|------|-------|---------|----------|
-| `gpt-4o-mini` | ~$0.01/analysis | Fast | Great | Daily use, most diffs |
-| `gpt-4o` | ~$0.10/analysis | Fast | Excellent | Complex security reviews |
-| `gpt-4-turbo` | ~$0.15/analysis | Medium | Excellent | Very large diffs |
+| Model         | Cost            | Speed  | Quality   | Best For                 |
+| ------------- | --------------- | ------ | --------- | ------------------------ |
+| `gpt-4o-mini` | ~$0.01/analysis | Fast   | Great     | Daily use, most diffs    |
+| `gpt-4o`      | ~$0.10/analysis | Fast   | Excellent | Complex security reviews |
+| `gpt-4-turbo` | ~$0.15/analysis | Medium | Excellent | Very large diffs         |
 
 > Costs are estimates for a typical 200-line diff. Actual costs depend on token usage.
 
 ```javascript
 // Use a specific model
-{ url: 'openai://gpt-4o-mini' }
-{ url: 'openai://gpt-4o' }
-{ url: 'openai://gpt-4-turbo' }
+{
+  url: "openai://gpt-4o-mini";
+}
+{
+  url: "openai://gpt-4o";
+}
+{
+  url: "openai://gpt-4-turbo";
+}
 ```
 
 ---
@@ -87,11 +93,11 @@ The most common setup: use Ollama locally (free, private) and fall back to OpenA
 export default {
   ai: {
     providers: [
-      { name: 'local', url: 'ollama://llama3.2:3b', priority: 1 },
-      { name: 'cloud-fallback', url: 'openai://gpt-4o-mini', priority: 2 }
-    ]
-  }
-}
+      { name: "local", url: "ollama://llama3.2:3b", priority: 1 },
+      { name: "cloud-fallback", url: "openai://gpt-4o-mini", priority: 2 },
+    ],
+  },
+};
 ```
 
 DevDiff tries Ollama first. If it's not running, it falls back to OpenAI automatically.
@@ -106,14 +112,14 @@ export default {
   ai: {
     providers: [
       {
-        name: 'openai',
-        url: 'openai://gpt-4o-mini',
-        maxTokens: 1000,      // Limit output length
-        priority: 1
-      }
-    ]
-  }
-}
+        name: "openai",
+        url: "openai://gpt-4o-mini",
+        maxTokens: 1000, // Limit output length
+        priority: 1,
+      },
+    ],
+  },
+};
 ```
 
 ---
@@ -121,6 +127,7 @@ export default {
 ## Troubleshooting
 
 **"Invalid API key"**
+
 ```bash
 # Verify your key is set
 echo $OPENAI_API_KEY
@@ -131,9 +138,11 @@ curl https://api.openai.com/v1/models \
 ```
 
 **"Insufficient quota"**
+
 - Add payment method at [platform.openai.com/billing](https://platform.openai.com/billing)
 - Or switch to `gpt-4o-mini` (cheapest model)
 
 **"Rate limit exceeded"**
+
 - DevDiff auto-retries with backoff
 - Add Ollama as a local fallback provider

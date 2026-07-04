@@ -6,18 +6,18 @@ DevDiff can automatically analyze your changes against 10 major compliance frame
 
 ## Supported Frameworks
 
-| Framework | Use Case |
-|-----------|----------|
-| **GDPR** | EU personal data protection |
-| **CCPA** | California consumer privacy |
-| **HIPAA** | US healthcare data |
-| **SOC 2** | Security, availability, and confidentiality |
-| **PCI DSS** | Payment card data security |
-| **FedRAMP** | US federal cloud security |
-| **ISO 27001** | Information security management |
-| **NIST CSF** | Cybersecurity framework |
-| **OWASP Top 10** | Web application security risks |
-| **CIS Controls** | Center for Internet Security benchmarks |
+| Framework        | Use Case                                    |
+| ---------------- | ------------------------------------------- |
+| **GDPR**         | EU personal data protection                 |
+| **CCPA**         | California consumer privacy                 |
+| **HIPAA**        | US healthcare data                          |
+| **SOC 2**        | Security, availability, and confidentiality |
+| **PCI DSS**      | Payment card data security                  |
+| **FedRAMP**      | US federal cloud security                   |
+| **ISO 27001**    | Information security management             |
+| **NIST CSF**     | Cybersecurity framework                     |
+| **OWASP Top 10** | Web application security risks              |
+| **CIS Controls** | Center for Internet Security benchmarks     |
 
 ---
 
@@ -79,15 +79,15 @@ Compliance Score: 94/100
 // .devdiff.config.js
 export default {
   compliance: {
-    frameworks: ['gdpr', 'soc2'],      // Auto-check on every generate
-    strictMode: false,                  // Fail generate if violations found
-    reportPath: './compliance-reports', // Save reports here
+    frameworks: ["gdpr", "soc2"], // Auto-check on every generate
+    strictMode: false, // Fail generate if violations found
+    reportPath: "./compliance-reports", // Save reports here
     notifications: {
       slack: process.env.SLACK_WEBHOOK_URL,
-      email: 'compliance@yourcompany.com'
-    }
-  }
-}
+      email: "compliance@yourcompany.com",
+    },
+  },
+};
 ```
 
 ---
@@ -146,15 +146,19 @@ devdiff compliance sbom --format spdx > sbom.spdx.json
 ## Framework Details
 
 ### GDPR
+
 Checks for: personal data handling, consent mechanisms, right-to-erasure compliance, data retention changes, cross-border data transfer.
 
 ### HIPAA
+
 Checks for: PHI (Protected Health Information) handling, access controls, audit logging, encryption requirements.
 
 ### SOC 2
+
 Checks for: availability controls, confidentiality measures, processing integrity, security changes.
 
 ### OWASP Top 10
+
 Checks for: injection vulnerabilities, broken authentication, security misconfigurations, using components with known vulnerabilities.
 
 ---
@@ -169,12 +173,12 @@ export default {
   compliance: {
     suppressions: [
       {
-        framework: 'gdpr',
-        rule: 'session-duration',
-        reason: 'DPO approved on 2026-06-15 (ticket: LEGAL-42)',
-        until: '2027-01-01'
-      }
-    ]
-  }
-}
+        framework: "gdpr",
+        rule: "session-duration",
+        reason: "DPO approved on 2026-06-15 (ticket: LEGAL-42)",
+        until: "2027-01-01",
+      },
+    ],
+  },
+};
 ```

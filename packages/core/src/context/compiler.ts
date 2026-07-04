@@ -1,7 +1,11 @@
 import * as fs from "fs/promises";
 import * as path from "path";
 import { SecretScanner } from "../diff/secret-scanner";
-import { ProjectContextScanner, formatContext, ScannedContext } from "./scanner";
+import {
+  ProjectContextScanner,
+  formatContext,
+  ScannedContext,
+} from "./scanner";
 
 /** Maximum characters to include in the injected context (~500 tokens). */
 const MAX_CONTEXT_CHARS = 2000;
@@ -21,7 +25,9 @@ export interface LoadedContext {
  *
  * Returns null if neither source yields content (empty project).
  */
-export async function loadContext(repoPath: string): Promise<LoadedContext | null> {
+export async function loadContext(
+  repoPath: string,
+): Promise<LoadedContext | null> {
   const contextFilePath = path.join(repoPath, CONTEXT_FILE_NAME);
 
   // Try to load user's handcrafted context file
@@ -51,16 +57,21 @@ export async function loadContext(repoPath: string): Promise<LoadedContext | nul
 /**
  * Compiles a context string: applies secret redaction and trims to token budget.
  */
-function sanitizeContext(raw: string): { redacted: string; hadSecrets: boolean } {
+function sanitizeContext(raw: string): {
+  redacted: string;
+  hadSecrets: boolean;
+} {
   const scanner = new SecretScanner();
   const findings = scanner.scan(raw);
   const hadSecrets = findings.length > 0;
   const redacted = hadSecrets ? scanner.redact(raw) : raw;
 
   // Trim to budget
-  const trimmed = redacted.length > MAX_CONTEXT_CHARS
-    ? redacted.substring(0, MAX_CONTEXT_CHARS) + "\n...(truncated for token budget)"
-    : redacted;
+  const trimmed =
+    redacted.length > MAX_CONTEXT_CHARS
+      ? redacted.substring(0, MAX_CONTEXT_CHARS) +
+        "\n...(truncated for token budget)"
+      : redacted;
 
   return { redacted: trimmed, hadSecrets };
 }
@@ -73,7 +84,10 @@ function sanitizeContext(raw: string): { redacted: string; hadSecrets: boolean }
  * @param context - Compiled context markdown
  * @returns Enhanced system prompt with context block
  */
-export function injectContextIntoPrompt(systemPrompt: string, context: string): string {
+export function injectContextIntoPrompt(
+  systemPrompt: string,
+  context: string,
+): string {
   const contextBlock = [
     "",
     "=== PROJECT KNOWLEDGE BASE ===",

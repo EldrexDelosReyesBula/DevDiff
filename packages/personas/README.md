@@ -19,9 +19,9 @@ npm install @eldrex/personas
 ## Quick Start
 
 ```typescript
-import { getPersonaPrompt } from '@eldrex/personas'
+import { getPersonaPrompt } from "@eldrex/personas";
 
-const systemPrompt = getPersonaPrompt('product-manager')
+const systemPrompt = getPersonaPrompt("product-manager");
 ```
 
 ## Available Personas
@@ -34,6 +34,7 @@ const systemPrompt = getPersonaPrompt('product-manager')
 ## 🔒 Security & Privacy
 
 This package is a pure metadata and template definition package. It has:
+
 - ❌ **No network access**
 - ❌ **No shell command execution**
 - ❌ **No file system access**

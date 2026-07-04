@@ -77,7 +77,7 @@ jobs:
       - name: Generate SBOM with cyclonedx-node-npm
         run: |
           npm install -g @cyclonedx/cyclonedx-npm
-          cyclonedx-npm --output-format json --output-file sbom.json
+          cyclonedx-npm --output-format json --output-file sbom.json --ignore-npm-errors
           echo "SBOM generated: sbom.json"
           cat sbom.json | jq '.metadata.component.name, .components | length'
 

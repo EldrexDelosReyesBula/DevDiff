@@ -16,9 +16,13 @@ import { contextCommand } from "./commands/context";
 import { discloseCommand } from "./commands/disclose";
 import { monitorCommand } from "./commands/monitor";
 import { mvpCommand } from "./commands/mvp";
-import { authAddCommand, authListCommand, authRemoveCommand, authTestCommand, authRotateCommand } from "./commands/auth";
-
-
+import {
+  authAddCommand,
+  authListCommand,
+  authRemoveCommand,
+  authTestCommand,
+  authRotateCommand,
+} from "./commands/auth";
 
 const program = new Command();
 
@@ -190,7 +194,9 @@ program
 
 program
   .command("disclose")
-  .description("Full disclosure of DevDiff network, filesystem, shell, and AI practices")
+  .description(
+    "Full disclosure of DevDiff network, filesystem, shell, and AI practices",
+  )
   .action(async () => {
     await discloseCommand();
   });
@@ -211,7 +217,9 @@ program
   .action(async (action, options) => {
     const validActions = ["status", "process", "process-all", "clear"];
     if (!validActions.includes(action)) {
-      console.log(`❌ Invalid action: "${action}". Valid options: ${validActions.join(", ")}`);
+      console.log(
+        `❌ Invalid action: "${action}". Valid options: ${validActions.join(", ")}`,
+      );
       return;
     }
     await mvpCommand(action as any, options);
@@ -221,11 +229,16 @@ program
   .command("auth")
   .description("Manage cloud AI provider API keys")
   .argument("<action>", "add, list, remove, test, rotate")
-  .argument("[provider]", "provider name (openai, anthropic, groq, gemini, deepseek, together)")
+  .argument(
+    "[provider]",
+    "provider name (openai, anthropic, groq, gemini, deepseek, together)",
+  )
   .action(async (action, provider) => {
     const validActions = ["add", "list", "remove", "test", "rotate"];
     if (!validActions.includes(action)) {
-      console.log(`❌ Invalid action: "${action}". Valid options: ${validActions.join(", ")}`);
+      console.log(
+        `❌ Invalid action: "${action}". Valid options: ${validActions.join(", ")}`,
+      );
       return;
     }
 
@@ -255,4 +268,3 @@ cliErrorBoundary(async () => {
 });
 
 export { CLIOutputFormatter } from "./ui/output-formatter";
-

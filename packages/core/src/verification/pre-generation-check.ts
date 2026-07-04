@@ -26,26 +26,38 @@ export class AccuracyGuard {
 
     // 1. Diff size check
     if (diff.files.length > 500) {
-      warnings.push(`Large diff (${diff.files.length} files). AI explanation may be high-level.`);
-      warnings.push("Consider: git add specific files instead of entire changeset.");
+      warnings.push(
+        `Large diff (${diff.files.length} files). AI explanation may be high-level.`,
+      );
+      warnings.push(
+        "Consider: git add specific files instead of entire changeset.",
+      );
     }
 
     const additions = diff.totalAdditions || 0;
     const deletions = diff.totalDeletions || 0;
     if (additions + deletions > 50000) {
-      warnings.push(`Very large change (${(additions + deletions).toLocaleString()} lines).`);
-      warnings.push("AI will summarize at architecture level, not file-by-file.");
+      warnings.push(
+        `Very large change (${(additions + deletions).toLocaleString()} lines).`,
+      );
+      warnings.push(
+        "AI will summarize at architecture level, not file-by-file.",
+      );
     }
 
     // 2. Binary files check
     const binaryFiles = diff.files.filter((f) => f.isBinary);
     if (binaryFiles.length > 0) {
-      issues.push(`${binaryFiles.length} binary file(s) will be excluded from analysis.`);
+      issues.push(
+        `${binaryFiles.length} binary file(s) will be excluded from analysis.`,
+      );
     }
 
     // 3. New repository check
     if (context.git.totalCommits < 5) {
-      warnings.push("Repository has few commits. AI has limited history for context.");
+      warnings.push(
+        "Repository has few commits. AI has limited history for context.",
+      );
       warnings.push("Explanations will improve as the project grows.");
     }
 
@@ -68,11 +80,11 @@ export class AccuracyGuard {
         (f.oldPath &&
           (f.oldPath.includes("generated") ||
             f.oldPath.includes(".gen.") ||
-            f.oldPath.includes("auto-generated")))
+            f.oldPath.includes("auto-generated"))),
     );
     if (generatedFiles.length > 0) {
       issues.push(
-        `${generatedFiles.length} auto-generated file(s) detected. These will be noted but not deeply analyzed.`
+        `${generatedFiles.length} auto-generated file(s) detected. These will be noted but not deeply analyzed.`,
       );
     }
 
@@ -96,7 +108,7 @@ export class AccuracyGuard {
   static postCheck(
     explanation: string,
     diff: ParseResult,
-    context: DeepContext
+    context: DeepContext,
   ): PostCheckResult {
     const flags: string[] = [];
 
@@ -111,12 +123,12 @@ export class AccuracyGuard {
     for (const mentioned of mentionedFiles) {
       if (!actualFiles.has(mentioned)) {
         // Check if it's a known module/dir name from conventions
-        const matchesConvention = context.patterns.namingConventions?.some((c) =>
-          mentioned.includes(c)
+        const matchesConvention = context.patterns.namingConventions?.some(
+          (c) => mentioned.includes(c),
         );
         if (!matchesConvention) {
           flags.push(
-            `Mentions "${mentioned}" which is not in this diff. May be a hallucination.`
+            `Mentions "${mentioned}" which is not in this diff. May be a hallucination.`,
           );
         }
       }
@@ -131,9 +143,12 @@ export class AccuracyGuard {
     for (const symbol of mentionedSymbols) {
       if (!diffContent.includes(symbol)) {
         // Only flag if it looks like a camelCase or PascalCase identifier
-        if (/^[A-Z][a-zA-Z0-9]+$/.test(symbol) || /^[a-z][a-zA-Z0-9]+$/.test(symbol)) {
+        if (
+          /^[A-Z][a-zA-Z0-9]+$/.test(symbol) ||
+          /^[a-z][a-zA-Z0-9]+$/.test(symbol)
+        ) {
           flags.push(
-            `Mentions "${symbol}" which is not found in the diff. May be incorrect.`
+            `Mentions "${symbol}" which is not found in the diff. May be incorrect.`,
           );
         }
       }
@@ -154,7 +169,7 @@ export class AccuracyGuard {
       const count = (explanation.match(regex) || []).length;
       if (count > 2) {
         flags.push(
-          `Multiple vague statements ("${vague}"). Explanation may lack specificity.`
+          `Multiple vague statements ("${vague}"). Explanation may lack specificity.`,
         );
         break;
       }
@@ -167,7 +182,9 @@ export class AccuracyGuard {
         explanation.match(/\b(vue|angular|svelte)\b/i) &&
         !diffContent.match(/\b(vue|angular|svelte)\b/i)
       ) {
-        flags.push("Mentions framework not used in this project. Possible hallucination.");
+        flags.push(
+          "Mentions framework not used in this project. Possible hallucination.",
+        );
       }
     }
 
@@ -189,12 +206,15 @@ export class AccuracyGuard {
 
   private static extractFilePaths(text: string): string[] {
     const matches =
-      text.match(/[\w\/\-\.]+\.(ts|js|tsx|jsx|py|go|rs|java|rb|php|cs|cpp|h|css|html)/gi) || [];
+      text.match(
+        /[\w\/\-\.]+\.(ts|js|tsx|jsx|py|go|rs|java|rb|php|cs|cpp|h|css|html)/gi,
+      ) || [];
     return [...new Set(matches)];
   }
 
   private static extractCodeSymbols(text: string): string[] {
-    const matches = text.match(/\b([A-Z][a-zA-Z0-9]+|[a-z]+[A-Z][a-zA-Z0-9]*)\b/g) || [];
+    const matches =
+      text.match(/\b([A-Z][a-zA-Z0-9]+|[a-z]+[A-Z][a-zA-Z0-9]*)\b/g) || [];
     // Filter common English words
     const commonWords = new Set([
       "This",
@@ -228,7 +248,10 @@ export class AccuracyGuard {
     return matches.filter((m) => !commonWords.has(m));
   }
 
-  private static estimateConfidence(explanation: string, flags: string[]): number {
+  private static estimateConfidence(
+    explanation: string,
+    flags: string[],
+  ): number {
     let confidence = 0.85; // Start optimistic
 
     if (flags.length >= 3) confidence -= 0.3;
@@ -242,7 +265,7 @@ export class AccuracyGuard {
 
   private static calculatePreConfidence(
     diff: ParseResult,
-    context: DeepContext
+    context: DeepContext,
   ): number {
     let confidence = 0.9;
 

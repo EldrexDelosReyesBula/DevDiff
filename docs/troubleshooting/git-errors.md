@@ -79,6 +79,7 @@ Git is not installed or not in your PATH.
 ### Fix
 
 #### Windows
+
 Download Git from [git-scm.com](https://git-scm.com) and install it.
 Then restart your terminal.
 
@@ -88,6 +89,7 @@ git --version
 ```
 
 #### macOS
+
 ```bash
 # Install via Homebrew
 brew install git
@@ -97,6 +99,7 @@ xcode-select --install
 ```
 
 #### Linux
+
 ```bash
 # Debian/Ubuntu
 sudo apt install git

@@ -1,6 +1,9 @@
 import * as path from "path";
 import { FilePairPrefilter } from "./prefilter";
-import { ASTFingerprintExtractor, ASTFingerprint } from "./similarity/ast-fingerprint";
+import {
+  ASTFingerprintExtractor,
+  ASTFingerprint,
+} from "./similarity/ast-fingerprint";
 import { GitNativeDetector } from "../git/native-detection";
 import { ImportResolver } from "./import-resolver";
 import { DeepContext } from "../context/deep-indexer";
@@ -42,7 +45,7 @@ export class FileRelationshipDetectorV2 {
   constructor(
     private workspaceRoot: string,
     private importResolver: ImportResolver,
-    private context: DeepContext
+    private context: DeepContext,
   ) {}
 
   async analyze(changes: FileChange[]): Promise<FileRelationship[]> {
@@ -50,7 +53,9 @@ export class FileRelationshipDetectorV2 {
     const analyzed = new Set<string>();
 
     // ── PASS 1: Git Native Renames & Copies (Deterministic) ──
-    const native = await GitNativeDetector.getDiffWithRenames(this.workspaceRoot);
+    const native = await GitNativeDetector.getDiffWithRenames(
+      this.workspaceRoot,
+    );
 
     for (const rename of native.renames) {
       relationships.push({
@@ -59,7 +64,7 @@ export class FileRelationshipDetectorV2 {
         primaryFile: rename.newPath,
         relatedFiles: [rename.oldPath],
         explanation: `Renamed from ${path.basename(rename.oldPath)} to ${path.basename(
-          rename.newPath
+          rename.newPath,
         )}`,
         evidence: [`Git rename detection: ${rename.similarity}% similar`],
       });
@@ -81,18 +86,24 @@ export class FileRelationshipDetectorV2 {
     }
 
     // ── PASS 2: AST Fingerprint Matching (Replacements/Refactors) ──
-    const deletions = changes.filter((c) => c.status === "deleted" && !analyzed.has(c.path));
-    const additions = changes.filter((c) => c.status === "added" && !analyzed.has(c.path));
+    const deletions = changes.filter(
+      (c) => c.status === "deleted" && !analyzed.has(c.path),
+    );
+    const additions = changes.filter(
+      (c) => c.status === "added" && !analyzed.has(c.path),
+    );
 
     // Pre-filter: only compare viable pairs
-    const unassignedAdditions = new Set(additions.filter((a) => this.isViableForMatching(a)));
+    const unassignedAdditions = new Set(
+      additions.filter((a) => this.isViableForMatching(a)),
+    );
 
     for (const deleted of deletions) {
       if (!this.isViableForMatching(deleted)) continue;
 
       // Filter candidates with size/extension guard FIRST
       const candidates = Array.from(unassignedAdditions).filter((added) =>
-        FilePairPrefilter.isViablePair(deleted, added)
+        FilePairPrefilter.isViablePair(deleted, added),
       );
 
       if (candidates.length === 0) continue;
@@ -113,21 +124,25 @@ export class FileRelationshipDetectorV2 {
         fingerprint: ASTFingerprint;
       } | null = null;
 
-      const deletedFingerprint = ASTFingerprintExtractor.extract(deleted.oldContent || "");
+      const deletedFingerprint = ASTFingerprintExtractor.extract(
+        deleted.oldContent || "",
+      );
 
       for (const candidate of topCandidates) {
-        const candidateFingerprint = ASTFingerprintExtractor.extract(candidate.content || "");
+        const candidateFingerprint = ASTFingerprintExtractor.extract(
+          candidate.content || "",
+        );
 
         // AST Fingerprint similarity (replaces token Jaccard)
         const similarity = ASTFingerprintExtractor.similarity(
           deletedFingerprint,
-          candidateFingerprint
+          candidateFingerprint,
         );
 
         // Boost score if exports match
         const exportBoost = this.calculateExportBoost(
           deletedFingerprint,
-          candidateFingerprint
+          candidateFingerprint,
         );
 
         const totalScore = similarity * 0.7 + exportBoost * 0.3;
@@ -152,10 +167,10 @@ export class FileRelationshipDetectorV2 {
           explanation:
             type === "refactor"
               ? `Refactored ${path.basename(deleted.path)} into ${path.basename(
-                  bestMatch.file.path
+                  bestMatch.file.path,
                 )}`
               : `Replaced ${path.basename(deleted.path)} with ${path.basename(
-                  bestMatch.file.path
+                  bestMatch.file.path,
                 )}`,
           evidence: [
             `AST similarity: ${Math.round(bestMatch.score * 100)}%`,
@@ -177,7 +192,7 @@ export class FileRelationshipDetectorV2 {
 
       const deprecation = await GitNativeDetector.checkDeprecationHistory(
         this.workspaceRoot,
-        deleted.path
+        deleted.path,
       );
 
       if (deprecation.wasDeprecated) {
@@ -207,7 +222,7 @@ export class FileRelationshipDetectorV2 {
 
       const references = this.importResolver.findDanglingReferences(
         deleted.path,
-        changedFilesContent
+        changedFilesContent,
       );
 
       relationships.push({

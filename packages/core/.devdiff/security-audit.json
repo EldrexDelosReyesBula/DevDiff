@@ -1,8 +1,8 @@
 [
   {
     "type": "network-block",
-    "domain": "unauthorized-domain.com",
-    "reason": "Domain unauthorized-domain.com is not in the allowed list. Add to your configuration if intentional.",
-    "timestamp": 1783157520147
+    "domain": "api.mixpanel.com",
+    "reason": "Domain api.mixpanel.com is blacklisted (telemetry/analytics)",
+    "timestamp": 1783172042352
   }
 ]

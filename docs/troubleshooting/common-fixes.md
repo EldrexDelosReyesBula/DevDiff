@@ -64,4 +64,3 @@ devdiff init
 1. Run `devdiff doctor` and share output
 2. Check [GitHub Issues](https://github.com/EldrexDelosReyesBula/devdiff/issues) or ask in [GitHub Discussions](https://github.com/EldrexDelosReyesBula/devdiff/discussions)
 3. Include: OS, Node version, DevDiff version, error message
-

@@ -6,14 +6,14 @@ Changelogs play a critical role in codebase maintenance. This page compares trad
 
 ## Comparison Table
 
-| Feature | `git log` | DevDiff |
-|---------|-----------|---------|
-| **Audience** | Technical developers only | Product managers, QA, security auditors, and developers |
-| **Content Source** | Manually written commit messages | Automatically analyzed code differences (AST-aware diffs) |
-| **Context Aware** | No (only knows what developers typed) | Yes (reads README, package.json, and project structure) |
-| **Summaries** | List of short messages | Cohere narrative explanation grouped by impact and relevance |
-| **Vulnerability Check** | None | Automatic compliance checks (GDPR, OWASP Top 10, etc.) |
-| **Security** | Plaintext, no secret scanning | Secret scanner filters API keys/credentials automatically |
+| Feature                 | `git log`                             | DevDiff                                                      |
+| ----------------------- | ------------------------------------- | ------------------------------------------------------------ |
+| **Audience**            | Technical developers only             | Product managers, QA, security auditors, and developers      |
+| **Content Source**      | Manually written commit messages      | Automatically analyzed code differences (AST-aware diffs)    |
+| **Context Aware**       | No (only knows what developers typed) | Yes (reads README, package.json, and project structure)      |
+| **Summaries**           | List of short messages                | Cohere narrative explanation grouped by impact and relevance |
+| **Vulnerability Check** | None                                  | Automatic compliance checks (GDPR, OWASP Top 10, etc.)       |
+| **Security**            | Plaintext, no secret scanning         | Secret scanner filters API keys/credentials automatically    |
 
 ---
 
@@ -27,7 +27,7 @@ Date:   Wed Jul 1 12:34:56 2026
     refactor signal reactivity
 ```
 
-*Problem*: Unless you read the actual code changes, you don't know *what* changed inside the reactivity system, or *why*.
+_Problem_: Unless you read the actual code changes, you don't know _what_ changed inside the reactivity system, or _why_.
 
 ---
 
@@ -41,4 +41,4 @@ Date:   Wed Jul 1 12:34:56 2026
 - Impact: **Minor** (Performance optimization, fully backward-compatible).
 ```
 
-*Solution*: DevDiff reads the actual AST changes and project context, inferring intent and expressing the real business value of the refactor.
+_Solution_: DevDiff reads the actual AST changes and project context, inferring intent and expressing the real business value of the refactor.

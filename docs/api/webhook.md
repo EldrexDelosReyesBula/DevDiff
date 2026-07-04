@@ -11,33 +11,33 @@ DevDiff can send webhook notifications when changelogs are generated, compliance
 export default {
   webhooks: [
     {
-      url: 'https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK',
-      events: ['generate.complete', 'compliance.violation'],
-      secret: process.env.WEBHOOK_SECRET   // Optional HMAC signing
+      url: "https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK",
+      events: ["generate.complete", "compliance.violation"],
+      secret: process.env.WEBHOOK_SECRET, // Optional HMAC signing
     },
     {
-      url: 'https://your-app.com/devdiff-webhook',
-      events: ['*'],   // All events
+      url: "https://your-app.com/devdiff-webhook",
+      events: ["*"], // All events
       headers: {
-        'Authorization': `Bearer ${process.env.WEBHOOK_TOKEN}`
-      }
-    }
-  ]
-}
+        Authorization: `Bearer ${process.env.WEBHOOK_TOKEN}`,
+      },
+    },
+  ],
+};
 ```
 
 ---
 
 ## Events
 
-| Event | Triggered When |
-|-------|---------------|
-| `generate.complete` | A changelog is successfully generated |
-| `generate.failed` | AI provider returned an error |
-| `compliance.violation` | A compliance check found violations |
-| `compliance.warning` | A compliance check found warnings |
-| `vibe.checkpoint` | A vibe session checkpoint is created |
-| `provider.fallback` | Primary AI provider failed, fallback used |
+| Event                  | Triggered When                            |
+| ---------------------- | ----------------------------------------- |
+| `generate.complete`    | A changelog is successfully generated     |
+| `generate.failed`      | AI provider returned an error             |
+| `compliance.violation` | A compliance check found violations       |
+| `compliance.warning`   | A compliance check found warnings         |
+| `vibe.checkpoint`      | A vibe session checkpoint is created      |
+| `provider.fallback`    | Primary AI provider failed, fallback used |
 
 ---
 
@@ -55,7 +55,7 @@ All webhook events use the same envelope:
     "path": "/Users/me/my-project",
     "branch": "main"
   },
-  "data": { /* event-specific data */ }
+  "data": {/* event-specific data */}
 }
 ```
 
@@ -118,12 +118,12 @@ export default {
   webhooks: [
     {
       url: process.env.SLACK_WEBHOOK_URL,
-      events: ['generate.complete'],
-      format: 'slack',    // Formats as Slack Block Kit message
-      channel: '#releases'
-    }
-  ]
-}
+      events: ["generate.complete"],
+      format: "slack", // Formats as Slack Block Kit message
+      channel: "#releases",
+    },
+  ],
+};
 ```
 
 This sends a nicely formatted Slack message with the changelog summary.
@@ -136,21 +136,23 @@ If you set a `secret`, DevDiff signs every request with HMAC-SHA256:
 
 ```javascript
 // Your server (Express.js example)
-import crypto from 'crypto';
+import crypto from "crypto";
 
-app.post('/devdiff-webhook', (req, res) => {
-  const signature = req.headers['x-devdiff-signature'];
+app.post("/devdiff-webhook", (req, res) => {
+  const signature = req.headers["x-devdiff-signature"];
   const body = JSON.stringify(req.body);
-  
-  const expected = 'sha256=' + crypto
-    .createHmac('sha256', process.env.WEBHOOK_SECRET)
-    .update(body)
-    .digest('hex');
-  
+
+  const expected =
+    "sha256=" +
+    crypto
+      .createHmac("sha256", process.env.WEBHOOK_SECRET)
+      .update(body)
+      .digest("hex");
+
   if (signature !== expected) {
-    return res.status(401).json({ error: 'Invalid signature' });
+    return res.status(401).json({ error: "Invalid signature" });
   }
-  
+
   // Process webhook...
   res.json({ ok: true });
 });
@@ -177,10 +179,10 @@ devdiff webhook history
 
 If your webhook endpoint returns a non-2xx status, DevDiff retries:
 
-| Attempt | Delay |
-|---------|-------|
+| Attempt   | Delay      |
+| --------- | ---------- |
 | 1st retry | 30 seconds |
-| 2nd retry | 5 minutes |
+| 2nd retry | 5 minutes  |
 | 3rd retry | 30 minutes |
 
 After 3 failures, the event is logged locally in `.devdiff/webhook-failures.jsonl`.

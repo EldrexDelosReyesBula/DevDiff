@@ -20,13 +20,15 @@ npm install @eldrex/openclaw
 
 ### What This Package Accesses
 
-| Resource | Why | Default | Can Disable |
-|----------|-----|---------|-------------|
-| Network | Connect to local or remote agent networks | No | Yes (default disabled) |
-| Ports | Exposes MCP endpoint on port 3739 | No | Yes |
+| Resource | Why                                       | Default | Can Disable            |
+| -------- | ----------------------------------------- | ------- | ---------------------- |
+| Network  | Connect to local or remote agent networks | No      | Yes (default disabled) |
+| Ports    | Exposes MCP endpoint on port 3739         | No      | Yes                    |
 
 ### Agent Sandboxing
+
 When agents interact with DevDiff through OpenClaw:
+
 - They are constrained to the current Git repository boundary.
 - They cannot run arbitrary system commands.
 - Secrets are automatically redacted before leaving the local boundary.

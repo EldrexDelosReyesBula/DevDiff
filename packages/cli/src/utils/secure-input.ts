@@ -23,7 +23,7 @@ export async function securePrompt(question: string): Promise<string> {
     console.log("Example: export OPENAI_API_KEY=your-key");
     throw new NonInteractiveError(
       "Cannot read secure input in non-interactive environment.\n" +
-        "Use environment variable or devdiff auth add --key <key>"
+        "Use environment variable or devdiff auth add --key <key>",
     );
   }
 
@@ -239,7 +239,9 @@ async function unixSecurePrompt(question: string): Promise<string> {
 async function fallbackPrompt(question: string): Promise<string> {
   console.log(`${question}`);
   console.log("(Secure input not available — key will be visible)");
-  console.log("Tip: Set environment variable instead: export OPENAI_API_KEY=your-key");
+  console.log(
+    "Tip: Set environment variable instead: export OPENAI_API_KEY=your-key",
+  );
 
   return new Promise((resolve) => {
     const rl = readline.createInterface({
@@ -258,6 +260,9 @@ async function fallbackPrompt(question: string): Promise<string> {
 // PLATFORM DETECTION
 // ===========================================================
 function detectPlatform(): "windows" | "macos" | "linux" | "wsl" | "unknown" {
+  if (process.env.DEVDIFF_PLATFORM_OVERRIDE) {
+    return process.env.DEVDIFF_PLATFORM_OVERRIDE as any;
+  }
   const platform = process.platform;
 
   if (platform === "win32") {
@@ -297,7 +302,9 @@ export function canSecurePrompt(): boolean {
 export function parseKeyFromArgs(args: string[]): string | null {
   const keyIndex = args.indexOf("--key");
   if (keyIndex !== -1 && args[keyIndex + 1]) {
-    console.log("⚠️  Warning: Passing API keys via CLI is visible in process list");
+    console.log(
+      "⚠️  Warning: Passing API keys via CLI is visible in process list",
+    );
     console.log("   Prefer: devdiff auth add <provider>  (interactive)");
     console.log("   Or set: export OPENAI_API_KEY=your-key");
     return args[keyIndex + 1];

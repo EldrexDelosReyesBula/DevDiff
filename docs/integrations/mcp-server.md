@@ -72,13 +72,13 @@ In Cursor settings, add DevDiff as an MCP tool:
 
 Once the server is running, your AI agent can call:
 
-| Tool | Description |
-|------|-------------|
-| `devdiff_generate` | Generate changelog for staged changes |
-| `devdiff_diff` | Get raw diff of staged changes |
-| `devdiff_compliance_check` | Check changes against a framework |
-| `devdiff_history` | List past changelog entries |
-| `devdiff_personas` | List available personas |
+| Tool                       | Description                           |
+| -------------------------- | ------------------------------------- |
+| `devdiff_generate`         | Generate changelog for staged changes |
+| `devdiff_diff`             | Get raw diff of staged changes        |
+| `devdiff_compliance_check` | Check changes against a framework     |
+| `devdiff_history`          | List past changelog entries           |
+| `devdiff_personas`         | List available personas               |
 
 ---
 

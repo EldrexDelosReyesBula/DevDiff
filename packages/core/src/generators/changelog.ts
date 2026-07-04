@@ -86,7 +86,10 @@ export async function generateChangelog(
 
   // Load deep context (first-run dynamic indexing if missing)
   let deepContextData: any = null;
-  const deepContextPath = path.join(repoPath, ".devdiff/context/deep-context.json");
+  const deepContextPath = path.join(
+    repoPath,
+    ".devdiff/context/deep-context.json",
+  );
   try {
     const rawDeep = await fs.readFile(deepContextPath, "utf-8");
     deepContextData = JSON.parse(rawDeep);
@@ -104,7 +107,7 @@ export async function generateChangelog(
   }
   if (deepContextData) {
     const deepPrompt = DeepContextIndexer.toPromptContext(deepContextData);
-    finalContextString = finalContextString 
+    finalContextString = finalContextString
       ? `${finalContextString}\n\n${deepPrompt}`
       : deepPrompt;
   }
@@ -180,7 +183,9 @@ export async function generateChangelog(
         for (const w of preCheck.warnings) {
           console.warn(`   • ${w}`);
         }
-        console.warn(`   • Confidence: ${preCheck.confidence > 0.7 ? "High" : preCheck.confidence > 0.4 ? "Moderate" : "Low"}`);
+        console.warn(
+          `   • Confidence: ${preCheck.confidence > 0.7 ? "High" : preCheck.confidence > 0.4 ? "Moderate" : "Low"}`,
+        );
       }
     } catch {}
   }
@@ -196,12 +201,18 @@ export async function generateChangelog(
   let verificationSummary: GenerateResult["verification"] | undefined;
   if (!options.dryRun && !options.skipVerification) {
     let verResult = verifyExplanation(explanation, parserResult);
-    
+
     // Supplement with AccuracyGuard postCheck
     if (deepContextData) {
       try {
-        const postCheck = AccuracyGuard.postCheck(explanation.summary + "\n" + (explanation.files || []).map(f => f.explanation).join("\n"), parserResult, deepContextData);
-        
+        const postCheck = AccuracyGuard.postCheck(
+          explanation.summary +
+            "\n" +
+            (explanation.files || []).map((f) => f.explanation).join("\n"),
+          parserResult,
+          deepContextData,
+        );
+
         if (postCheck.flags.length > 0) {
           console.warn("");
           for (const flag of postCheck.flags) {
@@ -209,13 +220,17 @@ export async function generateChangelog(
           }
           console.warn(`\n${postCheck.recommendation}`);
         }
-        
+
         verResult = {
           valid: postCheck.passed,
-          issues: postCheck.flags.map((f: string) => ({ type: "identifier-not-in-diff", message: f, severity: "warning" })),
+          issues: postCheck.flags.map((f: string) => ({
+            type: "identifier-not-in-diff",
+            message: f,
+            severity: "warning",
+          })),
           confidence: postCheck.confidence,
           checkedFiles: verResult.checkedFiles,
-          checkedIdentifiers: verResult.checkedIdentifiers
+          checkedIdentifiers: verResult.checkedIdentifiers,
         };
       } catch {}
     } else {

@@ -6,13 +6,13 @@ DevDiff supports multiple AI backends. You bring your own — DevDiff is just th
 
 ## Provider Comparison
 
-| Provider | Cost | Privacy | Speed | Quality | Offline |
-|----------|------|---------|-------|---------|---------|
-| **Ollama (Local)** | Free | ✅ 100% local | Medium | Good–Great | ✅ Yes |
-| **WebGPU (Browser)** | Free | ✅ 100% local | Fast (GPU) | Good | ✅ Yes |
-| **OpenAI** | Pay-per-use | ⚠️ Data sent to OpenAI | Fast | Excellent | ❌ No |
-| **Anthropic** | Pay-per-use | ⚠️ Data sent to Anthropic | Fast | Excellent | ❌ No |
-| **Custom** | Varies | Depends | Varies | Varies | Depends |
+| Provider             | Cost        | Privacy                   | Speed      | Quality    | Offline |
+| -------------------- | ----------- | ------------------------- | ---------- | ---------- | ------- |
+| **Ollama (Local)**   | Free        | ✅ 100% local             | Medium     | Good–Great | ✅ Yes  |
+| **WebGPU (Browser)** | Free        | ✅ 100% local             | Fast (GPU) | Good       | ✅ Yes  |
+| **OpenAI**           | Pay-per-use | ⚠️ Data sent to OpenAI    | Fast       | Excellent  | ❌ No   |
+| **Anthropic**        | Pay-per-use | ⚠️ Data sent to Anthropic | Fast       | Excellent  | ❌ No   |
+| **Custom**           | Varies      | Depends                   | Varies     | Varies     | Depends |
 
 ---
 
@@ -41,11 +41,11 @@ export default {
   ai: {
     providers: [
       // DevDiff tries providers in priority order (lowest number first)
-      { name: 'local-ollama', url: 'ollama://llama3.2:3b', priority: 1 },
-      { name: 'openai-fallback', url: 'openai://gpt-4o-mini', priority: 2 },
-    ]
-  }
-}
+      { name: "local-ollama", url: "ollama://llama3.2:3b", priority: 1 },
+      { name: "openai-fallback", url: "openai://gpt-4o-mini", priority: 2 },
+    ],
+  },
+};
 ```
 
 If the first provider fails (e.g., Ollama not running), DevDiff automatically tries the next one.
@@ -75,17 +75,20 @@ If the first provider fails (e.g., Ollama not running), DevDiff automatically tr
 ## Choosing a Provider
 
 **Use Ollama if:**
+
 - Privacy is your top priority
 - You don't want API costs
 - You want offline capability
 - Your machine has 8GB+ RAM
 
 **Use OpenAI/Anthropic if:**
+
 - You need the highest quality analysis
 - You're reviewing very complex security-sensitive diffs
 - Your machine is underpowered for local models
 
 **Use WebGPU if:**
+
 - You're running DevDiff in a browser context
 - You have a capable GPU and want maximum speed
 

@@ -82,7 +82,7 @@ export class DeepContextIndexer {
     await this.save(workspacePath, context);
 
     console.log(
-      `✅ Indexing complete: ${size.files} files, ${size.lines.toLocaleString()} lines`
+      `✅ Indexing complete: ${size.files} files, ${size.lines.toLocaleString()} lines`,
     );
     if (frameworks.length > 0) {
       console.log(`   Detected: ${frameworks.join(", ")}`);
@@ -100,19 +100,21 @@ export class DeepContextIndexer {
 
     lines.push(`[PROJECT OVERVIEW]`);
     lines.push(
-      `Repository: ${deep.repositorySize.files.toLocaleString()} files, ${deep.repositorySize.lines.toLocaleString()} lines across ${deep.repositorySize.directories} directories`
+      `Repository: ${deep.repositorySize.files.toLocaleString()} files, ${deep.repositorySize.lines.toLocaleString()} lines across ${deep.repositorySize.directories} directories`,
     );
     lines.push(
-      `Primary language: ${this.getPrimaryLanguage(deep.repositorySize.languages)}`
+      `Primary language: ${this.getPrimaryLanguage(deep.repositorySize.languages)}`,
     );
 
     if (deep.dependencies.detectedFrameworks.length > 0) {
-      lines.push(`Frameworks: ${deep.dependencies.detectedFrameworks.join(", ")}`);
+      lines.push(
+        `Frameworks: ${deep.dependencies.detectedFrameworks.join(", ")}`,
+      );
     }
 
     if (deep.patterns.monorepo) {
       lines.push(
-        `Monorepo with ${deep.patterns.workspacePackages.length} packages: ${deep.patterns.workspacePackages.join(", ")}`
+        `Monorepo with ${deep.patterns.workspacePackages.length} packages: ${deep.patterns.workspacePackages.join(", ")}`,
       );
     }
 
@@ -123,7 +125,7 @@ export class DeepContextIndexer {
     }
 
     lines.push(
-      `Git: ${deep.git.totalCommits.toLocaleString()} commits, ${deep.git.contributors} contributors, active since ${deep.git.firstCommit?.slice(0, 10)}`
+      `Git: ${deep.git.totalCommits.toLocaleString()} commits, ${deep.git.contributors} contributors, active since ${deep.git.firstCommit?.slice(0, 10)}`,
     );
 
     return lines.join("\n");
@@ -193,7 +195,7 @@ export class DeepContextIndexer {
 
   private static async calculateSize(
     root: string,
-    files: string[]
+    files: string[],
   ): Promise<DeepContext["repositorySize"]> {
     const languages: Record<string, number> = {};
     let totalLines = 0;
@@ -257,14 +259,18 @@ export class DeepContextIndexer {
 
   private static async scanGit(root: string): Promise<DeepContext["git"]> {
     try {
-      const totalCommits = parseInt(
-        execSync("git rev-list --count HEAD", { cwd: root, encoding: "utf-8" }).trim()
-      ) || 0;
+      const totalCommits =
+        parseInt(
+          execSync("git rev-list --count HEAD", {
+            cwd: root,
+            encoding: "utf-8",
+          }).trim(),
+        ) || 0;
       const activeBranch = execSync("git branch --show-current", {
         cwd: root,
         encoding: "utf-8",
       }).trim();
-      
+
       // Multi-platform safe commands
       let branches = 1;
       try {
@@ -275,17 +281,21 @@ export class DeepContextIndexer {
 
       let contributors = 1;
       try {
-        contributors = execSync("git shortlog -s", { cwd: root, encoding: "utf-8" })
+        contributors = execSync("git shortlog -s", {
+          cwd: root,
+          encoding: "utf-8",
+        })
           .split("\n")
           .filter(Boolean).length;
       } catch {}
 
-      const firstCommit = execSync("git log --reverse --format=%ci", {
-        cwd: root,
-        encoding: "utf-8",
-      })
-        .split("\n")[0]
-        ?.trim() || "";
+      const firstCommit =
+        execSync("git log --reverse --format=%ci", {
+          cwd: root,
+          encoding: "utf-8",
+        })
+          .split("\n")[0]
+          ?.trim() || "";
 
       const lastCommit = execSync("git log -1 --format=%ci", {
         cwd: root,
@@ -404,7 +414,7 @@ export class DeepContextIndexer {
 
   private static detectPatterns(
     files: string[],
-    structure: DeepContext["structure"]
+    structure: DeepContext["structure"],
   ): DeepContext["patterns"] {
     const patterns: string[] = [];
     let isMonorepo = false;
@@ -421,10 +431,12 @@ export class DeepContextIndexer {
       patterns.push("Monorepo structure detected");
     }
 
-    if (dirNames.includes("services")) patterns.push("services/ contains business logic");
+    if (dirNames.includes("services"))
+      patterns.push("services/ contains business logic");
     if (dirNames.includes("hooks") || dirNames.includes("composables"))
       patterns.push("Hooks/composables pattern");
-    if (dirNames.includes("components")) patterns.push("Component-based architecture");
+    if (dirNames.includes("components"))
+      patterns.push("Component-based architecture");
     if (dirNames.includes("utils") || dirNames.includes("helpers"))
       patterns.push("Utilities in utils/ or helpers/");
     if (dirNames.includes("types") || dirNames.includes("interfaces"))
@@ -437,7 +449,7 @@ export class DeepContextIndexer {
     return {
       namingConventions: patterns,
       commonPrefixes: ["src/", "lib/", "packages/"].filter((p) =>
-        dirNames.some((d) => p.startsWith(d) || p.includes(d))
+        dirNames.some((d) => p.startsWith(d) || p.includes(d)),
       ),
       monorepo: isMonorepo,
       workspacePackages,
@@ -449,13 +461,16 @@ export class DeepContextIndexer {
     return sorted[0]?.[0] || "unknown";
   }
 
-  private static async save(workspacePath: string, context: DeepContext): Promise<void> {
+  private static async save(
+    workspacePath: string,
+    context: DeepContext,
+  ): Promise<void> {
     const dir = path.join(workspacePath, ".devdiff/context");
     await fs.mkdir(dir, { recursive: true });
     await fs.writeFile(
       path.join(dir, "deep-context.json"),
       JSON.stringify(context, null, 2),
-      "utf-8"
+      "utf-8",
     );
   }
 }

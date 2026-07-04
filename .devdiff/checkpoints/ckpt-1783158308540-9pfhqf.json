@@ -4,10 +4,7 @@
   "type": "pre-ai-call",
   "snapshot": {
     "files": [
-      [
-        ".changeset/clear-doodles-listen.md",
-        "---\n---\n"
-      ],
+      [".changeset/clear-doodles-listen.md", "---\n---\n"],
       [
         ".devdiff.config.js",
         "// DevDiff Configuration\n// Automatically updated by DevDiff compliance command\n\nexport default {\n  \"ai\": {\n    \"providers\": [\n      {\n        \"name\": \"local-ollama\",\n        \"url\": \"ollama://llama3.2:3b\",\n        \"priority\": 1\n      }\n    ],\n    \"routing\": {\n      \"strategy\": \"priority\",\n      \"complexityThreshold\": 0.6,\n      \"localOnly\": true\n    }\n  },\n  \"exclude\": [\n    \"node_modules/**\",\n    \"dist/**\",\n    \"build/**\",\n    \"out/**\",\n    \".next/**\",\n    \".nuxt/**\",\n    \"pnpm-lock.yaml\",\n    \"package-lock.json\",\n    \"yarn.lock\",\n    \"*.log\",\n    \".git/**\",\n    \".devdiff/**\"\n  ],\n  \"cache\": {\n    \"enabled\": true,\n    \"path\": \".devdiff/cache.json\"\n  },\n  \"format\": \"markdown\",\n  \"privacy\": {\n    \"encryptionAtRest\": \"AES-256-GCM\",\n    \"encryptionInTransit\": \"TLS 1.3\",\n    \"accessControl\": \"rbac\",\n    \"auditTrailImmutable\": true,\n    \"phiDetection\": true,\n    \"autoRedactPHI\": true\n  }\n};\n"

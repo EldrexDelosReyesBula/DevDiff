@@ -1,5 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { securePrompt, canSecurePrompt } from "../../cli/src/utils/secure-input";
+import {
+  securePrompt,
+  canSecurePrompt,
+} from "../../cli/src/utils/secure-input";
 
 describe("securePrompt", () => {
   const originalIsTTY = process.stdin.isTTY;
@@ -10,9 +13,11 @@ describe("securePrompt", () => {
     if (!process.stdin.setRawMode) {
       process.stdin.setRawMode = (() => {}) as any;
     }
+    process.env.DEVDIFF_PLATFORM_OVERRIDE = "windows";
   });
 
   afterEach(() => {
+    delete process.env.DEVDIFF_PLATFORM_OVERRIDE;
     // Restore original properties
     if (originalSetRawMode) {
       process.stdin.setRawMode = originalSetRawMode;
@@ -39,7 +44,7 @@ describe("securePrompt", () => {
     mockIsTTY(false);
 
     await expect(securePrompt("Enter key: ")).rejects.toThrow(
-      "Cannot read secure input"
+      "Cannot read secure input",
     );
   });
 
@@ -89,7 +94,9 @@ describe("securePrompt", () => {
   });
 
   it("cleans up on uncaught exception", async () => {
-    const processOnSpy = vi.spyOn(process, "on").mockImplementation(() => process);
+    const processOnSpy = vi
+      .spyOn(process, "on")
+      .mockImplementation(() => process);
     mockIsTTY(true);
 
     // Simulate fast input to exit the prompt
@@ -100,6 +107,9 @@ describe("securePrompt", () => {
     await securePrompt("Enter key: ");
 
     // Verify raw mode/cleanup listener was registered
-    expect(processOnSpy).toHaveBeenCalledWith("uncaughtException", expect.any(Function));
+    expect(processOnSpy).toHaveBeenCalledWith(
+      "uncaughtException",
+      expect.any(Function),
+    );
   });
 });

@@ -62,7 +62,12 @@ export class NetworkGuard {
       // 1. Check hard blocked domains (telemetry/analytics)
       for (const blocked of this.BLOCKED_DOMAINS) {
         if (domain === blocked || domain.endsWith("." + blocked)) {
-          this.logRequestSync(url, false, "blocked-telemetry", `Domain ${domain} is blacklisted (telemetry/analytics)`);
+          this.logRequestSync(
+            url,
+            false,
+            "blocked-telemetry",
+            `Domain ${domain} is blacklisted (telemetry/analytics)`,
+          );
           return {
             allowed: false,
             reason: `Domain ${domain} is on the blocklist (telemetry/analytics)`,
@@ -152,7 +157,7 @@ export class NetworkGuard {
     url: string,
     allowed: boolean,
     category: NetworkDecision["category"],
-    reason?: string
+    reason?: string,
   ): void {
     const logPath = this.getLogPath();
     const domain = new URL(url).hostname;

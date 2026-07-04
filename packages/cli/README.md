@@ -28,10 +28,10 @@ npm install -g @eldrex/cli
 
 ### What This Package Accesses
 
-| Resource | Why | Default | Can Disable |
-|----------|-----|---------|-------------|
-| File System | Read configurations, write local log cache | Yes | No |
-| Shell | Run whitelisted git operations, detect Ollama path | Yes | Yes |
+| Resource    | Why                                                | Default | Can Disable |
+| ----------- | -------------------------------------------------- | ------- | ----------- |
+| File System | Read configurations, write local log cache         | Yes     | No          |
+| Shell       | Run whitelisted git operations, detect Ollama path | Yes     | Yes         |
 
 ### Shell Access notice
 

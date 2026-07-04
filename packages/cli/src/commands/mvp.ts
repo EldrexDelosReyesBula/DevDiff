@@ -3,7 +3,7 @@ import { MVPStorage } from "@eldrex/core";
 
 export async function mvpCommand(
   action: "status" | "process" | "process-all" | "clear",
-  options?: { id?: string; all?: boolean }
+  options?: { id?: string; all?: boolean },
 ): Promise<void> {
   const repoPath = process.cwd();
 
@@ -27,47 +27,81 @@ export async function mvpCommand(
 
 async function handleStatus(repoPath: string): Promise<void> {
   const entries = await MVPStorage.listMVP(repoPath);
-  
+
   console.log(pc.cyan("┌────────────────────────────────────────────┐"));
-  console.log(pc.cyan("│") + pc.bold(pc.white("  MVP STORAGE                                ")) + pc.cyan("│"));
+  console.log(
+    pc.cyan("│") +
+      pc.bold(pc.white("  MVP STORAGE                                ")) +
+      pc.cyan("│"),
+  );
   console.log(pc.cyan("│                                            │"));
 
   const queued = entries.filter((e) => e.status === "queued");
   const processed = entries.filter((e) => e.status === "processed");
   const failed = entries.filter((e) => e.status === "failed");
 
-  console.log(pc.cyan("│") + pc.yellow("  Queued for AI processing:                 ") + pc.cyan("│"));
+  console.log(
+    pc.cyan("│") +
+      pc.yellow("  Queued for AI processing:                 ") +
+      pc.cyan("│"),
+  );
   if (queued.length === 0) {
-    console.log(pc.cyan("│") + pc.dim("   None                                     ") + pc.cyan("│"));
+    console.log(
+      pc.cyan("│") +
+        pc.dim("   None                                     ") +
+        pc.cyan("│"),
+    );
   } else {
     for (const entry of queued) {
       const label = `📦 ${entry.id} (${entry.change_range.files} files)`;
-      console.log(pc.cyan("│") + pc.white(`   ${label.padEnd(41)}`) + pc.cyan("│"));
+      console.log(
+        pc.cyan("│") + pc.white(`   ${label.padEnd(41)}`) + pc.cyan("│"),
+      );
     }
   }
-  
+
   console.log(pc.cyan("│                                            │"));
-  console.log(pc.cyan("│") + pc.green("  Processed:                                ") + pc.cyan("│"));
+  console.log(
+    pc.cyan("│") +
+      pc.green("  Processed:                                ") +
+      pc.cyan("│"),
+  );
   if (processed.length === 0) {
-    console.log(pc.cyan("│") + pc.dim("   None                                     ") + pc.cyan("│"));
+    console.log(
+      pc.cyan("│") +
+        pc.dim("   None                                     ") +
+        pc.cyan("│"),
+    );
   } else {
     for (const entry of processed) {
       const label = `✅ ${entry.id} (${entry.change_range.files} files)`;
-      console.log(pc.cyan("│") + pc.white(`   ${label.padEnd(41)}`) + pc.cyan("│"));
+      console.log(
+        pc.cyan("│") + pc.white(`   ${label.padEnd(41)}`) + pc.cyan("│"),
+      );
     }
   }
 
   if (failed.length > 0) {
     console.log(pc.cyan("│                                            │"));
-    console.log(pc.cyan("│") + pc.red("  Failed:                                   ") + pc.cyan("│"));
+    console.log(
+      pc.cyan("│") +
+        pc.red("  Failed:                                   ") +
+        pc.cyan("│"),
+    );
     for (const entry of failed) {
       const label = `❌ ${entry.id} (${entry.change_range.files} files)`;
-      console.log(pc.cyan("│") + pc.white(`   ${label.padEnd(41)}`) + pc.cyan("│"));
+      console.log(
+        pc.cyan("│") + pc.white(`   ${label.padEnd(41)}`) + pc.cyan("│"),
+      );
     }
   }
 
   console.log(pc.cyan("│                                            │"));
-  console.log(pc.cyan("│") + pc.white(`  Total entries: ${entries.length.toString().padEnd(28)}`) + pc.cyan("│"));
+  console.log(
+    pc.cyan("│") +
+      pc.white(`  Total entries: ${entries.length.toString().padEnd(28)}`) +
+      pc.cyan("│"),
+  );
   console.log(pc.cyan("└────────────────────────────────────────────┘"));
 }
 
@@ -124,7 +158,9 @@ async function handleProcessAll(repoPath: string): Promise<void> {
     if (processed.status === "processed") {
       console.log(pc.green(`✅ Successfully processed ${entry.id}`));
     } else {
-      console.log(pc.red(`❌ Failed to process ${entry.id}: ${processed.error}`));
+      console.log(
+        pc.red(`❌ Failed to process ${entry.id}: ${processed.error}`),
+      );
     }
   }
 }

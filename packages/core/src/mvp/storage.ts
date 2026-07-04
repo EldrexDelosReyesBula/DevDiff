@@ -32,7 +32,7 @@ export class MVPStorage {
     const dir = this.getMVPDir(repoPath);
     await fs.mkdir(dir, { recursive: true });
     const files = await fs.readdir(dir).catch(() => []);
-    
+
     const today = new Date().toISOString().slice(0, 10).replace(/-/g, "");
     let maxNum = 0;
     for (const f of files) {
@@ -44,7 +44,7 @@ export class MVPStorage {
         }
       }
     }
-    
+
     const nextNum = (maxNum + 1).toString().padStart(3, "0");
     return `mvp-${today}-${nextNum}`;
   }
@@ -79,7 +79,7 @@ export class MVPStorage {
   static async processMVP(repoPath: string, id: string): Promise<MVPEntry> {
     const dir = this.getMVPDir(repoPath);
     const filePath = path.join(dir, `${id}.json`);
-    
+
     const raw = await fs.readFile(filePath, "utf-8");
     const entry: MVPEntry = JSON.parse(raw);
 
@@ -88,8 +88,10 @@ export class MVPStorage {
     }
 
     try {
-      const diffText = Buffer.from(entry.diff_snapshot, "base64").toString("utf-8");
-      
+      const diffText = Buffer.from(entry.diff_snapshot, "base64").toString(
+        "utf-8",
+      );
+
       const result = await generateChangelog({
         diffText,
         repoPath,

@@ -13,6 +13,7 @@ If you discover a security vulnerability in DevDiff, please report it responsibl
 **GitHub Security Advisories:** [Report via GitHub](https://github.com/EldrexDelosReyesBula/devdiff/security/advisories/new)
 
 Please include:
+
 - Description of the vulnerability
 - Steps to reproduce
 - Potential impact
@@ -22,12 +23,12 @@ Please include:
 
 ## Response Timeline
 
-| Stage | Timeframe |
-|-------|-----------|
-| Acknowledgment | Within 48 hours |
-| Initial assessment | Within 5 business days |
-| Fix development | Within 30 days (critical: within 7 days) |
-| Public disclosure | After fix is released |
+| Stage              | Timeframe                                |
+| ------------------ | ---------------------------------------- |
+| Acknowledgment     | Within 48 hours                          |
+| Initial assessment | Within 5 business days                   |
+| Fix development    | Within 30 days (critical: within 7 days) |
+| Public disclosure  | After fix is released                    |
 
 ---
 
@@ -69,19 +70,23 @@ We will not take legal action against security researchers who follow this polic
 DevDiff's attack surface is intentionally minimal:
 
 **Network exposure:**
+
 - CLI: No listening ports (only outbound to AI providers)
 - MCP server: Optional, localhost-only by default
 - VS Code extension: No network exposure beyond what the CLI does
 
 **Shell execution:**
+
 - DevDiff only executes: `git diff --cached`, `git log`, `git status`
 - No arbitrary code execution from diff content
 
 **File system:**
+
 - DevDiff reads: `.devdiff.config.js`, `.devdiffignore`, `.git/`
 - DevDiff writes: `.devdiff/` directory only
 
 **Data classification:**
+
 - Runs before any cloud API call
 - Regex-based (not AI-based) for deterministic behavior
 - Fails closed by default (if classifier errors, the request is blocked)
@@ -92,4 +97,4 @@ DevDiff's attack surface is intentionally minimal:
 
 Security researchers who have responsibly disclosed vulnerabilities:
 
-*No vulnerabilities reported yet. Be the first!*
+_No vulnerabilities reported yet. Be the first!_

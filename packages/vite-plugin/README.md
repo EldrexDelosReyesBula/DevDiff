@@ -21,17 +21,17 @@ npm install @eldrex/vite
 Add to `vite.config.ts`:
 
 ```typescript
-import { defineConfig } from 'vite'
-import devDiffPlugin from '@eldrex/vite'
+import { defineConfig } from "vite";
+import devDiffPlugin from "@eldrex/vite";
 
 export default defineConfig({
   plugins: [
     devDiffPlugin({
       enabled: true,
-      output: 'CHANGELOG.md'
-    })
-  ]
-})
+      output: "CHANGELOG.md",
+    }),
+  ],
+});
 ```
 
 ## 🔒 Security & Privacy

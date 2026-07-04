@@ -48,6 +48,7 @@ devdiff monitor
 ## Blocked Domains List
 
 The following telemetry domains are always blocked:
+
 - `api.mixpanel.com`
 - `api.amplitude.com`
 - `sentry.io`
@@ -64,7 +65,7 @@ The following telemetry domains are always blocked:
 - `fullstory.com`
 - `clarity.ms`
 - `googletagmanager.com`
-- *And many other advertising and tracker networks.*
+- _And many other advertising and tracker networks._
 
 ---
 

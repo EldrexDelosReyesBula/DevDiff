@@ -5,6 +5,7 @@
 ### What This Means
 
 DevDiff cannot reach the AI provider. Either:
+
 - Ollama is not running (most common)
 - A cloud provider URL is wrong
 - A firewall is blocking the connection
@@ -81,6 +82,7 @@ export NODE_EXTRA_CA_CERTS=/path/to/corporate-ca.crt
 ### What This Means
 
 The AI provider is taking too long to respond. Common with:
+
 - Large models on slow hardware
 - Slow internet connection to cloud providers
 - Server overload
@@ -91,15 +93,16 @@ The AI provider is taking too long to respond. Common with:
 // .devdiff.config.js — increase timeout
 export default {
   ai: {
-    timeout: 120000,  // 2 minutes (default is 30 seconds)
+    timeout: 120000, // 2 minutes (default is 30 seconds)
     providers: [
-      { name: 'local-ollama', url: 'ollama://llama3.2:3b', priority: 1 }
-    ]
-  }
-}
+      { name: "local-ollama", url: "ollama://llama3.2:3b", priority: 1 },
+    ],
+  },
+};
 ```
 
 Or switch to a smaller/faster model:
+
 ```bash
 ollama pull llama3.2:1b   # Fastest, smallest
 ```
@@ -119,13 +122,13 @@ You've hit the rate limit for a cloud AI provider (OpenAI, Anthropic).
 export default {
   ai: {
     providers: [
-      { name: 'openai', url: 'openai://gpt-4o-mini', priority: 1 },
-      { name: 'local-fallback', url: 'ollama://llama3.2:3b', priority: 2 }  // Fallback
+      { name: "openai", url: "openai://gpt-4o-mini", priority: 1 },
+      { name: "local-fallback", url: "ollama://llama3.2:3b", priority: 2 }, // Fallback
     ],
     retryOnRateLimit: true,
-    retryDelay: 5000  // 5 seconds between retries
-  }
-}
+    retryDelay: 5000, // 5 seconds between retries
+  },
+};
 ```
 
 ---

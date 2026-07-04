@@ -8,9 +8,21 @@ export async function monitorCommand(): Promise<void> {
   const logPath = path.resolve(repoPath, ".devdiff/audit/network.log");
 
   console.clear();
-  console.log(pc.cyan("┌─────────────────────────────────────────────────────────────┐"));
-  console.log(pc.cyan("│") + pc.bold(pc.white("  DEVDIFF NETWORK MONITOR — Press Ctrl+C to stop              ")) + pc.cyan("│"));
-  console.log(pc.cyan("├─────────────────────────────────────────────────────────────┘"));
+  console.log(
+    pc.cyan("┌─────────────────────────────────────────────────────────────┐"),
+  );
+  console.log(
+    pc.cyan("│") +
+      pc.bold(
+        pc.white(
+          "  DEVDIFF NETWORK MONITOR — Press Ctrl+C to stop              ",
+        ),
+      ) +
+      pc.cyan("│"),
+  );
+  console.log(
+    pc.cyan("├─────────────────────────────────────────────────────────────┘"),
+  );
   console.log("");
 
   // Ensure the directory and file exist
@@ -81,12 +93,17 @@ export async function monitorCommand(): Promise<void> {
 
 function printEntry(entry: NetworkLogEntry): void {
   const dateStr = new Date(entry.timestamp).toLocaleTimeString();
-  const allowedStatus = entry.allowed ? pc.green("→ ALLOWED") : pc.red("⚠️ ATTEMPT BLOCKED");
-  const method = entry.url.includes("tags") || entry.url.includes("latest") ? "GET" : "POST";
-  
+  const allowedStatus = entry.allowed
+    ? pc.green("→ ALLOWED")
+    : pc.red("⚠️ ATTEMPT BLOCKED");
+  const method =
+    entry.url.includes("tags") || entry.url.includes("latest") ? "GET" : "POST";
+
   console.log(`  [${pc.gray(dateStr)}] ${method} ${pc.white(entry.domain)}`);
-  console.log(`             ${allowedStatus} (${entry.category.toUpperCase()})`);
-  
+  console.log(
+    `             ${allowedStatus} (${entry.category.toUpperCase()})`,
+  );
+
   if (entry.reason) {
     console.log(`             ${pc.yellow(entry.reason)}`);
   }

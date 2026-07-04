@@ -38,8 +38,7 @@ export class CLIOutputFormatter {
       return Math.max(h.length, maxData) + 2;
     });
 
-    const divider =
-      "├" + colWidths.map((w) => "─".repeat(w)).join("┼") + "┤";
+    const divider = "├" + colWidths.map((w) => "─".repeat(w)).join("┼") + "┤";
 
     const headerRow =
       "│" +
@@ -52,7 +51,9 @@ export class CLIOutputFormatter {
     const paddedHeaderRow =
       "│" +
       headers
-        .map((h, i) => ` ${pc.bold(h)}${" ".repeat(colWidths[i] - h.length - 1)}`)
+        .map(
+          (h, i) => ` ${pc.bold(h)}${" ".repeat(colWidths[i] - h.length - 1)}`,
+        )
         .join("│") +
       "│";
 
@@ -62,7 +63,7 @@ export class CLIOutputFormatter {
         row
           .map((cell, i) => ` ${(cell || "").padEnd(colWidths[i] - 1)}`)
           .join("│") +
-        "│"
+        "│",
     );
 
     return [
@@ -76,11 +77,13 @@ export class CLIOutputFormatter {
 
   // ── Progress Spinner ─────────────────────────────────
   static spinner(
-    frames: string[] = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"]
+    frames: string[] = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"],
   ) {
     let i = 0;
     const interval = setInterval(() => {
-      process.stdout.write(`\r${pc.cyan(frames[i++ % frames.length])} Processing...`);
+      process.stdout.write(
+        `\r${pc.cyan(frames[i++ % frames.length])} Processing...`,
+      );
     }, 80);
 
     return {
@@ -96,13 +99,15 @@ export class CLIOutputFormatter {
     const maxKeyLen = Math.max(...Object.keys(items).map((k) => k.length));
 
     const lines = [
-      pc.cyan(`┌─ ${pc.bold(title)} ${"─".repeat(Math.max(0, 60 - title.length))}`),
+      pc.cyan(
+        `┌─ ${pc.bold(title)} ${"─".repeat(Math.max(0, 60 - title.length))}`,
+      ),
       ...Object.entries(items).map(
         ([key, value]) =>
           pc.cyan("│ ") +
           pc.bold(key.padEnd(maxKeyLen)) +
           pc.dim(": ") +
-          pc.white(value)
+          pc.white(value),
       ),
       pc.cyan(`└${"─".repeat(62)}`),
     ];
@@ -113,7 +118,7 @@ export class CLIOutputFormatter {
   // ── Badge ────────────────────────────────────────────
   static badge(
     text: string,
-    type: "success" | "warning" | "error" | "info" = "info"
+    type: "success" | "warning" | "error" | "info" = "info",
   ): string {
     const symbols: Record<string, string> = {
       success: pc.green("✅"),

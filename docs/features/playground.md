@@ -9,6 +9,7 @@ Try DevDiff instantly in your browser — no installation required.
 🔗 **[devdiff.vercel.app/playground](https://devdiff.vercel.app/playground)**
 
 The playground lets you:
+
 - Paste any git diff and get an AI explanation
 - Switch between all 8 personas in real time
 - Try different output formats (Markdown, JSON, Mermaid)
@@ -28,6 +29,7 @@ devdiff report
 ```
 
 The local dashboard shows:
+
 - **Change history** — all past `devdiff generate` runs
 - **Diff viewer** — side-by-side with the AI explanation
 - **Persona switcher** — re-analyze with different personas

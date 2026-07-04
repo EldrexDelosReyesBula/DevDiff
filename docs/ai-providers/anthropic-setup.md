@@ -42,13 +42,13 @@ export default {
   ai: {
     providers: [
       {
-        name: 'anthropic-claude',
-        url: 'anthropic://claude-3-5-haiku-20241022',
-        priority: 1
-      }
-    ]
-  }
-}
+        name: "anthropic-claude",
+        url: "anthropic://claude-3-5-haiku-20241022",
+        priority: 1,
+      },
+    ],
+  },
+};
 ```
 
 ### 4. Generate Changelog
@@ -61,16 +61,20 @@ devdiff generate
 
 ## Available Models
 
-| Model | Cost | Speed | Quality | Best For |
-|-------|------|-------|---------|----------|
-| `claude-3-5-haiku-20241022` | Very low | Very fast | Great | Daily use, most diffs |
-| `claude-3-5-sonnet-20241022` | Medium | Fast | Excellent | Complex analysis |
-| `claude-opus-4-5` | High | Medium | Best | Deep architectural reviews |
+| Model                        | Cost     | Speed     | Quality   | Best For                   |
+| ---------------------------- | -------- | --------- | --------- | -------------------------- |
+| `claude-3-5-haiku-20241022`  | Very low | Very fast | Great     | Daily use, most diffs      |
+| `claude-3-5-sonnet-20241022` | Medium   | Fast      | Excellent | Complex analysis           |
+| `claude-opus-4-5`            | High     | Medium    | Best      | Deep architectural reviews |
 
 ```javascript
 // Use a specific model
-{ url: 'anthropic://claude-3-5-haiku-20241022' }
-{ url: 'anthropic://claude-3-5-sonnet-20241022' }
+{
+  url: "anthropic://claude-3-5-haiku-20241022";
+}
+{
+  url: "anthropic://claude-3-5-sonnet-20241022";
+}
 ```
 
 ---
@@ -78,8 +82,9 @@ devdiff generate
 ## Why Use Claude for Changelogs?
 
 Claude models excel at:
+
 - **Long context** — handles large diffs without truncation
-- **Nuanced reasoning** — explains *why* a change matters, not just *what* changed
+- **Nuanced reasoning** — explains _why_ a change matters, not just _what_ changed
 - **Safety-aware** — naturally flags security-sensitive changes
 - **Structured output** — reliably follows the changelog format
 
@@ -92,11 +97,15 @@ Claude models excel at:
 export default {
   ai: {
     providers: [
-      { name: 'local', url: 'ollama://llama3.2:3b', priority: 1 },
-      { name: 'anthropic', url: 'anthropic://claude-3-5-haiku-20241022', priority: 2 }
-    ]
-  }
-}
+      { name: "local", url: "ollama://llama3.2:3b", priority: 1 },
+      {
+        name: "anthropic",
+        url: "anthropic://claude-3-5-haiku-20241022",
+        priority: 2,
+      },
+    ],
+  },
+};
 ```
 
 ---
@@ -104,6 +113,7 @@ export default {
 ## Troubleshooting
 
 **"Invalid API key"**
+
 ```bash
 echo $ANTHROPIC_API_KEY
 
@@ -116,10 +126,12 @@ curl https://api.anthropic.com/v1/messages \
 ```
 
 **"Credit balance too low"**
+
 - Add credits at [console.anthropic.com/billing](https://console.anthropic.com/billing)
 - Switch to `claude-3-5-haiku` (most affordable)
 
 **"Overloaded"**
+
 - Anthropic API can be busy during peak hours
 - DevDiff auto-retries
 - Add Ollama as a local fallback

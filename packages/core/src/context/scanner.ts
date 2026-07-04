@@ -146,7 +146,11 @@ export class ProjectContextScanner {
 
     const entryPoints = await this.findEntryPoints(topDirs.rawDirs);
 
-    const techStack = this.buildTechStack(pkgInfo.dependencies, pkgInfo.devDependencies, pkgInfo.lang);
+    const techStack = this.buildTechStack(
+      pkgInfo.dependencies,
+      pkgInfo.devDependencies,
+      pkgInfo.lang,
+    );
 
     return {
       projectName: pkgInfo.name || path.basename(this.repoPath),
@@ -166,7 +170,10 @@ export class ProjectContextScanner {
     lang: string;
   }> {
     try {
-      const raw = await fs.readFile(path.join(this.repoPath, "package.json"), "utf-8");
+      const raw = await fs.readFile(
+        path.join(this.repoPath, "package.json"),
+        "utf-8",
+      );
       const pkg = JSON.parse(raw);
       return {
         name: pkg.name || "",
@@ -178,7 +185,13 @@ export class ProjectContextScanner {
     } catch {
       // Not a Node.js project — check for other languages
       const lang = await this.detectLanguage();
-      return { name: "", description: "", dependencies: {}, devDependencies: {}, lang };
+      return {
+        name: "",
+        description: "",
+        dependencies: {},
+        devDependencies: {},
+        lang,
+      };
     }
   }
 
@@ -206,14 +219,17 @@ export class ProjectContextScanner {
     const candidates = ["README.md", "readme.md", "README.txt", "README"];
     for (const name of candidates) {
       try {
-        const content = await fs.readFile(path.join(this.repoPath, name), "utf-8");
+        const content = await fs.readFile(
+          path.join(this.repoPath, name),
+          "utf-8",
+        );
         // Extract the first non-heading paragraph (first 400 words)
         const lines = content.split("\n");
         const paragraphs: string[] = [];
         let wordCount = 0;
         for (const line of lines) {
           const trimmed = line.trim();
-          if (!trimmed || trimmed.startsWith("#") || trimmed.startsWith("![")){
+          if (!trimmed || trimmed.startsWith("#") || trimmed.startsWith("![")) {
             continue;
           }
           // Skip badge lines
@@ -237,7 +253,12 @@ export class ProjectContextScanner {
     try {
       const entries = await fs.readdir(this.repoPath, { withFileTypes: true });
       const dirs = entries
-        .filter((e) => e.isDirectory() && !SKIP_DIRS.has(e.name) && !e.name.startsWith("."))
+        .filter(
+          (e) =>
+            e.isDirectory() &&
+            !SKIP_DIRS.has(e.name) &&
+            !e.name.startsWith("."),
+        )
         .map((e) => e.name)
         .sort();
 
@@ -249,13 +270,20 @@ export class ProjectContextScanner {
           architecture.push({ path: dir + "/", description: purpose });
         } else {
           // Try to infer from subdirectories
-          architecture.push({ path: dir + "/", description: "project directory" });
+          architecture.push({
+            path: dir + "/",
+            description: "project directory",
+          });
         }
       }
 
       // Limit to most meaningful dirs (max 12)
-      const meaningful = architecture.filter((a) => a.description !== "project directory");
-      const others = architecture.filter((a) => a.description === "project directory");
+      const meaningful = architecture.filter(
+        (a) => a.description !== "project directory",
+      );
+      const others = architecture.filter(
+        (a) => a.description === "project directory",
+      );
 
       return {
         architecture: [...meaningful.slice(0, 10), ...others.slice(0, 2)],
@@ -278,7 +306,9 @@ export class ProjectContextScanner {
     }
 
     // Check common source dirs
-    const sourceDirs = topDirs.filter((d) => ["src", "app", "lib", "packages"].includes(d));
+    const sourceDirs = topDirs.filter((d) =>
+      ["src", "app", "lib", "packages"].includes(d),
+    );
     for (const dir of sourceDirs.slice(0, 3)) {
       for (const name of ENTRY_POINT_NAMES) {
         try {
@@ -320,7 +350,8 @@ export class ProjectContextScanner {
     else if (allDeps["mocha"]) stack.push("Mocha (testing)");
 
     // Detect monorepo tools
-    if (allDeps["turbo"] || allDeps["turborepo"]) stack.push("Turborepo (monorepo)");
+    if (allDeps["turbo"] || allDeps["turborepo"])
+      stack.push("Turborepo (monorepo)");
     else if (allDeps["nx"]) stack.push("Nx (monorepo)");
 
     // Detect build tools
@@ -371,7 +402,9 @@ export function formatContext(ctx: ScannedContext): string {
     }
   }
 
-  lines.push(`\n## Custom Notes\n<!-- Edit this section to add domain knowledge, naming conventions, or architecture notes -->`);
+  lines.push(
+    `\n## Custom Notes\n<!-- Edit this section to add domain knowledge, naming conventions, or architecture notes -->`,
+  );
 
   return lines.join("\n");
 }

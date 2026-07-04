@@ -17,7 +17,7 @@ export class MVPDetector {
   static shouldUseMVP(diffText: string, config?: DevDiffConfig): boolean {
     // Default threshold is 50,000 characters (~12,500 tokens)
     const threshold = (config as any)?.mvp?.charThreshold || 50000;
-    
+
     if (diffText.length > threshold) {
       return true;
     }
@@ -39,7 +39,7 @@ export class MVPDetector {
     let additions = 0;
     let deletions = 0;
     const directories = new Set<string>();
-    
+
     let maxChangeSize = 0;
     let largestChangeFile = "None";
 

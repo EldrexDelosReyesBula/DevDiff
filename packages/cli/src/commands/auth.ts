@@ -93,7 +93,9 @@ export async function authAddCommand(provider: string): Promise<void> {
   const valid = await testApiKey(provider, apiKey);
 
   if (!valid) {
-    console.log(pc.red("   ❌ Key validation failed. Check your key and try again."));
+    console.log(
+      pc.red("   ❌ Key validation failed. Check your key and try again."),
+    );
     console.log(`   Get a new key: ${config.url}`);
     return;
   }
@@ -159,7 +161,7 @@ async function saveToEnvFile(envVar: string, value: string): Promise<void> {
     if (envContent.includes(`${envVar}=`)) {
       envContent = envContent.replace(
         new RegExp(`${envVar}=.*`, "g"),
-        `${envVar}=${value}`
+        `${envVar}=${value}`,
       );
     } else {
       envContent += `\n${envVar}=${value}\n`;
@@ -256,7 +258,7 @@ async function updateDevDiffConfig(provider: string): Promise<void> {
     console.log(`   📄 Added ${provider} config to .devdiff.config.js`);
   } else {
     console.log(
-      "   ⚠️ Could not automatically insert provider to .devdiff.config.js (format unrecognized). Please add manually."
+      "   ⚠️ Could not automatically insert provider to .devdiff.config.js (format unrecognized). Please add manually.",
     );
   }
 }

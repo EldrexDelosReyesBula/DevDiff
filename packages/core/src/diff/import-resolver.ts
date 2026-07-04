@@ -46,7 +46,7 @@ export class ImportResolver {
     const baseDirs = ["src", "lib", "app", "packages"];
     for (const base of baseDirs) {
       const resolved = this.resolveExtension(
-        path.join(this.workspaceRoot, base, importPath)
+        path.join(this.workspaceRoot, base, importPath),
       );
       if (resolved) return resolved;
     }
@@ -59,10 +59,13 @@ export class ImportResolver {
    */
   findDanglingReferences(
     deletedPath: string,
-    changedFiles: Map<string, string> // path → content
+    changedFiles: Map<string, string>, // path → content
   ): string[] {
     const references: string[] = [];
-    const deletedBasename = path.basename(deletedPath, path.extname(deletedPath));
+    const deletedBasename = path.basename(
+      deletedPath,
+      path.extname(deletedPath),
+    );
     const deletedDir = path.dirname(deletedPath);
 
     for (const [changedPath, content] of changedFiles) {
@@ -75,7 +78,10 @@ export class ImportResolver {
         const resolved = this.resolveToWorkspacePath(imp, changedPath);
 
         if (resolved) {
-          const resolvedBasename = path.basename(resolved, path.extname(resolved));
+          const resolvedBasename = path.basename(
+            resolved,
+            path.extname(resolved),
+          );
 
           if (
             resolved === deletedPath ||
@@ -108,7 +114,11 @@ export class ImportResolver {
       pattern.lastIndex = 0; // Reset
       let match;
       while ((match = pattern.exec(content)) !== null) {
-        if (match[1] && !match[1].startsWith("node:") && !match[1].startsWith("node:")) {
+        if (
+          match[1] &&
+          !match[1].startsWith("node:") &&
+          !match[1].startsWith("node:")
+        ) {
           paths.push(match[1]);
         }
       }
@@ -150,7 +160,8 @@ export class ImportResolver {
   private loadAliases(tsconfigPath?: string): Map<string, string> {
     const aliases = new Map<string, string>();
 
-    const configPath = tsconfigPath || path.join(this.workspaceRoot, "tsconfig.json");
+    const configPath =
+      tsconfigPath || path.join(this.workspaceRoot, "tsconfig.json");
 
     try {
       if (fs.existsSync(configPath)) {

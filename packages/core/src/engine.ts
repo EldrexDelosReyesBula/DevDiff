@@ -60,7 +60,8 @@ export class DevDiffEngine {
         await MVPStorage.saveMVP(this.workspacePath, entry);
 
         return {
-          summary: `[MVP Mode Triggered - Saved as ${id}]\n` +
+          summary:
+            `[MVP Mode Triggered - Saved as ${id}]\n` +
             `• Files changed: ${template.filesCount}\n` +
             `• Additions: ${template.additions} | Deletions: ${template.deletions}\n` +
             `• Directories affected: ${template.directoriesCount}\n` +
@@ -119,12 +120,14 @@ export class DevDiffEngine {
         };
         await MVPStorage.saveMVP(this.workspacePath, entry);
 
-        return `[MVP Mode Triggered - Saved as ${id}]\n` +
+        return (
+          `[MVP Mode Triggered - Saved as ${id}]\n` +
           `• Files changed: ${template.filesCount}\n` +
           `• Additions: ${template.additions} | Deletions: ${template.deletions}\n` +
           `• Directories affected: ${template.directoriesCount}\n` +
           `• Largest change: ${template.largestChangeFile}\n` +
-          `• Status: Queued for AI (Run 'devdiff mvp process' to process)`;
+          `• Status: Queued for AI (Run 'devdiff mvp process' to process)`
+        );
       }
 
       const result = await IDEGuardian.processSafely(async () => {
@@ -141,4 +144,3 @@ export class DevDiffEngine {
     }
   }
 }
-

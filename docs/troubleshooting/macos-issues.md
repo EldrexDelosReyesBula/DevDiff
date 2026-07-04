@@ -110,6 +110,7 @@ source ~/.bash_profile
 Some security tools (like Cisco AnyConnect, CrowdStrike, Sentinel One) can block Ollama's model downloads.
 
 **Fixes:**
+
 - Temporarily disable VPN while pulling models
 - Add Ollama to your security software's allowlist
 - Use `OLLAMA_HOST=0.0.0.0` only if needed for team setups

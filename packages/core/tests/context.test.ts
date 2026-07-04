@@ -2,7 +2,10 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import * as fs from "fs/promises";
 import * as path from "path";
 import { ProjectContextScanner, formatContext } from "../src/context/scanner";
-import { injectContextIntoPrompt, validateContextFile } from "../src/context/compiler";
+import {
+  injectContextIntoPrompt,
+  validateContextFile,
+} from "../src/context/compiler";
 import { verifyExplanation } from "../src/verification/accuracy-check";
 import type { AIExplanationResult } from "../src/ai/providers/base";
 import type { ParseResult } from "../src/diff/parser";
@@ -52,8 +55,12 @@ describe("ProjectContextScanner", () => {
       const scanner = new ProjectContextScanner(tmpDir);
       const ctx = await scanner.scan();
 
-      expect(ctx.techStack.some((t) => t.toLowerCase().includes("express"))).toBe(true);
-      expect(ctx.techStack.some((t) => t.toLowerCase().includes("prisma"))).toBe(true);
+      expect(
+        ctx.techStack.some((t) => t.toLowerCase().includes("express")),
+      ).toBe(true);
+      expect(
+        ctx.techStack.some((t) => t.toLowerCase().includes("prisma")),
+      ).toBe(true);
     } finally {
       await fs.rm(tmpDir, { recursive: true, force: true });
     }
@@ -64,7 +71,10 @@ describe("ProjectContextScanner", () => {
     await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
     await fs.mkdir(path.join(tmpDir, "services"), { recursive: true });
     await fs.mkdir(path.join(tmpDir, "api"), { recursive: true });
-    await fs.writeFile(path.join(tmpDir, "package.json"), JSON.stringify({ name: "test" }));
+    await fs.writeFile(
+      path.join(tmpDir, "package.json"),
+      JSON.stringify({ name: "test" }),
+    );
 
     try {
       const scanner = new ProjectContextScanner(tmpDir);
@@ -82,7 +92,10 @@ describe("ProjectContextScanner", () => {
     const tmpDir = path.join(process.cwd(), ".test-entry-tmp");
     const srcDir = path.join(tmpDir, "src");
     await fs.mkdir(srcDir, { recursive: true });
-    await fs.writeFile(path.join(tmpDir, "package.json"), JSON.stringify({ name: "test" }));
+    await fs.writeFile(
+      path.join(tmpDir, "package.json"),
+      JSON.stringify({ name: "test" }),
+    );
     await fs.writeFile(path.join(srcDir, "index.ts"), "export {}");
 
     try {
@@ -103,7 +116,11 @@ describe("formatContext", () => {
     const ctx = {
       projectName: "PapyrusJS",
       purpose: "A lightweight reactive UI framework",
-      techStack: ["TypeScript/JavaScript", "Vitest (testing)", "Turborepo (monorepo)"],
+      techStack: [
+        "TypeScript/JavaScript",
+        "Vitest (testing)",
+        "Turborepo (monorepo)",
+      ],
       architecture: [
         { path: "packages/", description: "monorepo packages" },
         { path: "src/", description: "main source code" },
@@ -141,13 +158,17 @@ describe("injectContextIntoPrompt", () => {
     expect(result).toContain("Project: TestApp");
     expect(result).toContain("END PROJECT KNOWLEDGE BASE");
     // System prompt comes first
-    expect(result.indexOf("You are DevDiff")).toBeLessThan(result.indexOf("PROJECT KNOWLEDGE BASE"));
+    expect(result.indexOf("You are DevDiff")).toBeLessThan(
+      result.indexOf("PROJECT KNOWLEDGE BASE"),
+    );
   });
 });
 
 // ─── verifyExplanation Tests ──────────────────────────────────────────────────
 
-function makeExplanation(overrides: Partial<AIExplanationResult> = {}): AIExplanationResult {
+function makeExplanation(
+  overrides: Partial<AIExplanationResult> = {},
+): AIExplanationResult {
   return {
     summary: "Updated the authentication module.",
     impact: "minor",
@@ -188,19 +209,25 @@ describe("verifyExplanation", () => {
     const result = verifyExplanation(explanation, diff);
 
     expect(result.valid).toBe(true);
-    expect(result.issues.filter((i) => i.severity === "warning")).toHaveLength(0);
+    expect(result.issues.filter((i) => i.severity === "warning")).toHaveLength(
+      0,
+    );
   });
 
   it("flags file references not in diff", () => {
     const explanation = makeExplanation({
-      files: [{ path: "src/missing-file.ts", explanation: "Updated something" }],
+      files: [
+        { path: "src/missing-file.ts", explanation: "Updated something" },
+      ],
     });
     const diff = makeParsedDiff(["src/auth.ts"]);
     const result = verifyExplanation(explanation, diff);
 
     expect(result.valid).toBe(false);
     expect(result.issues.some((i) => i.type === "file-not-in-diff")).toBe(true);
-    expect(result.issues.some((i) => i.message.includes("missing-file.ts"))).toBe(true);
+    expect(
+      result.issues.some((i) => i.message.includes("missing-file.ts")),
+    ).toBe(true);
   });
 
   it("allows basename matching for file paths", () => {
@@ -240,7 +267,10 @@ describe("verifyExplanation", () => {
     const explanation = makeExplanation({
       summary: "Updated the handleTokenRefresh function in the auth layer.",
     });
-    const diff = makeParsedDiff(["src/auth.ts"], "// some diff content without handleTokenRefresh");
+    const diff = makeParsedDiff(
+      ["src/auth.ts"],
+      "// some diff content without handleTokenRefresh",
+    );
     const result = verifyExplanation(explanation, diff);
 
     // Identifier mismatches are info-level, not warning-level

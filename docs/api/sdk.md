@@ -15,19 +15,17 @@ npm install @eldrex/core
 ## Quick Start
 
 ```typescript
-import { DevDiff } from '@eldrex/core';
+import { DevDiff } from "@eldrex/core";
 
 const devdiff = new DevDiff({
   ai: {
-    providers: [
-      { name: 'local', url: 'ollama://llama3.2:3b', priority: 1 }
-    ]
-  }
+    providers: [{ name: "local", url: "ollama://llama3.2:3b", priority: 1 }],
+  },
 });
 
 const changelog = await devdiff.generate({
-  persona: 'developer',
-  format: 'markdown'
+  persona: "developer",
+  format: "markdown",
 });
 
 console.log(changelog.output);
@@ -42,18 +40,16 @@ console.log(changelog.output);
 Creates a new DevDiff instance.
 
 ```typescript
-import { DevDiff, DevDiffConfig } from '@eldrex/core';
+import { DevDiff, DevDiffConfig } from "@eldrex/core";
 
 const config: DevDiffConfig = {
   ai: {
-    providers: [
-      { name: 'ollama', url: 'ollama://llama3.2:3b', priority: 1 }
-    ],
-    timeout: 60000
+    providers: [{ name: "ollama", url: "ollama://llama3.2:3b", priority: 1 }],
+    timeout: 60000,
   },
   output: {
-    format: 'markdown'
-  }
+    format: "markdown",
+  },
 };
 
 const devdiff = new DevDiff(config);
@@ -67,21 +63,21 @@ Generates a changelog for staged changes or provided diff text.
 
 ```typescript
 const result = await devdiff.generate({
-  persona: 'developer',          // Persona to use
-  format: 'markdown',            // Output format
-  diffText: string,              // Optional: provide diff directly
-  dryRun: false,                 // If true, returns prompt without calling AI
+  persona: "developer", // Persona to use
+  format: "markdown", // Output format
+  diffText: string, // Optional: provide diff directly
+  dryRun: false, // If true, returns prompt without calling AI
 });
 
 // Result
 interface GenerateResult {
-  output: string;                 // The generated changelog
+  output: string; // The generated changelog
   metadata: {
     persona: string;
     format: string;
     model: string;
     tokensUsed: number;
-    duration: number;             // milliseconds
+    duration: number; // milliseconds
     filesChanged: number;
     linesAdded: number;
     linesRemoved: number;
@@ -93,7 +89,7 @@ interface GenerateResult {
 
 ```typescript
 // From staged git changes
-const result = await devdiff.generate({ persona: 'ceo' });
+const result = await devdiff.generate({ persona: "ceo" });
 
 // From a raw diff string
 const result = await devdiff.generate({
@@ -103,7 +99,7 @@ const result = await devdiff.generate({
 +  // New feature
 +  console.log('hello');
 `,
-  persona: 'developer'
+  persona: "developer",
 });
 
 // Dry run (get prompt without calling AI)
@@ -119,15 +115,15 @@ Runs multiple personas simultaneously.
 
 ```typescript
 const result = await devdiff.generateMultiAgent({
-  personas: ['developer', 'ceo', 'compliance'],
+  personas: ["developer", "ceo", "compliance"],
   synthesize: true,
-  format: 'markdown'
+  format: "markdown",
 });
 
 // Result
 interface MultiAgentResult {
-  outputs: Record<string, string>;  // Per-persona outputs
-  synthesis: string;                // Combined output (if synthesize: true)
+  outputs: Record<string, string>; // Per-persona outputs
+  synthesis: string; // Combined output (if synthesize: true)
   metadata: { /* ... */ };
 }
 ```
@@ -142,8 +138,8 @@ Gets the current staged diff without AI analysis.
 const diff = await devdiff.getDiff();
 
 interface DiffResult {
-  raw: string;          // Raw unified diff
-  files: FileDiff[];    // Parsed file-level diffs
+  raw: string; // Raw unified diff
+  files: FileDiff[]; // Parsed file-level diffs
   stats: {
     filesChanged: number;
     linesAdded: number;
@@ -159,11 +155,11 @@ interface DiffResult {
 Checks the current staged changes against a compliance framework.
 
 ```typescript
-const report = await devdiff.compliance.check('gdpr');
+const report = await devdiff.compliance.check("gdpr");
 
 interface ComplianceReport {
   framework: string;
-  score: number;        // 0–100
+  score: number; // 0–100
   compliant: ComplianceItem[];
   warnings: ComplianceItem[];
   violations: ComplianceItem[];
@@ -179,7 +175,7 @@ Access and validate the active configuration.
 
 ```typescript
 // Get config
-const config = await devdiff.config.load('./my-project');
+const config = await devdiff.config.load("./my-project");
 
 // Validate config
 const result = await devdiff.config.validate();
@@ -204,7 +200,7 @@ import type {
   Persona,
   OutputFormat,
   ProviderConfig,
-} from '@eldrex/core';
+} from "@eldrex/core";
 ```
 
 ---
@@ -215,15 +211,15 @@ import type {
 const devdiff = new DevDiff(config);
 
 // Listen for events
-devdiff.on('generate:start', ({ persona, format }) => {
+devdiff.on("generate:start", ({ persona, format }) => {
   console.log(`Generating with ${persona} persona...`);
 });
 
-devdiff.on('generate:complete', (result) => {
+devdiff.on("generate:complete", (result) => {
   console.log(`Done in ${result.metadata.duration}ms`);
 });
 
-devdiff.on('provider:error', ({ provider, error }) => {
+devdiff.on("provider:error", ({ provider, error }) => {
   console.error(`Provider ${provider} failed:`, error.message);
   // DevDiff will automatically try next provider
 });
@@ -235,14 +231,14 @@ devdiff.on('provider:error', ({ provider, error }) => {
 
 ```typescript
 #!/usr/bin/env node
-import { DevDiff } from '@eldrex/core';
-import { writeFileSync } from 'fs';
+import { DevDiff } from "@eldrex/core";
+import { writeFileSync } from "fs";
 
 const devdiff = new DevDiff();
 
 const result = await devdiff.generate({
-  persona: process.argv[2] || 'developer',
-  format: 'markdown'
+  persona: process.argv[2] || "developer",
+  format: "markdown",
 });
 
 const filename = `changelog-${Date.now()}.md`;

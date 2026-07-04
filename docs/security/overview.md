@@ -71,15 +71,15 @@ DevDiff CLI output
 
 The data classification engine runs before any cloud API call and automatically redacts:
 
-| Pattern | Example | Action |
-|---------|---------|--------|
-| API Keys | `sk-abc123...` | Replaced with `[REDACTED_API_KEY]` |
-| Passwords | `password = "secret"` | Replaced with `[REDACTED_PASSWORD]` |
-| AWS credentials | `AKIA...` | Replaced with `[REDACTED_AWS_KEY]` |
-| Private keys | `-----BEGIN RSA PRIVATE KEY-----` | Replaced with `[REDACTED_PRIVATE_KEY]` |
-| Email addresses | `user@example.com` | Configurable — redact or allow |
-| IP addresses | `192.168.1.1` | Configurable — redact or allow |
-| JWT tokens | `eyJ...` | Replaced with `[REDACTED_JWT]` |
+| Pattern         | Example                           | Action                                 |
+| --------------- | --------------------------------- | -------------------------------------- |
+| API Keys        | `sk-abc123...`                    | Replaced with `[REDACTED_API_KEY]`     |
+| Passwords       | `password = "secret"`             | Replaced with `[REDACTED_PASSWORD]`    |
+| AWS credentials | `AKIA...`                         | Replaced with `[REDACTED_AWS_KEY]`     |
+| Private keys    | `-----BEGIN RSA PRIVATE KEY-----` | Replaced with `[REDACTED_PRIVATE_KEY]` |
+| Email addresses | `user@example.com`                | Configurable — redact or allow         |
+| IP addresses    | `192.168.1.1`                     | Configurable — redact or allow         |
+| JWT tokens      | `eyJ...`                          | Replaced with `[REDACTED_JWT]`         |
 
 **Configure the classifier:**
 
@@ -88,18 +88,18 @@ The data classification engine runs before any cloud API call and automatically 
 export default {
   security: {
     classifier: {
-      enabled: true,            // Always enabled for cloud providers
-      failOpen: false,          // If classifier errors, block the request
+      enabled: true, // Always enabled for cloud providers
+      failOpen: false, // If classifier errors, block the request
       customPatterns: [
         {
-          name: 'internal-token',
+          name: "internal-token",
           pattern: /TOKEN_[A-Z0-9]{32}/,
-          replacement: '[REDACTED_INTERNAL_TOKEN]'
-        }
-      ]
-    }
-  }
-}
+          replacement: "[REDACTED_INTERNAL_TOKEN]",
+        },
+      ],
+    },
+  },
+};
 ```
 
 ---

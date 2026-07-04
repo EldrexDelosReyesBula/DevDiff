@@ -20,24 +20,153 @@ export interface VerificationResult {
  * for regular English words that appear in technical explanations.
  */
 const COMMON_ENGLISH = new Set([
-  "the", "a", "an", "is", "are", "was", "were", "be", "been", "being",
-  "have", "has", "had", "do", "does", "did", "will", "would", "could",
-  "should", "may", "might", "shall", "can", "need", "must", "ought",
-  "to", "of", "in", "on", "at", "by", "for", "with", "about", "from",
-  "into", "through", "during", "before", "after", "above", "below",
-  "this", "that", "these", "those", "it", "its", "which", "who", "whom",
-  "what", "where", "when", "why", "how", "all", "each", "every", "both",
-  "few", "more", "most", "other", "some", "such", "no", "nor", "not",
-  "only", "same", "so", "than", "too", "very", "just", "but", "and", "or",
-  "if", "else", "then", "new", "old", "type", "value", "data", "code",
-  "function", "method", "class", "module", "object", "array", "string",
-  "number", "boolean", "return", "export", "import", "default", "const",
-  "let", "var", "async", "await", "true", "false", "null", "undefined",
-  "File", "Files", "Added", "Removed", "Changed", "Updated", "Created",
-  "Deleted", "Modified", "Renamed", "Moved", "Refactored", "Fixed",
-  "API", "URL", "HTTP", "JSON", "HTML", "CSS", "SQL", "UUID", "ID", "UI",
-  "DevDiff", "Git", "GitHub", "Node", "TypeScript", "JavaScript",
-  "React", "Vue", "Express", "Next", "Vite", "Vitest",
+  "the",
+  "a",
+  "an",
+  "is",
+  "are",
+  "was",
+  "were",
+  "be",
+  "been",
+  "being",
+  "have",
+  "has",
+  "had",
+  "do",
+  "does",
+  "did",
+  "will",
+  "would",
+  "could",
+  "should",
+  "may",
+  "might",
+  "shall",
+  "can",
+  "need",
+  "must",
+  "ought",
+  "to",
+  "of",
+  "in",
+  "on",
+  "at",
+  "by",
+  "for",
+  "with",
+  "about",
+  "from",
+  "into",
+  "through",
+  "during",
+  "before",
+  "after",
+  "above",
+  "below",
+  "this",
+  "that",
+  "these",
+  "those",
+  "it",
+  "its",
+  "which",
+  "who",
+  "whom",
+  "what",
+  "where",
+  "when",
+  "why",
+  "how",
+  "all",
+  "each",
+  "every",
+  "both",
+  "few",
+  "more",
+  "most",
+  "other",
+  "some",
+  "such",
+  "no",
+  "nor",
+  "not",
+  "only",
+  "same",
+  "so",
+  "than",
+  "too",
+  "very",
+  "just",
+  "but",
+  "and",
+  "or",
+  "if",
+  "else",
+  "then",
+  "new",
+  "old",
+  "type",
+  "value",
+  "data",
+  "code",
+  "function",
+  "method",
+  "class",
+  "module",
+  "object",
+  "array",
+  "string",
+  "number",
+  "boolean",
+  "return",
+  "export",
+  "import",
+  "default",
+  "const",
+  "let",
+  "var",
+  "async",
+  "await",
+  "true",
+  "false",
+  "null",
+  "undefined",
+  "File",
+  "Files",
+  "Added",
+  "Removed",
+  "Changed",
+  "Updated",
+  "Created",
+  "Deleted",
+  "Modified",
+  "Renamed",
+  "Moved",
+  "Refactored",
+  "Fixed",
+  "API",
+  "URL",
+  "HTTP",
+  "JSON",
+  "HTML",
+  "CSS",
+  "SQL",
+  "UUID",
+  "ID",
+  "UI",
+  "DevDiff",
+  "Git",
+  "GitHub",
+  "Node",
+  "TypeScript",
+  "JavaScript",
+  "React",
+  "Vue",
+  "Express",
+  "Next",
+  "Vite",
+  "Vitest",
 ]);
 
 /**
@@ -46,7 +175,8 @@ const COMMON_ENGLISH = new Set([
  */
 function extractFilePaths(text: string): string[] {
   // Match paths like: src/foo.ts, packages/core/src/bar.ts, ./utils.js
-  const pathPattern = /(?:^|[\s`"'(])(\.[./]|[a-zA-Z][a-zA-Z0-9_-]*(?:\/[a-zA-Z0-9_.-]+)+(?:\.[a-zA-Z]{1,6})?)/gm;
+  const pathPattern =
+    /(?:^|[\s`"'(])(\.[./]|[a-zA-Z][a-zA-Z0-9_-]*(?:\/[a-zA-Z0-9_.-]+)+(?:\.[a-zA-Z]{1,6})?)/gm;
   const found = new Set<string>();
   let match: RegExpExecArray | null;
   while ((match = pathPattern.exec(text)) !== null) {
@@ -65,7 +195,8 @@ function extractFilePaths(text: string): string[] {
  */
 function extractCodeIdentifiers(text: string): string[] {
   // Match camelCase, PascalCase, snake_case, SCREAMING_SNAKE
-  const identPattern = /\b([a-zA-Z][a-zA-Z0-9]*(?:[_][a-zA-Z0-9]+|[A-Z][a-z]+)[a-zA-Z0-9_]*)\b/g;
+  const identPattern =
+    /\b([a-zA-Z][a-zA-Z0-9]*(?:[_][a-zA-Z0-9]+|[A-Z][a-z]+)[a-zA-Z0-9_]*)\b/g;
   const found = new Set<string>();
   let match: RegExpExecArray | null;
   while ((match = identPattern.exec(text)) !== null) {
@@ -84,9 +215,7 @@ function extractCodeIdentifiers(text: string): string[] {
  */
 function flattenDiff(parsedDiff: ParseResult): string {
   return parsedDiff.files
-    .flatMap((f) =>
-      f.hunks.flatMap((h) => h.lines.map((l) => l.content))
-    )
+    .flatMap((f) => f.hunks.flatMap((h) => h.lines.map((l) => l.content)))
     .join("\n");
 }
 
@@ -106,7 +235,10 @@ function getDiffFilePaths(parsedDiff: ParseResult): string[] {
  * Check if a file path mentioned in the explanation is "close enough" to
  * a file path in the diff (handles basename matching, prefix stripping, etc.)
  */
-function filePathMatchesDiff(mentionedPath: string, diffPaths: string[]): boolean {
+function filePathMatchesDiff(
+  mentionedPath: string,
+  diffPaths: string[],
+): boolean {
   const normalize = (p: string) => p.replace(/\\/g, "/").replace(/^\.\//, "");
   const norm = normalize(mentionedPath);
   const basename = norm.split("/").pop() || norm;
@@ -170,7 +302,8 @@ export function verifyExplanation(
     if (!filePathMatchesDiff(sp, diffPaths) && diffPaths.length > 0) {
       // Only flag if we have actual diff files to compare against
       // and the mentioned path doesn't look like a generic path example
-      const looksSpecific = /\.(ts|js|tsx|jsx|py|go|rs|java|rb|php|css|html|json)$/.test(sp);
+      const looksSpecific =
+        /\.(ts|js|tsx|jsx|py|go|rs|java|rb|php|css|html|json)$/.test(sp);
       if (looksSpecific && !mentionedFiles.includes(sp)) {
         issues.push({
           type: "file-not-in-diff",

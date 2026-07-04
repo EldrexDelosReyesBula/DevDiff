@@ -2,21 +2,21 @@
 // Automatically updated by DevDiff compliance command
 
 export default {
-  "ai": {
-    "providers": [
+  ai: {
+    providers: [
       {
-        "name": "local-ollama",
-        "url": "ollama://llama3.2:3b",
-        "priority": 1
-      }
+        name: "local-ollama",
+        url: "ollama://llama3.2:3b",
+        priority: 1,
+      },
     ],
-    "routing": {
-      "strategy": "priority",
-      "complexityThreshold": 0.6,
-      "localOnly": true
-    }
+    routing: {
+      strategy: "priority",
+      complexityThreshold: 0.6,
+      localOnly: true,
+    },
   },
-  "exclude": [
+  exclude: [
     "node_modules/**",
     "dist/**",
     "build/**",
@@ -28,19 +28,19 @@ export default {
     "yarn.lock",
     "*.log",
     ".git/**",
-    ".devdiff/**"
+    ".devdiff/**",
   ],
-  "cache": {
-    "enabled": true,
-    "path": ".devdiff/cache.json"
+  cache: {
+    enabled: true,
+    path: ".devdiff/cache.json",
   },
-  "format": "markdown",
-  "privacy": {
-    "encryptionAtRest": "AES-256-GCM",
-    "encryptionInTransit": "TLS 1.3",
-    "accessControl": "rbac",
-    "auditTrailImmutable": true,
-    "phiDetection": true,
-    "autoRedactPHI": true
-  }
+  format: "markdown",
+  privacy: {
+    encryptionAtRest: "AES-256-GCM",
+    encryptionInTransit: "TLS 1.3",
+    accessControl: "rbac",
+    auditTrailImmutable: true,
+    phiDetection: true,
+    autoRedactPHI: true,
+  },
 };

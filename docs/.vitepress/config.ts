@@ -1,265 +1,331 @@
-import { defineConfig } from 'vitepress'
+import { defineConfig } from "vitepress";
 
 export default defineConfig({
-  title: 'DevDiff',
-  description: 'Privacy-first, BYOAI changelog intelligence for developers',
-  lang: 'en-US',
+  title: "DevDiff",
+  description: "Privacy-first, BYOAI changelog intelligence for developers",
+  lang: "en-US",
   ignoreDeadLinks: true,
 
   cleanUrls: true,
   lastUpdated: true,
   sitemap: {
-    hostname: 'https://devdiff.vercel.app'
+    hostname: "https://devdiff.vercel.app",
   },
 
   head: [
-    ['link', { rel: 'icon', href: '/favicon.ico' }],
-    ['meta', { name: 'theme-color', content: '#6366f1' }],
-    ['meta', { name: 'description', content: 'DevDiff — Privacy-first, BYOAI changelog intelligence. AI-powered git diff explanations that run entirely on your machine. Free and open source.' }],
-    ['meta', { name: 'keywords', content: 'changelog generator, git diff explainer, AI changelog, privacy-first AI, local AI, Ollama, developer tools, open source, BYOAI, code intelligence, git history, automated changelog, vibe coding, code review AI' }],
-    
+    ["link", { rel: "icon", href: "/favicon.ico" }],
+    ["meta", { name: "theme-color", content: "#6366f1" }],
+    [
+      "meta",
+      {
+        name: "description",
+        content:
+          "DevDiff — Privacy-first, BYOAI changelog intelligence. AI-powered git diff explanations that run entirely on your machine. Free and open source.",
+      },
+    ],
+    [
+      "meta",
+      {
+        name: "keywords",
+        content:
+          "changelog generator, git diff explainer, AI changelog, privacy-first AI, local AI, Ollama, developer tools, open source, BYOAI, code intelligence, git history, automated changelog, vibe coding, code review AI",
+      },
+    ],
+
     // Open Graph
-    ['meta', { property: 'og:title', content: 'DevDiff — AI-Powered Changelog Intelligence' }],
-    ['meta', { property: 'og:description', content: 'Privacy-first git diff explanations using local AI. No cloud required. Free and open source.' }],
-    ['meta', { property: 'og:image', content: 'https://devdiff.vercel.app/og-image.png' }],
-    ['meta', { property: 'og:url', content: 'https://devdiff.vercel.app' }],
-    ['meta', { property: 'og:type', content: 'website' }],
-    
+    [
+      "meta",
+      {
+        property: "og:title",
+        content: "DevDiff — AI-Powered Changelog Intelligence",
+      },
+    ],
+    [
+      "meta",
+      {
+        property: "og:description",
+        content:
+          "Privacy-first git diff explanations using local AI. No cloud required. Free and open source.",
+      },
+    ],
+    [
+      "meta",
+      {
+        property: "og:image",
+        content: "https://devdiff.vercel.app/og-image.png",
+      },
+    ],
+    ["meta", { property: "og:url", content: "https://devdiff.vercel.app" }],
+    ["meta", { property: "og:type", content: "website" }],
+
     // Twitter Card
-    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
-    ['meta', { name: 'twitter:title', content: 'DevDiff — AI Changelog Intelligence' }],
-    ['meta', { name: 'twitter:description', content: 'Privacy-first git diff explanations using local AI. Free and open source.' }],
-    ['meta', { name: 'twitter:image', content: 'https://devdiff.vercel.app/og-image.png' }],
-    
+    ["meta", { name: "twitter:card", content: "summary_large_image" }],
+    [
+      "meta",
+      { name: "twitter:title", content: "DevDiff — AI Changelog Intelligence" },
+    ],
+    [
+      "meta",
+      {
+        name: "twitter:description",
+        content:
+          "Privacy-first git diff explanations using local AI. Free and open source.",
+      },
+    ],
+    [
+      "meta",
+      {
+        name: "twitter:image",
+        content: "https://devdiff.vercel.app/og-image.png",
+      },
+    ],
+
     // Canonical URL
-    ['link', { rel: 'canonical', href: 'https://devdiff.vercel.app' }],
-    
+    ["link", { rel: "canonical", href: "https://devdiff.vercel.app" }],
+
     // Structured Data
-    ['script', { type: 'application/ld+json' }, JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'SoftwareApplication',
-      'name': 'DevDiff',
-      'applicationCategory': 'DeveloperApplication',
-      'operatingSystem': 'Windows, macOS, Linux',
-      'description': 'Privacy-first, BYOAI changelog intelligence for developers',
-      'url': 'https://devdiff.vercel.app',
-      'license': 'https://opensource.org/licenses/MIT',
-      'offers': {
-        '@type': 'Offer',
-        'price': '0',
-        'priceCurrency': 'USD'
-      }
-    })]
+    [
+      "script",
+      { type: "application/ld+json" },
+      JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        name: "DevDiff",
+        applicationCategory: "DeveloperApplication",
+        operatingSystem: "Windows, macOS, Linux",
+        description:
+          "Privacy-first, BYOAI changelog intelligence for developers",
+        url: "https://devdiff.vercel.app",
+        license: "https://opensource.org/licenses/MIT",
+        offers: {
+          "@type": "Offer",
+          price: "0",
+          priceCurrency: "USD",
+        },
+      }),
+    ],
   ],
 
-
   themeConfig: {
-    logo: '/devdiff-logo.svg',
+    logo: "/devdiff-logo.svg",
 
     nav: [
-      { text: 'Guide', link: '/guide/getting-started' },
-      { text: 'AI Providers', link: '/ai-providers/overview' },
-      { text: 'Troubleshooting', link: '/troubleshooting/' },
-      { text: 'API', link: '/api/core' },
+      { text: "Guide", link: "/guide/getting-started" },
+      { text: "AI Providers", link: "/ai-providers/overview" },
+      { text: "Troubleshooting", link: "/troubleshooting/" },
+      { text: "API", link: "/api/core" },
       {
-        text: 'v1.0.3',
+        text: "v1.0.3",
         items: [
-          { text: 'Changelog', link: '/versioning/changelog' },
-          { text: 'Version Policy', link: '/versioning/policy' },
-          { text: 'GitHub Releases', link: 'https://github.com/EldrexDelosReyesBula/devdiff/releases' },
-          { text: 'Report a Bug', link: 'https://github.com/EldrexDelosReyesBula/devdiff/issues' },
-        ]
-      }
+          { text: "Changelog", link: "/versioning/changelog" },
+          { text: "Version Policy", link: "/versioning/policy" },
+          {
+            text: "GitHub Releases",
+            link: "https://github.com/EldrexDelosReyesBula/devdiff/releases",
+          },
+          {
+            text: "Report a Bug",
+            link: "https://github.com/EldrexDelosReyesBula/devdiff/issues",
+          },
+        ],
+      },
     ],
 
     sidebar: {
-      '/guide/': [
+      "/guide/": [
         {
-          text: 'Getting Started',
+          text: "Getting Started",
           items: [
-            { text: 'Getting Started', link: '/guide/getting-started' },
-            { text: 'Installation', link: '/guide/installation' },
-            { text: 'Quick Start', link: '/guide/quick-start' },
-            { text: 'Configuration', link: '/guide/configuration' },
-            { text: 'Design System', link: '/guide/design-system' },
-          ]
+            { text: "Getting Started", link: "/guide/getting-started" },
+            { text: "Installation", link: "/guide/installation" },
+            { text: "Quick Start", link: "/guide/quick-start" },
+            { text: "Configuration", link: "/guide/configuration" },
+            { text: "Design System", link: "/guide/design-system" },
+          ],
         },
         {
-          text: 'Core Concepts',
+          text: "Core Concepts",
           items: [
-            { text: 'How It Works', link: '/guide/how-it-works' },
-            { text: 'Bring Your Own AI', link: '/guide/byoai' },
-            { text: 'Token Optimization', link: '/guide/token-optimization' },
-            { text: 'Offline-First Design', link: '/guide/offline-first' },
-          ]
+            { text: "How It Works", link: "/guide/how-it-works" },
+            { text: "Bring Your Own AI", link: "/guide/byoai" },
+            { text: "Token Optimization", link: "/guide/token-optimization" },
+            { text: "Offline-First Design", link: "/guide/offline-first" },
+          ],
         },
         {
-          text: 'Security & Compliance',
+          text: "Security & Compliance",
           items: [
-            { text: 'Security Model', link: '/guide/security' },
-            { text: 'Privacy Guarantees', link: '/guide/privacy' },
-            { text: 'Compliance Frameworks', link: '/guide/compliance' },
-          ]
+            { text: "Security Model", link: "/guide/security" },
+            { text: "Privacy Guarantees", link: "/guide/privacy" },
+            { text: "Compliance Frameworks", link: "/guide/compliance" },
+          ],
         },
         {
-          text: 'Advanced Features',
+          text: "Advanced Features",
           items: [
-            { text: 'Multi-Agent Swarms', link: '/guide/multi-agent' },
-            { text: 'Vibe-Coding Mode', link: '/guide/vibe-coding' },
-            { text: 'Disaster Recovery', link: '/guide/disaster-recovery' },
-            { text: 'WebGPU Inference', link: '/guide/webgpu-inference' },
-            { text: 'CI/CD Integration', link: '/guide/ci-cd' },
-            { text: 'Team Setups', link: '/guide/team-setups' },
-          ]
+            { text: "Multi-Agent Swarms", link: "/guide/multi-agent" },
+            { text: "Vibe-Coding Mode", link: "/guide/vibe-coding" },
+            { text: "Disaster Recovery", link: "/guide/disaster-recovery" },
+            { text: "WebGPU Inference", link: "/guide/webgpu-inference" },
+            { text: "CI/CD Integration", link: "/guide/ci-cd" },
+            { text: "Team Setups", link: "/guide/team-setups" },
+          ],
         },
       ],
 
-      '/ai-providers/': [
+      "/ai-providers/": [
         {
-          text: 'AI Providers',
+          text: "AI Providers",
           items: [
-            { text: 'Overview', link: '/ai-providers/overview' },
-            { text: 'Ollama (Local, Free)', link: '/ai-providers/ollama-setup' },
-            { text: 'OpenAI', link: '/ai-providers/openai-setup' },
-            { text: 'Anthropic', link: '/ai-providers/anthropic-setup' },
-            { text: 'WebGPU (Browser)', link: '/ai-providers/webgpu-setup' },
-            { text: 'Custom Provider', link: '/ai-providers/custom-provider' },
-          ]
-        }
+            { text: "Overview", link: "/ai-providers/overview" },
+            {
+              text: "Ollama (Local, Free)",
+              link: "/ai-providers/ollama-setup",
+            },
+            { text: "OpenAI", link: "/ai-providers/openai-setup" },
+            { text: "Anthropic", link: "/ai-providers/anthropic-setup" },
+            { text: "WebGPU (Browser)", link: "/ai-providers/webgpu-setup" },
+            { text: "Custom Provider", link: "/ai-providers/custom-provider" },
+          ],
+        },
       ],
 
-      '/features/': [
+      "/features/": [
         {
-          text: 'Features',
+          text: "Features",
           items: [
-            { text: 'Personas', link: '/features/personas' },
-            { text: 'Output Formats', link: '/features/output-formats' },
-            { text: 'Multi-Agent', link: '/features/multi-agent' },
-            { text: 'Compliance', link: '/features/compliance' },
-            { text: 'Playground', link: '/features/playground' },
-            { text: 'Project Context', link: '/features/project-context' },
-            { text: 'MVP Mode', link: '/features/mvp-mode' },
-          ]
-        }
+            { text: "Personas", link: "/features/personas" },
+            { text: "Output Formats", link: "/features/output-formats" },
+            { text: "Multi-Agent", link: "/features/multi-agent" },
+            { text: "Compliance", link: "/features/compliance" },
+            { text: "Playground", link: "/features/playground" },
+            { text: "Project Context", link: "/features/project-context" },
+            { text: "MVP Mode", link: "/features/mvp-mode" },
+          ],
+        },
       ],
 
-      '/security/': [
+      "/security/": [
         {
-          text: 'Security',
+          text: "Security",
           items: [
-            { text: 'Overview', link: '/security/overview' },
-            { text: 'Privacy', link: '/security/privacy' },
-            { text: 'Compliance Frameworks', link: '/security/compliance' },
-            { text: 'Disclosure', link: '/security/disclosure' },
-            { text: 'Network Guard', link: '/security/network-guard' },
-          ]
-        }
+            { text: "Overview", link: "/security/overview" },
+            { text: "Privacy", link: "/security/privacy" },
+            { text: "Compliance Frameworks", link: "/security/compliance" },
+            { text: "Disclosure", link: "/security/disclosure" },
+            { text: "Network Guard", link: "/security/network-guard" },
+          ],
+        },
       ],
 
-      '/compare/': [
+      "/compare/": [
         {
-          text: 'Comparisons',
+          text: "Comparisons",
           items: [
-            { text: 'Git Log vs DevDiff', link: '/compare/git-log-vs-devdiff' },
-          ]
-        }
+            { text: "Git Log vs DevDiff", link: "/compare/git-log-vs-devdiff" },
+          ],
+        },
       ],
 
-      '/use-cases/': [
+      "/use-cases/": [
         {
-          text: 'Use Cases',
+          text: "Use Cases",
           items: [
-            { text: 'Open Source Maintainers', link: '/use-cases/open-source' },
-            { text: 'Enterprise Development', link: '/use-cases/enterprise' },
-          ]
-        }
+            { text: "Open Source Maintainers", link: "/use-cases/open-source" },
+            { text: "Enterprise Development", link: "/use-cases/enterprise" },
+          ],
+        },
       ],
 
-
-      '/integrations/': [
+      "/integrations/": [
         {
-          text: 'Integrations',
+          text: "Integrations",
           items: [
-            { text: 'VS Code Extension', link: '/integrations/vscode' },
-            { text: 'GitHub Actions', link: '/integrations/github-actions' },
-            { text: 'GitLab CI', link: '/integrations/gitlab-ci' },
-            { text: 'Vite Plugin', link: '/integrations/vite-plugin' },
-            { text: 'MCP Server', link: '/integrations/mcp-server' },
-            { text: 'OpenClaw', link: '/integrations/openclaw' },
-            { text: 'Slack', link: '/integrations/slack' },
-          ]
-        }
+            { text: "VS Code Extension", link: "/integrations/vscode" },
+            { text: "GitHub Actions", link: "/integrations/github-actions" },
+            { text: "GitLab CI", link: "/integrations/gitlab-ci" },
+            { text: "Vite Plugin", link: "/integrations/vite-plugin" },
+            { text: "MCP Server", link: "/integrations/mcp-server" },
+            { text: "OpenClaw", link: "/integrations/openclaw" },
+            { text: "Slack", link: "/integrations/slack" },
+          ],
+        },
       ],
 
-      '/troubleshooting/': [
+      "/troubleshooting/": [
         {
-          text: 'Troubleshooting',
+          text: "Troubleshooting",
           items: [
-            { text: 'Overview', link: '/troubleshooting/' },
-            { text: 'Ollama Errors', link: '/troubleshooting/ollama-errors' },
-            { text: 'Git Errors', link: '/troubleshooting/git-errors' },
-            { text: 'Windows Issues', link: '/troubleshooting/windows-issues' },
-            { text: 'macOS Issues', link: '/troubleshooting/macos-issues' },
-            { text: 'Linux Issues', link: '/troubleshooting/linux-issues' },
-            { text: 'Network Errors', link: '/troubleshooting/network-errors' },
-            { text: 'Quick Fixes', link: '/troubleshooting/common-fixes' },
-          ]
-        }
+            { text: "Overview", link: "/troubleshooting/" },
+            { text: "Ollama Errors", link: "/troubleshooting/ollama-errors" },
+            { text: "Git Errors", link: "/troubleshooting/git-errors" },
+            { text: "Windows Issues", link: "/troubleshooting/windows-issues" },
+            { text: "macOS Issues", link: "/troubleshooting/macos-issues" },
+            { text: "Linux Issues", link: "/troubleshooting/linux-issues" },
+            { text: "Network Errors", link: "/troubleshooting/network-errors" },
+            { text: "Quick Fixes", link: "/troubleshooting/common-fixes" },
+          ],
+        },
       ],
 
-      '/api/': [
+      "/api/": [
         {
-          text: 'API Reference',
+          text: "API Reference",
           items: [
-            { text: 'Core API', link: '/api/core' },
-            { text: 'CLI Reference', link: '/api/cli' },
-            { text: 'JavaScript SDK', link: '/api/sdk' },
-            { text: 'Webhook API', link: '/api/webhook' },
-            { text: 'Configuration', link: '/api/configuration' },
-          ]
-        }
+            { text: "Core API", link: "/api/core" },
+            { text: "CLI Reference", link: "/api/cli" },
+            { text: "JavaScript SDK", link: "/api/sdk" },
+            { text: "Webhook API", link: "/api/webhook" },
+            { text: "Configuration", link: "/api/configuration" },
+          ],
+        },
       ],
 
-      '/versioning/': [
+      "/versioning/": [
         {
-          text: 'Versioning',
+          text: "Versioning",
           items: [
-            { text: 'Changelog', link: '/versioning/changelog' },
-            { text: 'Version Policy', link: '/versioning/policy' },
-            { text: 'Limitations', link: '/limitations' },
-          ]
-        }
+            { text: "Changelog", link: "/versioning/changelog" },
+            { text: "Version Policy", link: "/versioning/policy" },
+            { text: "Limitations", link: "/limitations" },
+          ],
+        },
       ],
 
-      '/contributing/': [
+      "/contributing/": [
         {
-          text: 'Contributing',
+          text: "Contributing",
           items: [
-            { text: 'Development Setup', link: '/contributing/development' },
-            { text: 'Architecture', link: '/contributing/architecture' },
-            { text: 'Testing Guide', link: '/contributing/testing' },
-            { text: 'Roadmap', link: '/contributing/roadmap' },
-          ]
-        }
+            { text: "Development Setup", link: "/contributing/development" },
+            { text: "Architecture", link: "/contributing/architecture" },
+            { text: "Testing Guide", link: "/contributing/testing" },
+            { text: "Roadmap", link: "/contributing/roadmap" },
+          ],
+        },
       ],
     },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/EldrexDelosReyesBula/devdiff' },
+      {
+        icon: "github",
+        link: "https://github.com/EldrexDelosReyesBula/devdiff",
+      },
     ],
 
     footer: {
-      message: 'Released under the <a href="https://github.com/EldrexDelosReyesBula/devdiff/blob/main/LICENSE">MIT License</a>. | <a href="https://github.com/EldrexDelosReyesBula/devdiff/blob/main/SUPPORT.md">Support</a>',
-      copyright: 'Copyright © 2026 Eldrex Delos Reyes Bula and Contributors'
+      message:
+        'Released under the <a href="https://github.com/EldrexDelosReyesBula/devdiff/blob/main/LICENSE">MIT License</a>. | <a href="https://github.com/EldrexDelosReyesBula/devdiff/blob/main/SUPPORT.md">Support</a>',
+      copyright: "Copyright © 2026 Eldrex Delos Reyes Bula and Contributors",
     },
 
     search: {
-      provider: 'local'
+      provider: "local",
     },
 
     editLink: {
-      pattern: 'https://github.com/EldrexDelosReyesBula/devdiff/edit/main/docs/:path',
-      text: 'Edit this page on GitHub'
-    }
-  }
-})
+      pattern:
+        "https://github.com/EldrexDelosReyesBula/devdiff/edit/main/docs/:path",
+      text: "Edit this page on GitHub",
+    },
+  },
+});

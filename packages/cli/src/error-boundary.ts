@@ -9,7 +9,7 @@ import { DevDiffError } from "@eldrex/core";
  * - Crash reports are NEVER sent
  */
 export async function cliErrorBoundary(
-  command: () => Promise<void>
+  command: () => Promise<void>,
 ): Promise<void> {
   let terminalCleanup: (() => void) | null = null;
 
@@ -39,7 +39,9 @@ export async function cliErrorBoundary(
       console.error("");
       console.error(`❌ Unexpected Error: ${error.message}`);
       console.error("");
-      console.error("   This is an unexpected error. DevDiff does NOT send crash reports.");
+      console.error(
+        "   This is an unexpected error. DevDiff does NOT send crash reports.",
+      );
       console.error("   To help fix this, report it at:");
       console.error("   https://github.com/eldrex/devdiff/issues/new");
       console.error("");

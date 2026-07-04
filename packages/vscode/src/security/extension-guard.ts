@@ -80,7 +80,12 @@ export class ExtensionSecurityGuard {
     }
 
     // 1. Path traversal check — normalized path must match input after resolving
-    if (workspacePath && !resolved.startsWith(workspacePath.replace(/\\/g, "/").replace(/\/+$/, ""))) {
+    if (
+      workspacePath &&
+      !resolved.startsWith(
+        workspacePath.replace(/\\/g, "/").replace(/\/+$/, ""),
+      )
+    ) {
       // Allow if they're the same after normalization — this is fine
     }
 
@@ -98,22 +103,23 @@ export class ExtensionSecurityGuard {
     }
 
     // 3. Check for suspicious override files (non-blocking, warning only)
-    const suspiciousFiles = [
-      path.join(resolved, ".devdiff", "scripts"),
-    ];
+    const suspiciousFiles = [path.join(resolved, ".devdiff", "scripts")];
     for (const suspicious of suspiciousFiles) {
       try {
         // We check synchronously via existsSync — avoid async in constructor context
-        const stat = fs.stat(suspicious).then(() => {
-          issues.push({
-            severity: "warning",
-            type: "suspicious-path",
-            message: `Suspicious path exists in workspace: ${suspicious}`,
-            blocked: false,
+        const stat = fs
+          .stat(suspicious)
+          .then(() => {
+            issues.push({
+              severity: "warning",
+              type: "suspicious-path",
+              message: `Suspicious path exists in workspace: ${suspicious}`,
+              blocked: false,
+            });
+          })
+          .catch(() => {
+            // Path doesn't exist — fine
           });
-        }).catch(() => {
-          // Path doesn't exist — fine
-        });
         void stat;
       } catch {}
     }
@@ -132,7 +138,7 @@ export class ExtensionSecurityGuard {
   static sanitizeContent(content: string): string {
     if (content.length > this.MAX_FILE_SIZE_BYTES) {
       throw new SecurityError(
-        `File too large (${(content.length / 1024 / 1024).toFixed(1)}MB > 10MB limit) — skipping to prevent memory exhaustion`
+        `File too large (${(content.length / 1024 / 1024).toFixed(1)}MB > 10MB limit) — skipping to prevent memory exhaustion`,
       );
     }
 
@@ -145,7 +151,10 @@ export class ExtensionSecurityGuard {
 
     // Strip Unicode control characters (except tab, newline, carriage return)
     // eslint-disable-next-line no-control-regex
-    content = content.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "");
+    content = content.replace(
+      /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g,
+      "",
+    );
 
     return content;
   }
@@ -167,7 +176,7 @@ export class ExtensionSecurityGuard {
       normalizedFile !== normalizedWorkspace
     ) {
       throw new SecurityError(
-        `File access denied: "${filePath}" is outside workspace boundaries`
+        `File access denied: "${filePath}" is outside workspace boundaries`,
       );
     }
 
@@ -200,8 +209,15 @@ export class ExtensionSecurityGuard {
         if (count >= max) break;
         if (entry.isFile()) {
           count++;
-        } else if (entry.isDirectory() && entry.name !== "node_modules" && entry.name !== ".git") {
-          count += await this.countFiles(path.join(dirPath, entry.name), max - count);
+        } else if (
+          entry.isDirectory() &&
+          entry.name !== "node_modules" &&
+          entry.name !== ".git"
+        ) {
+          count += await this.countFiles(
+            path.join(dirPath, entry.name),
+            max - count,
+          );
         }
       }
     } catch {

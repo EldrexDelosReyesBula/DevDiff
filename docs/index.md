@@ -18,7 +18,6 @@ hero:
       text: GitHub
       link: https://github.com/EldrexDelosReyesBula/devdiff
 
-
 features:
   - icon: 🔒
     title: Privacy First

@@ -31,7 +31,9 @@ export class DevDiffError extends Error {
     this.exitCode = params.exitCode || 1;
     this.httpStatus = params.httpStatus || 500;
     this.fix = params.fix || "Check the documentation for more information.";
-    this.docsUrl = params.docsUrl || "https://devdiff.vercel.app/troubleshooting/common-fixes";
+    this.docsUrl =
+      params.docsUrl ||
+      "https://devdiff.vercel.app/troubleshooting/common-fixes";
     this.context = params.context || {};
   }
 

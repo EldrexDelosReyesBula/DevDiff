@@ -34,23 +34,29 @@ devdiff generate
 ## Changes — July 1, 2026
 
 ### ✨ Added
+
 - `src/auth/jwt.ts` — Added refresh token support with 7-day expiry
 - `src/middleware/rate-limit.ts` — New rate limiter: 100 requests/min per IP
 
 ### 🔧 Changed
+
 - `package.json` — Updated `jsonwebtoken` 8.5.1 → 9.0.2
 
 ### 🗑️ Removed
+
 - `src/auth/legacy-session.ts` — Removed deprecated cookie-based sessions
 
 ### ⚠️ Breaking Changes
+
 None
 
 ### 🔒 Security Notes
+
 - JWT library updated to patch potential timing vulnerability
 ```
 
 **Save to file:**
+
 ```bash
 devdiff generate --format markdown > CHANGELOG.md
 devdiff generate -f markdown >> docs/CHANGES.md
@@ -106,6 +112,7 @@ devdiff generate --format json
 ```
 
 **Use in CI:**
+
 ```bash
 # Extract change types for notifications
 devdiff generate -f json | jq '.changes[].type'
@@ -209,9 +216,9 @@ Set a default format in your config:
 // .devdiff.config.js
 export default {
   output: {
-    format: 'markdown',      // Default format
-    file: 'CHANGELOG.md',    // Auto-save to file
-    append: true,            // Append instead of overwrite
-  }
-}
+    format: "markdown", // Default format
+    file: "CHANGELOG.md", // Auto-save to file
+    append: true, // Append instead of overwrite
+  },
+};
 ```

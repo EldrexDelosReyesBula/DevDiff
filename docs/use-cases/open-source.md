@@ -7,18 +7,23 @@ Keeping changelogs up-to-date in open-source projects can be time-consuming. Dev
 ## Key Benefits for OSS Maintainers
 
 ### 1. Automated Release Notes
+
 Run `devdiff generate` to create clean, human-readable release notes directly from your commits:
+
 ```bash
 devdiff generate --format markdown --output RELEASE_NOTES.md
 ```
 
 ### 2. Multi-Persona Changelogs
+
 Adapt the style of your changelog based on the target audience using **Personas**:
+
 - `--persona developer`: Detailed tech logs for contributors.
 - `--persona pm`: Plain English descriptions for end-users.
 - `--persona ceo`: High-level business summaries for community sponsors.
 
 ### 3. CI/CD Integration
+
 Integrate DevDiff with GitHub Actions or GitLab CI to generate changelogs on every pull request or tag release automatically.
 
 ---

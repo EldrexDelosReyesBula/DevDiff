@@ -67,7 +67,12 @@ export class PlatformCompat {
     const isHeadless = !process.stdout.isTTY && !process.env.DISPLAY;
 
     return {
-      os: osType === "win32" ? "windows" : osType === "darwin" ? "macos" : "linux",
+      os:
+        osType === "win32"
+          ? "windows"
+          : osType === "darwin"
+            ? "macos"
+            : "linux",
       arch,
       version: release,
       isWSL,
@@ -171,7 +176,7 @@ export class PlatformCompat {
             component: "build-tools",
             message: "Build tools not found",
             fix:
-              'Ubuntu/Debian: sudo apt install build-essential\n' +
+              "Ubuntu/Debian: sudo apt install build-essential\n" +
               'Fedora: sudo dnf groupinstall "Development Tools"',
           });
         }

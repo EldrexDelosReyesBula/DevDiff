@@ -19,14 +19,14 @@ npm install @eldrex/core
 ## Quick Start
 
 ```typescript
-import { generateChangelog } from '@eldrex/core'
+import { generateChangelog } from "@eldrex/core";
 
 const result = await generateChangelog({
   diffText: "...",
-  dryRun: false
-})
+  dryRun: false,
+});
 
-console.log(result.formattedOutput)
+console.log(result.formattedOutput);
 ```
 
 ## API Reference
@@ -37,13 +37,14 @@ Full documentation: [devdiff.vercel.app](https://devdiff.vercel.app)
 
 ### What This Package Accesses
 
-| Resource | Why | Default | Can Disable |
-|----------|-----|---------|-------------|
-| File System | Read git repos, write changelogs | Yes | No (core function) |
-| Shell | Execute git, detect tools | Yes | Yes |
-| Network | Cloud AI, webhooks, notifications | No | Yes (default off) |
+| Resource    | Why                               | Default | Can Disable        |
+| ----------- | --------------------------------- | ------- | ------------------ |
+| File System | Read git repos, write changelogs  | Yes     | No (core function) |
+| Shell       | Execute git, detect tools         | Yes     | Yes                |
+| Network     | Cloud AI, webhooks, notifications | No      | Yes (default off)  |
 
 ### What This Package NEVER Does
+
 - ❌ Send telemetry or analytics
 - ❌ Read files outside your project
 - ❌ Access environment variables except configured API keys
@@ -53,10 +54,12 @@ Full documentation: [devdiff.vercel.app](https://devdiff.vercel.app)
 ### Shell Access Notice
 
 This package may execute shell commands for:
+
 - **Git operations** (`git log`, `git diff`) — for analyzing code changes
 - **Tool detection** (`which ollama`) — to find installed AI providers
 
 **All shell access is:**
+
 - Whitelisted (only `git`, `ollama`, `which`, `node` allowed)
 - Audited (logged to security trail)
 - Disableable (set `{ security: { disableShellAccess: true } }`)
@@ -65,13 +68,13 @@ This package may execute shell commands for:
 
 DevDiff is **local-first by default**. Network access only occurs when you explicitly configure:
 
-| Feature | Default | Network Required |
-|---------|---------|-----------------|
-| AI Analysis | Local only | No |
-| Cloud AI (OpenAI, etc.) | Disabled | Yes (your API key) |
-| Webhooks (incoming) | Disabled | Yes |
-| Notifications (Slack, etc.) | Disabled | Yes |
-| Version check | Enabled | Yes (can disable) |
+| Feature                     | Default    | Network Required   |
+| --------------------------- | ---------- | ------------------ |
+| AI Analysis                 | Local only | No                 |
+| Cloud AI (OpenAI, etc.)     | Disabled   | Yes (your API key) |
+| Webhooks (incoming)         | Disabled   | Yes                |
+| Notifications (Slack, etc.) | Disabled   | Yes                |
+| Version check               | Enabled    | Yes (can disable)  |
 
 ### AI Security Disclosure
 
@@ -83,7 +86,9 @@ DevDiff integrates with AI/LLM models for code analysis. We take specific precau
 - **Model Verification**: When using local models, we verify model checksums to prevent supply-chain attacks through model files.
 
 ### Audit Trail
+
 Every sensitive operation is logged:
+
 ```bash
 npx devdiff audit --package @eldrex/core
 ```

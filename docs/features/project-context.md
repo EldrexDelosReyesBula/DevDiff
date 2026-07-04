@@ -138,16 +138,19 @@ After running `devdiff context generate`, you'll find this file:
 # Project: my-api-service
 
 ## Purpose
+
 REST API for managing user accounts and billing subscriptions.
 Built on Express with PostgreSQL via Prisma ORM.
 
 ## Tech Stack
+
 - TypeScript/JavaScript
 - Express (Node.js HTTP server)
 - Prisma ORM
 - Vitest (testing)
 
 ## Architecture
+
 - `src/` — main source code
 - `src/api/` — HTTP route handlers
 - `src/services/` — business logic layer
@@ -156,9 +159,11 @@ Built on Express with PostgreSQL via Prisma ORM.
 - `tests/` — test suites
 
 ## Entry Points
+
 - src/index.ts
 
 ## Custom Notes
+
 <!-- Edit this section to add domain knowledge, naming conventions, or architecture notes -->
 ```
 
@@ -170,21 +175,25 @@ This is where context shines. Add:
 ## Custom Notes
 
 ### Domain Terminology
+
 - "Subscription" = a user's paid plan (see src/models/subscription.ts)
 - "Entitlement" = a feature a user has access to based on their plan
 - "Grace period" = 7-day window after subscription expires before access is revoked
 
 ### Naming Conventions
+
 - `*Service.ts` files — pure business logic, no HTTP concerns
 - `*Repository.ts` files — all database queries live here (Prisma calls)
 - `*Controller.ts` files — HTTP layer only, delegates to services
 
 ### Architecture Notes
+
 - We use CQRS: commands in `src/handlers/`, queries in `src/queries/`
 - All external API calls go through `src/adapters/` (never called directly)
 - Redis is used only for session storage, not general caching
 
 ### Known Technical Debt
+
 - `src/legacy/payment.ts` is deprecated, being replaced by `src/services/stripe.ts`
 ```
 
@@ -203,11 +212,11 @@ After every AI call, DevDiff runs an automatic accuracy check:
 
 **What it checks:**
 
-| Check | What it does |
-|-------|-------------|
-| File reference | Ensures all mentioned file paths appear in the diff |
+| Check            | What it does                                                   |
+| ---------------- | -------------------------------------------------------------- |
+| File reference   | Ensures all mentioned file paths appear in the diff            |
 | Identifier check | Flags `camelCase`/`PascalCase` names not found in diff content |
-| Confidence score | Degrades by 20% per file warning, 5% per identifier mismatch |
+| Confidence score | Degrades by 20% per file warning, 5% per identifier mismatch   |
 
 Verification is **warn-only** — the output is always shown. In CI, use `--strict-verify` (future flag) to fail on accuracy warnings.
 
@@ -240,11 +249,11 @@ The context is automatically capped at **2000 characters (~500 tokens)**. Priori
 // .devdiff.config.js
 export default {
   context: {
-    enabled: true,            // Default: true
-    filePath: '.devdiff/context.md',  // Default location
-    maxChars: 2000,           // Token budget cap
-  }
-}
+    enabled: true, // Default: true
+    filePath: ".devdiff/context.md", // Default location
+    maxChars: 2000, // Token budget cap
+  },
+};
 ```
 
 ---
@@ -261,4 +270,4 @@ A: DevDiff silently falls back to auto-scanning on every run. It's slightly slow
 A: Yes — it's encouraged. It helps the whole team get consistent AI explanations. Just run `devdiff context validate` first to ensure no secrets are in the file.
 
 **Q: Will context make my prompts bigger and cost more?**
-A: Marginally. ~500 tokens per call. At GPT-4o-mini rates (~$0.00015/1k tokens), that's less than $0.0001 per generation — negligible.
+A: Marginally. ~~500 tokens per call. At GPT-4o-mini rates (~~$0.00015/1k tokens), that's less than $0.0001 per generation — negligible.

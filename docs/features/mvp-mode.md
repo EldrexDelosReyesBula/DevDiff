@@ -19,6 +19,7 @@ Large code changes (1000+ files, vibe coding sessions) can exceed AI context win
 ### Status
 
 Check the queue status of deferred changelogs:
+
 ```bash
 devdiff mvp status
 ```
@@ -26,6 +27,7 @@ devdiff mvp status
 ### Process
 
 Process the oldest queued changelog or a specific ID:
+
 ```bash
 # Process next queued entry
 devdiff mvp process
@@ -37,6 +39,7 @@ devdiff mvp process --id mvp-20260701-001
 ### Process All
 
 Process all queued entries:
+
 ```bash
 devdiff mvp process-all
 ```
@@ -44,6 +47,7 @@ devdiff mvp process-all
 ### Clear
 
 Remove processed entries or clear all entries:
+
 ```bash
 # Clear processed and failed entries
 devdiff mvp clear
@@ -63,7 +67,7 @@ You can customize the threshold limits in your configuration:
 export default {
   mvp: {
     charThreshold: 50000, // Trigger MVP mode when diff character count exceeds this limit
-    fileThreshold: 30,    // Trigger MVP mode when number of changed files exceeds this limit
-  }
-}
+    fileThreshold: 30, // Trigger MVP mode when number of changed files exceeds this limit
+  },
+};
 ```

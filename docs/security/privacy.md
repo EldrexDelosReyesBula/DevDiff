@@ -16,13 +16,13 @@ DevDiff is built around a simple promise: **your code stays on your machine by d
 
 ### What Goes Where
 
-| Data | Destination | Condition |
-|------|-------------|-----------|
-| Your code diff | Your machine only | Always (with local AI) |
-| Your code diff | OpenAI/Anthropic | Only if you configure cloud AI |
-| Changelog output | Your machine only | Always |
-| Config file | Your machine only | Always |
-| Audit logs | `.devdiff/` folder | Local only |
+| Data             | Destination        | Condition                      |
+| ---------------- | ------------------ | ------------------------------ |
+| Your code diff   | Your machine only  | Always (with local AI)         |
+| Your code diff   | OpenAI/Anthropic   | Only if you configure cloud AI |
+| Changelog output | Your machine only  | Always                         |
+| Config file      | Your machine only  | Always                         |
+| Audit logs       | `.devdiff/` folder | Local only                     |
 
 ---
 
@@ -48,6 +48,7 @@ If you choose to use OpenAI or Anthropic, your **diff text** is sent to their AP
 - Optionally: metadata like persona and format
 
 **What is NOT sent:**
+
 - Your full source files
 - Your git history
 - Your config file
@@ -56,6 +57,7 @@ If you choose to use OpenAI or Anthropic, your **diff text** is sent to their AP
 ### Data Classification
 
 Before any cloud transmission, DevDiff's data classification engine scans the diff and redacts:
+
 - API keys, tokens, credentials
 - Private keys and certificates
 - Patterns that look like secrets
@@ -68,11 +70,11 @@ See [Security Overview](/security/overview) for the full list.
 
 If using cloud AI, you're subject to the provider's privacy policy:
 
-| Provider | Privacy Policy |
-|----------|---------------|
-| OpenAI | [openai.com/policies/privacy-policy](https://openai.com/policies/privacy-policy) |
-| Anthropic | [anthropic.com/privacy](https://anthropic.com/privacy) |
-| Ollama | No cloud — no policy needed |
+| Provider  | Privacy Policy                                                                   |
+| --------- | -------------------------------------------------------------------------------- |
+| OpenAI    | [openai.com/policies/privacy-policy](https://openai.com/policies/privacy-policy) |
+| Anthropic | [anthropic.com/privacy](https://anthropic.com/privacy)                           |
+| Ollama    | No cloud — no policy needed                                                      |
 
 > **Note:** Both OpenAI and Anthropic offer enterprise agreements that include enhanced privacy terms (no training on your data). Check their documentation if this matters to you.
 

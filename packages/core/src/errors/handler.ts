@@ -21,7 +21,7 @@ const DEFAULT_RETRY_CONFIG: RetryConfig = {
  */
 export async function withRetry<T>(
   fn: () => Promise<T>,
-  config: Partial<RetryConfig> = {}
+  config: Partial<RetryConfig> = {},
 ): Promise<T> {
   const cfg = { ...DEFAULT_RETRY_CONFIG, ...config };
   let lastError: Error | null = null;
@@ -44,7 +44,9 @@ export async function withRetry<T>(
       if (attempt === cfg.maxAttempts) break;
 
       // Wait with backoff
-      console.log(`⚠️ Attempt ${attempt}/${cfg.maxAttempts} failed. Retrying in ${backoff}ms...`);
+      console.log(
+        `⚠️ Attempt ${attempt}/${cfg.maxAttempts} failed. Retrying in ${backoff}ms...`,
+      );
       console.log(`   Error: ${(error as Error).message}`);
 
       await sleep(backoff);
@@ -60,7 +62,7 @@ export async function withRetry<T>(
  */
 export async function safeExecute<T>(
   fn: () => Promise<T>,
-  fallback: T
+  fallback: T,
 ): Promise<{ success: boolean; data: T; error?: Error }> {
   try {
     const data = await fn();
@@ -76,7 +78,7 @@ export async function safeExecute<T>(
 export async function withTimeout<T>(
   fn: () => Promise<T>,
   timeoutMs: number,
-  timeoutMessage: string = "Operation timed out"
+  timeoutMessage: string = "Operation timed out",
 ): Promise<T> {
   return Promise.race([
     fn(),
@@ -88,10 +90,10 @@ export async function withTimeout<T>(
               code: "TIMEOUT_001",
               message: timeoutMessage,
               fix: "The operation took too long. Try with a smaller scope or check your AI provider.",
-            })
+            }),
           ),
-        timeoutMs
-      )
+        timeoutMs,
+      ),
     ),
   ]);
 }

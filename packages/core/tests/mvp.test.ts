@@ -13,9 +13,11 @@ describe("MVPDetector", () => {
       cache: { enabled: true, path: "" },
       format: "markdown" as const,
     };
-    
+
     // Length is 14 (> 10)
-    expect(MVPDetector.shouldUseMVP("diff --git a b", config as any)).toBe(true);
+    expect(MVPDetector.shouldUseMVP("diff --git a b", config as any)).toBe(
+      true,
+    );
 
     // Length is 5 (< 10)
     expect(MVPDetector.shouldUseMVP("short", config as any)).toBe(false);

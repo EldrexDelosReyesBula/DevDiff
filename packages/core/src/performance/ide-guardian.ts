@@ -18,15 +18,15 @@ export class IDEGuardian {
   static async processSafely<T>(task: () => Promise<T>): Promise<T> {
     const health = this.checkSystemHealth();
     if (!health.canProcess) {
-      throw new Error(`IDE Guardian: System resources are under high load. Recommendation: ${health.recommendation}`);
+      throw new Error(
+        `IDE Guardian: System resources are under high load. Recommendation: ${health.recommendation}`,
+      );
     }
 
     // Wrap in setImmediate to allow event loop yielding
     return new Promise<T>((resolve, reject) => {
       setImmediate(() => {
-        task()
-          .then(resolve)
-          .catch(reject);
+        task().then(resolve).catch(reject);
       });
     });
   }
