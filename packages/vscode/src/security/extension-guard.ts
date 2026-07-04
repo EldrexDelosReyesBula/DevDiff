@@ -90,15 +90,19 @@ export class ExtensionSecurityGuard {
     }
 
     // 2. System directory check
+    const resolvedNorm = resolved.replace(/\\/g, "/").toLowerCase();
     for (const sysPath of this.SYSTEM_PATHS) {
-      if (sysPath && resolved.startsWith(sysPath)) {
-        issues.push({
-          severity: "critical",
-          type: "system-path-access",
-          message: `Workspace is inside a system directory: ${sysPath}. Refusing to operate.`,
-          blocked: true,
-        });
-        break;
+      if (sysPath) {
+        const sysPathNorm = sysPath.replace(/\\/g, "/").toLowerCase();
+        if (resolvedNorm.startsWith(sysPathNorm)) {
+          issues.push({
+            severity: "critical",
+            type: "system-path-access",
+            message: `Workspace is inside a system directory: ${sysPath}. Refusing to operate.`,
+            blocked: true,
+          });
+          break;
+        }
       }
     }
 

@@ -169,14 +169,18 @@ export async function playgroundCommand(options: PlaygroundOptions = {}) {
           });
         }
 
-        const result = await generateChangelog({
+        const result = (await generateChangelog({
           diffText,
           repoPath,
           persona: persona as any,
-        });
+        } as any)) as any;
         return jsonResponse(res, {
           success: true,
-          changelog: result.markdown || result.rawResult?.summary || "",
+          changelog:
+            result.markdown ||
+            result.formattedOutput ||
+            result.rawResult?.summary ||
+            "",
         });
       } catch (err: any) {
         return jsonResponse(res, { success: false, error: err.message }, 500);
