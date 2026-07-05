@@ -6,7 +6,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "publisher": "eldrex",
+  "publisher": "ebula",
   "icon": "asset/devdiff.png",
   "engines": {
     "vscode": "^1.85.0"

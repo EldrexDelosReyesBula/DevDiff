@@ -114,6 +114,7 @@ export default defineConfig({
       { text: "AI Providers", link: "/ai-providers/overview" },
       { text: "Troubleshooting", link: "/troubleshooting/" },
       { text: "API", link: "/api/core" },
+      { text: "Blog", link: "/blog/2026-07-05-5000-downloads" },
       {
         text: "v1.0.3",
         items: [
@@ -300,6 +301,18 @@ export default defineConfig({
             { text: "Architecture", link: "/contributing/architecture" },
             { text: "Testing Guide", link: "/contributing/testing" },
             { text: "Roadmap", link: "/contributing/roadmap" },
+          ],
+        },
+      ],
+
+      "/blog/": [
+        {
+          text: "Blog",
+          items: [
+            {
+              text: "5,000+ Downloads in 20 Days",
+              link: "/blog/2026-07-05-5000-downloads",
+            },
           ],
         },
       ],
