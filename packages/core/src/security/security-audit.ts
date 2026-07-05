@@ -40,6 +40,36 @@ export class SecurityAudit {
     return crypto.createHash("sha256").update(envKey).digest();
   }
 
+  private static async readLegacyLogs(): Promise<AuditEntry[]> {
+    const legacyPath = this.getLegacyPath();
+    try {
+      const fileContent = await fs.readFile(legacyPath, "utf-8");
+      if (!fileContent.trim()) return [];
+      return JSON.parse(fileContent);
+    } catch {
+      return [];
+    }
+  }
+
+  private static async readEncryptedLogs(key: Buffer): Promise<AuditEntry[]> {
+    try {
+      const content = await fs.readFile(this.getLogPath(), "utf-8");
+      const lines = content.split("\n").filter(Boolean);
+      const entries: AuditEntry[] = [];
+      for (const line of lines) {
+        try {
+          const decrypted = this.decrypt(line.trim(), key);
+          entries.push(JSON.parse(decrypted));
+        } catch {
+          // Skip corrupted entries
+        }
+      }
+      return entries;
+    } catch {
+      return [];
+    }
+  }
+
   private static encrypt(plaintext: string, key: Buffer): string {
     const iv = crypto.randomBytes(12); // 96-bit IV for GCM
     const cipher = crypto.createCipheriv("aes-256-gcm", key, iv);
@@ -67,25 +97,28 @@ export class SecurityAudit {
       const logPath = this.getLogPath();
       await fs.mkdir(path.dirname(logPath), { recursive: true });
       const key = this.getKey();
-      const entryJson = JSON.stringify({ ...entry, timestamp: Date.now() });
+      const entryToWrite = { ...entry, timestamp: Date.now() };
+      const entryJson = JSON.stringify(entryToWrite);
 
       if (key) {
-        // Encrypted: append one line of base64 per entry (JSONL style)
-        const encryptedLine = this.encrypt(entryJson, key) + "\n";
-        await fs.appendFile(logPath, encryptedLine, "utf-8");
-      } else {
-        // Plaintext fallback for dev environments without a key
-        const legacyPath = this.getLegacyPath();
-        let logs: AuditEntry[] = [];
         try {
-          const fileContent = await fs.readFile(legacyPath, "utf-8");
-          logs = JSON.parse(fileContent);
-        } catch {
-          // File doesn't exist or is invalid JSON
+          // Encrypted: append one line of base64 per entry (JSONL style)
+          const encryptedLine = this.encrypt(entryJson, key) + "\n";
+          await fs.appendFile(logPath, encryptedLine, "utf-8");
+          return;
+        } catch (encryptError) {
+          console.warn(
+            "Encrypted audit log failed, falling back to plaintext:",
+            encryptError,
+          );
         }
-        logs.push(entry);
-        await fs.writeFile(legacyPath, JSON.stringify(logs, null, 2), "utf-8");
       }
+
+      // Plaintext fallback for dev environments without a key or when encryption fails
+      const legacyPath = this.getLegacyPath();
+      const logs = await this.readLegacyLogs();
+      logs.push(entryToWrite);
+      await fs.writeFile(legacyPath, JSON.stringify(logs, null, 2), "utf-8");
     } catch (err) {
       console.error("Failed to write to security audit trail:", err);
     }
@@ -95,31 +128,13 @@ export class SecurityAudit {
     const key = this.getKey();
 
     if (key) {
-      try {
-        const content = await fs.readFile(this.getLogPath(), "utf-8");
-        const lines = content.split("\n").filter(Boolean);
-        const entries: AuditEntry[] = [];
-        for (const line of lines) {
-          try {
-            const decrypted = this.decrypt(line.trim(), key);
-            entries.push(JSON.parse(decrypted));
-          } catch {
-            // Skip corrupted entries
-          }
-        }
-        return entries;
-      } catch {
-        return [];
+      const encryptedLogs = await this.readEncryptedLogs(key);
+      if (encryptedLogs.length > 0) {
+        return encryptedLogs;
       }
     }
 
-    // Plaintext fallback
-    try {
-      const fileContent = await fs.readFile(this.getLegacyPath(), "utf-8");
-      return JSON.parse(fileContent);
-    } catch {
-      return [];
-    }
+    return this.readLegacyLogs();
   }
 
   /**
