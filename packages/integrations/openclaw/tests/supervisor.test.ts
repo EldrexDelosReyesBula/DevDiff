@@ -37,7 +37,9 @@ describe("SupervisorErrorHandler", () => {
   });
 
   it("should diagnose output validation failure and retry with stricter prompt", () => {
-    const failure = mockFailure("hallucination detected: file not found in diff");
+    const failure = mockFailure(
+      "hallucination detected: file not found in diff",
+    );
     const strategy = handler.diagnose(failure);
 
     expect(strategy.type).toBe("same_model_different_prompt");
@@ -47,7 +49,7 @@ describe("SupervisorErrorHandler", () => {
   it("should execute retries successfully", async () => {
     const failure = mockFailure("timeout");
     const strategy = handler.diagnose(failure);
-    
+
     const result = await handler.retry(failure, strategy);
     expect(result.success).toBe(true);
     expect(result.confidence).toBeGreaterThan(0);

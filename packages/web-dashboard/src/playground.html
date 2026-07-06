@@ -21,16 +21,26 @@
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
 
     <!-- React CDN -->
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script
+      src="https://unpkg.com/react@18/umd/react.production.min.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
+      crossorigin
+    ></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <style>
       /* ── CSS Design Tokens ─────────────────────────────────────────────── */
       :root {
         /* ── TYPOGRAPHY ── */
-        --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        --font-mono: "JetBrains Mono", "Fira Code", "Cascadia Code", "SF Mono", Consolas, "Liberation Mono", monospace;
+        --font-sans:
+          "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        --font-mono:
+          "JetBrains Mono", "Fira Code", "Cascadia Code", "SF Mono", Consolas,
+          "Liberation Mono", monospace;
 
         --text-xs: 0.75rem;
         --text-sm: 0.875rem;
@@ -73,10 +83,14 @@
         /* ── SHADOWS ── */
         --shadow-none: 0 0 0 0 transparent;
         --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-        --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-        --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-        --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-        --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        --shadow-sm:
+          0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+        --shadow-md:
+          0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        --shadow-lg:
+          0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        --shadow-xl:
+          0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
         --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
 
         --glow-primary: 0 0 0 3px rgb(99 102 241 / 0.3);
@@ -325,36 +339,36 @@
           grid-template-rows: 48px 1fr 56px;
           grid-template-columns: 1fr;
         }
-        
+
         .playground-sidebar {
           display: none;
         }
-        
+
         .playground-sidebar.mobile-visible {
           display: flex;
           grid-area: main;
           border-right: none;
         }
-        
+
         .playground-main {
           display: none;
         }
-        
+
         .playground-main.mobile-visible {
           display: flex;
           grid-area: main;
         }
-        
+
         .playground-panel {
           display: none !important;
         }
-        
+
         .playground-panel.mobile-visible {
           display: flex !important;
           grid-area: main;
           border-left: none;
         }
-        
+
         .playground-statusbar {
           display: none;
         }
@@ -374,7 +388,7 @@
           z-index: var(--z-sticky);
           padding-bottom: env(safe-area-inset-bottom);
         }
-        
+
         .mobile-tab {
           flex: 1;
           display: flex;
@@ -389,7 +403,7 @@
           cursor: pointer;
           height: 100%;
         }
-        
+
         .mobile-tab.active {
           color: var(--primary);
         }
@@ -541,10 +555,19 @@
         white-space: nowrap;
       }
 
-      .file-tree-node.git-added { color: var(--success); }
-      .file-tree-node.git-modified { color: var(--info); }
-      .file-tree-node.git-deleted { color: var(--danger); text-decoration: line-through; }
-      .file-tree-node.git-renamed { color: #c084fc; }
+      .file-tree-node.git-added {
+        color: var(--success);
+      }
+      .file-tree-node.git-modified {
+        color: var(--info);
+      }
+      .file-tree-node.git-deleted {
+        color: var(--danger);
+        text-decoration: line-through;
+      }
+      .file-tree-node.git-renamed {
+        color: #c084fc;
+      }
 
       .git-indicator {
         font-size: 9px;
@@ -553,10 +576,22 @@
         border-radius: 4px;
         margin-left: 6px;
       }
-      .git-indicator.git-added { background: rgba(16, 185, 129, 0.15); color: var(--success); }
-      .git-indicator.git-modified { background: rgba(6, 182, 212, 0.15); color: var(--info); }
-      .git-indicator.git-deleted { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
-      .git-indicator.git-renamed { background: rgba(192, 132, 252, 0.15); color: #c084fc; }
+      .git-indicator.git-added {
+        background: rgba(16, 185, 129, 0.15);
+        color: var(--success);
+      }
+      .git-indicator.git-modified {
+        background: rgba(6, 182, 212, 0.15);
+        color: var(--info);
+      }
+      .git-indicator.git-deleted {
+        background: rgba(239, 68, 68, 0.15);
+        color: var(--danger);
+      }
+      .git-indicator.git-renamed {
+        background: rgba(192, 132, 252, 0.15);
+        color: #c084fc;
+      }
 
       /* ── Project Switcher ─────────────────────────────────── */
       .project-switcher-trigger {
@@ -845,8 +880,14 @@
       }
 
       @keyframes slideInMsg {
-        from { opacity: 0; transform: translateY(12px); }
-        to { opacity: 1; transform: translateY(0); }
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
       .chat-message.user {
@@ -896,9 +937,18 @@
         border-radius: 4px;
         font-weight: 600;
       }
-      .message-confidence.high { background: rgba(16, 185, 129, 0.1); color: var(--success); }
-      .message-confidence.medium { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
-      .message-confidence.low { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+      .message-confidence.high {
+        background: rgba(16, 185, 129, 0.1);
+        color: var(--success);
+      }
+      .message-confidence.medium {
+        background: rgba(245, 158, 11, 0.1);
+        color: var(--warning);
+      }
+      .message-confidence.low {
+        background: rgba(239, 68, 68, 0.1);
+        color: var(--danger);
+      }
 
       .message-body {
         font-size: 12.5px;
@@ -936,12 +986,22 @@
         animation: bounce 1.4s infinite ease-in-out both;
       }
 
-      .typing-dot:nth-child(1) { animation-delay: -0.32s; }
-      .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+      .typing-dot:nth-child(1) {
+        animation-delay: -0.32s;
+      }
+      .typing-dot:nth-child(2) {
+        animation-delay: -0.16s;
+      }
 
       @keyframes bounce {
-        0%, 80%, 100% { transform: scale(0); }
-        40% { transform: scale(1.0); }
+        0%,
+        80%,
+        100% {
+          transform: scale(0);
+        }
+        40% {
+          transform: scale(1);
+        }
       }
 
       /* ── Chat Input ───────────────────────────────────────── */
@@ -1028,8 +1088,14 @@
       .diff-line {
         padding: 2px 4px;
       }
-      .diff-line.addition { background: rgba(16, 185, 129, 0.1); color: #34d399; }
-      .diff-line.deletion { background: rgba(239, 68, 68, 0.1); color: #f87171; }
+      .diff-line.addition {
+        background: rgba(16, 185, 129, 0.1);
+        color: #34d399;
+      }
+      .diff-line.deletion {
+        background: rgba(239, 68, 68, 0.1);
+        color: #f87171;
+      }
 
       .empty-editor {
         display: flex;
@@ -1245,8 +1311,14 @@
       }
 
       @keyframes slideIn {
-        from { transform: translateY(100%); opacity: 0; }
-        to { transform: translateY(0); opacity: 1; }
+        from {
+          transform: translateY(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
       }
     </style>
   </head>
@@ -1257,57 +1329,243 @@
       const { useState, useEffect, useRef } = React;
 
       // Dynamic backend host configuration resolving CORS/different ports issues (e.g. VS Code Live Server port 5500)
-      const apiBase = window.location.port === "3737" ? "" : "http://localhost:3737";
+      const apiBase =
+        window.location.port === "3737" ? "" : "http://localhost:3737";
 
       // ── Clean SVG Icons ─────────────────────────────────────────────────
       const SparklesIcon = ({ size = 16 }) => (
-        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="m5 3 1 2.5L8.5 6 6 7 5 9.5 4 7 1.5 6 4 5 5 3Z" opacity="0.6"/><path d="m19 17 1 2.5 2.5.5-2.5 1-1 2.5-1-2.5-2.5-1 2.5-1 1-2.5Z" opacity="0.6"/></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width={size}
+          height={size}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
+          <path
+            d="m5 3 1 2.5L8.5 6 6 7 5 9.5 4 7 1.5 6 4 5 5 3Z"
+            opacity="0.6"
+          />
+          <path
+            d="m19 17 1 2.5 2.5.5-2.5 1-1 2.5-1-2.5-2.5-1 2.5-1 1-2.5Z"
+            opacity="0.6"
+          />
+        </svg>
       );
       const FolderIcon = ({ size = 16 }) => (
-        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width={size}
+          height={size}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" />
+        </svg>
       );
       const FolderOpenIcon = ({ size = 16 }) => (
-        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H18a2 2 0 0 1 2 2v2"/></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width={size}
+          height={size}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H18a2 2 0 0 1 2 2v2" />
+        </svg>
       );
       const FileIcon = ({ size = 16 }) => (
-        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width={size}
+          height={size}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
+          <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+        </svg>
       );
       const ChevronRightIcon = ({ size = 16, className = "" }) => (
-        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m9 18 6-6-6-6"/></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width={size}
+          height={size}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className={className}
+        >
+          <path d="m9 18 6-6-6-6" />
+        </svg>
       );
       const ChevronDownIcon = ({ size = 16 }) => (
-        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width={size}
+          height={size}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="m6 9 6 6 6-6" />
+        </svg>
       );
       const RefreshIcon = ({ size = 16 }) => (
-        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M16 3h5v5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 21H3v-5"/></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width={size}
+          height={size}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+          <path d="M16 3h5v5" />
+          <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
+          <path d="M8 21H3v-5" />
+        </svg>
       );
       const SearchIcon = ({ size = 16, className = "" }) => (
-        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width={size}
+          height={size}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className={className}
+        >
+          <circle cx="11" cy="11" r="8" />
+          <path d="m21 21-4.3-4.3" />
+        </svg>
       );
       const XIcon = ({ size = 16 }) => (
-        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width={size}
+          height={size}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M18 6 6 18" />
+          <path d="m6 6 12 12" />
+        </svg>
       );
       const UserIcon = ({ size = 16 }) => (
-        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width={size}
+          height={size}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
       );
       const BotIcon = ({ size = 16 }) => (
-        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width={size}
+          height={size}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M12 8V4H8" />
+          <rect width="16" height="12" x="4" y="8" rx="2" />
+          <path d="M2 14h2" />
+          <path d="M20 14h2" />
+          <path d="M15 13v2" />
+          <path d="M9 13v2" />
+        </svg>
       );
 
       // ── Accordion Component ──────────────────────────────────────────────
-      const Accordion = ({ title, icon, defaultOpen = false, children, badge }) => {
+      const Accordion = ({
+        title,
+        icon,
+        defaultOpen = false,
+        children,
+        badge,
+      }) => {
         const [isOpen, setIsOpen] = useState(defaultOpen);
         return (
-          <div className={`accordion ${isOpen ? 'open' : ''}`}>
-            <button className="accordion-header" onClick={() => setIsOpen(!isOpen)} aria-expanded={isOpen}>
+          <div className={`accordion ${isOpen ? "open" : ""}`}>
+            <button
+              className="accordion-header"
+              onClick={() => setIsOpen(!isOpen)}
+              aria-expanded={isOpen}
+            >
               <span className="accordion-icon">
-                <ChevronRightIcon size={12} className={`chevron ${isOpen ? 'rotated' : ''}`} />
+                <ChevronRightIcon
+                  size={12}
+                  className={`chevron ${isOpen ? "rotated" : ""}`}
+                />
               </span>
-              {icon && <span style={{ marginRight: '6px', display: 'flex', alignItems: 'center' }}>{icon}</span>}
-              <span className="accordion-title" style={{ flex: 1 }}>{title}</span>
-              {badge && <span className="git-indicator git-modified">{badge}</span>}
+              {icon && (
+                <span
+                  style={{
+                    marginRight: "6px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  {icon}
+                </span>
+              )}
+              <span className="accordion-title" style={{ flex: 1 }}>
+                {title}
+              </span>
+              {badge && (
+                <span className="git-indicator git-modified">{badge}</span>
+              )}
             </button>
-            {isOpen && <div className="accordion-content" role="region">{children}</div>}
+            {isOpen && (
+              <div className="accordion-content" role="region">
+                {children}
+              </div>
+            )}
           </div>
         );
       };
@@ -1326,7 +1584,8 @@
         const [expandedPaths, setExpandedPaths] = useState(new Set());
         const [selectedPath, setSelectedPath] = useState(null);
         const [recentProjects, setRecentProjects] = useState([]);
-        const [isProjectSwitcherOpen, setIsProjectSwitcherOpen] = useState(false);
+        const [isProjectSwitcherOpen, setIsProjectSwitcherOpen] =
+          useState(false);
         const [activePanelTab, setActivePanelTab] = useState("details"); // details | changelog | history | settings
 
         // Mobile View States
@@ -1339,7 +1598,7 @@
         const [selectedModel, setSelectedModel] = useState("auto");
         const [availableModels, setAvailableModels] = useState([]);
         const [chatMode, setChatMode] = useState("chat"); // chat | changelog | security | explain
-        
+
         // Theme
         const [theme, setTheme] = useState("dark"); // dark | light
 
@@ -1358,33 +1617,33 @@
 
           // Session timer interval
           const interval = setInterval(() => {
-            setSessionSeconds(prev => prev + 1);
+            setSessionSeconds((prev) => prev + 1);
           }, 1000);
 
           // Keyboard Shortcuts Listener
           const shortcutsHandler = (e) => {
-            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'l') {
+            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "l") {
               e.preventDefault();
               setMobileViewTab("chat");
               setActivePanelTab("changelog");
               setTimeout(() => chatInputRef.current?.focus(), 50);
               showToast("Focused AI Chat (Ctrl+L)");
             }
-            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'p') {
+            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "p") {
               e.preventDefault();
               setIsProjectSwitcherOpen(true);
             }
           };
-          window.addEventListener('keydown', shortcutsHandler);
+          window.addEventListener("keydown", shortcutsHandler);
 
           return () => {
             clearInterval(interval);
-            window.removeEventListener('keydown', shortcutsHandler);
+            window.removeEventListener("keydown", shortcutsHandler);
           };
         }, []);
 
         useEffect(() => {
-          messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+          messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
         }, [messages, isStreaming]);
 
         // Helpers
@@ -1425,7 +1684,7 @@
         };
 
         const loadRecentProjects = () => {
-          const saved = localStorage.getItem('devdiff-recent-projects');
+          const saved = localStorage.getItem("devdiff-recent-projects");
           if (saved) {
             setRecentProjects(JSON.parse(saved));
           }
@@ -1437,10 +1696,13 @@
             name: pathStr.split(/[/\\]/).pop() || pathStr,
             lastOpened: new Date().toISOString(),
           };
-          const filtered = recentProjects.filter(p => p.path !== pathStr);
+          const filtered = recentProjects.filter((p) => p.path !== pathStr);
           const updated = [newProject, ...filtered].slice(0, 5);
           setRecentProjects(updated);
-          localStorage.setItem('devdiff-recent-projects', JSON.stringify(updated));
+          localStorage.setItem(
+            "devdiff-recent-projects",
+            JSON.stringify(updated),
+          );
         };
 
         const switchProject = async (pathStr) => {
@@ -1484,12 +1746,16 @@
           setEditorTab("code");
           setMobileViewTab("editor"); // auto view editor on mobile when file clicked
           try {
-            const contentRes = await fetch(`${apiBase}/api/file/content?path=${encodeURIComponent(node.path)}`);
+            const contentRes = await fetch(
+              `${apiBase}/api/file/content?path=${encodeURIComponent(node.path)}`,
+            );
             const contentData = await contentRes.json();
             setFileContent(contentData.content || "");
 
             if (node.gitStatus) {
-              const diffRes = await fetch(`${apiBase}/api/git/diff?path=${encodeURIComponent(node.path)}`);
+              const diffRes = await fetch(
+                `${apiBase}/api/git/diff?path=${encodeURIComponent(node.path)}`,
+              );
               const diffData = await diffRes.json();
               setFileDiff(diffData.diff || "");
             } else {
@@ -1532,31 +1798,35 @@
             timestamp: Date.now(),
           };
 
-          setMessages(prev => [...prev, userMsg]);
+          setMessages((prev) => [...prev, userMsg]);
           setChatInput("");
           setIsStreaming(true);
 
           try {
-            const res = await fetch(`${apiBase}/api/chat?category=${chatMode}`, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                message: prompt,
-                model: selectedModel,
-                systemPrompt: `You are the DevDiff Assistant. You have deep knowledge of the local codebase. Active Mode: ${chatMode}.`,
-              }),
-            });
+            const res = await fetch(
+              `${apiBase}/api/chat?category=${chatMode}`,
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  message: prompt,
+                  model: selectedModel,
+                  systemPrompt: `You are the DevDiff Assistant. You have deep knowledge of the local codebase. Active Mode: ${chatMode}.`,
+                }),
+              },
+            );
             const data = await res.json();
             const replyMsg = {
               id: `msg-${Date.now() + 1}`,
               role: data.success ? "assistant" : "error",
               content: data.response || data.error || "An error occurred.",
               timestamp: Date.now(),
-              model: selectedModel === "auto" ? "qwen2.5-coder:7b" : selectedModel,
+              model:
+                selectedModel === "auto" ? "qwen2.5-coder:7b" : selectedModel,
               confidence: data.success ? 92 : undefined,
               tokens: data.success ? 342 : undefined,
             };
-            setMessages(prev => [...prev, replyMsg]);
+            setMessages((prev) => [...prev, replyMsg]);
           } catch (err) {
             const errorMsg = {
               id: `msg-${Date.now() + 1}`,
@@ -1564,7 +1834,7 @@
               content: err.message,
               timestamp: Date.now(),
             };
-            setMessages(prev => [...prev, errorMsg]);
+            setMessages((prev) => [...prev, errorMsg]);
           } finally {
             setIsStreaming(false);
           }
@@ -1590,27 +1860,36 @@
           if (!searchQuery && filter === "all") return nodes;
 
           const matchSearch = (node) => {
-            return node.name && node.name.toLowerCase().includes(searchQuery.toLowerCase());
+            return (
+              node.name &&
+              node.name.toLowerCase().includes(searchQuery.toLowerCase())
+            );
           };
 
           const matchFilter = (node) => {
             if (filter === "changed") return !!node.gitStatus;
-            if (filter === "staged") return node.gitStatus === "added" || node.gitStatus === "modified";
+            if (filter === "staged")
+              return (
+                node.gitStatus === "added" || node.gitStatus === "modified"
+              );
             return true;
           };
 
           const filterNodeList = (nodeList) => {
             if (!Array.isArray(nodeList)) return [];
             return nodeList
-              .map(node => {
+              .map((node) => {
                 if (node.type === "directory") {
                   const childrenFiltered = filterNodeList(node.children || []);
-                  if (childrenFiltered.length > 0 || (matchSearch(node) && filter === "all")) {
+                  if (
+                    childrenFiltered.length > 0 ||
+                    (matchSearch(node) && filter === "all")
+                  ) {
                     return { ...node, children: childrenFiltered };
                   }
                   return null;
                 }
-                return (matchSearch(node) && matchFilter(node)) ? node : null;
+                return matchSearch(node) && matchFilter(node) ? node : null;
               })
               .filter(Boolean);
           };
@@ -1620,21 +1899,26 @@
 
         const filteredFiles = getFilteredTreeNodes(files);
         const allFlatFiles = flattenFileTree(files);
-        const changedCount = allFlatFiles.filter(n => !!n.gitStatus).length;
-        const stagedCount = allFlatFiles.filter(n => n.gitStatus === "added" || n.gitStatus === "modified").length;
+        const changedCount = allFlatFiles.filter((n) => !!n.gitStatus).length;
+        const stagedCount = allFlatFiles.filter(
+          (n) => n.gitStatus === "added" || n.gitStatus === "modified",
+        ).length;
 
         // Recursive tree rendering
         const renderTreeNodes = (nodes, depth = 0) => {
           if (!Array.isArray(nodes)) return null;
-          return nodes.map(node => {
+          return nodes.map((node) => {
             const isDir = node.type === "directory";
             const isExpanded = expandedPaths.has(node.path);
             const isSelected = selectedPath === node.path;
 
             return (
-              <div key={node.path} style={{ display: 'flex', flexDirection: 'column' }}>
+              <div
+                key={node.path}
+                style={{ display: "flex", flexDirection: "column" }}
+              >
                 <div
-                  className={`file-tree-node ${isSelected ? 'selected' : ''} ${node.gitStatus ? `git-${node.gitStatus}` : ''}`}
+                  className={`file-tree-node ${isSelected ? "selected" : ""} ${node.gitStatus ? `git-${node.gitStatus}` : ""}`}
                   style={{ paddingLeft: `${depth * 14 + 10}px` }}
                   onClick={() => {
                     if (isDir) {
@@ -1645,15 +1929,19 @@
                   }}
                 >
                   {isDir ? (
-                    <span className={`arrow ${isExpanded ? 'expanded' : ''}`}>
+                    <span className={`arrow ${isExpanded ? "expanded" : ""}`}>
                       <ChevronRightIcon size={12} />
                     </span>
                   ) : (
-                    <span style={{ width: '16px' }}></span>
+                    <span style={{ width: "16px" }}></span>
                   )}
                   <span className="icon">
                     {isDir ? (
-                      isExpanded ? <FolderOpenIcon size={14} /> : <FolderIcon size={14} />
+                      isExpanded ? (
+                        <FolderOpenIcon size={14} />
+                      ) : (
+                        <FolderIcon size={14} />
+                      )
                     ) : (
                       <FileIcon size={14} />
                     )}
@@ -1661,7 +1949,13 @@
                   <span className="name">{node.name}</span>
                   {node.gitStatus && (
                     <span className={`git-indicator git-${node.gitStatus}`}>
-                      {node.gitStatus === 'added' ? 'A' : node.gitStatus === 'modified' ? 'M' : node.gitStatus === 'deleted' ? 'D' : 'R'}
+                      {node.gitStatus === "added"
+                        ? "A"
+                        : node.gitStatus === "modified"
+                          ? "M"
+                          : node.gitStatus === "deleted"
+                            ? "D"
+                            : "R"}
                     </span>
                   )}
                 </div>
@@ -1684,55 +1978,94 @@
         const toggleTheme = () => {
           const isLight = document.body.classList.toggle("light-theme");
           setTheme(isLight ? "light" : "dark");
-          showToast(`Theme switched to: ${isLight ? 'Light' : 'Dark'}`);
+          showToast(`Theme switched to: ${isLight ? "Light" : "Dark"}`);
         };
 
         // Mobile active states
         const showMobileExplorer = mobileViewTab === "explorer";
         const showMobileEditor = mobileViewTab === "editor";
-        const showMobilePanel = mobileViewTab === "chat" || mobileViewTab === "settings";
+        const showMobilePanel =
+          mobileViewTab === "chat" || mobileViewTab === "settings";
 
         return (
           <div className="playground">
             {/* Header */}
             <header className="playground-header">
               <div className="playground-header-left">
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
+                >
                   <SparklesIcon size={18} />
-                  <span style={{ fontWeight: 700, fontSize: '14px', letterSpacing: '-0.3px' }}>DevDiff Playground</span>
+                  <span
+                    style={{
+                      fontWeight: 700,
+                      fontSize: "14px",
+                      letterSpacing: "-0.3px",
+                    }}
+                  >
+                    DevDiff Playground
+                  </span>
                 </div>
-                <div style={{ borderLeft: '1px solid var(--border)', height: '18px' }} />
-                
+                <div
+                  style={{
+                    borderLeft: "1px solid var(--border)",
+                    height: "18px",
+                  }}
+                />
+
                 {/* Project Switcher trigger */}
-                <button className="project-switcher-trigger" onClick={() => setIsProjectSwitcherOpen(true)}>
+                <button
+                  className="project-switcher-trigger"
+                  onClick={() => setIsProjectSwitcherOpen(true)}
+                >
                   <FolderIcon size={14} />
-                  <span className="project-name">{workspace ? workspace.name : "Select Project"}</span>
+                  <span className="project-name">
+                    {workspace ? workspace.name : "Select Project"}
+                  </span>
                   <ChevronDownIcon size={12} />
                 </button>
               </div>
 
               <div className="playground-header-center">
                 {/* AI Connection Status */}
-                <div className="ai-badge connected" style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: 'var(--success)' }}>
+                <div
+                  className="ai-badge connected"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    fontSize: "11px",
+                    color: "var(--success)",
+                  }}
+                >
                   <span className="pulse-dot" />
                   <span>Ollama: Active</span>
                 </div>
               </div>
 
               <div className="playground-header-right">
-                <button className="dev-btn dev-btn-ghost dev-btn-sm" onClick={toggleTheme}>
-                  {theme === 'dark' ? '☀️ Light' : '🌙 Dark'}
+                <button
+                  className="dev-btn dev-btn-ghost dev-btn-sm"
+                  onClick={toggleTheme}
+                >
+                  {theme === "dark" ? "☀️ Light" : "🌙 Dark"}
                 </button>
               </div>
             </header>
 
             {/* Sidebar File Explorer */}
-            <aside className={`playground-sidebar ${showMobileExplorer ? 'mobile-visible' : ''}`}>
+            <aside
+              className={`playground-sidebar ${showMobileExplorer ? "mobile-visible" : ""}`}
+            >
               <div className="file-explorer">
                 <div className="file-explorer-header">
                   <span className="file-explorer-title">Workspace files</span>
                   <div className="file-explorer-actions">
-                    <button className="dev-btn dev-btn-ghost dev-btn-sm" onClick={refreshWorkspace} title="Refresh Files">
+                    <button
+                      className="dev-btn dev-btn-ghost dev-btn-sm"
+                      onClick={refreshWorkspace}
+                      title="Refresh Files"
+                    >
                       <RefreshIcon size={12} />
                     </button>
                   </div>
@@ -1749,14 +2082,29 @@
                 </div>
 
                 <div className="file-explorer-filter">
-                  <button className={`filter-tab ${filter === 'all' ? 'active' : ''}`} onClick={() => setFilter('all')}>
+                  <button
+                    className={`filter-tab ${filter === "all" ? "active" : ""}`}
+                    onClick={() => setFilter("all")}
+                  >
                     All
                   </button>
-                  <button className={`filter-tab ${filter === 'changed' ? 'active' : ''}`} onClick={() => setFilter('changed')}>
-                    Changed {changedCount > 0 && <span className="badge">{changedCount}</span>}
+                  <button
+                    className={`filter-tab ${filter === "changed" ? "active" : ""}`}
+                    onClick={() => setFilter("changed")}
+                  >
+                    Changed{" "}
+                    {changedCount > 0 && (
+                      <span className="badge">{changedCount}</span>
+                    )}
                   </button>
-                  <button className={`filter-tab ${filter === 'staged' ? 'active' : ''}`} onClick={() => setFilter('staged')}>
-                    Staged {stagedCount > 0 && <span className="badge">{stagedCount}</span>}
+                  <button
+                    className={`filter-tab ${filter === "staged" ? "active" : ""}`}
+                    onClick={() => setFilter("staged")}
+                  >
+                    Staged{" "}
+                    {stagedCount > 0 && (
+                      <span className="badge">{stagedCount}</span>
+                    )}
                   </button>
                 </div>
 
@@ -1764,7 +2112,13 @@
                   {files.length > 0 ? (
                     renderTreeNodes(filteredFiles)
                   ) : (
-                    <div style={{ padding: '20px', textAlign: 'center', color: 'var(--text-tertiary)' }}>
+                    <div
+                      style={{
+                        padding: "20px",
+                        textAlign: "center",
+                        color: "var(--text-tertiary)",
+                      }}
+                    >
                       No files loaded.
                     </div>
                   )}
@@ -1773,22 +2127,30 @@
             </aside>
 
             {/* Main Content Workspace */}
-            <main className={`playground-main ${showMobileEditor ? 'mobile-visible' : ''}`}>
+            <main
+              className={`playground-main ${showMobileEditor ? "mobile-visible" : ""}`}
+            >
               {selectedFile ? (
                 <div className="editor-container">
                   <div className="editor-tabs">
-                    <button className={`editor-tab ${editorTab === 'code' ? 'active' : ''}`} onClick={() => setEditorTab('code')}>
+                    <button
+                      className={`editor-tab ${editorTab === "code" ? "active" : ""}`}
+                      onClick={() => setEditorTab("code")}
+                    >
                       Code
                     </button>
                     {selectedFile.gitStatus && (
-                      <button className={`editor-tab ${editorTab === 'diff' ? 'active' : ''}`} onClick={() => setEditorTab('diff')}>
+                      <button
+                        className={`editor-tab ${editorTab === "diff" ? "active" : ""}`}
+                        onClick={() => setEditorTab("diff")}
+                      >
                         Diff
                       </button>
                     )}
                   </div>
 
                   <div className="editor-body">
-                    {editorTab === 'code' ? (
+                    {editorTab === "code" ? (
                       <code>{fileContent}</code>
                     ) : (
                       <div>
@@ -1804,22 +2166,40 @@
                             );
                           })
                         ) : (
-                          <div style={{ color: 'var(--text-tertiary)' }}>No diff contents.</div>
+                          <div style={{ color: "var(--text-tertiary)" }}>
+                            No diff contents.
+                          </div>
                         )}
                       </div>
                     )}
                   </div>
 
                   {selectedFile.gitStatus && (
-                    <div style={{ padding: '12px 20px', borderTop: '1px solid var(--border)', background: 'var(--bg-secondary)', display: 'flex', gap: '8px' }}>
-                      <button className="dev-btn dev-btn-primary dev-btn-sm" onClick={() => stageFile(selectedFile.path)}>
+                    <div
+                      style={{
+                        padding: "12px 20px",
+                        borderTop: "1px solid var(--border)",
+                        background: "var(--bg-secondary)",
+                        display: "flex",
+                        gap: "8px",
+                      }}
+                    >
+                      <button
+                        className="dev-btn dev-btn-primary dev-btn-sm"
+                        onClick={() => stageFile(selectedFile.path)}
+                      >
                         Stage Changes
                       </button>
-                      <button className="dev-btn dev-btn-secondary dev-btn-sm" onClick={() => {
-                        setMobileViewTab("chat");
-                        setActivePanelTab("changelog");
-                        sendMessage(`Explain changes in ${selectedFile.name}`);
-                      }}>
+                      <button
+                        className="dev-btn dev-btn-secondary dev-btn-sm"
+                        onClick={() => {
+                          setMobileViewTab("chat");
+                          setActivePanelTab("changelog");
+                          sendMessage(
+                            `Explain changes in ${selectedFile.name}`,
+                          );
+                        }}
+                      >
                         Explain with AI
                       </button>
                     </div>
@@ -1829,42 +2209,89 @@
                 <div className="empty-editor">
                   <SparklesIcon size={32} />
                   <h3>Welcome to the DevDiff Playground</h3>
-                  <p style={{ maxWidth: '400px', fontSize: '12px' }}>
-                    Select a file from the explorer on the left to view code details, stage changes, or query Ollama about structural patterns.
+                  <p style={{ maxWidth: "400px", fontSize: "12px" }}>
+                    Select a file from the explorer on the left to view code
+                    details, stage changes, or query Ollama about structural
+                    patterns.
                   </p>
                 </div>
               )}
             </main>
 
             {/* Right Panel Details & AI Chat */}
-            <aside className={`playground-panel ${showMobilePanel ? 'mobile-visible' : ''}`}>
+            <aside
+              className={`playground-panel ${showMobilePanel ? "mobile-visible" : ""}`}
+            >
               <div className="details-panel">
                 <div className="panel-tabs">
-                  <button className={`panel-tab ${activePanelTab === 'details' ? 'active' : ''}`} onClick={() => setActivePanelTab('details')}>
+                  <button
+                    className={`panel-tab ${activePanelTab === "details" ? "active" : ""}`}
+                    onClick={() => setActivePanelTab("details")}
+                  >
                     📋 Details
                   </button>
-                  <button className={`panel-tab ${activePanelTab === 'changelog' ? 'active' : ''}`} onClick={() => setActivePanelTab('changelog')}>
+                  <button
+                    className={`panel-tab ${activePanelTab === "changelog" ? "active" : ""}`}
+                    onClick={() => setActivePanelTab("changelog")}
+                  >
                     💬 Chat
                   </button>
-                  <button className={`panel-tab ${activePanelTab === 'history' ? 'active' : ''}`} onClick={() => setActivePanelTab('history')}>
+                  <button
+                    className={`panel-tab ${activePanelTab === "history" ? "active" : ""}`}
+                    onClick={() => setActivePanelTab("history")}
+                  >
                     🕐 History
                   </button>
-                  <button className={`panel-tab ${activePanelTab === 'settings' ? 'active' : ''}`} onClick={() => setActivePanelTab('settings')}>
+                  <button
+                    className={`panel-tab ${activePanelTab === "settings" ? "active" : ""}`}
+                    onClick={() => setActivePanelTab("settings")}
+                  >
                     ⚙️ Settings
                   </button>
                 </div>
 
                 <div className="panel-content">
-                  {activePanelTab === 'details' && (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                      <Accordion title="Selected File Details" defaultOpen={true} icon={<FileIcon size={12} />}>
+                  {activePanelTab === "details" && (
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "10px",
+                      }}
+                    >
+                      <Accordion
+                        title="Selected File Details"
+                        defaultOpen={true}
+                        icon={<FileIcon size={12} />}
+                      >
                         {selectedFile ? (
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                            <div><strong>Name:</strong> {selectedFile.name}</div>
-                            <div><strong>Path:</strong> {selectedFile.path}</div>
-                            <div><strong>Size:</strong> {selectedFile.size ? `${(selectedFile.size / 1024).toFixed(2)} KB` : "N/A"}</div>
-                            <div><strong>Language:</strong> {selectedFile.language || "text"}</div>
-                            <div><strong>Last Modified:</strong> {selectedFile.lastModified || "N/A"}</div>
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              gap: "6px",
+                            }}
+                          >
+                            <div>
+                              <strong>Name:</strong> {selectedFile.name}
+                            </div>
+                            <div>
+                              <strong>Path:</strong> {selectedFile.path}
+                            </div>
+                            <div>
+                              <strong>Size:</strong>{" "}
+                              {selectedFile.size
+                                ? `${(selectedFile.size / 1024).toFixed(2)} KB`
+                                : "N/A"}
+                            </div>
+                            <div>
+                              <strong>Language:</strong>{" "}
+                              {selectedFile.language || "text"}
+                            </div>
+                            <div>
+                              <strong>Last Modified:</strong>{" "}
+                              {selectedFile.lastModified || "N/A"}
+                            </div>
                           </div>
                         ) : (
                           <div>No file selected.</div>
@@ -1886,32 +2313,57 @@
                     </div>
                   )}
 
-                  {activePanelTab === 'changelog' && (
+                  {activePanelTab === "changelog" && (
                     <div className="chat-panel">
-                      <div className="chat-header" style={{ padding: '0 0 8px 0', borderBottom: 'none' }}>
+                      <div
+                        className="chat-header"
+                        style={{ padding: "0 0 8px 0", borderBottom: "none" }}
+                      >
                         <div className="model-selector">
-                          <select value={selectedModel} onChange={(e) => setSelectedModel(e.target.value)}>
+                          <select
+                            value={selectedModel}
+                            onChange={(e) => setSelectedModel(e.target.value)}
+                          >
                             <option value="auto">🤖 Auto-detect</option>
-                            {availableModels.map(m => (
-                              <option key={m.name} value={`${m.provider}://${m.name}`}>
-                                {m.provider === 'ollama' ? '🏠' : '☁️'} {m.name} ({m.size})
+                            {availableModels.map((m) => (
+                              <option
+                                key={m.name}
+                                value={`${m.provider}://${m.name}`}
+                              >
+                                {m.provider === "ollama" ? "🏠" : "☁️"} {m.name}{" "}
+                                ({m.size})
                               </option>
                             ))}
                           </select>
                         </div>
                       </div>
 
-                      <div className="chat-modes" style={{ padding: '4px 0', borderBottom: 'none' }}>
-                        <button className={`mode-btn ${chatMode === 'chat' ? 'active' : ''}`} onClick={() => setChatMode('chat')}>
+                      <div
+                        className="chat-modes"
+                        style={{ padding: "4px 0", borderBottom: "none" }}
+                      >
+                        <button
+                          className={`mode-btn ${chatMode === "chat" ? "active" : ""}`}
+                          onClick={() => setChatMode("chat")}
+                        >
                           Chat
                         </button>
-                        <button className={`mode-btn ${chatMode === 'changelog' ? 'active' : ''}`} onClick={() => setChatMode('changelog')}>
+                        <button
+                          className={`mode-btn ${chatMode === "changelog" ? "active" : ""}`}
+                          onClick={() => setChatMode("changelog")}
+                        >
                           Changelog
                         </button>
-                        <button className={`mode-btn ${chatMode === 'security' ? 'active' : ''}`} onClick={() => setChatMode('security')}>
+                        <button
+                          className={`mode-btn ${chatMode === "security" ? "active" : ""}`}
+                          onClick={() => setChatMode("security")}
+                        >
                           Security
                         </button>
-                        <button className={`mode-btn ${chatMode === 'explain' ? 'active' : ''}`} onClick={() => setChatMode('explain')}>
+                        <button
+                          className={`mode-btn ${chatMode === "explain" ? "active" : ""}`}
+                          onClick={() => setChatMode("explain")}
+                        >
                           Explain
                         </button>
                       </div>
@@ -1921,23 +2373,55 @@
                           <div className="chat-welcome">
                             <SparklesIcon size={28} />
                             <h3>DevDiff AI Assistant</h3>
-                            <p style={{ fontSize: '11px' }}>Ask questions about changes, audit security, or explain code structures.</p>
+                            <p style={{ fontSize: "11px" }}>
+                              Ask questions about changes, audit security, or
+                              explain code structures.
+                            </p>
                             <div className="suggestion-chips">
-                              <button onClick={() => sendMessage("Generate changelog")}>📝 Generate Changelog</button>
-                              <button onClick={() => sendMessage("Check compliance status")}>🔒 Compliance check</button>
+                              <button
+                                onClick={() =>
+                                  sendMessage("Generate changelog")
+                                }
+                              >
+                                📝 Generate Changelog
+                              </button>
+                              <button
+                                onClick={() =>
+                                  sendMessage("Check compliance status")
+                                }
+                              >
+                                🔒 Compliance check
+                              </button>
                             </div>
                           </div>
                         ) : (
-                          messages.map(msg => (
-                            <div key={msg.id} className={`chat-message ${msg.role}`}>
+                          messages.map((msg) => (
+                            <div
+                              key={msg.id}
+                              className={`chat-message ${msg.role}`}
+                            >
                               <div className="message-avatar">
-                                {msg.role === 'user' ? <UserIcon size={14} /> : <BotIcon size={14} />}
+                                {msg.role === "user" ? (
+                                  <UserIcon size={14} />
+                                ) : (
+                                  <BotIcon size={14} />
+                                )}
                               </div>
                               <div className="message-content">
                                 <div className="message-header">
-                                  <span className="message-role">{msg.role === 'user' ? 'You' : 'DevDiff AI'}</span>
-                                  {msg.model && <span className="message-model">{msg.model}</span>}
-                                  {msg.confidence && <span className="message-confidence high">{msg.confidence}% conf</span>}
+                                  <span className="message-role">
+                                    {msg.role === "user" ? "You" : "DevDiff AI"}
+                                  </span>
+                                  {msg.model && (
+                                    <span className="message-model">
+                                      {msg.model}
+                                    </span>
+                                  )}
+                                  {msg.confidence && (
+                                    <span className="message-confidence high">
+                                      {msg.confidence}% conf
+                                    </span>
+                                  )}
                                 </div>
                                 <div className="message-body">
                                   {msg.content}
@@ -1958,7 +2442,10 @@
                         <div ref={messagesEndRef} />
                       </div>
 
-                      <div className="chat-input-container" style={{ padding: '8px 0 0 0' }}>
+                      <div
+                        className="chat-input-container"
+                        style={{ padding: "8px 0 0 0" }}
+                      >
                         <div className="chat-input-wrapper">
                           <textarea
                             ref={chatInputRef}
@@ -1967,7 +2454,7 @@
                             value={chatInput}
                             onChange={(e) => setChatInput(e.target.value)}
                             onKeyDown={(e) => {
-                              if (e.key === 'Enter' && !e.shiftKey) {
+                              if (e.key === "Enter" && !e.shiftKey) {
                                 e.preventDefault();
                                 sendMessage();
                               }
@@ -1975,7 +2462,10 @@
                           />
                           <div className="chat-input-actions">
                             <span>Press Enter to send</span>
-                            <button className="dev-btn dev-btn-primary dev-btn-sm" onClick={() => sendMessage()}>
+                            <button
+                              className="dev-btn dev-btn-primary dev-btn-sm"
+                              onClick={() => sendMessage()}
+                            >
                               Send
                             </button>
                           </div>
@@ -1984,24 +2474,62 @@
                     </div>
                   )}
 
-                  {activePanelTab === 'history' && (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  {activePanelTab === "history" && (
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "8px",
+                      }}
+                    >
                       <span className="section-title">Analysis History</span>
-                      <div style={{ fontSize: '11px', color: 'var(--text-tertiary)', textAlign: 'center', padding: '20px' }}>
+                      <div
+                        style={{
+                          fontSize: "11px",
+                          color: "var(--text-tertiary)",
+                          textAlign: "center",
+                          padding: "20px",
+                        }}
+                      >
                         No analysis history found.
                       </div>
                     </div>
                   )}
 
-                  {activePanelTab === 'settings' && (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  {activePanelTab === "settings" && (
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "10px",
+                      }}
+                    >
                       <span className="section-title">Playground Settings</span>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '12px' }}>
-                        <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "8px",
+                          fontSize: "12px",
+                        }}
+                      >
+                        <label
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "8px",
+                          }}
+                        >
                           <input type="checkbox" defaultChecked />
                           <span>Local AI Priority (Ollama)</span>
                         </label>
-                        <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <label
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "8px",
+                          }}
+                        >
                           <input type="checkbox" defaultChecked />
                           <span>Syntax highlighting on file preview</span>
                         </label>
@@ -2015,45 +2543,56 @@
             {/* Status Bar */}
             <footer className="playground-statusbar">
               <div>
-                <span>Workspace: <strong>{workspace ? workspace.path : "N/A"}</strong></span>
+                <span>
+                  Workspace:{" "}
+                  <strong>{workspace ? workspace.path : "N/A"}</strong>
+                </span>
               </div>
-              <div style={{ display: 'flex', gap: '12px' }}>
-                <span>Session: <strong id="session-timer">{formatSessionTime(sessionSeconds)}</strong></span>
-                <span>Keyboard Shortcuts: <strong>Ctrl+L (Chat)</strong> | <strong>Ctrl+P (Project)</strong></span>
+              <div style={{ display: "flex", gap: "12px" }}>
+                <span>
+                  Session:{" "}
+                  <strong id="session-timer">
+                    {formatSessionTime(sessionSeconds)}
+                  </strong>
+                </span>
+                <span>
+                  Keyboard Shortcuts: <strong>Ctrl+L (Chat)</strong> |{" "}
+                  <strong>Ctrl+P (Project)</strong>
+                </span>
               </div>
             </footer>
 
             {/* Bottom Mobile Tab Bar */}
             <div className="mobile-tab-bar">
               <button
-                className={`mobile-tab ${mobileViewTab === 'explorer' ? 'active' : ''}`}
-                onClick={() => setMobileViewTab('explorer')}
+                className={`mobile-tab ${mobileViewTab === "explorer" ? "active" : ""}`}
+                onClick={() => setMobileViewTab("explorer")}
               >
                 <span>📂</span>
                 <span>Explorer</span>
               </button>
               <button
-                className={`mobile-tab ${mobileViewTab === 'editor' ? 'active' : ''}`}
-                onClick={() => setMobileViewTab('editor')}
+                className={`mobile-tab ${mobileViewTab === "editor" ? "active" : ""}`}
+                onClick={() => setMobileViewTab("editor")}
               >
                 <span>📝</span>
                 <span>Editor</span>
               </button>
               <button
-                className={`mobile-tab ${mobileViewTab === 'chat' ? 'active' : ''}`}
+                className={`mobile-tab ${mobileViewTab === "chat" ? "active" : ""}`}
                 onClick={() => {
-                  setMobileViewTab('chat');
-                  setActivePanelTab('changelog');
+                  setMobileViewTab("chat");
+                  setActivePanelTab("changelog");
                 }}
               >
                 <span>💬</span>
                 <span>AI Chat</span>
               </button>
               <button
-                className={`mobile-tab ${mobileViewTab === 'settings' ? 'active' : ''}`}
+                className={`mobile-tab ${mobileViewTab === "settings" ? "active" : ""}`}
                 onClick={() => {
-                  setMobileViewTab('settings');
-                  setActivePanelTab('settings');
+                  setMobileViewTab("settings");
+                  setActivePanelTab("settings");
                 }}
               >
                 <span>⚙️</span>
@@ -2064,19 +2603,28 @@
             {/* Project Switcher Modal */}
             {isProjectSwitcherOpen && (
               <>
-                <div className="modal-overlay" onClick={() => setIsProjectSwitcherOpen(false)} />
+                <div
+                  className="modal-overlay"
+                  onClick={() => setIsProjectSwitcherOpen(false)}
+                />
                 <div className="project-switcher-modal" role="dialog">
                   <div className="modal-header">
                     <h2>Switch Developer Workspace</h2>
-                    <button className="dev-btn dev-btn-ghost dev-btn-icon" onClick={() => setIsProjectSwitcherOpen(false)}>
+                    <button
+                      className="dev-btn dev-btn-ghost dev-btn-icon"
+                      onClick={() => setIsProjectSwitcherOpen(false)}
+                    >
                       <XIcon size={14} />
                     </button>
                   </div>
                   <div className="modal-body">
-                    <button className="open-folder-btn" onClick={() => {
-                      const path = prompt("Enter the absolute folder path:");
-                      if (path) switchProject(path);
-                    }}>
+                    <button
+                      className="open-folder-btn"
+                      onClick={() => {
+                        const path = prompt("Enter the absolute folder path:");
+                        if (path) switchProject(path);
+                      }}
+                    >
                       <div className="open-folder-text">
                         <strong>Open local repository</strong>
                         <span>Type absolute path to workspace folder</span>
@@ -2085,10 +2633,16 @@
 
                     {recentProjects.length > 0 && (
                       <div className="recent-projects">
-                        <span className="section-title">Recent Workspace folders</span>
+                        <span className="section-title">
+                          Recent Workspace folders
+                        </span>
                         <div className="recent-list">
-                          {recentProjects.map(proj => (
-                            <button key={proj.path} className="recent-item" onClick={() => switchProject(proj.path)}>
+                          {recentProjects.map((proj) => (
+                            <button
+                              key={proj.path}
+                              className="recent-item"
+                              onClick={() => switchProject(proj.path)}
+                            >
                               <div className="recent-info">
                                 <span className="recent-name">{proj.name}</span>
                                 <span className="recent-path">{proj.path}</span>
@@ -2106,7 +2660,7 @@
         );
       };
 
-      const root = ReactDOM.createRoot(document.getElementById('root'));
+      const root = ReactDOM.createRoot(document.getElementById("root"));
       root.render(<App />);
     </script>
   </body>

@@ -18,7 +18,7 @@ export class OllamaNotAvailableError extends Error {
 
 /**
  * Dynamic Timeout Calculator
- * 
+ *
  * Timeout scales with:
  * - Number of files
  * - Total diff size
@@ -26,52 +26,53 @@ export class OllamaNotAvailableError extends Error {
  * - Historical performance of this model
  */
 export class DynamicTimeout {
-  
-  private static BASE_TIMEOUT_MS = 15000;     // 15 seconds base
-  private static PER_FILE_MS = 2000;          // +2 seconds per file
-  private static PER_1K_TOKENS_MS = 5000;     // +5 seconds per 1K tokens
-  private static MAX_TIMEOUT_MS = 300000;     // 5 minutes absolute max
-  private static MIN_TIMEOUT_MS = 10000;      // 10 seconds minimum
-  
+  private static BASE_TIMEOUT_MS = 15000; // 15 seconds base
+  private static PER_FILE_MS = 2000; // +2 seconds per file
+  private static PER_1K_TOKENS_MS = 5000; // +5 seconds per 1K tokens
+  private static MAX_TIMEOUT_MS = 300000; // 5 minutes absolute max
+  private static MIN_TIMEOUT_MS = 10000; // 10 seconds minimum
+
   /**
    * Calculate appropriate timeout for this request
    */
   static calculate(params: {
     fileCount: number;
     estimatedTokens: number;
-    modelSize: string;      // "3b", "7b", "13b", "70b"
+    modelSize: string; // "3b", "7b", "13b", "70b"
     historicalAvgMs?: number; // Previous performance
   }): number {
-    
     let timeout = this.BASE_TIMEOUT_MS;
-    
+
     // Add time per file
     timeout += params.fileCount * this.PER_FILE_MS;
-    
+
     // Add time per 1K tokens
     const tokenThousands = params.estimatedTokens / 1000;
     timeout += tokenThousands * this.PER_1K_TOKENS_MS;
-    
+
     // Smaller models need MORE time (slower processing)
     const modelSizeGB = parseFloat(params.modelSize) || 3;
     if (modelSizeGB <= 3) {
-      timeout *= 1.5;  // 50% more time for small models
+      timeout *= 1.5; // 50% more time for small models
     } else if (modelSizeGB <= 7) {
-      timeout *= 1.2;  // 20% more time for medium models
+      timeout *= 1.2; // 20% more time for medium models
     }
     // Large models (13b+) use base timeout
-    
+
     // Use historical average if available (with 50% buffer)
     if (params.historicalAvgMs) {
       timeout = Math.max(timeout, params.historicalAvgMs * 1.5);
     }
-    
+
     // Clamp to limits
-    timeout = Math.max(this.MIN_TIMEOUT_MS, Math.min(this.MAX_TIMEOUT_MS, timeout));
-    
+    timeout = Math.max(
+      this.MIN_TIMEOUT_MS,
+      Math.min(this.MAX_TIMEOUT_MS, timeout),
+    );
+
     return Math.round(timeout);
   }
-  
+
   /**
    * Calculate for fallback model (extra time since it's second attempt)
    */
@@ -82,10 +83,10 @@ export class DynamicTimeout {
     attemptNumber: number;
   }): number {
     const base = this.calculate(params);
-    
+
     // Each fallback attempt gets 50% more time
-    const multiplier = 1 + (params.attemptNumber * 0.5);
-    
+    const multiplier = 1 + params.attemptNumber * 0.5;
+
     return Math.round(base * multiplier);
   }
 }
@@ -118,22 +119,25 @@ export class OllamaProvider implements AIProvider {
 
     let timeoutMs = this.timeoutMs;
     if (timeoutMs === undefined) {
-      timeoutMs = attemptNumber && attemptNumber > 1
-        ? DynamicTimeout.calculateForFallback({
-            fileCount,
-            estimatedTokens,
-            modelSize,
-            attemptNumber: attemptNumber - 1,
-          })
-        : DynamicTimeout.calculate({
-            fileCount,
-            estimatedTokens,
-            modelSize,
-            historicalAvgMs,
-          });
+      timeoutMs =
+        attemptNumber && attemptNumber > 1
+          ? DynamicTimeout.calculateForFallback({
+              fileCount,
+              estimatedTokens,
+              modelSize,
+              attemptNumber: attemptNumber - 1,
+            })
+          : DynamicTimeout.calculate({
+              fileCount,
+              estimatedTokens,
+              modelSize,
+              historicalAvgMs,
+            });
     }
 
-    console.log(`⏱️ Dynamic timeout: ${(timeoutMs / 1000).toFixed(0)}s for ${fileCount} files (~${estimatedTokens} tokens)`);
+    console.log(
+      `⏱️ Dynamic timeout: ${(timeoutMs / 1000).toFixed(0)}s for ${fileCount} files (~${estimatedTokens} tokens)`,
+    );
 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
@@ -163,19 +167,31 @@ export class OllamaProvider implements AIProvider {
 
       const data = (await response.json()) as { response: string };
       const elapsed = Date.now() - startTime;
-      
+
       this.recordPerformance(modelName, elapsed);
-      console.log(`✅ Ollama response: ${elapsed}ms (timeout was ${timeoutMs}ms)`);
+      console.log(
+        `✅ Ollama response: ${elapsed}ms (timeout was ${timeoutMs}ms)`,
+      );
 
       return parseAIJSONResponse(data.response);
     } catch (error: any) {
       clearTimeout(timeoutId);
       const elapsed = Date.now() - startTime;
 
-      if (error.name === "AbortError" || error.name === "TimeoutError" || error.message.includes("timed out")) {
-        console.log(`⏱️ Ollama timed out after ${elapsed}ms (timeout was ${timeoutMs}ms)`);
-        console.log(`   Tip: ${fileCount} files may be too many for model ${modelName}`);
-        console.log(`   Consider: devdiff generate --depth minimal (for faster results)`);
+      if (
+        error.name === "AbortError" ||
+        error.name === "TimeoutError" ||
+        error.message.includes("timed out")
+      ) {
+        console.log(
+          `⏱️ Ollama timed out after ${elapsed}ms (timeout was ${timeoutMs}ms)`,
+        );
+        console.log(
+          `   Tip: ${fileCount} files may be too many for model ${modelName}`,
+        );
+        console.log(
+          `   Consider: devdiff generate --depth minimal (for faster results)`,
+        );
         console.log(`   Or split into smaller commits`);
 
         throw new OllamaNotAvailableError(
@@ -263,4 +279,3 @@ export class OllamaProvider implements AIProvider {
     this.performanceHistory.set(modelName, history);
   }
 }
-

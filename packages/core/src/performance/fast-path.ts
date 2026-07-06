@@ -48,7 +48,10 @@ export class FastPathOptimizer {
   /**
    * Generate changelog via fast path
    */
-  static async generate(diff: ParseResult, options: FastPathOptions): Promise<FastPathResult> {
+  static async generate(
+    diff: ParseResult,
+    options: FastPathOptions,
+  ): Promise<FastPathResult> {
     const startTime = performance.now();
     const repoPath = options.repoPath || process.cwd();
 
@@ -154,7 +157,8 @@ export class FastPathOptimizer {
     categories.isTrivial = categories.types.code === 0;
 
     // Needs AI: has code changes but small
-    categories.needsAI = categories.types.code > 0 && categories.types.code <= 10;
+    categories.needsAI =
+      categories.types.code > 0 && categories.types.code <= 10;
 
     return categories;
   }
@@ -171,7 +175,10 @@ export class FastPathOptimizer {
   /**
    * Template for trivial changes (< 5ms)
    */
-  private static templateTrivial(diff: ParseResult, categories: DiffCategories): string {
+  private static templateTrivial(
+    diff: ParseResult,
+    categories: DiffCategories,
+  ): string {
     const lines: string[] = [];
     const date = new Date().toISOString().slice(0, 10);
 
@@ -210,7 +217,7 @@ export class FastPathOptimizer {
 
     lines.push(`---`);
     lines.push(
-      `📊 ${diff.files.length} files • ${diff.totalAdditions || 0}+ ${diff.totalDeletions || 0}- • Fast path (< 10ms)`
+      `📊 ${diff.files.length} files • ${diff.totalAdditions || 0}+ ${diff.totalDeletions || 0}- • Fast path (< 10ms)`,
     );
 
     return lines.join("\n");
@@ -219,7 +226,10 @@ export class FastPathOptimizer {
   /**
    * Template for standard fast path changes
    */
-  private static templateStandard(diff: ParseResult, categories: DiffCategories): string {
+  private static templateStandard(
+    diff: ParseResult,
+    categories: DiffCategories,
+  ): string {
     const lines: string[] = [];
     const date = new Date().toISOString().slice(0, 10);
 
@@ -227,7 +237,9 @@ export class FastPathOptimizer {
     lines.push("");
     lines.push(`Minor updates including:`);
     if (categories.types.code > 0) {
-      lines.push(`- Logic adjustments to ${categories.types.code} source code file(s)`);
+      lines.push(
+        `- Logic adjustments to ${categories.types.code} source code file(s)`,
+      );
     }
     if (categories.types.docs > 0) {
       lines.push(`- Documentation additions`);
@@ -235,7 +247,7 @@ export class FastPathOptimizer {
     lines.push("");
     lines.push(`---`);
     lines.push(
-      `📊 ${diff.files.length} files • ${diff.totalAdditions || 0}+ ${diff.totalDeletions || 0}- • Standard fast path`
+      `📊 ${diff.files.length} files • ${diff.totalAdditions || 0}+ ${diff.totalDeletions || 0}- • Standard fast path`,
     );
 
     return lines.join("\n");
@@ -247,7 +259,7 @@ export class FastPathOptimizer {
   private static async fastAI(
     diff: ParseResult,
     repoPath: string,
-    options: FastPathOptions
+    options: FastPathOptions,
   ): Promise<string> {
     try {
       const { loadConfig } = await import("../config/loader");

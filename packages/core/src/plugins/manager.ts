@@ -24,7 +24,11 @@ class FileStorage {
   async save() {
     try {
       await fs.mkdir(path.dirname(this.filePath), { recursive: true });
-      await fs.writeFile(this.filePath, JSON.stringify(this.data, null, 2), "utf-8");
+      await fs.writeFile(
+        this.filePath,
+        JSON.stringify(this.data, null, 2),
+        "utf-8",
+      );
     } catch (e) {
       // Fail silently or print error
     }
@@ -90,7 +94,10 @@ export class PluginManager {
           this.plugins.push(plugin);
         }
       } catch (err) {
-        console.error(`[PluginManager] Failed to load plugin ${pluginConf}:`, err);
+        console.error(
+          `[PluginManager] Failed to load plugin ${pluginConf}:`,
+          err,
+        );
       }
     }
   }
@@ -98,7 +105,7 @@ export class PluginManager {
   private createContext(plugin: DevDiffPlugin): PluginContext {
     const storagePath = path.resolve(
       this.workspacePath,
-      `.devdiff/plugins/${plugin.id}-storage.json`
+      `.devdiff/plugins/${plugin.id}-storage.json`,
     );
     const storage = new FileStorage(storagePath);
 
@@ -126,15 +133,19 @@ export class PluginManager {
     const notifications = {
       send: async (message: string, options?: any) => {
         console.log(
-          `📣 [Plugin: ${plugin.id}] ${options?.title ? `[${options.title}] ` : ""}${message}`
+          `📣 [Plugin: ${plugin.id}] ${options?.title ? `[${options.title}] ` : ""}${message}`,
         );
       },
       sendToChannel: async (channel: string, message: string) => {
-        console.log(`📣 [Plugin: ${plugin.id}] [Channel: ${channel}] ${message}`);
+        console.log(
+          `📣 [Plugin: ${plugin.id}] [Channel: ${channel}] ${message}`,
+        );
       },
     };
 
-    const engineInstance = new DevDiffEngine({ workspacePath: this.workspacePath });
+    const engineInstance = new DevDiffEngine({
+      workspacePath: this.workspacePath,
+    });
 
     const engine = {
       getStatus: async () => {
@@ -188,7 +199,10 @@ export class PluginManager {
     for (const plugin of this.plugins) {
       if (plugin.hooks?.beforeAnalysis) {
         try {
-          const result = await plugin.hooks.beforeAnalysis(currentDiff, projectContext);
+          const result = await plugin.hooks.beforeAnalysis(
+            currentDiff,
+            projectContext,
+          );
           if (result) {
             currentDiff = result;
           }

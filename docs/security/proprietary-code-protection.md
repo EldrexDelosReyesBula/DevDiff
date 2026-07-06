@@ -2,17 +2,18 @@
 
 ## How DevDiff Protects Your Intellectual Property
 
-DevDiff is designed for proprietary, closed-source codebases. Your code 
+DevDiff is designed for proprietary, closed-source codebases. Your code
 is your competitive advantage. Here's how we protect it.
 
 ### 1. Local-First Architecture
 
-By default, DevDiff uses local AI models (Ollama). Your source code 
+By default, DevDiff uses local AI models (Ollama). Your source code
 **never leaves your machine**. Not even metadata.
 
 ### 2. Redaction Before Any External Call
 
 If you configure a cloud AI provider, DevDiff redacts:
+
 - API keys and tokens
 - Connection strings
 - Private keys
@@ -30,19 +31,19 @@ export default {
   privacy: {
     // Block specific file patterns from EVER being sent externally
     blockExternal: [
-      '**/proprietary/**',
-      '**/internal/**',
-      '**/*.secret.*',
-      '**/keys/**'
+      "**/proprietary/**",
+      "**/internal/**",
+      "**/*.secret.*",
+      "**/keys/**",
     ],
-    
+
     // Redact these patterns from AI prompts
     customRedactions: [
-      { pattern: 'ACME_CORP_SECRET_\\w+', replacement: '[REDACTED:Internal]' },
-      { pattern: '\\d{3}-\\d{2}-\\d{4}', replacement: '[REDACTED:SSN]' }
-    ]
-  }
-}
+      { pattern: "ACME_CORP_SECRET_\\w+", replacement: "[REDACTED:Internal]" },
+      { pattern: "\\d{3}-\\d{2}-\\d{4}", replacement: "[REDACTED:SSN]" },
+    ],
+  },
+};
 ```
 
 ### 4. Audit Trail

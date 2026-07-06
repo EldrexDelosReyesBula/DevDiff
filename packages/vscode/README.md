@@ -49,7 +49,7 @@ For offline development, air-gapped environments, or pre-release verification, y
 ## 🚀 Key Features
 
 - **Inline Explanations**: Generate detailed explanations for staged changes with a single click.
-- **Privacy-First Design**: Zero telemetry, zero analytics tracking, and zero third-party source code exposure. Your code stays *on your machine*.
+- **Privacy-First Design**: Zero telemetry, zero analytics tracking, and zero third-party source code exposure. Your code stays _on your machine_.
 - **Local-First AI**: Connects out-of-the-box to local models using [Ollama](https://ollama.com) (Llama 3.2, Llama 3.1, CodeLlama) so no code leaves your machine.
 - **Multi-Agent Consensus**: Orchestrates a swarm of specialized local agents (Architect, Security, Performance, and Docs) to build consensus on code impact. Learn more in the [Multi-Agent Swarms Guide](https://devdiff.vercel.app/guide/multi-agent).
 - **Vibe-Coding Resilience**: Automatically takes pre-AI checkpoints and enables recovery if routed providers fail. Learn more in the [Vibe-Coding Mode Guide](https://devdiff.vercel.app/guide/vibe-coding).
@@ -83,9 +83,9 @@ Open the VS Code Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`) to run:
 
 Customize DevDiff under **Settings** (`Ctrl+,` or `Cmd+,`) by searching for `devdiff`:
 
-| Setting                         | Type      | Default       | Description                                                                                   | Documentation Link |
-| ------------------------------- | --------- | ------------- | --------------------------------------------------------------------------------------------- | ------------------ |
-| `devdiff.persona`               | `string`  | `"developer"` | Choose from: `developer`, `ceo`, `educator`, `pm`, or `compliance` to change the perspective. | [Personas](https://devdiff.vercel.app/features/personas) |
+| Setting                         | Type      | Default       | Description                                                                                   | Documentation Link                                              |
+| ------------------------------- | --------- | ------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| `devdiff.persona`               | `string`  | `"developer"` | Choose from: `developer`, `ceo`, `educator`, `pm`, or `compliance` to change the perspective. | [Personas](https://devdiff.vercel.app/features/personas)        |
 | `devdiff.autoGenerate`          | `boolean` | `false`       | Automatically analyze changes when staged in Git.                                             | [Configuration](https://devdiff.vercel.app/guide/configuration) |
 | `devdiff.showGutterAnnotations` | `boolean` | `true`        | Display subtle inline decorations in the editor gutter for changed lines.                     | [Configuration](https://devdiff.vercel.app/guide/configuration) |
 
@@ -97,10 +97,10 @@ DevDiff includes a strict sandboxing layer that limits file access to your works
 
 ### What This Package Accesses
 
-| Resource        | Why                                        | Default | Can Disable        | Docs |
-| --------------- | ------------------------------------------ | ------- | ------------------ | ---- |
-| **File System** | Reads git repositories, writes changelogs  | Yes     | No (core function) | [Security Model](https://devdiff.vercel.app/guide/security) |
-| **Shell**       | Executes local git commands, detects tools | Yes     | Yes                | [Security Model](https://devdiff.vercel.app/guide/security) |
+| Resource        | Why                                        | Default | Can Disable        | Docs                                                               |
+| --------------- | ------------------------------------------ | ------- | ------------------ | ------------------------------------------------------------------ |
+| **File System** | Reads git repositories, writes changelogs  | Yes     | No (core function) | [Security Model](https://devdiff.vercel.app/guide/security)        |
+| **Shell**       | Executes local git commands, detects tools | Yes     | Yes                | [Security Model](https://devdiff.vercel.app/guide/security)        |
 | **Network**     | Resolves cloud AI endpoints (optional)     | No      | Yes (default off)  | [Network Guard](https://devdiff.vercel.app/security/network-guard) |
 
 ### Auditable Logs
@@ -121,4 +121,3 @@ npx devdiff audit --package @eldrex/vscode
 - **Security & Privacy Policy**: Read our full [Security Policy](https://devdiff.vercel.app/security/overview) and [Privacy Guarantees](https://devdiff.vercel.app/guide/privacy).
 - **Version Policy**: Read our [Immutable Version Strategy Guide](https://devdiff.vercel.app/versioning/policy).
 - **Support & Funding**: Get help or sponsor development via our [Support Page](https://github.com/EldrexDelosReyesBula/devdiff/blob/main/SUPPORT.md).
-

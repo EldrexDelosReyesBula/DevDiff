@@ -2,7 +2,11 @@ import * as fs from "fs/promises";
 import * as path from "path";
 import { ShellSandbox } from "../security/shell-sandbox";
 import { DevDiffConfig } from "../config/schema";
-import { AIExplanationResult, AIProvider, SYSTEM_PROMPT } from "./providers/base";
+import {
+  AIExplanationResult,
+  AIProvider,
+  SYSTEM_PROMPT,
+} from "./providers/base";
 import { OllamaProvider } from "./providers/ollama";
 import { OpenAIProvider } from "./providers/openai";
 import { GeminiProvider } from "./providers/gemini";
@@ -452,7 +456,13 @@ export class AIRouter {
 
   async getExplanation(
     diffText: string,
-    options?: { dryRun?: boolean; depth?: string; projectContext?: string; personaId?: string; timeoutMs?: number },
+    options?: {
+      dryRun?: boolean;
+      depth?: string;
+      projectContext?: string;
+      personaId?: string;
+      timeoutMs?: number;
+    },
   ): Promise<AIExplanationResult> {
     if (options?.dryRun) {
       return {
@@ -528,7 +538,8 @@ export class AIRouter {
     let customSystemPrompt = SYSTEM_PROMPT;
     if (options?.personaId) {
       try {
-        const { PersonaRegistry, PersonaEngine } = await import("@eldrex/personas");
+        const { PersonaRegistry, PersonaEngine } =
+          await import("@eldrex/personas");
         const persona = PersonaRegistry.get(options.personaId);
         if (persona) {
           customSystemPrompt = `${SYSTEM_PROMPT}\n\n${PersonaEngine.generateSystemPrompt(persona)}`;

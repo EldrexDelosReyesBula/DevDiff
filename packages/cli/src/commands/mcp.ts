@@ -1,8 +1,13 @@
 import pc from "picocolors";
 
-export async function mcpCommand(action: string, options: { http?: boolean; port?: string }) {
+export async function mcpCommand(
+  action: string,
+  options: { http?: boolean; port?: string },
+) {
   if (action !== "serve") {
-    console.log(pc.red(`❌ Unknown action: "${action}". Did you mean "serve"?`));
+    console.log(
+      pc.red(`❌ Unknown action: "${action}". Did you mean "serve"?`),
+    );
     return;
   }
 
@@ -14,7 +19,9 @@ export async function mcpCommand(action: string, options: { http?: boolean; port
     const port = options.port ? parseInt(options.port) : 3739;
 
     if (transport === "http") {
-      console.log(pc.green(`✅ MCP Server listening on port ${port} (HTTP SSE mode)`));
+      console.log(
+        pc.green(`✅ MCP Server listening on port ${port} (HTTP SSE mode)`),
+      );
     } else {
       console.log(pc.green("✅ MCP Server listening on stdio (stdin/stdout)"));
     }

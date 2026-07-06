@@ -207,7 +207,7 @@ export class AccuracyGuard {
   private static extractFilePaths(text: string): string[] {
     const matches =
       text.match(
-        /[\w\/\-\.]+\.(ts|js|tsx|jsx|py|go|rs|java|rb|php|cs|cpp|h|css|html)/gi,
+        /(?:[\w\-\.]+\/)*[\w\-\.]+\.(?:ts|js|tsx|jsx|py|go|rs|java|rb|php|cs|cpp|h|css|html)/gi,
       ) || [];
     return [...new Set(matches)];
   }

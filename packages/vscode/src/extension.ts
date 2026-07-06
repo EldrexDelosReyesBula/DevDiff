@@ -29,9 +29,11 @@ export async function activate(context: vscode.ExtensionContext) {
   // Validate workspace safety
   const validation = ExtensionSecurityGuard.validateWorkspace(workspacePath);
   if (!validation.safe) {
-    outputChannel.appendLine(`❌ Security block: Workspace failed security validation.`);
+    outputChannel.appendLine(
+      `❌ Security block: Workspace failed security validation.`,
+    );
     vscode.window.showErrorMessage(
-      "DevDiff: Workspace security checks failed. Extension has been disabled for safety."
+      "DevDiff: Workspace security checks failed. Extension has been disabled for safety.",
     );
     return;
   }
@@ -48,7 +50,7 @@ export async function activate(context: vscode.ExtensionContext) {
   // Status Bar setup
   statusBar = vscode.window.createStatusBarItem(
     vscode.StatusBarAlignment.Right,
-    100
+    100,
   );
   statusBar.text = "$(pulse) DevDiff";
   statusBar.tooltip = "DevDiff Active — Click for options";
@@ -62,26 +64,32 @@ export async function activate(context: vscode.ExtensionContext) {
     statusBar.text = `$(pulse) ${models[0].name}`;
     statusBar.tooltip = `DevDiff Active\nModel: ${models[0].name}\nClick for options`;
     vscode.window.showInformationMessage(
-      `DevDiff: ${models.length} local model(s) detected — ${models[0].name} ready`
+      `DevDiff: ${models.length} local model(s) detected — ${models[0].name} ready`,
     );
   } else if (autoStart) {
-    vscode.window.showInformationMessage(
-      "DevDiff: No local AI models detected. Install one for best experience?",
-      "Install Ollama",
-      "Use Cloud AI",
-      "Later"
-    ).then((selection) => {
-      if (selection === "Install Ollama") {
-        vscode.env.openExternal(vscode.Uri.parse("https://ollama.com/download"));
-      } else if (selection === "Use Cloud AI") {
-        vscode.commands.executeCommand("devdiff.showOutput");
-      }
-    });
+    vscode.window
+      .showInformationMessage(
+        "DevDiff: No local AI models detected. Install one for best experience?",
+        "Install Ollama",
+        "Use Cloud AI",
+        "Later",
+      )
+      .then((selection) => {
+        if (selection === "Install Ollama") {
+          vscode.env.openExternal(
+            vscode.Uri.parse("https://ollama.com/download"),
+          );
+        } else if (selection === "Use Cloud AI") {
+          vscode.commands.executeCommand("devdiff.showOutput");
+        }
+      });
   }
 
   // Auto-start Monitoring
   if (autoStart) {
-    outputChannel.appendLine("🚀 Auto-starting background change monitoring...");
+    outputChannel.appendLine(
+      "🚀 Auto-starting background change monitoring...",
+    );
     startBackgroundWatcher(context);
   }
 
@@ -119,7 +127,7 @@ export async function activate(context: vscode.ExtensionContext) {
       isWatching = !isWatching;
       statusBar.text = isWatching ? "$(eye) DevDiff" : "$(pulse) DevDiff";
       vscode.window.showInformationMessage(
-        isWatching ? "DevDiff: Auto-watch ON" : "DevDiff: Auto-watch OFF"
+        isWatching ? "DevDiff: Auto-watch ON" : "DevDiff: Auto-watch OFF",
       );
     }),
 
@@ -128,24 +136,33 @@ export async function activate(context: vscode.ExtensionContext) {
     }),
 
     vscode.commands.registerCommand("devdiff.showMenu", () => {
-      vscode.window.showQuickPick([
-        "Show Changelog Panel",
-        "Generate Changelog (Progress)",
-        "Generate Architecture Diagram",
-        "Run Security Scan",
-        "Ask AI",
-        "Toggle Watch Mode",
-        "Show Output Logs"
-      ]).then((selection) => {
-        if (selection === "Show Changelog Panel") vscode.commands.executeCommand("devdiff.showChangelog");
-        else if (selection === "Generate Changelog (Progress)") vscode.commands.executeCommand("devdiff.generateChangelog");
-        else if (selection === "Generate Architecture Diagram") vscode.commands.executeCommand("devdiff.generateDiagram");
-        else if (selection === "Run Security Scan") vscode.commands.executeCommand("devdiff.securityScan");
-        else if (selection === "Ask AI") vscode.commands.executeCommand("devdiff.askAI");
-        else if (selection === "Toggle Watch Mode") vscode.commands.executeCommand("devdiff.toggleWatch");
-        else if (selection === "Show Output Logs") vscode.commands.executeCommand("devdiff.showOutput");
-      });
-    })
+      vscode.window
+        .showQuickPick([
+          "Show Changelog Panel",
+          "Generate Changelog (Progress)",
+          "Generate Architecture Diagram",
+          "Run Security Scan",
+          "Ask AI",
+          "Toggle Watch Mode",
+          "Show Output Logs",
+        ])
+        .then((selection) => {
+          if (selection === "Show Changelog Panel")
+            vscode.commands.executeCommand("devdiff.showChangelog");
+          else if (selection === "Generate Changelog (Progress)")
+            vscode.commands.executeCommand("devdiff.generateChangelog");
+          else if (selection === "Generate Architecture Diagram")
+            vscode.commands.executeCommand("devdiff.generateDiagram");
+          else if (selection === "Run Security Scan")
+            vscode.commands.executeCommand("devdiff.securityScan");
+          else if (selection === "Ask AI")
+            vscode.commands.executeCommand("devdiff.askAI");
+          else if (selection === "Toggle Watch Mode")
+            vscode.commands.executeCommand("devdiff.toggleWatch");
+          else if (selection === "Show Output Logs")
+            vscode.commands.executeCommand("devdiff.showOutput");
+        });
+    }),
   );
 
   // Register VS Code Language Model Chat Participant
@@ -155,21 +172,45 @@ export async function activate(context: vscode.ExtensionContext) {
       vscodeLm.registerChatParticipant("devdiff", {
         async handler(request: any, chatContext: any, stream: any, token: any) {
           const userPrompt = (request.prompt || "").toLowerCase();
-          
-          if (userPrompt.includes("what changed") || userPrompt.includes("changelog")) {
+
+          if (
+            userPrompt.includes("what changed") ||
+            userPrompt.includes("changelog")
+          ) {
             const range = extractTimeRange(userPrompt) || "24h";
-            const result = await engine.analyze({ since: range, persona: "developer" });
+            const result = await engine.analyze({
+              since: range,
+              persona: "developer",
+            });
             stream.markdown(result.summary);
-          } else if (userPrompt.includes("security") || userPrompt.includes("vulnerab")) {
-            const report = await engine.securityScan({ since: "1 week", threshold: "medium" });
+          } else if (
+            userPrompt.includes("security") ||
+            userPrompt.includes("vulnerab")
+          ) {
+            const report = await engine.securityScan({
+              since: "1 week",
+              threshold: "medium",
+            });
             const list = report.vulnerabilities || [];
             if (list.length === 0) {
-              stream.markdown("No security concerns found in the recent changes.");
+              stream.markdown(
+                "No security concerns found in the recent changes.",
+              );
             } else {
-              stream.markdown(`### Security Audit Report\n\nDetected ${list.length} concerns:\n` + 
-                list.map((v: any) => `- **[${v.severity.toUpperCase()}]** ${v.file}: ${v.description} (Remediation: ${v.remediation})`).join("\n"));
+              stream.markdown(
+                `### Security Audit Report\n\nDetected ${list.length} concerns:\n` +
+                  list
+                    .map(
+                      (v: any) =>
+                        `- **[${v.severity.toUpperCase()}]** ${v.file}: ${v.description} (Remediation: ${v.remediation})`,
+                    )
+                    .join("\n"),
+              );
             }
-          } else if (userPrompt.includes("explain") || userPrompt.includes("why")) {
+          } else if (
+            userPrompt.includes("explain") ||
+            userPrompt.includes("why")
+          ) {
             const filePath = extractFilePath(userPrompt) || "";
             if (filePath) {
               const explanation = await engine.explainFile({ filePath });
@@ -177,8 +218,14 @@ export async function activate(context: vscode.ExtensionContext) {
             } else {
               stream.markdown("Please specify a file path to explain.");
             }
-          } else if (userPrompt.includes("diagram") || userPrompt.includes("architecture")) {
-            const diagram = await engine.generateDiagram({ type: "architecture", since: "24h" });
+          } else if (
+            userPrompt.includes("diagram") ||
+            userPrompt.includes("architecture")
+          ) {
+            const diagram = await engine.generateDiagram({
+              type: "architecture",
+              since: "24h",
+            });
             stream.markdown(`\`\`\`mermaid\n${diagram}\n\`\`\``);
           } else {
             const response = await engine.chat({
@@ -187,8 +234,8 @@ export async function activate(context: vscode.ExtensionContext) {
             });
             stream.markdown(response);
           }
-        }
-      })
+        },
+      }),
     );
   }
 
@@ -207,7 +254,9 @@ async function detectLocalModels(): Promise<DetectedModel[]> {
         models.push({
           name: m.name,
           provider: "ollama",
-          size: m.size ? `${(m.size / (1024 * 1024 * 1024)).toFixed(2)} GB` : "Unknown",
+          size: m.size
+            ? `${(m.size / (1024 * 1024 * 1024)).toFixed(2)} GB`
+            : "Unknown",
           status: "ready",
         });
       }
@@ -228,7 +277,9 @@ function startBackgroundWatcher(context: vscode.ExtensionContext) {
       const files = await engine.getStagedFiles();
       if (files.length > 5) {
         statusBar.text = `$(pulse) ${files.length} changes`;
-        statusBar.backgroundColor = new vscode.ThemeColor("statusBarItem.warningBackground");
+        statusBar.backgroundColor = new vscode.ThemeColor(
+          "statusBarItem.warningBackground",
+        );
 
         if (autoGenerateTimeout) clearTimeout(autoGenerateTimeout);
         autoGenerateTimeout = setTimeout(async () => {
@@ -253,7 +304,7 @@ async function showChangelogView() {
     "devdiff-changelog",
     "DevDiff Changelog",
     vscode.ViewColumn.Beside,
-    { enableScripts: true }
+    { enableScripts: true },
   );
 
   try {
@@ -278,7 +329,7 @@ async function generateChangelogWithProgress() {
         language: "markdown",
       });
       await vscode.window.showTextDocument(doc, vscode.ViewColumn.Active);
-    }
+    },
   );
 }
 
@@ -290,12 +341,15 @@ async function generateDiagram() {
       cancellable: false,
     },
     async () => {
-      const diagram = await engine.generateDiagram({ type: "architecture", since: "24h" });
+      const diagram = await engine.generateDiagram({
+        type: "architecture",
+        since: "24h",
+      });
       const panel = vscode.window.createWebviewPanel(
         "devdiff-diagram",
         "Architecture Diagram",
         vscode.ViewColumn.Beside,
-        { enableScripts: true }
+        { enableScripts: true },
       );
       panel.webview.html = `<!DOCTYPE html>
         <html>
@@ -307,7 +361,7 @@ async function generateDiagram() {
           <pre class="mermaid">${diagram}</pre>
         </body>
         </html>`;
-    }
+    },
   );
 }
 
@@ -319,19 +373,28 @@ async function runSecurityScan() {
       cancellable: false,
     },
     async () => {
-      const scan = await engine.securityScan({ since: "1 week", threshold: "medium" });
+      const scan = await engine.securityScan({
+        since: "1 week",
+        threshold: "medium",
+      });
       const list = scan.vulnerabilities || [];
       if (list.length === 0) {
-        vscode.window.showInformationMessage("DevDiff Security: No vulnerabilities found.");
+        vscode.window.showInformationMessage(
+          "DevDiff Security: No vulnerabilities found.",
+        );
       } else {
-        vscode.window.showWarningMessage(`DevDiff Security: Found ${list.length} potential concerns.`);
+        vscode.window.showWarningMessage(
+          `DevDiff Security: Found ${list.length} potential concerns.`,
+        );
         outputChannel.appendLine("\n=== Security Scan Findings ===");
         list.forEach((v: any) => {
-          outputChannel.appendLine(`[${v.severity.toUpperCase()}] ${v.file}: ${v.description}`);
+          outputChannel.appendLine(
+            `[${v.severity.toUpperCase()}] ${v.file}: ${v.description}`,
+          );
         });
         outputChannel.show();
       }
-    }
+    },
   );
 }
 
@@ -360,10 +423,10 @@ async function explainSelection() {
         "devdiff-explanation",
         "Code Explanation",
         vscode.ViewColumn.Beside,
-        { enableScripts: true }
+        { enableScripts: true },
       );
       panel.webview.html = renderChangelogHtml(response);
-    }
+    },
   );
 }
 
@@ -390,10 +453,10 @@ async function askDevDiff() {
         "devdiff-chat",
         "DevDiff Q&A",
         vscode.ViewColumn.Beside,
-        { enableScripts: true }
+        { enableScripts: true },
       );
       panel.webview.html = renderChangelogHtml(response);
-    }
+    },
   );
 }
 
@@ -406,21 +469,23 @@ async function explainChangesWithAlert() {
     },
     async () => {
       const result = await engine.analyze({ staged: true });
-      vscode.window.showInformationMessage(
-        `DevDiff: ${result.summary.slice(0, 100)}...`,
-        "View Full"
-      ).then((sel) => {
-        if (sel === "View Full") {
-          const panel = vscode.window.createWebviewPanel(
-            "devdiff-explanation",
-            "Staged Changes Explanation",
-            vscode.ViewColumn.Active,
-            { enableScripts: true }
-          );
-          panel.webview.html = renderChangelogHtml(result.summary);
-        }
-      });
-    }
+      vscode.window
+        .showInformationMessage(
+          `DevDiff: ${result.summary.slice(0, 100)}...`,
+          "View Full",
+        )
+        .then((sel) => {
+          if (sel === "View Full") {
+            const panel = vscode.window.createWebviewPanel(
+              "devdiff-explanation",
+              "Staged Changes Explanation",
+              vscode.ViewColumn.Active,
+              { enableScripts: true },
+            );
+            panel.webview.html = renderChangelogHtml(result.summary);
+          }
+        });
+    },
   );
 }
 

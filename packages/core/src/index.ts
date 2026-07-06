@@ -156,14 +156,19 @@ export { HumanReviewSystem } from "./human-review/interrupt-handler";
 
 // v1.0.5 Part 3 Enterprise & Fast Path Exports
 export { FastPathOptimizer } from "./performance/fast-path";
-export { ContextWindowManager, DEFAULT_CONTEXT_CONFIG } from "./context/window-manager";
+export {
+  ContextWindowManager,
+  DEFAULT_CONTEXT_CONFIG,
+} from "./context/window-manager";
 export { TeamCollaboration } from "./collaboration/team-notes";
 
 // v1.0.5 Timeout & Generation Failure Fixes
-export { ChunkingEngine, reconstructDiffForFiles } from "./ai/chunking-strategy";
+export {
+  ChunkingEngine,
+  reconstructDiffForFiles,
+} from "./ai/chunking-strategy";
 export type { ChunkStrategy, DiffChunk } from "./ai/chunking-strategy";
 export { TemplateFallbackGenerator } from "./generators/changelog-fallback";
 export { ProgressiveChunking } from "./ai/progressive-chunking";
 export { InjectionGuardV2 } from "./security/injection-guard-v2";
 export { RedactionEngineV2 } from "./security/redaction-engine-v2";
-

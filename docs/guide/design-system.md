@@ -8,6 +8,7 @@ The single source of truth for the visual language, design tokens, layout primit
 
 > [!IMPORTANT]
 > **DEVDIFF DESIGN PRINCIPLES**
+>
 > 1. **ZERO LEARNING CURVE** — A beginner commits in 3 taps.
 > 2. **POWER USER READY** — Advanced devs never leave the keyboard.
 > 3. **ONE DESIGN EVERYWHERE** — Docs = Playground = CLI output.
@@ -18,10 +19,10 @@ The single source of truth for the visual language, design tokens, layout primit
 
 ## The 3-Tap Rule
 
-| Tap 1: Install | Tap 2: Initialize | Tap 3: Generate |
-| :--- | :--- | :--- |
-| **npm i -g @eldrex/cli** | **devdiff init** | **devdiff generate** |
-| ⏱️ 2 seconds | ⏱️ 1 second | 📝 Changelog appears |
+| Tap 1: Install           | Tap 2: Initialize | Tap 3: Generate      |
+| :----------------------- | :---------------- | :------------------- |
+| **npm i -g @eldrex/cli** | **devdiff init**  | **devdiff generate** |
+| ⏱️ 2 seconds             | ⏱️ 1 second       | 📝 Changelog appears |
 
 ---
 
@@ -478,12 +479,14 @@ export class CLIOutputFormatter {
 ## Design Consistency Audit
 
 ### Spacing Checklist
+
 - [ ] All spacing uses 4px grid (`--space-1` through `--space-24`)
 - [ ] Card padding is set to `--space-6` (24px) consistently across all screens
 - [ ] Section gaps are set to at least `--space-8` (32px)
 - [ ] Button padding is identical across all workspace surfaces
 
 ### Typography Checklist
+
 - [ ] Font stack matches exactly across docs, playground, and web dashboard
 - [ ] Heading sizes are hierarchical (`h1` = `3xl`, `h2` = `2xl`, `h3` = `xl`, `h4` = `lg`)
 - [ ] Body text uses `--text-base` (16px) consistently

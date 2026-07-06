@@ -280,7 +280,10 @@ export async function generateChangelog(
     const { PersonaRegistry, PersonaEngine } = await import("@eldrex/personas");
     const personaObj = PersonaRegistry.get(options.persona);
     if (personaObj) {
-      explanation.summary = PersonaEngine.postProcess(explanation.summary, personaObj);
+      explanation.summary = PersonaEngine.postProcess(
+        explanation.summary,
+        personaObj,
+      );
       if (explanation.files) {
         for (const f of explanation.files) {
           f.explanation = PersonaEngine.postProcess(f.explanation, personaObj);

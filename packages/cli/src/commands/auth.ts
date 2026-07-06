@@ -113,7 +113,7 @@ export async function authAddCommand(provider: string): Promise<void> {
 
   console.log("");
   console.log(pc.green("   ✅ Done! Configuration updated:"));
-  console.log(`   • .env: ${config.envVar}=****${apiKey.slice(-4)}`);
+  console.log(`   • .env: ${config.envVar}=[MASKED]`);
   console.log(`   • .devdiff.config.js: Added ${config.name} to providers`);
   console.log("");
   console.log("   Run: devdiff generate");
@@ -274,9 +274,8 @@ export async function authListCommand(): Promise<void> {
     const apiKey = process.env[config.envVar];
 
     if (apiKey) {
-      const masked = apiKey.slice(0, 6) + "****" + apiKey.slice(-4);
       console.log(`   ✅ ${config.name}`);
-      console.log(`      Key: ${masked}`);
+      console.log(`      Key: [MASKED]`);
       console.log(`      Env: ${config.envVar}`);
       console.log("");
       found = true;

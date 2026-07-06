@@ -119,7 +119,7 @@ export class ASTFingerprintExtractor {
 
   private static extractImports(code: string): string[] {
     const patterns = [
-      /import\s+.*?\s+from\s+['"]([^'"]+)['"]/g,
+      /import\s+[^;\n\r]+?from\s+['"]([^'"]+)['"]/g,
       /require\s*\(\s*['"]([^'"]+)['"]\s*\)/g,
       /import\s*\(\s*['"]([^'"]+)['"]\s*\)/g,
     ];

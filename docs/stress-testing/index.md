@@ -37,12 +37,12 @@ chmod +x test/stress/full-suite.sh
 
 ## Stress Test Reference Table
 
-| Test ID | Name | Core Focus | Target / Pass Criteria |
-| :--- | :--- | :--- | :--- |
-| **T1** | Single File Change | Spawning & Parsing Overhead | Completion in `< 200ms` (Linux/Mac) |
-| **T2** | 1000 Files Vibe Coding | Large Changeset Auto-Chunking | Successful fallback / progressive chunk execution |
-| **T3** | Concurrent Run | Multi-Agent Swarm Concurrency | 5 parallel analyses complete without file lock collisions |
-| **T4** | 5000 Files Memory Cap | Large Repository Scaling | Peak memory usage stays strictly `< 512MB` |
-| **T5** | Edge Cases | File Parsing Stability | Handle binary assets, unicode names, symlinks, and empty files without crashing |
-| **T6** | Script Injection | Shell & Prompt Jailbreak Guard | Block prompt injections in commits, command execution in paths |
-| **T7** | Secret Leak Prevention | Redaction Accuracy | Verify secrets are redacted and never leaked to stdout/dry-runs |
+| Test ID | Name                   | Core Focus                     | Target / Pass Criteria                                                          |
+| :------ | :--------------------- | :----------------------------- | :------------------------------------------------------------------------------ |
+| **T1**  | Single File Change     | Spawning & Parsing Overhead    | Completion in `< 200ms` (Linux/Mac)                                             |
+| **T2**  | 1000 Files Vibe Coding | Large Changeset Auto-Chunking  | Successful fallback / progressive chunk execution                               |
+| **T3**  | Concurrent Run         | Multi-Agent Swarm Concurrency  | 5 parallel analyses complete without file lock collisions                       |
+| **T4**  | 5000 Files Memory Cap  | Large Repository Scaling       | Peak memory usage stays strictly `< 512MB`                                      |
+| **T5**  | Edge Cases             | File Parsing Stability         | Handle binary assets, unicode names, symlinks, and empty files without crashing |
+| **T6**  | Script Injection       | Shell & Prompt Jailbreak Guard | Block prompt injections in commits, command execution in paths                  |
+| **T7**  | Secret Leak Prevention | Redaction Accuracy             | Verify secrets are redacted and never leaked to stdout/dry-runs                 |

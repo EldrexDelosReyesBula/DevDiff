@@ -34,9 +34,18 @@ export function activate() {
         name: "analyze",
         description: "Analyze git changes and generate changelog",
         parameters: {
-          since: { type: "string", description: 'Time range (e.g., "today", "24h", "HEAD~5..HEAD")' },
-          persona: { type: "string", description: "Output style (developer, ceo, educator, etc.)" },
-          format: { type: "string", description: "Output format (markdown, json, mermaid)" },
+          since: {
+            type: "string",
+            description: 'Time range (e.g., "today", "24h", "HEAD~5..HEAD")',
+          },
+          persona: {
+            type: "string",
+            description: "Output style (developer, ceo, educator, etc.)",
+          },
+          format: {
+            type: "string",
+            description: "Output format (markdown, json, mermaid)",
+          },
         },
       },
       {
@@ -44,7 +53,10 @@ export function activate() {
         description: "Security scan of recent changes",
         parameters: {
           since: { type: "string" },
-          threshold: { type: "string", description: "Severity threshold (low, medium, high, critical)" },
+          threshold: {
+            type: "string",
+            description: "Severity threshold (low, medium, high, critical)",
+          },
         },
       },
       {
@@ -52,7 +64,10 @@ export function activate() {
         description: "Explain a specific file or code change",
         parameters: {
           file: { type: "string", description: "File path" },
-          context: { type: "string", description: "Additional context (optional)" },
+          context: {
+            type: "string",
+            description: "Additional context (optional)",
+          },
         },
       },
     ],

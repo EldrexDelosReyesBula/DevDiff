@@ -41,10 +41,7 @@ export class InjectionGuardV2 {
     /<iframe[\s>]/i,
   ];
 
-  private static protoPatterns = [
-    /__proto__/,
-    /constructor\.prototype/,
-  ];
+  private static protoPatterns = [/__proto__/, /constructor\.prototype/];
 
   static test(input: string): { safe: boolean; attacks: { type: string }[] } {
     const attacks: { type: string }[] = [];

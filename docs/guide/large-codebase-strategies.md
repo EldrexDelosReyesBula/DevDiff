@@ -19,8 +19,8 @@ export default {
     "**/build/**",
     "**/*.min.js",
     "package-lock.json",
-    "pnpm-lock.yaml"
-  ]
+    "pnpm-lock.yaml",
+  ],
 };
 ```
 

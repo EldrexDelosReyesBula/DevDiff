@@ -12,31 +12,38 @@ export interface ChunkStrategy {
 export interface DiffChunk {
   id: string;
   files: ParsedFileDiff[];
-  label: string;           // "src/auth/", "packages/core/", etc.
+  label: string; // "src/auth/", "packages/core/", etc.
   estimatedTokens: number;
-  priority: number;        // 1 = most important, process first
+  priority: number; // 1 = most important, process first
 }
 
 export class ChunkingEngine {
-  
   /**
    * Determine the best chunking strategy
    */
   static analyze(diff: ParseResult, modelContextLimit = 32000): ChunkStrategy {
     const totalFiles = diff.files.length;
     const estimatedTokens = this.estimateTotalTokens(diff);
-    
+
     // ── Single request: Small diffs ──
     if (totalFiles <= 10 && estimatedTokens < modelContextLimit * 0.7) {
       return {
         shouldChunk: false,
-        chunks: [{ id: "single", files: diff.files, label: "All changes", estimatedTokens, priority: 1 }],
+        chunks: [
+          {
+            id: "single",
+            files: diff.files,
+            label: "All changes",
+            estimatedTokens,
+            priority: 1,
+          },
+        ],
         strategy: "single",
         estimatedTime: this.estimateTime(estimatedTokens, "single"),
-        recommendation: "Single AI request — fastest path"
+        recommendation: "Single AI request — fastest path",
       };
     }
-    
+
     // ── By directory: Medium diffs ──
     if (totalFiles <= 50) {
       const chunks = this.chunkByDirectory(diff);
@@ -45,10 +52,10 @@ export class ChunkingEngine {
         chunks,
         strategy: "by-directory",
         estimatedTime: this.estimateTime(estimatedTokens, "by-directory"),
-        recommendation: `Split into ${chunks.length} chunks by directory — ${chunks.length} sequential AI calls`
+        recommendation: `Split into ${chunks.length} chunks by directory — ${chunks.length} sequential AI calls`,
       };
     }
-    
+
     // ── By package: Large diffs ──
     if (totalFiles <= 200) {
       const chunks = this.chunkByPackage(diff);
@@ -57,33 +64,38 @@ export class ChunkingEngine {
         chunks,
         strategy: "by-package",
         estimatedTime: this.estimateTime(estimatedTokens, "by-package"),
-        recommendation: `Split into ${chunks.length} chunks by package — parallel processing where possible`
+        recommendation: `Split into ${chunks.length} chunks by package — parallel processing where possible`,
       };
     }
-    
+
     // ── Summary only: Massive diffs ──
     const topFiles = diff.files.slice(0, 50);
     return {
       shouldChunk: true,
-      chunks: [{
-        id: "summary",
-        files: topFiles,
-        label: "Top 50 most changed files",
-        estimatedTokens: this.estimateTotalTokens({ ...diff, files: topFiles }),
-        priority: 1
-      }],
+      chunks: [
+        {
+          id: "summary",
+          files: topFiles,
+          label: "Top 50 most changed files",
+          estimatedTokens: this.estimateTotalTokens({
+            ...diff,
+            files: topFiles,
+          }),
+          priority: 1,
+        },
+      ],
       strategy: "summary-only",
       estimatedTime: this.estimateTime(estimatedTokens, "summary-only"),
-      recommendation: `${totalFiles} files is very large. Generating summary of top 50 files. Full analysis saved to MVP for background processing.`
+      recommendation: `${totalFiles} files is very large. Generating summary of top 50 files. Full analysis saved to MVP for background processing.`,
     };
   }
-  
+
   /**
    * Chunk by directory
    */
   private static chunkByDirectory(diff: ParseResult): DiffChunk[] {
     const byDir = new Map<string, ParsedFileDiff[]>();
-    
+
     for (const file of diff.files) {
       const filePath = file.path || file.newPath || file.oldPath || "unknown";
       const normalized = filePath.replace(/\\/g, "/");
@@ -91,31 +103,31 @@ export class ChunkingEngine {
       if (!byDir.has(dir)) byDir.set(dir, []);
       byDir.get(dir)!.push(file);
     }
-    
+
     return Array.from(byDir.entries())
-      .sort((a, b) => b[1].length - a[1].length)  // Most files first
+      .sort((a, b) => b[1].length - a[1].length) // Most files first
       .map(([dir, files], index) => ({
         id: `chunk-${index}`,
         files,
         label: dir,
         estimatedTokens: this.estimateTotalTokens({ ...diff, files }),
-        priority: files.length > 5 ? 1 : 2
+        priority: files.length > 5 ? 1 : 2,
       }));
   }
-  
+
   /**
    * Chunk by package (monorepo)
    */
   private static chunkByPackage(diff: ParseResult): DiffChunk[] {
     const byPackage = new Map<string, ParsedFileDiff[]>();
-    
+
     for (const file of diff.files) {
       const filePath = file.path || file.newPath || file.oldPath || "unknown";
       const pkg = this.detectPackage(filePath);
       if (!byPackage.has(pkg)) byPackage.set(pkg, []);
       byPackage.get(pkg)!.push(file);
     }
-    
+
     return Array.from(byPackage.entries())
       .sort((a, b) => b[1].length - a[1].length)
       .map(([pkg, files], index) => ({
@@ -123,10 +135,10 @@ export class ChunkingEngine {
         files,
         label: pkg,
         estimatedTokens: this.estimateTotalTokens({ ...diff, files }),
-        priority: index === 0 ? 1 : 2  // First chunk is most important
+        priority: index === 0 ? 1 : 2, // First chunk is most important
       }));
   }
-  
+
   /**
    * Detect which package a file belongs to
    */
@@ -135,12 +147,12 @@ export class ChunkingEngine {
     // packages/core/src/file.ts → "packages/core"
     const match = normalized.match(/packages\/([^/]+)/);
     if (match) return `packages/${match[1]}`;
-    
+
     // src/components/ → "src"
     const parts = normalized.split("/");
     return parts[0] || "root";
   }
-  
+
   private static estimateFileTokens(file: ParsedFileDiff): number {
     let tokens = 100; // File metadata
     let lineLengthTotal = 0;
@@ -155,23 +167,30 @@ export class ChunkingEngine {
     return Math.ceil(tokens);
   }
 
-  private static estimateTotalTokens(diff: { files: ParsedFileDiff[] }): number {
-    let tokens = 500;  // Base prompt overhead
+  private static estimateTotalTokens(diff: {
+    files: ParsedFileDiff[];
+  }): number {
+    let tokens = 500; // Base prompt overhead
     for (const file of diff.files) {
       tokens += this.estimateFileTokens(file);
     }
     return Math.ceil(tokens);
   }
-  
+
   private static estimateTime(tokenCount: number, strategy: string): number {
-    const msPerToken = 15;  // Conservative estimate for local models
-    
+    const msPerToken = 15; // Conservative estimate for local models
+
     switch (strategy) {
-      case "single": return Math.ceil(tokenCount * msPerToken / 1000);
-      case "by-directory": return Math.ceil(tokenCount * msPerToken * 1.2 / 1000);
-      case "by-package": return Math.ceil(tokenCount * msPerToken * 0.8 / 1000);  // Parallel
-      case "summary-only": return Math.ceil(tokenCount * msPerToken * 0.3 / 1000);
-      default: return 60;
+      case "single":
+        return Math.ceil((tokenCount * msPerToken) / 1000);
+      case "by-directory":
+        return Math.ceil((tokenCount * msPerToken * 1.2) / 1000);
+      case "by-package":
+        return Math.ceil((tokenCount * msPerToken * 0.8) / 1000); // Parallel
+      case "summary-only":
+        return Math.ceil((tokenCount * msPerToken * 0.3) / 1000);
+      default:
+        return 60;
     }
   }
 }

@@ -104,7 +104,7 @@ export class ImportResolver {
   private extractImportPaths(content: string): string[] {
     const paths: string[] = [];
     const patterns = [
-      /import\s+.*?\s+from\s+['"]([^'"]+)['"]/g,
+      /import\s+[^;\n\r]+?from\s+['"]([^'"]+)['"]/g,
       /import\s*\(\s*['"]([^'"]+)['"]\s*\)/g,
       /require\s*\(\s*['"]([^'"]+)['"]\s*\)/g,
       /from\s+['"]([^'"]+)['"]/g,

@@ -13,11 +13,16 @@ import { PersonaRegistry } from "@eldrex/personas";
 
 function getSeverityScore(sev: string): number {
   switch (sev.toLowerCase()) {
-    case "low": return 1;
-    case "medium": return 2;
-    case "high": return 3;
-    case "critical": return 4;
-    default: return 2;
+    case "low":
+      return 1;
+    case "medium":
+      return 2;
+    case "high":
+      return 3;
+    case "critical":
+      return 4;
+    default:
+      return 2;
   }
 }
 
@@ -60,8 +65,12 @@ export class DevDiffEngine {
     const match = since.match(/^(\d+)([hdw])$/);
     if (match) {
       const num = match[1];
-      const unit = match[2] === "h" ? "hours" : match[2] === "d" ? "days" : "weeks";
-      return await ShellSandbox.exec("git", ["diff", `HEAD@{${num} ${unit} ago}`]);
+      const unit =
+        match[2] === "h" ? "hours" : match[2] === "d" ? "days" : "weeks";
+      return await ShellSandbox.exec("git", [
+        "diff",
+        `HEAD@{${num} ${unit} ago}`,
+      ]);
     }
 
     // Default fallback
@@ -74,7 +83,8 @@ export class DevDiffEngine {
     const match = since.match(/^(\d+)([hdw])$/);
     if (match) {
       const num = match[1];
-      const unit = match[2] === "h" ? "hours" : match[2] === "d" ? "days" : "weeks";
+      const unit =
+        match[2] === "h" ? "hours" : match[2] === "d" ? "days" : "weeks";
       return `HEAD@{${num} ${unit} ago}..HEAD`;
     }
     return "HEAD";
@@ -98,7 +108,10 @@ export class DevDiffEngine {
 
       // Check format override for diagrams
       if (options.format === "mermaid" || options.includeDiagrams) {
-        const diagram = await this.generateDiagram({ type: "architecture", since: options.since || "24h" });
+        const diagram = await this.generateDiagram({
+          type: "architecture",
+          since: options.since || "24h",
+        });
         return { summary: diagram };
       }
 
@@ -141,7 +154,10 @@ export class DevDiffEngine {
         return generateChangelog({
           diffText,
           repoPath: this.workspacePath,
-          format: (options.format === "json" || options.format === "html") ? options.format : "markdown",
+          format:
+            options.format === "json" || options.format === "html"
+              ? options.format
+              : "markdown",
           persona: options.persona,
         });
       });
@@ -213,7 +229,10 @@ export class DevDiffEngine {
     }
   }
 
-  async securityScan(options: { since: string; threshold: string }): Promise<any> {
+  async securityScan(options: {
+    since: string;
+    threshold: string;
+  }): Promise<any> {
     try {
       const diffText = await this.getDiffForSince(options.since);
       if (!diffText.trim()) {
@@ -241,16 +260,20 @@ You must respond with a JSON object matching this schema:
 Severity must be one of: low, medium, high, critical.
 Only report findings that are actually present in the diff.`;
 
-      const explanation = await router.getExplanation(diffText.substring(0, 12000), {
-        depth: "deep",
-        projectContext: securityPrompt,
-      });
+      const explanation = await router.getExplanation(
+        diffText.substring(0, 12000),
+        {
+          depth: "deep",
+          projectContext: securityPrompt,
+        },
+      );
 
       const vulnerabilities: any[] = [];
       const thresholdScore = getSeverityScore(options.threshold);
 
       for (const f of explanation.files || []) {
-        const regex = /^\[(low|medium|high|critical)\]\s*([^:]+):\s*([^.]+)\.\s*Remediation:\s*(.+)$/i;
+        const regex =
+          /^\[(low|medium|high|critical)\]\s*([^:]+):\s*([^.]+)\.\s*Remediation:\s*(.+)$/i;
         const match = f.explanation.match(regex);
         if (match) {
           const severity = match[1].toLowerCase();
@@ -280,7 +303,8 @@ Only report findings that are actually present in the diff.`;
               file: f.path,
               title: "Security Warning",
               description: f.explanation,
-              remediation: "Review the code change for potential security concerns.",
+              remediation:
+                "Review the code change for potential security concerns.",
             });
           }
         }
@@ -302,7 +326,10 @@ Only report findings that are actually present in the diff.`;
     }
   }
 
-  async explainFile(options: { filePath: string; commitSha?: string }): Promise<string> {
+  async explainFile(options: {
+    filePath: string;
+    commitSha?: string;
+  }): Promise<string> {
     try {
       let diffText = "";
       if (options.commitSha) {
@@ -336,7 +363,7 @@ Only report findings that are actually present in the diff.`;
           const router = new AIRouter(config);
           const explanation = await router.getExplanation(
             `Please explain what this file does:\n\nFile Path: ${options.filePath}\n\nContent:\n${content.substring(0, 8000)}`,
-            { depth: "standard" }
+            { depth: "standard" },
           );
           return explanation.summary;
         } catch {
@@ -346,14 +373,19 @@ Only report findings that are actually present in the diff.`;
 
       const config = await loadConfig(this.workspacePath);
       const router = new AIRouter(config);
-      const explanation = await router.getExplanation(diffText, { depth: "standard" });
+      const explanation = await router.getExplanation(diffText, {
+        depth: "standard",
+      });
       return explanation.summary;
     } catch (err: any) {
       return `Failed to explain file: ${err.message}`;
     }
   }
 
-  async complianceCheck(options: { framework: string; since: string }): Promise<any> {
+  async complianceCheck(options: {
+    framework: string;
+    since: string;
+  }): Promise<any> {
     try {
       const diffText = await this.getDiffForSince(options.since);
       if (!diffText.trim()) {
@@ -382,10 +414,13 @@ You must respond with a JSON object matching this schema:
 STATUS must be one of: passed, failed, warning.
 Only report findings that are actually present in the diff.`;
 
-      const explanation = await router.getExplanation(diffText.substring(0, 12000), {
-        depth: "deep",
-        projectContext: compliancePrompt,
-      });
+      const explanation = await router.getExplanation(
+        diffText.substring(0, 12000),
+        {
+          depth: "deep",
+          projectContext: compliancePrompt,
+        },
+      );
 
       const findings: any[] = [];
       let compliant = true;
@@ -397,7 +432,7 @@ Only report findings that are actually present in the diff.`;
           const status = match[1].toLowerCase();
           const rule = match[2].trim();
           const description = match[3].trim();
-          
+
           if (status === "failed") {
             compliant = false;
           }
@@ -425,12 +460,17 @@ Only report findings that are actually present in the diff.`;
       return {
         framework: options.framework,
         compliant: false,
-        findings: [{ rule: "Audit", status: "failed", description: err.message }],
+        findings: [
+          { rule: "Audit", status: "failed", description: err.message },
+        ],
       };
     }
   }
 
-  async generateDiagram(options: { type: string; since: string }): Promise<string> {
+  async generateDiagram(options: {
+    type: string;
+    since: string;
+  }): Promise<string> {
     try {
       const diffText = await this.getDiffForSince(options.since);
       if (!diffText.trim()) {
@@ -439,14 +479,14 @@ Only report findings that are actually present in the diff.`;
 
       const config = await loadConfig(this.workspacePath);
       const router = new AIRouter(config);
-      
+
       const systemPrompt = `You are an AI that generates Mermaid.js diagrams from git diffs.
 Generate a diagram of type "${options.type}" representing the changes, files, or flow.
 Do not include any commentary. Return ONLY the raw Mermaid.js code enclosed in \`\`\`mermaid ... \`\`\` code block.`;
-      
+
       const explanation = await router.getExplanation(
         `Generate a ${options.type} Mermaid.js diagram for this diff:\n${diffText.substring(0, 12000)}`,
-        { depth: "standard", projectContext: systemPrompt }
+        { depth: "standard", projectContext: systemPrompt },
       );
 
       const match = explanation.summary.match(/```mermaid([\s\S]*?)```/);
@@ -469,7 +509,10 @@ Do not include any commentary. Return ONLY the raw Mermaid.js code enclosed in \
     }
   }
 
-  async findRelatedChanges(options: { identifier: string; since: string }): Promise<any[]> {
+  async findRelatedChanges(options: {
+    identifier: string;
+    since: string;
+  }): Promise<any[]> {
     try {
       const range = this.parseGitRange(options.since);
       const stdout = await ShellSandbox.exec("git", [
@@ -497,7 +540,10 @@ Do not include any commentary. Return ONLY the raw Mermaid.js code enclosed in \
     }
   }
 
-  async explainChange(options: { file: string; context?: string }): Promise<string> {
+  async explainChange(options: {
+    file: string;
+    context?: string;
+  }): Promise<string> {
     return this.explainFile({ filePath: options.file });
   }
 
@@ -518,10 +564,12 @@ Do not include any commentary. Return ONLY the raw Mermaid.js code enclosed in \
   async getStatus(): Promise<any> {
     let sessionActive = false;
     try {
-      await fs.access(path.resolve(this.workspacePath, ".devdiff/vibe-session.json"));
+      await fs.access(
+        path.resolve(this.workspacePath, ".devdiff/vibe-session.json"),
+      );
       sessionActive = true;
     } catch {}
-    
+
     let providerInfo = "Unknown";
     try {
       const config = await loadConfig(this.workspacePath);
@@ -531,17 +579,17 @@ Do not include any commentary. Return ONLY the raw Mermaid.js code enclosed in \
     } catch (e: any) {
       providerInfo = `Unavailable: ${e.message}`;
     }
-    
+
     let stagedCount = 0;
     let unstagedCount = 0;
     try {
       const staged = await this.getStagedFiles();
       stagedCount = staged.length;
-      
+
       const unstaged = await ShellSandbox.exec("git", ["diff", "--name-only"]);
       unstagedCount = unstaged.split("\n").filter(Boolean).length;
     } catch {}
-    
+
     return {
       sessionActive,
       providerInfo,

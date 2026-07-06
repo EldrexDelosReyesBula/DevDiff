@@ -103,7 +103,7 @@ export class PrivacyEnforcer {
     // API keys — broad pattern: sk- prefix with 8+ alphanumeric chars
     if (/sk-[a-zA-Z0-9_-]{8,}/.test(str)) return "api-keys";
     // Private key PEM blocks
-    if (/-----BEGIN.*PRIVATE KEY-----/.test(str)) return "secrets";
+    if (/-----BEGIN [A-Z ]*PRIVATE KEY-----/.test(str)) return "secrets";
     // Generic secret assignments
     if (/(?:password|secret|token|key)\s*[:=]\s*['"][^'"]+['"]/.test(str))
       return "secrets";
@@ -112,7 +112,11 @@ export class PrivacyEnforcer {
     // File system paths
     if (/^(?:\/|[A-Z]:\\|~\/)/.test(str)) return "file-paths";
     // Email addresses
-    if (/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/.test(str))
+    if (
+      /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}/.test(
+        str,
+      )
+    )
       return "user-emails";
     // Conventional commit messages (feat:, fix:, chore:, docs:, etc.)
     if (

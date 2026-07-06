@@ -28,14 +28,14 @@ Install → Activate → [Run Hooks] → Deactivate
 
 ## Available Hooks
 
-| Hook | When | Use Case |
-|------|------|----------|
-| `beforeAnalysis` | Before AI processes diff | Add metadata, validate changes |
-| `afterAnalysis` | After changelog generated | Post-process, send to external system |
-| `onError` | Any DevDiff error | Custom error handling, monitoring |
-| `onFileChange` | Files modified | Trigger external actions |
-| `onCommit` | New commit detected | CI/CD integration |
-| `onAIComplete` | AI call finishes | Track usage, cost monitoring |
+| Hook             | When                      | Use Case                              |
+| ---------------- | ------------------------- | ------------------------------------- |
+| `beforeAnalysis` | Before AI processes diff  | Add metadata, validate changes        |
+| `afterAnalysis`  | After changelog generated | Post-process, send to external system |
+| `onError`        | Any DevDiff error         | Custom error handling, monitoring     |
+| `onFileChange`   | Files modified            | Trigger external actions              |
+| `onCommit`       | New commit detected       | CI/CD integration                     |
+| `onAIComplete`   | AI call finishes          | Track usage, cost monitoring          |
 
 ## Plugin API
 

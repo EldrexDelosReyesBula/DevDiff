@@ -25,7 +25,10 @@ describe("DevDiff Plugin Manager & Engine Extensions", () => {
     // Directly inject mock plugin
     (manager as any).plugins = [mockPlugin];
 
-    const beforeResult = await manager.runBeforeAnalysis({ files: [], changes: [] }, {});
+    const beforeResult = await manager.runBeforeAnalysis(
+      { files: [], changes: [] },
+      {},
+    );
     expect(beforeResult).toBeDefined();
     expect(mockPlugin.hooks?.beforeAnalysis).toHaveBeenCalled();
 
@@ -46,7 +49,7 @@ describe("DevDiff Plugin Manager & Engine Extensions", () => {
 
   it("DevDiffEngine should expose the new status and context methods", async () => {
     const engine = new DevDiffEngine({ workspacePath: process.cwd() });
-    
+
     const status = await engine.getStatus();
     expect(status).toBeDefined();
     expect(status.workspacePath).toBe(process.cwd());

@@ -1,6 +1,6 @@
 /**
  * @eldrex/plugin-sdk
- * 
+ *
  * Build DevDiff plugins without touching core.
  * Stable API, semantic versioning, TypeScript-first.
  */
@@ -106,56 +106,61 @@ export interface DevDiffStatus {
 export interface DevDiffPlugin {
   /** Unique plugin ID */
   id: string;
-  
+
   /** Human-readable name */
   name: string;
-  
+
   /** Semantic version */
   version: string;
-  
+
   /** Brief description */
   description: string;
-  
+
   /** Author info */
   author: {
     name: string;
     email?: string;
     url?: string;
   };
-  
+
   /** Minimum DevDiff version required */
   devdiffVersion: string;
-  
+
   /** Plugin initialization */
   activate?: (context: PluginContext) => Promise<void>;
-  
+
   /** Plugin cleanup */
   deactivate?: () => Promise<void>;
-  
+
   /** Hooks */
   hooks?: {
     /** Called before AI analysis */
-    beforeAnalysis?: (diff: ParsedDiff, context: ProjectContext) => Promise<ParsedDiff | void>;
-    
+    beforeAnalysis?: (
+      diff: ParsedDiff,
+      context: ProjectContext,
+    ) => Promise<ParsedDiff | void>;
+
     /** Called after AI analysis */
-    afterAnalysis?: (changelog: ChangelogResult) => Promise<ChangelogResult | void>;
-    
+    afterAnalysis?: (
+      changelog: ChangelogResult,
+    ) => Promise<ChangelogResult | void>;
+
     /** Called on any error */
     onError?: (error: DevDiffError) => Promise<void>;
-    
+
     /** Called when files change */
     onFileChange?: (files: ChangedFile[]) => Promise<void>;
-    
+
     /** Called when a commit is detected */
     onCommit?: (commit: GitCommit) => Promise<void>;
-    
+
     /** Called when AI call completes */
     onAIComplete?: (result: AIResult) => Promise<void>;
   };
-  
+
   /** Custom commands to register */
   commands?: PluginCommand[];
-  
+
   /** Custom configuration schema */
   configSchema?: Record<string, any>;
 }
@@ -163,22 +168,22 @@ export interface DevDiffPlugin {
 export interface PluginContext {
   /** DevDiff version */
   devdiffVersion: string;
-  
+
   /** Workspace path */
   workspacePath: string;
-  
+
   /** Logger instance */
   logger: PluginLogger;
-  
+
   /** Configuration access */
   config: PluginConfig;
-  
+
   /** Storage for plugin data */
   storage: PluginStorage;
-  
+
   /** Notification service */
   notifications: PluginNotifications;
-  
+
   /** Access to DevDiff engine (read-only) */
   engine: {
     getStatus: () => Promise<DevDiffStatus>;
@@ -218,7 +223,7 @@ export interface PluginCommand {
 }
 
 export interface NotificationOptions {
-  level?: 'info' | 'warning' | 'error';
+  level?: "info" | "warning" | "error";
   channels?: string[];
   title?: string;
   url?: string;

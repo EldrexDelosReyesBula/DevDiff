@@ -2,8 +2,8 @@
 
 ## Why Does DevDiff Time Out?
 
-Ollama processes AI requests on your machine. Large diffs (many files, 
-many lines) need more processing time. A 30-second timeout may be too 
+Ollama processes AI requests on your machine. Large diffs (many files,
+many lines) need more processing time. A 30-second timeout may be too
 short for 70+ files.
 
 ## Quick Fix
@@ -28,10 +28,10 @@ devdiff generate
 export default {
   ai: {
     ollama: {
-      timeout: 120000  // 2 minutes (in milliseconds)
-    }
-  }
-}
+      timeout: 120000, // 2 minutes (in milliseconds)
+    },
+  },
+};
 ```
 
 ### 2. Use a Faster Model
@@ -58,11 +58,11 @@ No configuration needed — it detects when chunking is necessary.
 
 ### 4. Check Your Hardware
 
-| Problem | Symptom | Fix |
-|---------|---------|-----|
-| Low RAM | System slows during AI | Close other apps, use smaller model |
-| Slow CPU | AI takes >2 min | Use cloud AI (OpenAI, Anthropic) |
-| Disk I/O | Model loading is slow | Move models to SSD |
+| Problem  | Symptom                | Fix                                 |
+| -------- | ---------------------- | ----------------------------------- |
+| Low RAM  | System slows during AI | Close other apps, use smaller model |
+| Slow CPU | AI takes >2 min        | Use cloud AI (OpenAI, Anthropic)    |
+| Disk I/O | Model loading is slow  | Move models to SSD                  |
 
 ## Still Timing Out?
 

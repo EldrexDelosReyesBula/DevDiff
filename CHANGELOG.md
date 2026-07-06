@@ -5,6 +5,7 @@ All notable changes to DevDiff are documented here.
 ## [1.0.6] — 2026-07-06 · Windows & Command Argument Hardening
 
 The **Windows & Command Argument Hardening** release resolves critical command execution, argument parsing, option ordering, and environment performance behaviors:
+
 - **Commander Argument Parsing**: Filtered out Command class instances from execution argument arrays, preventing CLI parameter mismatches.
 - **Option Flag Standardization**: Re-ordered option flags so short options are parsed before long options consistently (e.g. `-p, --persona`).
 - **Windows Process Performance**: Tuned test threshold bounds to accommodate child process spawning time on Windows file structures.
@@ -19,17 +20,20 @@ This project follows [Semantic Versioning](https://semver.org). Every released v
 The **CLI Registry & Security Hardening** release introduces production-ready resilience, unified command validation, robust local playground fallback, autocomplete schemas, and visual documentation maps.
 
 ### 🤖 Local AI Resilience & Dynamic Timeouts
+
 - **Dynamic Timeout Calculator**: Timeout duration is computed dynamically based on prompt size (tokens) to prevent connection timeouts with larger filesets.
 - **Progressive Chunking fallback**: Retries failing request batches by progressively reducing chunk sizes and extending timeouts.
 - **Ollama Port Auto-Fallback**: Resolves `EADDRINUSE` errors on port `3737` by dynamically finding and listening on subsequent available local ports.
 - **Network Check Abort**: Corrected `http.request` timeout hangs by adding explicit abort hooks, ensuring network status pings fail fast.
 
 ### 🛡️ Advanced Security & Data Protection
+
 - **Injection Guard V2**: Protects prompt interfaces from jailbreaks, SQL injections, shell command chain executions, XSS patterns, and prototype pollution.
 - **Redaction Engine V2**: Strips secrets, private keys, passwords, API tokens, and credentials from all dry-run payloads.
 - **CI/CD Secret Scanner**: Implemented a standalone, zero-dependency `security-scan.js` script to scan commit additions for secrets inside GitHub Actions pipelines.
 
 ### ⚙️ Command Registry & Developer Experience
+
 - **Unified Command Registry**: Enforces centralized validation hooks, aliases, options, and structured terminal help text formatting.
 - **Actionable Error Boundary**: Displays styled error blocks in the terminal with targeted recommendations and recovery options (e.g. `devdiff recover --last`).
 - **Editor Autocomplete**: Generates a VS Code config schema (`devdiff schema`) and Bash/PowerShell auto-completions (`devdiff completions <shell>`).

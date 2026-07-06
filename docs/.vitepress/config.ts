@@ -12,6 +12,47 @@ export default defineConfig({
     hostname: "https://devdiff.vercel.app",
   },
 
+  transformPageData(pageData) {
+    const cleanPath = pageData.relativePath
+      .replace(/\.md$/, "")
+      .replace(/index$/, "");
+    const canonicalUrl = `https://devdiff.vercel.app/${cleanPath}`;
+
+    // Initialize head if not present
+    pageData.frontmatter.head = pageData.frontmatter.head || [];
+
+    // Inject dynamic canonical link
+    pageData.frontmatter.head.push([
+      "link",
+      { rel: "canonical", href: canonicalUrl },
+    ]);
+
+    // Inject dynamic Open Graph & Twitter meta tags
+    const title = pageData.title
+      ? `${pageData.title} | DevDiff`
+      : "DevDiff — AI-Powered Changelog Intelligence";
+    const desc =
+      pageData.description ||
+      "Privacy-first, BYOAI changelog intelligence for developers";
+
+    pageData.frontmatter.head.push([
+      "meta",
+      { property: "og:title", content: title },
+    ]);
+    pageData.frontmatter.head.push([
+      "meta",
+      { property: "og:description", content: desc },
+    ]);
+    pageData.frontmatter.head.push([
+      "meta",
+      { name: "twitter:title", content: title },
+    ]);
+    pageData.frontmatter.head.push([
+      "meta",
+      { name: "twitter:description", content: desc },
+    ]);
+  },
+
   head: [
     ["link", { rel: "icon", href: "/favicon.ico" }],
     ["meta", { name: "theme-color", content: "#6366f1" }],
@@ -80,8 +121,7 @@ export default defineConfig({
       },
     ],
 
-    // Canonical URL
-    ["link", { rel: "canonical", href: "https://devdiff.vercel.app" }],
+    // Canonical URL is injected dynamically in transformPageData below
 
     // Structured Data
     [
@@ -324,6 +364,22 @@ export default defineConfig({
             {
               text: "5,000+ Downloads in 20 Days",
               link: "/blog/2026-07-05-5000-downloads",
+            },
+            {
+              text: "Never Write a Changelog Again",
+              link: "/blog/never-write-a-changelog-again",
+            },
+            {
+              text: "Your Code Never Leaves Your Machine",
+              link: "/blog/your-code-never-leaves-your-machine",
+            },
+            {
+              text: "The DevDiff Security Model",
+              link: "/blog/devdiff-security-model",
+            },
+            {
+              text: "The 3-Tap Rule for Developer UX",
+              link: "/blog/the-3-tap-rule",
             },
           ],
         },

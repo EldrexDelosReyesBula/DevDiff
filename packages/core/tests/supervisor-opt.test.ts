@@ -8,10 +8,12 @@ describe("DependencyManager & HumanReviewSystem", () => {
     expect(pm).toBeDefined();
     expect(["npm", "pnpm", "yarn", "bun"]).toContain(pm);
 
-    const installResult = await manager.installDependencies({ skipOptional: true });
+    const installResult = await manager.installDependencies({
+      skipOptional: true,
+    });
     expect(installResult).toBeDefined();
     expect(typeof installResult.success).toBe("boolean");
-  });
+  }, 30000);
 
   it("HumanReviewSystem should handle auto-review and keep statistics", async () => {
     const system = new HumanReviewSystem();

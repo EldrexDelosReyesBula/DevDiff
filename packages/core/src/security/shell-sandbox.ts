@@ -1,4 +1,4 @@
-import { exec } from "child_process";
+import { execFile } from "child_process";
 import { SecurityAudit } from "./security-audit";
 
 export class ShellAccessDeniedError extends Error {
@@ -14,8 +14,7 @@ function execAsync(
   options: { timeout: number },
 ): Promise<{ stdout: string; stderr: string }> {
   return new Promise((resolve, reject) => {
-    const fullCommand = `${command} ${args.join(" ")}`.trim();
-    exec(fullCommand, options, (error, stdout, stderr) => {
+    execFile(command, args, options, (error, stdout, stderr) => {
       if (error) {
         reject(error);
       } else {

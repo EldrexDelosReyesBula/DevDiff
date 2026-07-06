@@ -235,11 +235,14 @@ export class VibeCoderGuardian {
 
   private async getFallbackModel(model: string): Promise<string> {
     try {
-      const { OllamaModelDiscovery } = await import("../ai/providers/ollama-discovery");
+      const { OllamaModelDiscovery } =
+        await import("../ai/providers/ollama-discovery");
       const installedModels = await OllamaModelDiscovery.discoverModels();
       if (installedModels.length > 0) {
         const currentModelName = model.replace("ollama://", "");
-        const others = installedModels.filter(m => m.name !== currentModelName);
+        const others = installedModels.filter(
+          (m) => m.name !== currentModelName,
+        );
         if (others.length > 0) {
           return `ollama://${others[0].name}`;
         }

@@ -1,4 +1,4 @@
-import { execSync } from "child_process";
+import { execFileSync } from "child_process";
 import { PipelineStep, ProcessorContext } from "./pipeline";
 
 export class DiffProcessor implements PipelineStep {
@@ -6,18 +6,20 @@ export class DiffProcessor implements PipelineStep {
 
   async run(context: ProcessorContext, config: any): Promise<void> {
     const range = config.range || context.change_range || "";
-    let gitCmd = "git diff --cached";
+    let args: string[] = ["diff"];
 
     if (typeof range === "string" && range.trim()) {
-      gitCmd = `git diff ${range}`;
+      args.push(...range.split(/\s+/).filter(Boolean));
     } else if (range && typeof range === "object" && range.from && range.to) {
-      gitCmd = `git diff ${range.from}..${range.to}`;
+      args.push(`${range.from}..${range.to}`);
     } else if (config.fallbackToUnstaged) {
-      gitCmd = "git diff";
+      // args remains ["diff"]
+    } else {
+      args.push("--cached");
     }
 
     try {
-      const diffOutput = execSync(gitCmd, {
+      const diffOutput = execFileSync("git", args, {
         cwd: context.repoPath,
         stdio: ["ignore", "pipe", "ignore"],
       }).toString();

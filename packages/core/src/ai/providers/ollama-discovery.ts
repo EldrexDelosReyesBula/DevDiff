@@ -76,7 +76,7 @@ export class OllamaModelDiscovery {
    * Extract parameter size from model name
    */
   private static detectParameterSize(name: string): string {
-    const match = name.match(/(\d+\.?\d*)b/i);
+    const match = name.match(/(\d+(?:\.\d+)?)b/i);
     return match ? match[1].toLowerCase() + "b" : "unknown";
   }
 

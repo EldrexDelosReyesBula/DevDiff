@@ -200,14 +200,16 @@ export async function generateCommand(options: GenerateCmdOptions) {
 
   // ── PHASE 1: Analyze diff size ──
   const parsedDiff = diffParser.parse(diffText);
-  const chunkStrategy = ChunkingEngine.analyze(parsedDiff, 32000);  // 32K context
+  const chunkStrategy = ChunkingEngine.analyze(parsedDiff, 32000); // 32K context
 
   console.log(pc.blue(`📊 Analyzing ${parsedDiff.files.length} file(s)...`));
 
   if (chunkStrategy.strategy !== "single") {
     console.log(pc.yellow(`   Strategy: ${chunkStrategy.strategy}`));
     console.log(pc.yellow(`   Chunks: ${chunkStrategy.chunks.length}`));
-    console.log(pc.yellow(`   Estimated time: ~${chunkStrategy.estimatedTime}s`));
+    console.log(
+      pc.yellow(`   Estimated time: ~${chunkStrategy.estimatedTime}s`),
+    );
     console.log(pc.yellow(`   ${chunkStrategy.recommendation}`));
     console.log("");
   }
@@ -246,7 +248,8 @@ export async function generateCommand(options: GenerateCmdOptions) {
         const installedModels = await OllamaModelDiscovery.discoverModels();
         const active = OllamaModelDiscovery.selectBestModel(installedModels);
         if (active) {
-          const sizeMatch = active.name.match(/:(\d+)b/i) || active.name.match(/:(\d+)m/i);
+          const sizeMatch =
+            active.name.match(/:(\d+)b/i) || active.name.match(/:(\d+)m/i);
           if (sizeMatch) {
             modelSize = `${sizeMatch[1]}b`;
           }
@@ -273,10 +276,14 @@ export async function generateCommand(options: GenerateCmdOptions) {
         },
         (stage, progress) => {
           console.log(`   [${progress}%] ${stage}`);
-        }
+        },
       );
 
-      const merged = mergeChunkResults(results, options.format || "markdown", options.persona);
+      const merged = mergeChunkResults(
+        results,
+        options.format || "markdown",
+        options.persona,
+      );
       changelog = merged.formattedOutput;
       aiSucceeded = true;
     }
@@ -289,7 +296,10 @@ export async function generateCommand(options: GenerateCmdOptions) {
     // ALWAYS fall back to template
     let projectContext: any = null;
     try {
-      const deepContextPath = path.join(repoPath, ".devdiff/context/deep-context.json");
+      const deepContextPath = path.join(
+        repoPath,
+        ".devdiff/context/deep-context.json",
+      );
       const rawDeep = await fs.readFile(deepContextPath, "utf-8");
       projectContext = JSON.parse(rawDeep);
     } catch {}
@@ -340,10 +350,14 @@ export async function generateCommand(options: GenerateCmdOptions) {
     // Save to MVP if AI failed (for background processing later)
     try {
       await saveToMVP(parsedDiff, chunkStrategy);
-      console.log(pc.blue("   📦 Full analysis saved to MVP queue for later processing"));
+      console.log(
+        pc.blue("   📦 Full analysis saved to MVP queue for later processing"),
+      );
       console.log(pc.blue("   Process: devdiff mvp process"));
     } catch (mvpErr: any) {
-      console.error(pc.red(`   Failed to save to MVP queue: ${mvpErr.message}`));
+      console.error(
+        pc.red(`   Failed to save to MVP queue: ${mvpErr.message}`),
+      );
     }
   }
 }
@@ -374,17 +388,19 @@ function createSpinner(text: string) {
 async function processChunks(
   chunkStrategy: ChunkStrategy,
   options: GenerateCmdOptions,
-  repoPath: string
+  repoPath: string,
 ): Promise<AIExplanationResult[]> {
   const results: AIExplanationResult[] = [];
   const totalChunks = chunkStrategy.chunks.length;
 
   for (let i = 0; i < totalChunks; i++) {
     const chunk = chunkStrategy.chunks[i];
-    console.log(`⏱️ Chunk ${i + 1}/${totalChunks}: ${chunk.label} (${chunk.files.length} files)`);
+    console.log(
+      `⏱️ Chunk ${i + 1}/${totalChunks}: ${chunk.label} (${chunk.files.length} files)`,
+    );
 
     const chunkDiffText = reconstructDiffForFiles(chunk.files);
-    
+
     const result = await generateChangelog({
       diffText: chunkDiffText,
       repoPath,
@@ -404,14 +420,17 @@ async function processChunks(
 function mergeChunkResults(
   results: AIExplanationResult[],
   format: "markdown" | "json" | "html",
-  persona?: string
+  persona?: string,
 ): { rawResult: AIExplanationResult; formattedOutput: string } {
   const mergedResult: AIExplanationResult = {
-    summary: results.map(r => r.summary).filter(Boolean).join("\n\n"),
+    summary: results
+      .map((r) => r.summary)
+      .filter(Boolean)
+      .join("\n\n"),
     impact: "none",
     breaking: false,
-    files: results.flatMap(r => r.files),
-    relatedIssues: Array.from(new Set(results.flatMap(r => r.relatedIssues))),
+    files: results.flatMap((r) => r.files),
+    relatedIssues: Array.from(new Set(results.flatMap((r) => r.relatedIssues))),
   };
 
   const impactOrdering = ["none", "minor", "major", "breaking"];
@@ -464,7 +483,9 @@ async function saveToMVP(diff: any, chunkStrategy: ChunkStrategy) {
       deletions: diff.totalDeletions || 0,
     },
     template_summary: `AI generation failed for ${diff.files.length} files. Chunks: ${chunkStrategy.chunks.length}.`,
-    diff_snapshot: Buffer.from(reconstructDiffForFiles(diff.files)).toString("base64"),
+    diff_snapshot: Buffer.from(reconstructDiffForFiles(diff.files)).toString(
+      "base64",
+    ),
     retry_count: 0,
     max_retries: 3,
   };

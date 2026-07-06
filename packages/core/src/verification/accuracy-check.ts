@@ -196,7 +196,7 @@ function extractFilePaths(text: string): string[] {
 function extractCodeIdentifiers(text: string): string[] {
   // Match camelCase, PascalCase, snake_case, SCREAMING_SNAKE
   const identPattern =
-    /\b([a-zA-Z][a-zA-Z0-9]*(?:[_][a-zA-Z0-9]+|[A-Z][a-z]+)[a-zA-Z0-9_]*)\b/g;
+    /\b([a-z]+[A-Z][a-zA-Z0-9]*|[A-Z][a-z]+[A-Z][a-zA-Z0-9]*|[a-zA-Z0-9]+_[a-zA-Z0-9_]*)\b/g;
   const found = new Set<string>();
   let match: RegExpExecArray | null;
   while ((match = identPattern.exec(text)) !== null) {

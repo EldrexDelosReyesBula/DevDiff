@@ -9,6 +9,7 @@ DevDiff's performance depends on hardware capabilities, model selections, and co
 ### 1. Hardware Acceleration for Ollama
 
 Make sure Ollama is leveraging your GPU (NVIDIA CUDA or Apple Silicon Metal) rather than running purely on the CPU.
+
 - **Mac:** Metal acceleration is enabled automatically.
 - **Windows/Linux:** Verify that GPU drivers and CUDA are installed. Running `ollama ps` or checking CPU usage during generation helps confirm if hardware acceleration is active.
 
@@ -20,8 +21,8 @@ DevDiff bypasses the AI provider entirely for trivial changes like formatting co
 // .devdiff.config.js
 export default {
   optimizations: {
-    fastPath: true // skips LLM for comment-only / formatting changes
-  }
+    fastPath: true, // skips LLM for comment-only / formatting changes
+  },
 };
 ```
 
@@ -33,7 +34,7 @@ Set lower temperatures for deterministic, structural code explanations to preven
 // .devdiff.config.js
 export default {
   ai: {
-    temperature: 0.1
-  }
+    temperature: 0.1,
+  },
 };
 ```

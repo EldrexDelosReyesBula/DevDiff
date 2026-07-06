@@ -150,7 +150,7 @@ export const diffParser = {
       // Check for hunk header
       // e.g. @@ -1,3 +1,4 @@
       if (line.startsWith("@@ ")) {
-        const match = line.match(/^@@ -(\d+),?(\d+)? \+(\d+),?(\d+)? @@/);
+        const match = line.match(/^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@/);
         if (match) {
           const oldStart = parseInt(match[1], 10);
           const oldLines = match[2] ? parseInt(match[2], 10) : 1;

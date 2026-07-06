@@ -33,8 +33,37 @@ export async function reportCommand(options: { port?: string }) {
     );
   }
 
+  // Simple in-memory rate limiting middleware to prevent abuse / DOS
+  const rateLimit = (limit: number, windowMs: number) => {
+    const ips = new Map<string, { count: number; resetTime: number }>();
+    return (req: any, res: any, next: any) => {
+      const ip =
+        req.ip ||
+        req.headers["x-forwarded-for"] ||
+        req.socket.remoteAddress ||
+        "unknown";
+      const now = Date.now();
+      let record = ips.get(ip);
+
+      if (!record || now > record.resetTime) {
+        record = { count: 0, resetTime: now + windowMs };
+      }
+
+      record.count++;
+      ips.set(ip, record);
+
+      if (record.count > limit) {
+        return res.status(429).json({
+          success: false,
+          error: "Too many requests. Please try again later.",
+        });
+      }
+      next();
+    };
+  };
+
   // API: Get changelogs from cache
-  app.get("/api/changelogs", async (req, res) => {
+  app.get("/api/changelogs", rateLimit(100, 60000), async (req, res) => {
     try {
       const cachePath = path.resolve(process.cwd(), config.cache.path);
       let cacheContent = "{}";
@@ -61,12 +90,12 @@ export async function reportCommand(options: { port?: string }) {
   });
 
   // API: Get active configuration
-  app.get("/api/config", (req, res) => {
+  app.get("/api/config", rateLimit(100, 60000), (req, res) => {
     res.json({ success: true, data: config });
   });
 
   // API: Trigger on-demand generation
-  app.post("/api/generate", async (req, res) => {
+  app.post("/api/generate", rateLimit(15, 60000), async (req, res) => {
     try {
       // Fetch diff from staging
       let diffText = "";
@@ -98,7 +127,7 @@ export async function reportCommand(options: { port?: string }) {
   });
 
   // Fallback to serve index.html for React SPA router
-  app.get("*", (req, res) => {
+  app.get("*", rateLimit(200, 60000), (req, res) => {
     res.sendFile(path.join(dashboardPath, "index.html"), (err) => {
       if (err) {
         res.status(404).send("Dashboard not found. Run pnpm build first.");

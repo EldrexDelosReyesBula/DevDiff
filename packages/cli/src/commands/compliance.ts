@@ -203,7 +203,7 @@ function getMissingKeys(config: any, autoConfig: any, prefix = ""): string[] {
 }
 
 function generateBasicPDF(text: string): Buffer {
-  const sanitizedText = text.replace(/[\(\)]/g, "\\$&"); // Escape parenthesis in PDF tj
+  const sanitizedText = text.replace(/\\/g, "\\\\").replace(/[\(\)]/g, "\\$&"); // Escape backslash first, then parenthesis in PDF tj
   const content = `%PDF-1.4
 1 0 obj
 << /Type /Catalog /Pages 2 0 R >>

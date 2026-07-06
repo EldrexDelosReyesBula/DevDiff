@@ -18,12 +18,17 @@ async function updateAgenticConfigText(updates: Record<string, any>) {
     if (updates.enabled === false) {
       blockContent = `enabled: false`;
     } else {
-      blockContent = `enabled: true,\n    ` + Object.entries(updates)
-        .filter(([k]) => k !== "enabled")
-        .map(([k, v]) => `${k}: ${JSON.stringify(v)}`)
-        .join(",\n    ");
+      blockContent =
+        `enabled: true,\n    ` +
+        Object.entries(updates)
+          .filter(([k]) => k !== "enabled")
+          .map(([k, v]) => `${k}: ${JSON.stringify(v)}`)
+          .join(",\n    ");
     }
-    content = content.replace(agenticRegex, `agentic: {\n    ${blockContent}\n  }`);
+    content = content.replace(
+      agenticRegex,
+      `agentic: {\n    ${blockContent}\n  }`,
+    );
   } else {
     const lastBraceIdx = content.lastIndexOf("}");
     if (lastBraceIdx !== -1) {
@@ -31,23 +36,31 @@ async function updateAgenticConfigText(updates: Record<string, any>) {
       if (updates.enabled === false) {
         blockContent = `enabled: false`;
       } else {
-        blockContent = `enabled: true,\n    ` + Object.entries(updates)
-          .filter(([k]) => k !== "enabled")
-          .map(([k, v]) => `${k}: ${JSON.stringify(v)}`)
-          .join(",\n    ");
+        blockContent =
+          `enabled: true,\n    ` +
+          Object.entries(updates)
+            .filter(([k]) => k !== "enabled")
+            .map(([k, v]) => `${k}: ${JSON.stringify(v)}`)
+            .join(",\n    ");
       }
       const firstBraceIdx = content.indexOf("{");
       const middle = content.substring(firstBraceIdx + 1, lastBraceIdx).trim();
       const prefixComma = middle.length > 0 ? "," : "";
       const insert = `${prefixComma}\n  agentic: {\n    ${blockContent}\n  }\n`;
-      content = content.substring(0, lastBraceIdx) + insert + content.substring(lastBraceIdx);
+      content =
+        content.substring(0, lastBraceIdx) +
+        insert +
+        content.substring(lastBraceIdx);
     }
   }
 
   await fs.writeFile(configPath, content, "utf-8");
 }
 
-export async function agenticCommand(action: string, options: { autoStart?: boolean; agent?: string }) {
+export async function agenticCommand(
+  action: string,
+  options: { autoStart?: boolean; agent?: string },
+) {
   const config = await loadConfig();
   const agenticConfig = (config as any).agentic || {};
 
@@ -57,11 +70,21 @@ export async function agenticCommand(action: string, options: { autoStart?: bool
     const autoStart = agenticConfig.autoStart !== false;
     const allowed = agenticConfig.allowedAgents || [];
 
-    console.log(`- Agentic Mode:       ${enabled ? pc.green("ENABLED") : pc.red("DISABLED")}`);
-    console.log(`- Auto-Start:         ${autoStart ? pc.green("ENABLED") : pc.red("DISABLED")}`);
-    console.log(`- Allowed AI Agents:  ${allowed.length > 0 ? allowed.join(", ") : pc.cyan("All allowed")}`);
-    console.log(`- Notification Mode:  ${pc.cyan(agenticConfig.notificationMode || "minimal")}`);
-    console.log(`- Max Analyses/Hour:  ${pc.cyan(agenticConfig.maxAutoAnalysesPerHour || 20)}`);
+    console.log(
+      `- Agentic Mode:       ${enabled ? pc.green("ENABLED") : pc.red("DISABLED")}`,
+    );
+    console.log(
+      `- Auto-Start:         ${autoStart ? pc.green("ENABLED") : pc.red("DISABLED")}`,
+    );
+    console.log(
+      `- Allowed AI Agents:  ${allowed.length > 0 ? allowed.join(", ") : pc.cyan("All allowed")}`,
+    );
+    console.log(
+      `- Notification Mode:  ${pc.cyan(agenticConfig.notificationMode || "minimal")}`,
+    );
+    console.log(
+      `- Max Analyses/Hour:  ${pc.cyan(agenticConfig.maxAutoAnalysesPerHour || 20)}`,
+    );
     console.log("");
     return;
   }
@@ -72,9 +95,16 @@ export async function agenticCommand(action: string, options: { autoStart?: bool
       console.log(pc.green("✅ Disabled auto-start for agentic mode."));
     } else if (options.agent) {
       const allowed = agenticConfig.allowedAgents || [];
-      const updatedAllowed = allowed.filter((a: string) => a.toLowerCase() !== options.agent?.toLowerCase());
-      await updateAgenticConfigText({ ...agenticConfig, allowedAgents: updatedAllowed });
-      console.log(pc.green(`✅ Disabled agentic mode for agent: "${options.agent}".`));
+      const updatedAllowed = allowed.filter(
+        (a: string) => a.toLowerCase() !== options.agent?.toLowerCase(),
+      );
+      await updateAgenticConfigText({
+        ...agenticConfig,
+        allowedAgents: updatedAllowed,
+      });
+      console.log(
+        pc.green(`✅ Disabled agentic mode for agent: "${options.agent}".`),
+      );
     } else {
       await updateAgenticConfigText({ enabled: false });
       console.log(pc.green("✅ Agentic mode disabled completely."));
@@ -89,11 +119,13 @@ export async function agenticCommand(action: string, options: { autoStart?: bool
       autoAnalyzeOnCommit: false,
       notificationMode: "minimal",
       allowedAgents: [],
-      maxAutoAnalysesPerHour: 20
+      maxAutoAnalysesPerHour: 20,
     });
     console.log(pc.green("✅ Agentic mode enabled successfully."));
     return;
   }
 
-  console.log(pc.red(`❌ Unknown action: "${action}". Use enable, disable, or status.`));
+  console.log(
+    pc.red(`❌ Unknown action: "${action}". Use enable, disable, or status.`),
+  );
 }

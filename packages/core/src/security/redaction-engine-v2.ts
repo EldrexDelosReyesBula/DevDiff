@@ -31,7 +31,8 @@ export class RedactionEngineV2 {
     },
     {
       type: "RSA-Private-Key",
-      regex: /-----BEGIN RSA PRIVATE KEY-----[\s\S]+?-----END RSA PRIVATE KEY-----/g,
+      regex:
+        /-----BEGIN RSA PRIVATE KEY-----[\s\S]+?-----END RSA PRIVATE KEY-----/g,
     },
     {
       type: "Password",

@@ -17,6 +17,7 @@ vi.mock("child_process", async (importOriginal) => {
   return {
     ...original,
     execSync: vi.fn(),
+    execFileSync: vi.fn(),
   };
 });
 
@@ -103,7 +104,7 @@ describe("GitNativeDetector", () => {
   });
 
   it("parses native rename statuses", async () => {
-    const execMock = vi.mocked(child_process.execSync);
+    const execMock = vi.mocked(child_process.execFileSync);
     execMock.mockReturnValue(
       "R100\told_file.ts\tnew_file.ts\nC80\toriginal.ts\tcopy.ts\nM\tmodified.ts",
     );
@@ -120,7 +121,7 @@ describe("GitNativeDetector", () => {
   });
 
   it("checks deprecation logs", async () => {
-    const execMock = vi.mocked(child_process.execSync);
+    const execMock = vi.mocked(child_process.execFileSync);
     // First exec for log search, second for git show
     execMock
       .mockReturnValueOnce("hash123 2026-06-30 deprecate class\n")
@@ -228,7 +229,7 @@ describe("FileRelationshipDetectorV2", () => {
   });
 
   it("runs full analysis pipeline successfully", async () => {
-    const execMock = vi.mocked(child_process.execSync);
+    const execMock = vi.mocked(child_process.execFileSync);
     execMock.mockReturnValue(""); // No native renames
 
     const resolver = new ImportResolver("/mock/root");

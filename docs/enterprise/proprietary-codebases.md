@@ -7,9 +7,11 @@ For enterprises managing intellectual property within proprietary codebases, Dev
 ## 🔒 Enterprise Deployment Strategies
 
 ### 1. Self-Hosted Local AI (Local-First)
+
 Run DevDiff fully offline using Ollama. Organizations can host a central Ollama instance on local enterprise servers, ensuring that no source code or diff metadata leaves the company's private network.
 
 ### 2. Private Cloud Gateways
+
 Configure DevDiff to point to private API gateways or enterprise instances of cloud providers (like Microsoft Azure OpenAI or AWS Bedrock):
 
 ```javascript
@@ -19,9 +21,9 @@ export default {
     providers: [
       {
         url: "openai://custom-model-tier",
-        endpoint: "https://your-private-gateway.company.internal/v1"
-      }
-    ]
-  }
+        endpoint: "https://your-private-gateway.company.internal/v1",
+      },
+    ],
+  },
 };
 ```

@@ -1,4 +1,4 @@
-import { execSync } from "child_process";
+import { execFileSync } from "child_process";
 
 /**
  * Git Native Detection
@@ -50,13 +50,24 @@ export class GitNativeDetector {
       // Command: git diff -M50% -C50% --name-status --diff-filter=RMCD
       // Use HEAD~1..HEAD or HEAD to specify the range correctly. If HEAD, we compare index/working tree or HEAD~1.
       // Let's use range as provided.
-      const cmd = `git diff -M50% -C50% --find-renames --name-status ${range}`;
-      const output = execSync(cmd, {
-        cwd: repoPath,
-        encoding: "utf-8",
-        maxBuffer: 50 * 1024 * 1024,
-        stdio: ["ignore", "pipe", "ignore"],
-      });
+      const rangeArgs = range ? range.split(/\s+/).filter(Boolean) : [];
+      const output = execFileSync(
+        "git",
+        [
+          "diff",
+          "-M50%",
+          "-C50%",
+          "--find-renames",
+          "--name-status",
+          ...rangeArgs,
+        ],
+        {
+          cwd: repoPath,
+          encoding: "utf-8",
+          maxBuffer: 50 * 1024 * 1024,
+          stdio: ["ignore", "pipe", "ignore"],
+        },
+      );
 
       for (const line of output.trim().split("\n")) {
         if (!line) continue;
@@ -122,7 +133,7 @@ export class GitNativeDetector {
     revision: string = "HEAD",
   ): Promise<string | null> {
     try {
-      return execSync(`git show ${revision}:${filePath}`, {
+      return execFileSync("git", ["show", `${revision}:${filePath}`], {
         cwd: repoPath,
         encoding: "utf-8",
         maxBuffer: 10 * 1024 * 1024,
@@ -151,8 +162,17 @@ export class GitNativeDetector {
 
     // Check 1: @deprecated tags in git log
     try {
-      const deprecatedLog = execSync(
-        `git log -S "@deprecated" --format="%H %ci %s" --max-count=1 -- "${filePath}"`,
+      const deprecatedLog = execFileSync(
+        "git",
+        [
+          "log",
+          "-S",
+          "@deprecated",
+          "--format=%H %ci %s",
+          "--max-count=1",
+          "--",
+          filePath,
+        ],
         {
           cwd: repoPath,
           encoding: "utf-8",
@@ -167,8 +187,9 @@ export class GitNativeDetector {
         // Extract the actual deprecation message
         try {
           const commitHash = deprecatedLog.split(" ")[0];
-          const diffOutput = execSync(
-            `git show ${commitHash} -- "${filePath}"`,
+          const diffOutput = execFileSync(
+            "git",
+            ["show", commitHash, "--", filePath],
             {
               cwd: repoPath,
               encoding: "utf-8",
@@ -202,8 +223,9 @@ export class GitNativeDetector {
 
     // Check 2: Commit messages mentioning removal/migration
     try {
-      const removalLog = execSync(
-        `git log --format="%s" --max-count=${maxCommits} -- "${filePath}"`,
+      const removalLog = execFileSync(
+        "git",
+        ["log", "--format=%s", `--max-count=${maxCommits}`, "--", filePath],
         {
           cwd: repoPath,
           encoding: "utf-8",

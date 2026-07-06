@@ -9,6 +9,7 @@ DevDiff can deliver progressive notifications and finalized changelogs straight 
 Deliver changelog summaries and block alerts directly into your Slack workspace.
 
 ### Configuration
+
 ```json
 {
   "formats": ["slack"],
@@ -20,8 +21,9 @@ Deliver changelog summaries and block alerts directly into your Slack workspace.
   }
 }
 ```
-* **webhookUrl** (Required): Incoming webhook URL generated in your Slack App setup.
-* **channel** (Optional): Target channel name overrides.
+
+- **webhookUrl** (Required): Incoming webhook URL generated in your Slack App setup.
+- **channel** (Optional): Target channel name overrides.
 
 ---
 
@@ -30,6 +32,7 @@ Deliver changelog summaries and block alerts directly into your Slack workspace.
 Send message updates or visually structured rich embeds to Discord servers.
 
 ### Configuration
+
 ```json
 {
   "formats": ["discord"],
@@ -40,7 +43,8 @@ Send message updates or visually structured rich embeds to Discord servers.
   }
 }
 ```
-* **webhookUrl** (Required): Webhook URL generated under Server Settings → Integrations → Webhooks.
+
+- **webhookUrl** (Required): Webhook URL generated under Server Settings → Integrations → Webhooks.
 
 ---
 
@@ -49,6 +53,7 @@ Send message updates or visually structured rich embeds to Discord servers.
 Broadcast changelogs or push files using Telegram's bot API.
 
 ### Configuration
+
 ```json
 {
   "formats": ["telegram"],
@@ -59,8 +64,9 @@ Broadcast changelogs or push files using Telegram's bot API.
   }
 }
 ```
-* **botToken** (Required): Bot access token obtained from `@BotFather`.
-* **chatId** (Required): Target chat, group, or channel ID.
+
+- **botToken** (Required): Bot access token obtained from `@BotFather`.
+- **chatId** (Required): Target chat, group, or channel ID.
 
 ---
 
@@ -69,6 +75,7 @@ Broadcast changelogs or push files using Telegram's bot API.
 Push notifications to Teams channels utilizing Microsoft's Adaptive Card layouts.
 
 ### Configuration
+
 ```json
 {
   "formats": ["teams"],
@@ -77,7 +84,8 @@ Push notifications to Teams channels utilizing Microsoft's Adaptive Card layouts
   }
 }
 ```
-* **webhookUrl** (Required): Incoming webhook URL generated in your Teams Channel connectors configuration.
+
+- **webhookUrl** (Required): Incoming webhook URL generated in your Teams Channel connectors configuration.
 
 ---
 
@@ -86,6 +94,7 @@ Push notifications to Teams channels utilizing Microsoft's Adaptive Card layouts
 Route notifications through Twilio or Meta WhatsApp Developer APIs.
 
 ### Configuration
+
 ```json
 {
   "formats": ["whatsapp"],
@@ -98,7 +107,8 @@ Route notifications through Twilio or Meta WhatsApp Developer APIs.
   }
 }
 ```
-* **provider** (Required): Twilio or Meta provider type selection.
+
+- **provider** (Required): Twilio or Meta provider type selection.
 
 ---
 
@@ -107,6 +117,7 @@ Route notifications through Twilio or Meta WhatsApp Developer APIs.
 Send styled HTML or plain text changelogs directly to a distribution list.
 
 ### Configuration
+
 ```json
 {
   "formats": ["email"],
@@ -128,6 +139,7 @@ Send styled HTML or plain text changelogs directly to a distribution list.
 Relay raw JSON payloads to any HTTP endpoint of your choice.
 
 ### Configuration
+
 ```json
 {
   "formats": ["custom_webhook"],

@@ -11,18 +11,21 @@ DevDiff uses [Semantic Versioning](https://semver.org). Every published version 
 The **Agentic Workspace & Supervisor** release introduces a hyper-optimized developer playground with a responsive React layout, CORS-enabled port routing, OpenClaw Supervisor automation, and comprehensive messaging connector integrations.
 
 ### 🎮 Playground & Developer Workspace
+
 - **Enterprise-Grade React UI:** Overhauled the playground into a robust React application featuring collapsible three-panel file explorer, side-by-side code editor/diff viewer, and settings panel.
 - **Dynamic CORS & Port Routing:** Automatically detects custom port hosting (such as VS Code Live Server on port `5500`) and routes API calls securely back to the local backend gateway on port `3737`.
 - **AI Chat Relay & Animations:** Added smooth bouncing dot streaming loading animation and fade-in/slide-in bubble transitions for chat responses.
 - **Mobile Responsiveness:** Implemented custom bottom-tab-bar navigation for mobile screens, ensuring a full workspace layout experience on everything from a 5" phone to a 32" 4K display.
 
 ### 🤖 OpenClaw Supervisor Swarm
+
 - **Supervisor Pipeline Automation:** Added YAML-based supervisor orchestration (`.devdiff/automations/supervisor-pipeline.yaml`) for routing tasks to distinct agent personas.
 - **Resilient Fallback Handlers:** Automatically intercepts model timeout, context overflow, connection refusal, or output format failures, and executes smart recovery chains (pruning context, switching models, re-prompting).
 - **Dependency Auto-Installation:** Standardized package manager detection (`npm`, `pnpm`, `yarn`, `bun`) to automatically verify and install missing local binaries and models.
 - **Human-in-the-Loop Reviews:** Provides interactive terminal TTY prompts (`Approve`, `Reject`, `Modify`, `Delegate`) with automatic non-interactive fallbacks for CI/CD environments.
 
 ### 🔌 Connectors & Messaging Platforms
+
 - **Unified Connectors Registry:** Extracted notification pathways into `@eldrex/connectors` featuring complete credential validation.
 - **Multi-Platform Support:** Added native endpoints and formatting configurations for Slack, Discord, Telegram, Microsoft Teams, WhatsApp, Email, Custom HTTP Webhooks, OpenClaw Bus, and MCP Protocol.
 
@@ -33,6 +36,7 @@ The **Agentic Workspace & Supervisor** release introduces a hyper-optimized deve
 A maintenance update fixing internal workspace routing and dependency structures.
 
 ### 🛠️ Internal Stability
+
 - Resolves cross-dependency compilation order inside the pnpm workspace.
 - Cleans and aligns local TSConfig configurations across all monorepo packages.
 

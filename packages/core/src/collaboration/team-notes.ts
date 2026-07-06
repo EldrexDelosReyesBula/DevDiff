@@ -42,7 +42,7 @@ export class TeamCollaboration {
     const annotationsDir = path.join(
       path.dirname(params.changelogPath),
       ".devdiff",
-      "annotations"
+      "annotations",
     );
 
     // Ensure annotations folder exists
@@ -61,16 +61,18 @@ export class TeamCollaboration {
     const annotationsDir = path.join(
       path.dirname(changelogPath),
       ".devdiff",
-      "annotations"
+      "annotations",
     );
 
     const annotations = await this.loadAllAnnotations(annotationsDir);
 
     return {
       total: annotations.length,
-      approved: annotations.filter((a) => a.type === "approval" && a.resolved).length,
+      approved: annotations.filter((a) => a.type === "approval" && a.resolved)
+        .length,
       rejected: annotations.filter((a) => a.type === "rejection").length,
-      questions: annotations.filter((a) => a.type === "question" && !a.resolved).length,
+      questions: annotations.filter((a) => a.type === "question" && !a.resolved)
+        .length,
       comments: annotations.filter((a) => a.type === "comment").length,
       authors: [...new Set(annotations.map((a) => a.author))],
       pendingReview: annotations.filter((a) => !a.resolved).length,
@@ -80,14 +82,19 @@ export class TeamCollaboration {
   /**
    * Load all annotations in the given directory
    */
-  private static async loadAllAnnotations(annotationsDir: string): Promise<TeamAnnotation[]> {
+  private static async loadAllAnnotations(
+    annotationsDir: string,
+  ): Promise<TeamAnnotation[]> {
     try {
       const files = await fs.readdir(annotationsDir);
       const annotations: TeamAnnotation[] = [];
-      
+
       for (const file of files) {
         if (file.endsWith(".json")) {
-          const content = await fs.readFile(path.join(annotationsDir, file), "utf-8");
+          const content = await fs.readFile(
+            path.join(annotationsDir, file),
+            "utf-8",
+          );
           try {
             annotations.push(JSON.parse(content));
           } catch {
