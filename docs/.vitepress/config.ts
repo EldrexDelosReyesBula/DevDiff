@@ -156,7 +156,7 @@ export default defineConfig({
       { text: "API", link: "/api/core" },
       { text: "Blog", link: "/blog/2026-07-05-5000-downloads" },
       {
-        text: "v1.0.5",
+        text: "v1.0.6",
         items: [
           { text: "Changelog", link: "/versioning/changelog" },
           { text: "Version Policy", link: "/versioning/policy" },
@@ -384,6 +384,18 @@ export default defineConfig({
           ],
         },
       ],
+
+      "/legal/": [
+        {
+          text: "Legal",
+          items: [
+            { text: "Privacy Policy", link: "/legal/privacy-policy" },
+            { text: "Terms of Use", link: "/legal/terms-of-use" },
+            { text: "Safety Policy", link: "/legal/safety" },
+            { text: "Security & Compliance", link: "/legal/security-compliance" },
+          ],
+        },
+      ],
     },
 
     socialLinks: [
@@ -395,7 +407,7 @@ export default defineConfig({
 
     footer: {
       message:
-        'Released under the <a href="https://github.com/EldrexDelosReyesBula/devdiff/blob/main/LICENSE">MIT License</a>. | <a href="https://github.com/EldrexDelosReyesBula/devdiff/blob/main/SUPPORT.md">Support</a>',
+        'Released under the <a href="https://github.com/EldrexDelosReyesBula/devdiff/blob/main/LICENSE">MIT License</a>. | <a href="/legal/privacy-policy">Privacy Policy</a> | <a href="/legal/terms-of-use">Terms of Use</a> | <a href="/legal/safety">Safety</a> | <a href="https://github.com/EldrexDelosReyesBula/devdiff/blob/main/SUPPORT.md">Support</a>',
       copyright: "Copyright © 2026 Eldrex Delos Reyes Bula and Contributors",
     },
 
