@@ -6,7 +6,18 @@ DevDiff uses [Semantic Versioning](https://semver.org). Every published version 
 
 ---
 
-## [1.0.5] — 2026-07-05 · Agentic Workspace & Supervisor Release
+## [1.0.6] — 2026-07-06 · Windows & Command Argument Hardening
+
+The **Windows & Command Argument Hardening** release resolves critical command execution, argument parsing, option ordering, and environment performance behaviors:
+
+- **Commander Argument Parsing**: Filtered out Command class instances from execution argument arrays, preventing CLI parameter mismatches.
+- **Option Flag Standardization**: Re-ordered option flags so short options are parsed before long options consistently (e.g. `-p, --persona`).
+- **Windows Process Performance**: Tuned test threshold bounds to accommodate child process spawning time on Windows file structures.
+- **Port Reuse Handlers**: Verified playground listen fallback routines handling port collisions natively.
+
+---
+
+## [1.0.5] — 2026-07-06 · CLI Registry & Security Hardening
 
 The **Agentic Workspace & Supervisor** release introduces a hyper-optimized developer playground with a responsive React layout, CORS-enabled port routing, OpenClaw Supervisor automation, and comprehensive messaging connector integrations.
 

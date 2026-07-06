@@ -23,7 +23,7 @@ DevDiff **does not auto-update**. You upgrade only when you choose to:
 npm install -g @eldrex/cli@latest
 
 # Or pin to a specific version forever
-npm install -g @eldrex/cli@1.0.3
+npm install -g @eldrex/cli@1.0.6
 ```
 
 ### Check Your Version
@@ -55,7 +55,7 @@ You can lock your project to a specific DevDiff version by adding it to your con
 ```javascript
 // .devdiff.config.js
 export default {
-  version: "1.0.3", // DevDiff will warn if CLI version mismatches
+  version: "1.0.6", // DevDiff will warn if CLI version mismatches
   ai: {
     providers: [{ name: "local", url: "ollama://llama3.2:3b", priority: 1 }],
   },

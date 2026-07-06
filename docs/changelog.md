@@ -2,6 +2,15 @@
 
 All notable changes to the DevDiff workspace packages will be documented in this file.
 
+## [1.0.6] - 2026-07-06 (Windows & Command Argument Hardening Release)
+
+The **Windows & Command Argument Hardening** release resolves critical command execution, argument parsing, option ordering, and environment performance behaviors:
+
+- **Commander Argument Parsing**: Filtered out Command class instances from execution argument arrays, preventing CLI parameter mismatches.
+- **Option Flag Standardization**: Re-ordered option flags so short options are parsed before long options consistently (e.g. `-p, --persona`).
+- **Windows Process Performance**: Tuned test threshold bounds to accommodate child process spawning time on Windows file structures.
+- **Port Reuse Handlers**: Verified playground listen fallback routines handling port collisions natively.
+
 ## [1.0.5] - 2026-07-06 (CLI Registry & Security Hardening Release)
 
 The **CLI Registry & Security Hardening** release introduces production-grade resilience, unified command validation, local playground port auto-fallback, config auto-completions, and advanced security guards.

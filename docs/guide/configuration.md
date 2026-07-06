@@ -11,7 +11,7 @@ Here is a full schema reference detailing all available options in `.devdiff.con
 ```javascript
 // .devdiff.config.js
 export default {
-  version: "1.0.5",
+  version: "1.0.6",
 
   // ── AI CONFIGURATION ──
   ai: {

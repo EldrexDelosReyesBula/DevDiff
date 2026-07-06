@@ -107,7 +107,7 @@ Think of it like a hotel key card (access token) + reservation confirmation (ref
 ```json
 {
   "timestamp": "2026-07-01T05:00:00Z",
-  "version": "1.0.3",
+  "version": "1.0.6",
   "changes": [
     {
       "type": "feat",
@@ -161,7 +161,7 @@ Think of it like a hotel key card (access token) + reservation confirmation (ref
 **Example output:**
 
 ```
-## DevDiff v1.0.3: Staying Logged In Just Got Smarter
+## DevDiff v1.0.6: Staying Logged In Just Got Smarter
 
 In this week's release, we tackled one of the most-requested pain points:
 session timeouts. Users were getting logged out mid-work, losing their flow.

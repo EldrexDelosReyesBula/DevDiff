@@ -76,7 +76,7 @@ devdiff generate --format json
 
 ```json
 {
-  "version": "1.0.3",
+  "version": "1.0.6",
   "timestamp": "2026-07-01T05:00:00Z",
   "model": "llama3.2:3b",
   "persona": "developer",

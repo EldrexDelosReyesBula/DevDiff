@@ -49,7 +49,7 @@ All webhook events use the same envelope:
 {
   "event": "generate.complete",
   "timestamp": "2026-07-01T05:00:00Z",
-  "version": "1.0.3",
+  "version": "1.0.6",
   "project": {
     "name": "my-project",
     "path": "/Users/me/my-project",
