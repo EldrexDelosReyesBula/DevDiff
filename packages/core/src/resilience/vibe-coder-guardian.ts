@@ -202,7 +202,7 @@ export class VibeCoderGuardian {
 
     // Attempt recovery
     if (failure.attempt < 3) {
-      const fallbackModel = this.getFallbackModel(failure.model);
+      const fallbackModel = await this.getFallbackModel(failure.model);
 
       return {
         status: "retrying",
@@ -233,7 +233,22 @@ export class VibeCoderGuardian {
     };
   }
 
-  private getFallbackModel(model: string): string {
+  private async getFallbackModel(model: string): Promise<string> {
+    try {
+      const { OllamaModelDiscovery } = await import("../ai/providers/ollama-discovery");
+      const installedModels = await OllamaModelDiscovery.discoverModels();
+      if (installedModels.length > 0) {
+        const currentModelName = model.replace("ollama://", "");
+        const others = installedModels.filter(m => m.name !== currentModelName);
+        if (others.length > 0) {
+          return `ollama://${others[0].name}`;
+        }
+        return model;
+      }
+    } catch {
+      // Ignore discovery errors
+    }
+
     if (model.includes("llama3.2:3b")) return "ollama://llama3.1:8b";
     return "ollama://llama3.2:3b";
   }

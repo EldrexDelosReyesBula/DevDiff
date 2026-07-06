@@ -2,7 +2,7 @@ import * as fs from "fs/promises";
 import * as path from "path";
 import { ShellSandbox } from "../security/shell-sandbox";
 import { DevDiffConfig } from "../config/schema";
-import { AIExplanationResult, AIProvider } from "./providers/base";
+import { AIExplanationResult, AIProvider, SYSTEM_PROMPT } from "./providers/base";
 import { OllamaProvider } from "./providers/ollama";
 import { OpenAIProvider } from "./providers/openai";
 import { GeminiProvider } from "./providers/gemini";
@@ -452,7 +452,7 @@ export class AIRouter {
 
   async getExplanation(
     diffText: string,
-    options?: { dryRun?: boolean; depth?: string; projectContext?: string },
+    options?: { dryRun?: boolean; depth?: string; projectContext?: string; personaId?: string; timeoutMs?: number },
   ): Promise<AIExplanationResult> {
     if (options?.dryRun) {
       return {
@@ -504,6 +504,10 @@ export class AIRouter {
       throw new Error(`Unsupported routed provider type: ${providerType}`);
     }
 
+    if (providerType === "ollama" && options?.timeoutMs !== undefined) {
+      (provider as any).timeoutMs = options.timeoutMs;
+    }
+
     // Apply API key if present in configuration for this provider
     const matchedConfig = this.config.ai.providers.find((p) =>
       p.url.startsWith(providerType),
@@ -517,6 +521,20 @@ export class AIRouter {
         this.providers["anthropic"] = new AnthropicProvider(
           matchedConfig.apiKey,
         );
+      }
+    }
+
+    // Build the system prompt
+    let customSystemPrompt = SYSTEM_PROMPT;
+    if (options?.personaId) {
+      try {
+        const { PersonaRegistry, PersonaEngine } = await import("@eldrex/personas");
+        const persona = PersonaRegistry.get(options.personaId);
+        if (persona) {
+          customSystemPrompt = `${SYSTEM_PROMPT}\n\n${PersonaEngine.generateSystemPrompt(persona)}`;
+        }
+      } catch (err) {
+        // Fallback silently if personas module cannot be imported
       }
     }
 
@@ -570,6 +588,7 @@ export class AIRouter {
       const result = await provider.generateExplanation(
         contextualDiff,
         modelName,
+        customSystemPrompt,
       );
 
       if (guardian) {
@@ -604,6 +623,7 @@ export class AIRouter {
             const result = await fbProvider.generateExplanation(
               diffText,
               fb.modelName,
+              customSystemPrompt,
             );
 
             guardian.recordAICall(recovery.nextModel, true);
@@ -637,6 +657,7 @@ export class AIRouter {
             const result = await fbProvider.generateExplanation(
               diffText,
               fb.modelName,
+              customSystemPrompt,
             );
             return result;
           }

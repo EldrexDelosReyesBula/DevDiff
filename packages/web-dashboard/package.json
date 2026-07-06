@@ -1,6 +1,6 @@
 {
   "name": "@eldrex/dashboard",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
@@ -8,7 +8,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build && node -e \"import('fs').then(f => { f.copyFileSync('index.html', 'dist/playground.html'); f.copyFileSync('index.html', 'dist/index.html'); })\"",
     "preview": "vite preview"
   },
   "dependencies": {

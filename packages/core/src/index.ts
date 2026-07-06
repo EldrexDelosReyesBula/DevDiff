@@ -142,3 +142,28 @@ export type {
   FileChange,
   FileRelationship,
 } from "./diff/relationship-detector-v2";
+
+// v1.0.5 Agentic & Plugin Exports
+export { PluginManager } from "./plugins/manager";
+export { V105_IMPROVEMENTS } from "./performance/v105-improvements";
+export { DEFAULT_AGENTIC_CONFIG } from "./agentic/auto-start";
+export type { AgenticConfig } from "./agentic/auto-start";
+
+// v1.0.5 Part 2 Supervisor & Optimization Exports
+export { DependencyManager } from "./auto-install/dependency-manager";
+export { HYPER_OPTIMIZATIONS } from "./performance/hyper-optimization";
+export { HumanReviewSystem } from "./human-review/interrupt-handler";
+
+// v1.0.5 Part 3 Enterprise & Fast Path Exports
+export { FastPathOptimizer } from "./performance/fast-path";
+export { ContextWindowManager, DEFAULT_CONTEXT_CONFIG } from "./context/window-manager";
+export { TeamCollaboration } from "./collaboration/team-notes";
+
+// v1.0.5 Timeout & Generation Failure Fixes
+export { ChunkingEngine, reconstructDiffForFiles } from "./ai/chunking-strategy";
+export type { ChunkStrategy, DiffChunk } from "./ai/chunking-strategy";
+export { TemplateFallbackGenerator } from "./generators/changelog-fallback";
+export { ProgressiveChunking } from "./ai/progressive-chunking";
+export { InjectionGuardV2 } from "./security/injection-guard-v2";
+export { RedactionEngineV2 } from "./security/redaction-engine-v2";
+

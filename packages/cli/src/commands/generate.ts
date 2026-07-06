@@ -1,7 +1,25 @@
 import * as fs from "fs/promises";
 import * as path from "path";
 import pc from "picocolors";
-import { generateChangelog, ShellSandbox } from "@eldrex/core";
+import {
+  generateChangelog,
+  ShellSandbox,
+  diffParser,
+  ChunkingEngine,
+  reconstructDiffForFiles,
+  TemplateFallbackGenerator,
+  MVPStorage,
+  formatMarkdown,
+  formatJSON,
+  formatHTML,
+  ProgressiveChunking,
+  OllamaModelDiscovery,
+} from "@eldrex/core";
+import type {
+  ChunkStrategy,
+  MVPEntry,
+  AIExplanationResult,
+} from "@eldrex/core";
 
 export interface GenerateCmdOptions {
   commitMsgFile?: string;
@@ -180,46 +198,153 @@ export async function generateCommand(options: GenerateCmdOptions) {
     return;
   }
 
+  // ── PHASE 1: Analyze diff size ──
+  const parsedDiff = diffParser.parse(diffText);
+  const chunkStrategy = ChunkingEngine.analyze(parsedDiff, 32000);  // 32K context
+
+  console.log(pc.blue(`📊 Analyzing ${parsedDiff.files.length} file(s)...`));
+
+  if (chunkStrategy.strategy !== "single") {
+    console.log(pc.yellow(`   Strategy: ${chunkStrategy.strategy}`));
+    console.log(pc.yellow(`   Chunks: ${chunkStrategy.chunks.length}`));
+    console.log(pc.yellow(`   Estimated time: ~${chunkStrategy.estimatedTime}s`));
+    console.log(pc.yellow(`   ${chunkStrategy.recommendation}`));
+    console.log("");
+  }
+
+  // ── PHASE 2: Try AI generation ──
+  let aiSucceeded = false;
+  let changelog = "";
+
   try {
-    const spinner = createSpinner("Generating changelog...");
-    spinner.start();
-
-    const result = await generateChangelog({
-      diffText,
-      repoPath,
-      dryRun: options.dryRun,
-      format: options.format,
-    });
-
-    spinner.stop();
-
-    if (options.commitMsgFile) {
-      // Git Hook mode: prepend or append the explanation to the commit message
-      const commitMsgPath = path.resolve(repoPath, options.commitMsgFile);
-      let originalMsg = "";
+    if (options.dryRun) {
+      const result = await generateChangelog({
+        diffText,
+        repoPath,
+        dryRun: true,
+        format: options.format,
+        persona: options.persona,
+      });
+      changelog = result.formattedOutput;
+      aiSucceeded = true;
+    } else if (chunkStrategy.strategy === "single") {
+      const spinner = createSpinner("Generating changelog...");
+      spinner.start();
+      const result = await generateChangelog({
+        diffText,
+        repoPath,
+        format: options.format,
+        persona: options.persona,
+      });
+      spinner.stop();
+      changelog = result.formattedOutput;
+      aiSucceeded = true;
+    } else {
+      // Get active model size & history
+      let modelSize = "7b";
       try {
-        originalMsg = await fs.readFile(commitMsgPath, "utf-8");
+        const installedModels = await OllamaModelDiscovery.discoverModels();
+        const active = OllamaModelDiscovery.selectBestModel(installedModels);
+        if (active) {
+          const sizeMatch = active.name.match(/:(\d+)b/i) || active.name.match(/:(\d+)m/i);
+          if (sizeMatch) {
+            modelSize = `${sizeMatch[1]}b`;
+          }
+        }
       } catch {}
 
-      // Keep original message, append the explanation at the end under a git comment block
-      const commentBlock = `\n\n# --- DevDiff AI Changelog Explanation ---\n# The section below contains AI-generated details.\n# Feel free to edit or remove it.\n\n${result.formattedOutput.replace(/^/gm, "# ")}`;
+      // Use progressive chunking strategy
+      const results = await ProgressiveChunking.processWithFallback(
+        parsedDiff,
+        modelSize,
+        undefined,
+        async (chunk, timeoutMs) => {
+          const chunkDiffText = reconstructDiffForFiles(chunk.files);
+          const result = await generateChangelog({
+            diffText: chunkDiffText,
+            repoPath,
+            dryRun: options.dryRun,
+            format: "json",
+            persona: options.persona,
+            skipVerification: true,
+            timeoutMs,
+          });
+          return result.rawResult;
+        },
+        (stage, progress) => {
+          console.log(`   [${progress}%] ${stage}`);
+        }
+      );
 
-      await fs.writeFile(commitMsgPath, originalMsg + commentBlock, "utf-8");
-      console.log(pc.green(`✅ AI explanation appended to commit message.`));
-    } else if (options.output) {
-      const outPath = path.resolve(repoPath, options.output);
-      await fs.mkdir(path.dirname(outPath), { recursive: true });
-      await fs.writeFile(outPath, result.formattedOutput, "utf-8");
-      console.log(pc.green(`✅ Changelog written to: ${outPath}`));
-    } else {
-      // Print to stdout
-      console.log(pc.cyan("\n--- DevDiff Output ---"));
-      console.log(result.formattedOutput);
-      console.log(pc.cyan("----------------------"));
+      const merged = mergeChunkResults(results, options.format || "markdown", options.persona);
+      changelog = merged.formattedOutput;
+      aiSucceeded = true;
     }
   } catch (error: any) {
-    console.error(pc.red(`\n❌ Error generating changelog: ${error.message}`));
-    process.exit(1);
+    console.log("");
+    console.log(pc.red("⚠️ AI generation failed. Using template fallback..."));
+    console.log(pc.red(`   Error: ${error.message}`));
+    console.log("");
+
+    // ALWAYS fall back to template
+    let projectContext: any = null;
+    try {
+      const deepContextPath = path.join(repoPath, ".devdiff/context/deep-context.json");
+      const rawDeep = await fs.readFile(deepContextPath, "utf-8");
+      projectContext = JSON.parse(rawDeep);
+    } catch {}
+
+    changelog = TemplateFallbackGenerator.generate(parsedDiff, projectContext);
+  }
+
+  // ── PHASE 3: Output ──
+  if (options.commitMsgFile) {
+    const commitMsgPath = path.resolve(repoPath, options.commitMsgFile);
+    let originalMsg = "";
+    try {
+      originalMsg = await fs.readFile(commitMsgPath, "utf-8");
+    } catch {}
+
+    // Keep original message, append the explanation at the end under a git comment block
+    const commentBlock = `\n\n# --- DevDiff AI Changelog Explanation ---\n# The section below contains AI-generated details.\n# Feel free to edit or remove it.\n\n${changelog.replace(/^/gm, "# ")}`;
+
+    await fs.writeFile(commitMsgPath, originalMsg + commentBlock, "utf-8");
+    console.log(pc.green(`✅ AI explanation appended to commit message.`));
+  } else if (options.output) {
+    const outPath = path.resolve(repoPath, options.output);
+    await fs.mkdir(path.dirname(outPath), { recursive: true });
+    await fs.writeFile(outPath, changelog, "utf-8");
+    console.log(pc.green(`✅ Changelog written to: ${outPath}`));
+  } else {
+    // Print to stdout
+    if (aiSucceeded) {
+      console.log(pc.cyan("\n--- DevDiff Output ---"));
+      console.log(changelog);
+      console.log(pc.cyan("----------------------"));
+    } else {
+      console.log(changelog);
+    }
+  }
+
+  // ── PHASE 4: Status ──
+  console.log("");
+  if (aiSucceeded) {
+    console.log(pc.green("✅ AI-powered changelog generated"));
+  } else {
+    console.log(pc.yellow("⚠️ Template-generated changelog (AI unavailable)"));
+    console.log("   Fix AI and retry for detailed explanations:");
+    console.log("   • Check Ollama: ollama list");
+    console.log("   • Pull a model: ollama pull llama3.2:3b");
+    console.log("   • Retry: devdiff generate");
+
+    // Save to MVP if AI failed (for background processing later)
+    try {
+      await saveToMVP(parsedDiff, chunkStrategy);
+      console.log(pc.blue("   📦 Full analysis saved to MVP queue for later processing"));
+      console.log(pc.blue("   Process: devdiff mvp process"));
+    } catch (mvpErr: any) {
+      console.error(pc.red(`   Failed to save to MVP queue: ${mvpErr.message}`));
+    }
   }
 }
 
@@ -244,4 +369,104 @@ function createSpinner(text: string) {
       process.stdout.write("\r\x1b[K"); // Clear line
     },
   };
+}
+
+async function processChunks(
+  chunkStrategy: ChunkStrategy,
+  options: GenerateCmdOptions,
+  repoPath: string
+): Promise<AIExplanationResult[]> {
+  const results: AIExplanationResult[] = [];
+  const totalChunks = chunkStrategy.chunks.length;
+
+  for (let i = 0; i < totalChunks; i++) {
+    const chunk = chunkStrategy.chunks[i];
+    console.log(`⏱️ Chunk ${i + 1}/${totalChunks}: ${chunk.label} (${chunk.files.length} files)`);
+
+    const chunkDiffText = reconstructDiffForFiles(chunk.files);
+    
+    const result = await generateChangelog({
+      diffText: chunkDiffText,
+      repoPath,
+      dryRun: options.dryRun,
+      format: "json",
+      persona: options.persona,
+      skipVerification: true,
+    });
+
+    results.push(result.rawResult);
+    console.log(`✅ Chunk ${i + 1} complete`);
+  }
+
+  return results;
+}
+
+function mergeChunkResults(
+  results: AIExplanationResult[],
+  format: "markdown" | "json" | "html",
+  persona?: string
+): { rawResult: AIExplanationResult; formattedOutput: string } {
+  const mergedResult: AIExplanationResult = {
+    summary: results.map(r => r.summary).filter(Boolean).join("\n\n"),
+    impact: "none",
+    breaking: false,
+    files: results.flatMap(r => r.files),
+    relatedIssues: Array.from(new Set(results.flatMap(r => r.relatedIssues))),
+  };
+
+  const impactOrdering = ["none", "minor", "major", "breaking"];
+  let maxImpactIndex = 0;
+  for (const r of results) {
+    const idx = impactOrdering.indexOf(r.impact);
+    if (idx > maxImpactIndex) {
+      maxImpactIndex = idx;
+    }
+    if (r.breaking) {
+      mergedResult.breaking = true;
+    }
+  }
+  mergedResult.impact = impactOrdering[maxImpactIndex] as any;
+
+  if (persona) {
+    try {
+      // Optional: apply persona post-processing if needed
+    } catch {}
+  }
+
+  let formattedOutput = "";
+  if (format === "json") {
+    formattedOutput = formatJSON(mergedResult);
+  } else if (format === "html") {
+    formattedOutput = formatHTML(mergedResult);
+  } else {
+    formattedOutput = formatMarkdown(mergedResult);
+  }
+
+  return {
+    rawResult: mergedResult,
+    formattedOutput,
+  };
+}
+
+async function saveToMVP(diff: any, chunkStrategy: ChunkStrategy) {
+  const repoPath = process.cwd();
+  const id = await MVPStorage.generateId(repoPath);
+  const entry: MVPEntry = {
+    id,
+    timestamp: new Date().toISOString(),
+    status: "queued",
+    change_range: {
+      from: "HEAD~1",
+      to: "HEAD",
+      commits: 1,
+      files: diff.files.length,
+      additions: diff.totalAdditions || 0,
+      deletions: diff.totalDeletions || 0,
+    },
+    template_summary: `AI generation failed for ${diff.files.length} files. Chunks: ${chunkStrategy.chunks.length}.`,
+    diff_snapshot: Buffer.from(reconstructDiffForFiles(diff.files)).toString("base64"),
+    retry_count: 0,
+    max_retries: 3,
+  };
+  await MVPStorage.saveMVP(repoPath, entry);
 }

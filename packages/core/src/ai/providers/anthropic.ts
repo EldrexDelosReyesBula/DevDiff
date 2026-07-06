@@ -16,6 +16,7 @@ export class AnthropicProvider implements AIProvider {
   async generateExplanation(
     diffText: string,
     modelName: string,
+    systemPrompt?: string,
   ): Promise<AIExplanationResult> {
     const key = this.apiKey;
     if (!key) {
@@ -35,7 +36,7 @@ export class AnthropicProvider implements AIProvider {
         body: JSON.stringify({
           model: modelName,
           max_tokens: 4000,
-          system: SYSTEM_PROMPT,
+          system: systemPrompt || SYSTEM_PROMPT,
           messages: [
             { role: "user", content: `Analyze this diff:\n${diffText}` },
           ],

@@ -16,6 +16,7 @@ export class OpenAIProvider implements AIProvider {
   async generateExplanation(
     diffText: string,
     modelName: string,
+    systemPrompt?: string,
   ): Promise<AIExplanationResult> {
     const key = this.apiKey;
     if (!key) {
@@ -34,7 +35,7 @@ export class OpenAIProvider implements AIProvider {
         body: JSON.stringify({
           model: modelName,
           messages: [
-            { role: "system", content: SYSTEM_PROMPT },
+            { role: "system", content: systemPrompt || SYSTEM_PROMPT },
             { role: "user", content: `Analyze this diff:\n${diffText}` },
           ],
           temperature: 0.2,

@@ -1,0 +1,34 @@
+{
+  "name": "@eldrex/antigravity",
+  "version": "1.0.5",
+  "description": "Antigravity IDE Extension for DevDiff",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "typescript": "^5.5.0",
+    "@eldrex/core": "workspace:*"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "author": "Eldrex Delos Reyes Bula <eldrexdelosreyesbula@gmail.com>",
+  "license": "MIT"
+}

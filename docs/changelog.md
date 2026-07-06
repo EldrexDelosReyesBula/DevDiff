@@ -2,6 +2,34 @@
 
 All notable changes to the DevDiff workspace packages will be documented in this file.
 
+## [1.0.5] - 2026-07-06 (CLI Registry & Security Hardening Release)
+
+The **CLI Registry & Security Hardening** release introduces production-grade resilience, unified command validation, local playground port auto-fallback, config auto-completions, and advanced security guards.
+
+### `@eldrex/cli`
+- Overhauled CLI command registration using a unified dynamic [Command Registry](file:///c:/Users/Eldrex/Downloads/classhost/DevDiff/packages/cli/src/registry/command-registry.ts) with pre-run validations.
+- Added visual terminal error boundaries with custom suggestions and recovery help.
+- Added settings schema generation (`devdiff schema`) and Bash/PowerShell completion script output.
+- Configured dynamic port retry fallbacks for the local playground server when port `3737` is occupied.
+
+### `@eldrex/core`
+- Implemented `ProgressiveChunking` and dynamic prompt-token-based timeout calculators to prevent Ollama connections from timing out on large diffs.
+- Created `InjectionGuardV2` protecting LLM interfaces against jailbreaks, command chainings, and injection payloads.
+- Upgraded the `RedactionEngineV2` to strip private keys and API tokens from dry-run prints.
+
+### `@eldrex/dashboard`
+- Unified the web-dashboard layout by serving the Design System-styled playground directly as the root application.
+
+### `@eldrex/connectors`
+- Added native connectors registry for Slack, Discord, Telegram, Microsoft Teams, WhatsApp, Email, Custom Webhooks, OpenClaw Bus, and MCP Protocol.
+
+### `@eldrex/openclaw`
+- Added OpenClaw Supervisor pipeline automation supporting consensus configs, automated fallback error handling, package manager dependency auto-installation, and human-in-the-loop interactive prompts.
+
+## [1.0.4] - 2026-07-04 (Maintenance Release)
+
+Maintenance update fixing internal workspace TSConfig and routing packages compilation.
+
 ## [1.0.0] - 2026-06-28 (Initial Release)
 
 We are proud to release version **1.0.0** of all DevDiff packages under the `@eldrex` NPM scope. This release establishes the autonomous, privacy-first changelog and code intelligence layer.

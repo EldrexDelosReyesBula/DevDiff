@@ -2,7 +2,7 @@
   "name": "devdiff",
   "displayName": "DevDiff",
   "description": "Privacy-first, BYOAI inline changelog intelligence for VS Code",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
@@ -49,6 +49,58 @@
       {
         "command": "devdiff.showOutput",
         "title": "DevDiff: Show Output Panel"
+      },
+      {
+        "command": "devdiff.generateChangelog",
+        "title": "DevDiff: Generate Changelog"
+      },
+      {
+        "command": "devdiff.generateDiagram",
+        "title": "DevDiff: Generate Diagram"
+      },
+      {
+        "command": "devdiff.securityScan",
+        "title": "DevDiff: Security Scan"
+      },
+      {
+        "command": "devdiff.explainSelection",
+        "title": "DevDiff: Explain Selected Code"
+      },
+      {
+        "command": "devdiff.askAI",
+        "title": "DevDiff: Ask DevDiff (natural language)"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "devdiff.generateChangelog",
+        "key": "ctrl+shift+g",
+        "mac": "cmd+shift+g",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "devdiff.generateDiagram",
+        "key": "ctrl+shift+d",
+        "mac": "cmd+shift+d",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "devdiff.securityScan",
+        "key": "ctrl+shift+x",
+        "mac": "cmd+shift+x",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "devdiff.explainSelection",
+        "key": "ctrl+shift+e",
+        "mac": "cmd+shift+e",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "devdiff.askAI",
+        "key": "ctrl+shift+a",
+        "mac": "cmd+shift+a",
+        "when": "editorTextFocus"
       }
     ],
     "configuration": {
@@ -56,7 +108,7 @@
       "properties": {
         "devdiff.autoStart": {
           "type": "boolean",
-          "default": false,
+          "default": true,
           "description": "Auto-start DevDiff monitoring session when VS Code opens"
         },
         "devdiff.autoGenerate": {

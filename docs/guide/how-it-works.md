@@ -2,35 +2,16 @@
 
 DevDiff sits between your Git history and your collaboration tools, serving as an intelligent processing and sanitization layer.
 
-```
-+--------------------+
-| Git Commit / Hook  |
-+---------+----------+
-          |
-          v
-+---------+----------+
-|  AST Parser/Trimmer|  <-- Prunes unmodified code
-+---------+----------+
-          |
-          v
-+---------+----------+
-|   Secret Redactor  |  <-- Redacts API keys & tokens
-+---------+----------+
-          |
-          v
-+---------+----------+
-| Intelligent Router |  <-- Chooses optimal model (Local/Cloud)
-+---------+----------+
-          |
-          v
-+---------+----------+
-|   Persona Engine   |  <-- Formats tone & structure
-+---------+----------+
-          |
-          v
-+---------+----------+
-|  Output Deliverer  |  <-- Sends Markdown, Mermaid, Slack, etc.
-+--------------------+
+```mermaid
+flowchart TD
+    A[Git Commit / Hook / CLI trigger] --> B[AST Parser & Trimmer]
+    B -->|Prunes unmodified code| C[Injection Guard V2]
+    C -->|Detects prompt & shell injections| D[Secret Redactor V2]
+    D -->|Redacts API keys, passwords, JWTs| E[Progressive Chunking & Dynamic Timeout]
+    E -->|Optimizes payload sizes & times| F[Intelligent Router]
+    F -->|Local Ollama / Cloud API| G[Persona Engine Formatter]
+    G -->|Applies developer, ceo, compliance tone| H[Output Deliverer]
+    H -->|Markdown Logs / Mermaid Diagrams / JSON / Slack| I[Output]
 ```
 
 ---
@@ -41,9 +22,9 @@ DevDiff sits between your Git history and your collaboration tools, serving as a
 
 The process begins when code changes are made. Ingestion happens in one of three ways:
 
-1.  **Local Execution:** Triggered directly via `devdiff generate` in the CLI.
-2.  **Commit Watcher Daemon:** The `GitWatcher` listens to local git events or filesystem modifications using chokidar.
-3.  **Webhook Receivers:** The DevDiff Gateway exposes endpoints to listen to incoming webhooks from GitHub Actions, GitLab CI, or Linear.
+1. **Local Execution:** Triggered directly via `devdiff generate` in the CLI.
+2. **Commit Watcher Daemon:** The `GitWatcher` listens to local git events or filesystem modifications using chokidar.
+3. **Webhook Receivers:** The DevDiff Gateway exposes endpoints to listen to incoming webhooks from GitHub Actions, GitLab CI, or Linear.
 
 ---
 

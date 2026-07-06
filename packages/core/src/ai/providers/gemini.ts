@@ -16,6 +16,7 @@ export class GeminiProvider implements AIProvider {
   async generateExplanation(
     diffText: string,
     modelName: string,
+    systemPrompt?: string,
   ): Promise<AIExplanationResult> {
     const key = this.apiKey;
     if (!key) {
@@ -40,7 +41,7 @@ export class GeminiProvider implements AIProvider {
             },
           ],
           systemInstruction: {
-            parts: [{ text: SYSTEM_PROMPT }],
+            parts: [{ text: systemPrompt || SYSTEM_PROMPT }],
           },
           generationConfig: {
             responseMimeType: "application/json",

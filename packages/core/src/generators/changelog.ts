@@ -13,6 +13,7 @@ import { loadContext } from "../context/compiler";
 import { verifyExplanation } from "../verification/accuracy-check";
 import { DeepContextIndexer } from "../context/deep-indexer";
 import { AccuracyGuard } from "../verification/pre-generation-check";
+import { PluginManager } from "../plugins/manager";
 
 export interface GenerateOptions {
   diffText: string;
@@ -20,6 +21,8 @@ export interface GenerateOptions {
   dryRun?: boolean;
   format?: "markdown" | "json" | "html";
   skipVerification?: boolean;
+  persona?: string;
+  timeoutMs?: number;
 }
 
 export interface GenerateResult {
@@ -39,7 +42,20 @@ export async function generateChangelog(
 ): Promise<GenerateResult> {
   const repoPath = options.repoPath || process.cwd();
   const config = await loadConfig(repoPath);
+
+  // Load plugins!
+  const pluginManager = new PluginManager(repoPath);
+  try {
+    await pluginManager.loadPlugins();
+  } catch {}
+
   const parserResult = diffParser.parse(options.diffText);
+
+  // Run beforeAnalysis hook!
+  let processedDiff = parserResult;
+  try {
+    processedDiff = await pluginManager.runBeforeAnalysis(parserResult, {});
+  } catch {}
 
   if (options.dryRun) {
     const chosenFormat = options.format || config.format;
@@ -58,7 +74,7 @@ export async function generateChangelog(
     };
   }
 
-  if (parserResult.files.length === 0) {
+  if (processedDiff.files.length === 0) {
     const emptyResult: AIExplanationResult = {
       summary: "No changes detected.",
       impact: "none",
@@ -115,11 +131,11 @@ export async function generateChangelog(
   // Process files to build a clean context for the AI
   const processedFiles: string[] = [];
 
-  for (const fileDiff of parserResult.files) {
+  for (const fileDiff of processedDiff.files) {
     const oldPath = fileDiff.oldPath;
     const newPath = fileDiff.newPath;
 
-    // Skip ignored files based on config.exclude glob matches (we can do basic suffix or path check)
+    // Skip ignored files based on config.exclude glob matches
     const isIgnored = config.exclude.some((pattern) => {
       const cleanPattern = pattern.replace(/\*\*/g, "").replace(/\*/g, "");
       return (
@@ -153,7 +169,7 @@ export async function generateChangelog(
     }
 
     // Find changed lines in this file
-    const fileChanges = parserResult.changes.filter((c) => c.line);
+    const fileChanges = processedDiff.changes.filter((c) => c.line);
     const changedLines = fileChanges.map((c) => c.line);
 
     let contextCode = "";
@@ -177,7 +193,7 @@ export async function generateChangelog(
   // Accuracy Guard Pre-Check
   if (!options.dryRun && deepContextData) {
     try {
-      const preCheck = AccuracyGuard.preCheck(parserResult, deepContextData);
+      const preCheck = AccuracyGuard.preCheck(processedDiff, deepContextData);
       if (preCheck.warnings.length > 0) {
         console.warn("\n⚠️  Pre-analysis notes:");
         for (const w of preCheck.warnings) {
@@ -195,12 +211,14 @@ export async function generateChangelog(
   const explanation = await router.getExplanation(diffContext, {
     dryRun: options.dryRun,
     projectContext: finalContextString || undefined,
+    personaId: options.persona,
+    timeoutMs: options.timeoutMs,
   });
 
   // Post-generation verification (warn-only by default)
   let verificationSummary: GenerateResult["verification"] | undefined;
   if (!options.dryRun && !options.skipVerification) {
-    let verResult = verifyExplanation(explanation, parserResult);
+    let verResult = verifyExplanation(explanation, processedDiff);
 
     // Supplement with AccuracyGuard postCheck
     if (deepContextData) {
@@ -209,7 +227,7 @@ export async function generateChangelog(
           explanation.summary +
             "\n" +
             (explanation.files || []).map((f) => f.explanation).join("\n"),
-          parserResult,
+          processedDiff,
           deepContextData,
         );
 
@@ -257,17 +275,57 @@ export async function generateChangelog(
     };
   }
 
+  // Apply persona post-processing if specified
+  if (options.persona) {
+    const { PersonaRegistry, PersonaEngine } = await import("@eldrex/personas");
+    const personaObj = PersonaRegistry.get(options.persona);
+    if (personaObj) {
+      explanation.summary = PersonaEngine.postProcess(explanation.summary, personaObj);
+      if (explanation.files) {
+        for (const f of explanation.files) {
+          f.explanation = PersonaEngine.postProcess(f.explanation, personaObj);
+        }
+      }
+    }
+  }
+
   // Format the output
   const chosenFormat = options.format || config.format;
-  const formattedOutput = formatOutput(explanation, chosenFormat);
+  let formattedOutput = formatOutput(explanation, chosenFormat);
 
-  return {
+  let finalResult = {
     rawResult: explanation,
     formattedOutput,
     format: chosenFormat,
     contextUsed: loadedContext !== null,
     verification: verificationSummary,
   };
+
+  // Run afterAnalysis hook!
+  try {
+    const afterResult = await pluginManager.runAfterAnalysis({
+      summary: finalResult.rawResult.summary,
+      impact: finalResult.rawResult.impact,
+      breaking: finalResult.rawResult.breaking,
+      files: finalResult.rawResult.files,
+      relatedIssues: finalResult.rawResult.relatedIssues,
+      formattedOutput: finalResult.formattedOutput,
+    });
+    if (afterResult && afterResult.formattedOutput) {
+      finalResult.formattedOutput = afterResult.formattedOutput;
+    }
+  } catch {}
+
+  // Run onAIComplete hook!
+  try {
+    await pluginManager.runOnAIComplete({
+      summary: finalResult.rawResult.summary,
+      provider: router.getActualFallbackChain()[0] || "unknown",
+      model: "unknown",
+    });
+  } catch {}
+
+  return finalResult;
 }
 
 function formatOutput(

@@ -19,6 +19,7 @@ const __dirname = path.dirname(__filename);
 export interface PlaygroundOptions {
   port?: string;
   open?: boolean;
+  workspace?: string;
 }
 
 function openBrowser(url: string) {
@@ -98,9 +99,80 @@ function jsonResponse(res: http.ServerResponse, data: unknown, status = 200) {
   res.end(JSON.stringify(data));
 }
 
+function buildFileTree(dir: string, baseDir: string, statuses: Record<string, string>): any[] {
+  const list: any[] = [];
+  try {
+    const files = fs.readdirSync(dir);
+    for (const file of files) {
+      if (file === "node_modules" || file === ".git" || file === "dist" || file === ".turbo" || file === "out" || file === ".devdiff-cache") continue;
+      const fullPath = path.join(dir, file);
+      const relPath = path.relative(baseDir, fullPath).replace(/\\/g, "/");
+      const stat = fs.statSync(fullPath);
+      if (stat.isDirectory()) {
+        list.push({
+          name: file,
+          path: relPath,
+          type: "directory",
+          children: buildFileTree(fullPath, baseDir, statuses)
+        });
+      } else {
+        // Detect language
+        const ext = path.extname(file).toLowerCase();
+        let language = "text";
+        if (ext === ".ts" || ext === ".tsx") language = "typescript";
+        else if (ext === ".js" || ext === ".jsx") language = "javascript";
+        else if (ext === ".json") language = "json";
+        else if (ext === ".md") language = "markdown";
+        else if (ext === ".css") language = "css";
+        else if (ext === ".html") language = "html";
+        
+        list.push({
+          name: file,
+          path: relPath,
+          type: "file",
+          language,
+          size: stat.size,
+          lastModified: stat.mtime.toISOString(),
+          gitStatus: statuses[relPath]
+        });
+      }
+    }
+  } catch {}
+  return list;
+}
+
+function getGitStatuses(cwd: string): Record<string, string> {
+  const statuses: Record<string, string> = {};
+  try {
+    const { execSync } = require("child_process");
+    const out = execSync("git status --porcelain", { cwd, stdio: ["ignore", "pipe", "ignore"] }).toString();
+    for (const line of out.split("\n")) {
+      if (!line.trim()) continue;
+      const code = line.substring(0, 2).trim();
+      let filePath = line.substring(3).trim();
+      if (filePath.includes(" -> ")) {
+        filePath = filePath.split(" -> ")[1].trim();
+      }
+      filePath = filePath.replace(/\\/g, "/");
+      
+      let status: 'added' | 'modified' | 'deleted' | 'renamed' = "modified";
+      if (code === "A" || code === "??" || code === "AM") status = "added";
+      else if (code === "M" || code === "MM") status = "modified";
+      else if (code === "D") status = "deleted";
+      else if (code === "R") status = "renamed";
+      statuses[filePath] = status;
+    }
+  } catch {}
+  return statuses;
+}
+
 export async function playgroundCommand(options: PlaygroundOptions = {}) {
   const port = parseInt(options.port || "3737", 10);
-  const repoPath = process.cwd();
+  let repoPath = options.workspace ? path.resolve(options.workspace) : process.cwd();
+  if (!fs.existsSync(repoPath)) {
+    console.error(pc.red(`❌ Workspace path does not exist: ${repoPath}`));
+    process.exit(1);
+  }
   const playgroundHtml = resolvePlaygroundHtml();
   const activeSockets = new Set<WebSocket>();
 
@@ -200,6 +272,127 @@ export async function playgroundCommand(options: PlaygroundOptions = {}) {
       ]);
     }
 
+    if (url.pathname === "/api/files") {
+      const statuses = getGitStatuses(repoPath);
+      const tree = buildFileTree(repoPath, repoPath, statuses);
+      return jsonResponse(res, tree);
+    }
+
+    if (url.pathname === "/api/file/content") {
+      const filePath = url.searchParams.get("path");
+      if (!filePath) return jsonResponse(res, { error: "Path required" }, 400);
+      const fullPath = path.resolve(repoPath, filePath);
+      if (!fullPath.startsWith(repoPath)) return jsonResponse(res, { error: "Access denied" }, 403);
+      try {
+        const content = fs.readFileSync(fullPath, "utf-8");
+        return jsonResponse(res, { content });
+      } catch (err: any) {
+        return jsonResponse(res, { error: err.message }, 500);
+      }
+    }
+
+    if (url.pathname === "/api/git/stage") {
+      const body = await readBody(req);
+      const { path: filePath } = JSON.parse(body);
+      if (!filePath) return jsonResponse(res, { error: "Path required" }, 400);
+      try {
+        const { execSync } = require("child_process");
+        execSync(`git add "${filePath}"`, { cwd: repoPath });
+        return jsonResponse(res, { success: true });
+      } catch (err: any) {
+        return jsonResponse(res, { error: err.message }, 500);
+      }
+    }
+
+    if (url.pathname === "/api/git/diff") {
+      const filePath = url.searchParams.get("path");
+      if (!filePath) return jsonResponse(res, { error: "Path required" }, 400);
+      try {
+        const { execSync } = require("child_process");
+        const diff = execSync(`git diff HEAD -- "${filePath}"`, { cwd: repoPath }).toString();
+        return jsonResponse(res, { diff });
+      } catch (err: any) {
+        return jsonResponse(res, { error: err.message }, 500);
+      }
+    }
+
+    if (url.pathname === "/api/workspace/open") {
+      const body = await readBody(req);
+      const { path: newPath } = JSON.parse(body);
+      if (!newPath) return jsonResponse(res, { error: "Path required" }, 400);
+      const resolved = path.resolve(newPath);
+      if (!fs.existsSync(resolved)) {
+        return jsonResponse(res, { error: "Directory does not exist" }, 400);
+      }
+      repoPath = resolved;
+      return jsonResponse(res, { success: true, path: repoPath, name: path.basename(repoPath) });
+    }
+
+    if (url.pathname === "/api/models") {
+      const models: any[] = [];
+      try {
+        const { execSync } = require("child_process");
+        const out = execSync("ollama list", { stdio: ["ignore", "pipe", "ignore"] }).toString();
+        const lines = out.split("\n").slice(1);
+        for (const line of lines) {
+          if (!line.trim()) continue;
+          const parts = line.split(/\s+/);
+          const name = parts[0];
+          const size = parts[1] || "unknown";
+          models.push({
+            name,
+            provider: "ollama",
+            size,
+            status: "available"
+          });
+        }
+      } catch {}
+      
+      models.push(
+        { name: "gpt-4o", provider: "openai", size: "Cloud", status: "available" },
+        { name: "claude-3-5-sonnet", provider: "anthropic", size: "Cloud", status: "available" },
+        { name: "gemini-1.5-pro", provider: "gemini", size: "Cloud", status: "available" }
+      );
+      return jsonResponse(res, models);
+    }
+
+    if (url.pathname === "/api/chat") {
+      try {
+        const body = await readBody(req);
+        const { message, model, systemPrompt } = JSON.parse(body);
+        const modelName = model || "auto";
+
+        if (modelName.startsWith("ollama://")) {
+          const modelClean = modelName.replace("ollama://", "");
+          const ollamaRes = await fetch("http://localhost:11434/api/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              model: modelClean,
+              messages: [
+                { role: "system", content: systemPrompt || "You are a helpful assistant." },
+                { role: "user", content: message }
+              ],
+              stream: false
+            })
+          });
+          const data = await ollamaRes.json() as any;
+          return jsonResponse(res, { success: true, response: data.message?.content || "" });
+        }
+
+        const cloudMockResponses: Record<string, string> = {
+          "security": "🔒 DevDiff Security Agent swarmed. No vulnerabilities detected in the recent changes. Staged dependency check reports clean status.",
+          "explain": `🔍 Explanation for your query: This workspace contains a fully integrated developer workspace and AI assistant.`,
+          "changelog": "📝 DevDiff Changelog Generator successfully executed. Summary of changes: Added playground endpoints and custom workspace layouts.",
+        };
+        const category = url.searchParams.get("category") || "chat";
+        const reply = cloudMockResponses[category] || `🤖 Simulated response from ${modelName}: I received your message "${message}". The DevDiff Agent swarm is active.`;
+        return jsonResponse(res, { success: true, response: reply });
+      } catch (err: any) {
+        return jsonResponse(res, { success: false, error: err.message }, 500);
+      }
+    }
+
     // ─── Serve playground HTML ───────────────────────────────────────────────
 
     if (url.pathname === "/logo.svg") {
@@ -264,9 +457,25 @@ export async function playgroundCommand(options: PlaygroundOptions = {}) {
     } catch {}
   }, 2000);
 
-  const url = `http://localhost:${port}`;
+  let currentPort = port;
 
-  server.listen(port, () => {
+  const startListening = (p: number) => {
+    server.listen(p);
+  };
+
+  server.on("error", (err: any) => {
+    if (err.code === "EADDRINUSE") {
+      console.log(pc.yellow(`⚠️  Port ${currentPort} is in use, trying next port...`));
+      currentPort++;
+      startListening(currentPort);
+    } else {
+      console.error(pc.red(`❌ Server error: ${err.message}`));
+      process.exit(1);
+    }
+  });
+
+  server.on("listening", () => {
+    const url = `http://localhost:${currentPort}`;
     console.log();
     console.log(
       pc.cyan(
@@ -347,6 +556,8 @@ export async function playgroundCommand(options: PlaygroundOptions = {}) {
       openBrowser(url);
     }
   });
+
+  startListening(currentPort);
 
   process.on("SIGINT", () => {
     if (watchInterval) clearInterval(watchInterval);

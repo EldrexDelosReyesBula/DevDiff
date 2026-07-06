@@ -6,14 +6,17 @@ import pc from "picocolors";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-function getCurrentVersion(): string {
+export function getVersion(): string {
   try {
     const pkgPath = path.resolve(__dirname, "../../package.json");
-    const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf-8"));
-    return pkg.version || "1.0.3";
+    if (fs.existsSync(pkgPath)) {
+      const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf-8"));
+      return pkg.version || "1.0.5";
+    }
   } catch {
-    return "1.0.3";
+    return "1.0.5";
   }
+  return "1.0.5";
 }
 
 async function fetchLatestVersion(): Promise<string | null> {
@@ -75,7 +78,7 @@ export interface VersionOptions {
 }
 
 export async function versionCommand(options: VersionOptions = {}) {
-  const current = getCurrentVersion();
+  const current = getVersion();
 
   // --changelog
   if (options.changelog) {

@@ -1,7 +1,13 @@
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import * as fs from "fs/promises";
 import * as path from "path";
 import { VibeCoderGuardian } from "../src/resilience/vibe-coder-guardian";
+
+vi.mock("../src/ai/providers/ollama-discovery", () => ({
+  OllamaModelDiscovery: {
+    discoverModels: vi.fn().mockResolvedValue([]),
+  },
+}));
 
 describe("VibeCoderGuardian", () => {
   const testFile = "temp-vibe-test-file.txt";

@@ -14,6 +14,7 @@ export interface AIProvider {
   generateExplanation(
     diffText: string,
     modelName: string,
+    systemPrompt?: string,
   ): Promise<AIExplanationResult>;
 }
 

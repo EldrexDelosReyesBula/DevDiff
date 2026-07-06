@@ -172,6 +172,18 @@ export default defineConfig({
             { text: "Team Setups", link: "/guide/team-setups" },
           ],
         },
+        {
+          text: "Integrations",
+          items: [
+            { text: "VS Code Extension", link: "/integrations/vscode" },
+            { text: "Vite Plugin", link: "/integrations/vite-plugin" },
+            { text: "MCP Server", link: "/integrations/mcp-server" },
+            { text: "OpenClaw Supervisor", link: "/integrations/openclaw" },
+            { text: "Slack & Messaging Channels", link: "/integrations/slack" },
+            { text: "GitHub Actions", link: "/integrations/github-actions" },
+            { text: "GitLab CI", link: "/integrations/gitlab-ci" },
+          ],
+        },
       ],
 
       "/ai-providers/": [

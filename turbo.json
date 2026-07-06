@@ -1,5 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
+  "concurrency": "20",
   "globalDependencies": ["**/.env.*local"],
   "tasks": {
     "build": {
@@ -7,6 +8,7 @@
       "outputs": ["dist/**", "out/**", "docs/.vitepress/dist/**"]
     },
     "dev": {
+      "dependsOn": ["^build"],
       "cache": false,
       "persistent": true
     },

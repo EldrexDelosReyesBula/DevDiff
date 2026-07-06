@@ -3,6 +3,11 @@ import { defineConfig } from "tsup";
 export default defineConfig({
   entry: ["src/index.ts"],
   format: ["esm"],
+  outExtension() {
+    return {
+      js: ".js",
+    };
+  },
   clean: true,
   sourcemap: true,
   minify: false,

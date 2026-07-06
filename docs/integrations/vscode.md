@@ -35,8 +35,7 @@ You can install DevDiff in VS Code in two different ways depending on your secur
 
 For secure enterprise workstations that lack external internet access:
 
-1. Download the latest packaged `.vsix` file:
-   - [devdiff-1.0.2.vsix](file:///c:/Users/Eldrex/Downloads/classhost/DevDiff/devdiff-1.0.2.vsix)
+1. Download the latest packaged `.vsix` file from the [GitHub Releases](https://github.com/EldrexDelosReyesBula/devdiff/releases) page.
 2. In VS Code, open the Extensions View.
 3. Click the `...` menu in the top-right corner of the Extensions panel.
 4. Select **Install from VSIX...** and select the downloaded package.
