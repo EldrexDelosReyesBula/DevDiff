@@ -36,12 +36,12 @@ Search for **DevDiff** in the Extensions view (`Ctrl+Shift+X` or `Cmd+Shift+X`) 
 
 For offline development, air-gapped environments, or pre-release verification, you can install the extension from the packaged VSIX file:
 
-1. Download the packaged artifact: `devdiff-1.0.3.vsix` (also available on [GitHub Releases](https://github.com/EldrexDelosReyesBula/devdiff/releases))
+1. Download the packaged artifact: `devdiff-1.0.4.vsix` (also available on [GitHub Releases](https://github.com/EldrexDelosReyesBula/devdiff/releases))
 2. Open VS Code.
 3. Open the Extensions view (`Ctrl+Shift+X` or `Cmd+Shift+X`).
 4. Click the `...` (More Actions) button in the upper-right corner of the Extensions view.
 5. Select **Install from VSIX...**
-6. Select the downloaded `devdiff-1.0.3.vsix` file and click **Install**.
+6. Select the downloaded `devdiff-1.0.4.vsix` file and click **Install**.
 7. Reload VS Code if prompted.
 
 ---
