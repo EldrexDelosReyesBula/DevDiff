@@ -11,12 +11,12 @@ export function getVersion(): string {
     const pkgPath = path.resolve(__dirname, "../../package.json");
     if (fs.existsSync(pkgPath)) {
       const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf-8"));
-      return pkg.version || "1.0.5";
+      return pkg.version || "1.0.6";
     }
   } catch {
-    return "1.0.5";
+    return "1.0.6";
   }
-  return "1.0.5";
+  return "1.0.6";
 }
 
 async function fetchLatestVersion(): Promise<string | null> {
@@ -37,6 +37,12 @@ async function fetchLatestVersion(): Promise<string | null> {
 }
 
 const EMBEDDED_CHANGELOG = `
+v1.0.6 (2026-07-06)
+  + Standardized CLI option flag order (short options first)
+  + Handled Commander Command argument propagation in index.ts
+  + Dynamically increased dry-run performance test threshold on Windows
+  + Corrected playground port conflict auto-fallback handling
+
 v1.0.3 (2026-06-30)
   + Encrypted audit logs (AES-256-GCM)
   + Prompt injection sanitizer (10 jailbreak patterns)

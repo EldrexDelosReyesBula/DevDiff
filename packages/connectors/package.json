@@ -1,6 +1,6 @@
 {
   "name": "@eldrex/connectors",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "DevDiff Messaging Connectors Registry",
   "type": "module",
   "main": "./dist/registry.js",

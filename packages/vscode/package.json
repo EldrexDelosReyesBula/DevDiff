@@ -2,7 +2,7 @@
   "name": "devdiff",
   "displayName": "DevDiff",
   "description": "Privacy-first, BYOAI inline changelog intelligence for VS Code",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },

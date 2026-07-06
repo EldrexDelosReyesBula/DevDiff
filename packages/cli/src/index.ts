@@ -204,14 +204,16 @@ function registerCommands(commands: CommandDefinition[], parent: Command, pathPr
           parentCmd = parentCmd.parent;
         }
         
-        const argsForExecute = actionArgs.map(arg => {
-          if (arg && typeof arg === 'object' && arg.constructor.name === 'Object') {
-            return { ...opts, ...arg };
-          }
-          return arg;
-        });
+        const argsForExecute = actionArgs
+          .filter(arg => !(arg instanceof Command))
+          .map(arg => {
+            if (arg && typeof arg === 'object') {
+              return { ...opts, ...arg };
+            }
+            return arg;
+          });
         
-        if (!actionArgs.some(arg => arg && typeof arg === 'object' && arg.constructor.name === 'Object')) {
+        if (argsForExecute.length === 0 || typeof argsForExecute[argsForExecute.length - 1] !== 'object') {
           argsForExecute.push(opts);
         }
 

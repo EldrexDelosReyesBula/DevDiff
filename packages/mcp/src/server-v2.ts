@@ -22,7 +22,7 @@ import * as url from 'url'
 const server = new Server(
   {
     name: 'devdiff-agent',
-    version: '1.0.5',
+    version: '1.0.6',
     description: 'Privacy-first changelog intelligence — accessible via natural language'
   },
   {

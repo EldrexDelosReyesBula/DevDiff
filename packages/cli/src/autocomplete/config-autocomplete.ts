@@ -4,14 +4,14 @@ import * as path from 'path';
 export const CONFIG_SCHEMA = {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "DevDiff Configuration",
-  "description": "Configuration schema for DevDiff v1.0.5",
+  "description": "Configuration schema for DevDiff v1.0.6",
   "type": "object",
   "properties": {
     "version": {
       "type": "string",
       "description": "DevDiff version this config targets",
-      "default": "1.0.5",
-      "examples": ["1.0.0", "1.0.5"]
+      "default": "1.0.6",
+      "examples": ["1.0.0", "1.0.6"]
     },
     "ai": {
       "type": "object",

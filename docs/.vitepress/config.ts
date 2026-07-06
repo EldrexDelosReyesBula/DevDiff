@@ -116,7 +116,7 @@ export default defineConfig({
       { text: "API", link: "/api/core" },
       { text: "Blog", link: "/blog/2026-07-05-5000-downloads" },
       {
-        text: "v1.0.3",
+        text: "v1.0.5",
         items: [
           { text: "Changelog", link: "/versioning/changelog" },
           { text: "Version Policy", link: "/versioning/policy" },

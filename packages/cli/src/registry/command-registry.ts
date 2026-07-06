@@ -83,7 +83,7 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
       'devdiff init --no-hooks',
     ],
     options: [
-      { flags: '--yes, -y', description: 'Skip prompts, use defaults' },
+      { flags: '-y, --yes', description: 'Skip prompts, use defaults' },
       { flags: '--ai <provider>', description: 'Default AI provider (ollama, openai, anthropic, auto)' },
       { flags: '--no-hooks', description: 'Skip git hook installation' },
       { flags: '--force', description: 'Overwrite existing configuration' },
@@ -115,11 +115,11 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
       'devdiff generate --depth minimal',
     ],
     options: [
-      { flags: '--persona, -p <type>', description: 'AI persona: developer, ceo, educator, robot, data-analyst, journalist, pm, compliance', defaultValue: 'developer', choices: ['developer', 'ceo', 'educator', 'robot', 'data-analyst', 'journalist', 'pm', 'compliance'] },
-      { flags: '--format, -f <type>', description: 'Output format: markdown, json, mermaid', defaultValue: 'markdown', choices: ['markdown', 'json', 'mermaid'] },
-      { flags: '--dry-run, -d', description: 'Preview without AI processing (template mode)' },
+      { flags: '-p, --persona <type>', description: 'AI persona: developer, ceo, educator, robot, data-analyst, journalist, pm, compliance', defaultValue: 'developer', choices: ['developer', 'ceo', 'educator', 'robot', 'data-analyst', 'journalist', 'pm', 'compliance'] },
+      { flags: '-f, --format <type>', description: 'Output format: markdown, json, mermaid', defaultValue: 'markdown', choices: ['markdown', 'json', 'mermaid'] },
+      { flags: '-d, --dry-run', description: 'Preview without AI processing (template mode)' },
       { flags: '--since <range>', description: 'Git range: "24h", "1 week", "HEAD~5..HEAD"' },
-      { flags: '--output, -o <path>', description: 'Save changelog to file' },
+      { flags: '-o, --output <path>', description: 'Save changelog to file' },
       { flags: '--depth <level>', description: 'Analysis depth: minimal, standard, deep, exhaustive', defaultValue: 'standard', choices: ['minimal', 'standard', 'deep', 'exhaustive'] },
       { flags: '--no-cache', description: 'Bypass explanation cache' },
       { flags: '--include <pattern>', description: 'Only include files matching pattern' },
@@ -180,7 +180,7 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
     ],
     options: [
       { flags: '--auto-generate', description: 'Auto-generate changelog on each change' },
-      { flags: '--persona, -p <type>', description: 'Persona for auto-generated changelogs' },
+      { flags: '-p, --persona <type>', description: 'Persona for auto-generated changelogs' },
       { flags: '--debounce <ms>', description: 'Debounce time in milliseconds', defaultValue: '2000' },
       { flags: '--once', description: 'Run once and exit' },
       { flags: '--notify <channels>', description: 'Notify channels on change (slack, discord, etc.)' },
@@ -195,7 +195,7 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
       'devdiff report --port 4200',
     ],
     options: [
-      { flags: '--port, -p <port>', description: 'Port to host the dashboard server', defaultValue: '4200' }
+      { flags: '-p, --port <port>', description: 'Port to host the dashboard server', defaultValue: '4200' }
     ],
     category: 'core',
   },
@@ -710,6 +710,6 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
     ],
     category: 'integration',
     experimental: false,
-    since: '1.0.5',
+    since: '1.0.6',
   },
 ];
