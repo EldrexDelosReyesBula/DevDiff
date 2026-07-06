@@ -65,7 +65,7 @@ For an integrated development workflow, install the official VS Code extension:
 
 - **VS Code Marketplace**: [DevDiff on the VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=ebula.devdiff)
 - **Open VSX Registry**: [DevDiff on Open VSX](https://open-vsx.org/extension/ebula/devdiff)
-- **VS CODE Marketplace**: Direct access via Open VSX Registry (`ebula.devdiff`)
+- **Eclipse Marketplace**: Direct access via Open VSX Registry namespace `ebula.devdiff`
 
 For more info, see the [VS Code Extension Guide](/integrations/vscode).
 
