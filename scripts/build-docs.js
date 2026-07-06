@@ -29,4 +29,12 @@ function copyFolderSync(from, to) {
 }
 
 copyFolderSync(sourceDir, targetDemoDir);
+
+// 4. Copy playground.html directly to root for https://devdiff.vercel.app/playground
+const targetPlaygroundPath = path.join(__dirname, "../docs/.vitepress/dist/playground.html");
+console.log(`Copying playground.html to docs root: ${targetPlaygroundPath}`);
+if (fs.existsSync(path.join(sourceDir, "playground.html"))) {
+  fs.copyFileSync(path.join(sourceDir, "playground.html"), targetPlaygroundPath);
+}
+
 console.log("Build and merge complete!");

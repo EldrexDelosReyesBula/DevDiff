@@ -1,4 +1,8 @@
 {
   "buildCommand": "node scripts/build-docs.js",
-  "outputDirectory": "docs/.vitepress/dist"
+  "outputDirectory": "docs/.vitepress/dist",
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/playground", "destination": "/playground.html" }
+  ]
 }
