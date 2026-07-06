@@ -94,7 +94,7 @@ async function executeCommand(fullPath: string, args: any[]) {
     case "recover":
       return recoverCommand(args[0]);
     case "vibe":
-      return vibeCommand(sub as any, args[0]);
+      return vibeCommand(sub as any);
     case "compliance":
       return complianceCommand(sub as any, args[0]);
     case "audit":
@@ -113,7 +113,7 @@ async function executeCommand(fullPath: string, args: any[]) {
       if (sub === "list") {
         return authListCommand();
       } else if (sub === "add") {
-        return authAddCommand(args[0], args[1]);
+        return authAddCommand(args[0]);
       } else if (sub === "remove") {
         return authRemoveCommand(args[0]);
       } else if (sub === "test") {

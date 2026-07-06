@@ -2,7 +2,7 @@ import * as http from "http";
 import * as path from "path";
 import * as fs from "fs";
 import { fileURLToPath } from "url";
-import { exec } from "child_process";
+import { exec, execFile } from "child_process";
 import pc from "picocolors";
 import { WebSocketServer, WebSocket } from "ws";
 import {
@@ -23,14 +23,13 @@ export interface PlaygroundOptions {
 }
 
 function openBrowser(url: string) {
-  const { execFile } = require("child_process");
   if (process.platform === "win32") {
     // start is a shell builtin, so we run cmd.exe /c start "" "url"
-    execFile("cmd.exe", ["/c", "start", "", url], (err) => {});
+    execFile("cmd.exe", ["/c", "start", "", url], (err: any) => {});
   } else if (process.platform === "darwin") {
-    execFile("open", [url], (err) => {});
+    execFile("open", [url], (err: any) => {});
   } else {
-    execFile("xdg-open", [url], (err) => {});
+    execFile("xdg-open", [url], (err: any) => {});
   }
 }
 

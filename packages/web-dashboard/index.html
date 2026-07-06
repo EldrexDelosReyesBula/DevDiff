@@ -1332,6 +1332,95 @@
       const apiBase =
         window.location.port === "3737" ? "" : "http://localhost:3737";
 
+      // ── IndexedDB & File System Access API Helpers ──
+      const dbName = "DevDiffPlaygroundDB";
+      const storeName = "handles";
+
+      const openDB = () => {
+        return new Promise((resolve, reject) => {
+          const request = indexedDB.open(dbName, 1);
+          request.onupgradeneeded = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains(storeName)) {
+              db.createObjectStore(storeName);
+            }
+          };
+          request.onsuccess = (e) => resolve(e.target.result);
+          request.onerror = (e) => reject(e.target.error);
+        });
+      };
+
+      const saveWorkspaceHandle = async (handle) => {
+        const db = await openDB();
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction(storeName, "readwrite");
+          const store = tx.objectStore(storeName);
+          const request = store.put(handle, "active-workspace");
+          request.onsuccess = () => resolve();
+          request.onerror = (e) => reject(e.target.error);
+        });
+      };
+
+      const loadWorkspaceHandle = async () => {
+        try {
+          const db = await openDB();
+          return new Promise((resolve, reject) => {
+            const tx = db.transaction(storeName, "readonly");
+            const store = tx.objectStore(storeName);
+            const request = store.get("active-workspace");
+            request.onsuccess = (e) => resolve(e.target.result);
+            request.onerror = (e) => reject(e.target.error);
+          });
+        } catch {
+          return null;
+        }
+      };
+
+      const verifyPermission = async (fileHandle, readWrite = false) => {
+        const options = {};
+        if (readWrite) {
+          options.mode = "readwrite";
+        }
+        if ((await fileHandle.queryPermission(options)) === "granted") {
+          return true;
+        }
+        if ((await fileHandle.requestPermission(options)) === "granted") {
+          return true;
+        }
+        return false;
+      };
+
+      const buildTreeFromFileSystem = async (dirHandle, relativePath = "") => {
+        const result = [];
+        for await (const entry of dirHandle.values()) {
+          const entryPath = relativePath ? `${relativePath}/${entry.name}` : entry.name;
+          if (entry.kind === "directory") {
+            if (entry.name === "node_modules" || entry.name === ".git" || entry.name === "dist") {
+              continue;
+            }
+            const children = await buildTreeFromFileSystem(entry, entryPath);
+            result.push({
+              name: entry.name,
+              path: entryPath,
+              type: "directory",
+              children,
+              handle: entry
+            });
+          } else {
+            result.push({
+              name: entry.name,
+              path: entryPath,
+              type: "file",
+              handle: entry
+            });
+          }
+        }
+        return result.sort((a, b) => {
+          if (a.type !== b.type) return a.type === "directory" ? -1 : 1;
+          return a.name.localeCompare(b.name);
+        });
+      };
+
       // ── Clean SVG Icons ─────────────────────────────────────────────────
       const SparklesIcon = ({ size = 16 }) => (
         <svg
@@ -1611,9 +1700,38 @@
 
         // Load data on mount
         useEffect(() => {
-          refreshWorkspace();
-          loadRecentProjects();
-          detectModels();
+          const initWorkspace = async () => {
+            const savedHandle = await loadWorkspaceHandle();
+            if (savedHandle) {
+              const allowed = await verifyPermission(savedHandle);
+              if (allowed) {
+                try {
+                  const tree = await buildTreeFromFileSystem(savedHandle);
+                  setFiles(tree);
+                  setWorkspace({
+                    name: savedHandle.name,
+                    path: "Local Filesystem",
+                    isFSA: true
+                  });
+                  setStats({
+                    filesTotal: tree.length,
+                    commitsAnalyzed: 0,
+                    additions: 0,
+                    deletions: 0
+                  });
+                  detectModels();
+                  return;
+                } catch (err) {
+                  console.error("FSA load error:", err);
+                }
+              }
+            }
+            refreshWorkspace();
+            loadRecentProjects();
+            detectModels();
+          };
+
+          initWorkspace();
 
           // Session timer interval
           const interval = setInterval(() => {
@@ -1657,6 +1775,13 @@
 
         const refreshWorkspace = async () => {
           try {
+            const savedHandle = await loadWorkspaceHandle();
+            if (savedHandle && workspace && workspace.isFSA) {
+              const tree = await buildTreeFromFileSystem(savedHandle);
+              setFiles(tree);
+              return;
+            }
+
             const wsRes = await fetch(`${apiBase}/api/workspace`);
             const wsData = await wsRes.json();
             setWorkspace(wsData);
@@ -1717,6 +1842,10 @@
               addProjectToRecent(pathStr);
               setIsProjectSwitcherOpen(false);
               showToast(`Switched workspace to: ${newProjectName(pathStr)}`);
+              // Clear saved FSA workspace handle to prevent conflicts
+              const db = await openDB();
+              const tx = db.transaction(storeName, "readwrite");
+              tx.objectStore(storeName).delete("active-workspace");
               refreshWorkspace();
             } else {
               alert(data.error || "Failed to switch project");
@@ -1746,11 +1875,18 @@
           setEditorTab("code");
           setMobileViewTab("editor"); // auto view editor on mobile when file clicked
           try {
-            const contentRes = await fetch(
-              `${apiBase}/api/file/content?path=${encodeURIComponent(node.path)}`,
-            );
-            const contentData = await contentRes.json();
-            setFileContent(contentData.content || "");
+            let content = "";
+            if (node.handle) {
+              const file = await node.handle.getFile();
+              content = await file.text();
+            } else {
+              const contentRes = await fetch(
+                `${apiBase}/api/file/content?path=${encodeURIComponent(node.path)}`,
+              );
+              const contentData = await contentRes.json();
+              content = contentData.content || "";
+            }
+            setFileContent(content);
 
             if (node.gitStatus) {
               const diffRes = await fetch(
@@ -2620,14 +2756,41 @@
                   <div className="modal-body">
                     <button
                       className="open-folder-btn"
-                      onClick={() => {
-                        const path = prompt("Enter the absolute folder path:");
-                        if (path) switchProject(path);
+                      onClick={async () => {
+                        if (window.showDirectoryPicker) {
+                          try {
+                            const handle = await window.showDirectoryPicker();
+                            const allowed = await verifyPermission(handle);
+                            if (allowed) {
+                              await saveWorkspaceHandle(handle);
+                              const tree = await buildTreeFromFileSystem(handle);
+                              setFiles(tree);
+                              setWorkspace({
+                                name: handle.name,
+                                path: "Local Filesystem",
+                                isFSA: true
+                              });
+                              setStats({
+                                filesTotal: tree.length,
+                                commitsAnalyzed: 0,
+                                additions: 0,
+                                deletions: 0
+                              });
+                              setIsProjectSwitcherOpen(false);
+                              showToast(`Connected to local workspace: ${handle.name}`);
+                            }
+                          } catch (err) {
+                            console.error("FSA error:", err);
+                          }
+                        } else {
+                          const path = prompt("Enter the absolute folder path:");
+                          if (path) switchProject(path);
+                        }
                       }}
                     >
                       <div className="open-folder-text">
                         <strong>Open local repository</strong>
-                        <span>Type absolute path to workspace folder</span>
+                        <span>Direct access to local workspace files</span>
                       </div>
                     </button>
 
