@@ -45,3 +45,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish VS Code Extension to Marketplaces
+        if: steps.changesets.outputs.published == 'true'
+        run: |
+          pnpm --filter devdiff build
+          cd packages/vscode
+          npx @vscode/vsce publish -p $VSCE_TOKEN --no-dependencies
+          npx ovsx publish -p $OVSX_TOKEN --no-dependencies
+        env:
+          VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
+          OVSX_TOKEN: ${{ secrets.OVSX_TOKEN }}

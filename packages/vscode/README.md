@@ -16,6 +16,9 @@ Privacy-first, BYOAI (Bring Your Own AI) inline changelog intelligence for Visua
   <a href="https://marketplace.visualstudio.com/items?itemName=ebula.devdiff">
     <img src="https://img.shields.io/badge/VS_Code-Marketplace-007acc.svg?style=for-the-badge&logo=visual-studio-code" alt="Marketplace">
   </a>
+  <a href="https://open-vsx.org/extension/ebula/devdiff">
+    <img src="https://img.shields.io/badge/Open_VSX-Registry-orange.svg?style=for-the-badge&logo=eclipse" alt="Open VSX">
+  </a>
 </p>
 
 ---

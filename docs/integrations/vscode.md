@@ -6,6 +6,9 @@ The official DevDiff VS Code Extension brings privacy-first, BYOAI changelog int
   <a href="https://marketplace.visualstudio.com/items?itemName=ebula.devdiff" target="_blank" rel="noopener noreferrer">
     <img src="https://img.shields.io/badge/VS_Code_Marketplace-Download-blue?style=for-the-badge&logo=visual-studio-code" alt="Download on VS Code Marketplace">
   </a>
+  <a href="https://open-vsx.org/extension/ebula/devdiff" target="_blank" rel="noopener noreferrer">
+    <img src="https://img.shields.io/badge/Open_VSX_Registry-Download-orange?style=for-the-badge&logo=eclipse" alt="Download on Open VSX">
+  </a>
 </p>
 
 ---
@@ -23,12 +26,13 @@ The official DevDiff VS Code Extension brings privacy-first, BYOAI changelog int
 
 You can install DevDiff in VS Code in two different ways depending on your security policy:
 
-### Option A: VS Code Marketplace (Recommended)
+### Option A: VS Code & Open VSX Marketplace (Recommended)
 
-1. Open VS Code on your workstation.
+1. Open VS Code or VSCodium on your workstation.
 2. Open the Extensions View (`Ctrl+Shift+X` or `Cmd+Shift+X`).
-3. Search for **`ebula.devdiff`** or click the direct marketplace link:
-   👉 [DevDiff on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=ebula.devdiff)
+3. Search for **`ebula.devdiff`** or click one of the direct registry links:
+   - 👉 [DevDiff on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=ebula.devdiff)
+   - 👉 [DevDiff on the Open VSX Registry](https://open-vsx.org/extension/ebula/devdiff)
 4. Click **Install**.
 
 ### Option B: Local VSIX Bundle (Offline / Air-gapped Environments)
