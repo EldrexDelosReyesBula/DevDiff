@@ -1,42 +1,42 @@
 {
-  "name": "@eldrex/mcp",
-  "version": "1.0.6",
-  "description": "DevDiff MCP Server v2.0",
-  "type": "module",
-  "main": "./dist/server-v2.js",
-  "module": "./dist/server-v2.js",
-  "types": "./dist/server-v2.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/server-v2.d.ts",
-      "import": "./dist/server-v2.js",
-      "default": "./dist/server-v2.js"
-    }
-  },
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
-    "typecheck": "tsc --noEmit"
-  },
-  "dependencies": {
-    "@eldrex/core": "workspace:*",
-    "@modelcontextprotocol/sdk": "^1.0.1"
-  },
-  "devDependencies": {
-    "tsup": "^8.0.0",
-    "typescript": "^5.5.0"
-  },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org"
-  },
-  "keywords": [
-    "devdiff",
-    "mcp",
-    "server"
-  ],
-  "author": "Eldrex Delos Reyes Bula <eldrexdelosreyesbula@gmail.com>",
-  "license": "MIT"
+    "name":  "@eldrex/mcp",
+    "version":  "1.5.0",
+    "description":  "DevDiff MCP Server v2.0",
+    "type":  "module",
+    "main":  "./dist/server-v2.js",
+    "module":  "./dist/server-v2.js",
+    "types":  "./dist/server-v2.d.ts",
+    "exports":  {
+                    ".":  {
+                              "types":  "./dist/server-v2.d.ts",
+                              "import":  "./dist/server-v2.js",
+                              "default":  "./dist/server-v2.js"
+                          }
+                },
+    "files":  [
+                  "dist"
+              ],
+    "scripts":  {
+                    "build":  "tsup",
+                    "dev":  "tsup --watch",
+                    "typecheck":  "tsc --noEmit"
+                },
+    "dependencies":  {
+                         "@eldrex/core":  "workspace:*",
+                         "@modelcontextprotocol/sdk":  "^1.0.1"
+                     },
+    "devDependencies":  {
+                            "tsup":  "^8.0.0",
+                            "typescript":  "^5.5.0"
+                        },
+    "publishConfig":  {
+                          "registry":  "https://registry.npmjs.org"
+                      },
+    "keywords":  [
+                     "devdiff",
+                     "mcp",
+                     "server"
+                 ],
+    "author":  "Eldrex Delos Reyes Bula \u003celdrexdelosreyesbula@gmail.com\u003e",
+    "license":  "MIT"
 }
