@@ -12,8 +12,8 @@ hero:
       text: Get Started
       link: /guide/getting-started
     - theme: alt
-      text: Live Demo
-      link: https://devdiff.vercel.app/playground
+      text: IDE Integration
+      link: /features/ide-integration
     - theme: alt
       text: GitHub
       link: https://github.com/EldrexDelosReyesBula/devdiff

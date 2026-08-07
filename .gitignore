@@ -17,3 +17,14 @@ docs/.vitepress/cache
 .devdiff
 .devdiffignore
 *.pdf
+
+# VSIX release artifacts — upload to GitHub Releases, not source control
+*.vsix
+packages/vscode/*.vsix
+
+# Scratch / one-off developer scripts
+scratch/
+
+# Legacy duplicate doc locations (canonical paths are docs/legal/)
+docs/privacy-policy.md
+docs/terms-of-service.md

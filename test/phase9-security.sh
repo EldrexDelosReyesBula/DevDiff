@@ -68,7 +68,7 @@ echo ""
 echo "📋 Test 5: No telemetry"
 # Check for common telemetry domains in source
 # Use project directory path since we cd'd to TEST_DIR
-PROJECT_DIR="c:/Users/Eldrex/Downloads/classhost/DevDiff"
+PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 if grep -r "telemetry\|analytics\|tracking\|sentry\|logrocket\|mixpanel\|amplitude" "$PROJECT_DIR"/packages/*/src/ 2>/dev/null; then
     echo "   ⚠️ Potential telemetry references found — review"
 else

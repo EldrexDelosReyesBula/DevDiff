@@ -172,3 +172,40 @@ export { TemplateFallbackGenerator } from "./generators/changelog-fallback";
 export { ProgressiveChunking } from "./ai/progressive-chunking";
 export { InjectionGuardV2 } from "./security/injection-guard-v2";
 export { RedactionEngineV2 } from "./security/redaction-engine-v2";
+
+// v1.5.0 Persistent Codebase Memory & Continuous Chat Exports
+export { PersistentMemory } from "./memory/persistent-memory";
+export type {
+  CodebaseSnapshot,
+  EntityIndex,
+  EntityInfo,
+  ChangeRecord,
+  ArchitectureGraph,
+  DependencyMap,
+  MemoryAnswer,
+  ConversationTurn,
+} from "./memory/persistent-memory";
+
+// v1.5.0 SKILL.md, Low-End Performance, & Scheduling Exports
+export { SkillManager, SkillCoverage } from "./skill/skill-manager";
+export { LowEndOptimizer, DeviceProfile, PerformanceConfig } from "./performance/low-end-optimizer";
+export { BackgroundScheduler, Schedule } from "./scheduler/background-scheduler";
+
+// Automated Versioning & Release Exports
+export { SemverDetector, VersionBump, VersionBumpReason, ParsedDiff } from "./versioning/semver-detector";
+export { ChangelogGenerator, ChangelogEntry } from "./versioning/changelog-generator";
+
+// Developer Sovereignty & Natural Changelog Exports
+export { CloudGuard } from "./ai/cloud-guard";
+export { FlexibleIgnore } from "./config/flexible-ignore";
+export { NaturalChangelogGenerator, ChangeItem, NaturalChangelogData } from "./generators/natural-changelog";
+export { NATURAL_CHANGELOG_PROMPT } from "./ai/prompts/natural-prompt";
+// Universal Language & Project Detection Exports
+export { UniversalProjectDetector, ProjectDetection, LanguageCount } from "./detection/universal-detector";
+
+// Conversational Q&A Engine Exports
+export { ConversationalQA, ConversationContext, QAAnswer } from "./qa/conversational-qa";
+
+
+
+

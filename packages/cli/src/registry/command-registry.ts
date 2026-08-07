@@ -779,12 +779,25 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
   {
     name: "version",
     aliases: ["-v", "--version"],
-    description: "Show version information",
+    description: "Automated Semantic Versioning & Package Bump Engine",
     examples: [
       "devdiff version",
-      "devdiff version --check",
-      "devdiff version --info",
-      "devdiff version --changelog",
+      "devdiff version bump --type auto",
+      "devdiff version bump --type minor --dry-run",
+    ],
+    subcommands: [
+      {
+        name: "bump",
+        description: "Analyze code changes and bump semver automatically",
+        options: [
+          { flags: "-t, --type <type>", description: "Bump type (auto, patch, minor, major)", defaultValue: "auto" },
+          { flags: "-d, --dry-run", description: "Preview version bump without modifying files" },
+          { flags: "--no-changelog", description: "Skip CHANGELOG.md generation" },
+          { flags: "--no-tag", description: "Skip creating git tag" },
+        ],
+        category: "core",
+      },
+      { name: "status", description: "Display current CLI package version", category: "core" },
     ],
     options: [
       {
@@ -986,4 +999,101 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
     experimental: false,
     since: "1.0.6",
   },
+  // ── PERSISTENT MEMORY COMMANDS ──
+  {
+    name: "memory",
+    description: "Manage persistent codebase memory engine and snapshot history",
+    examples: [
+      "devdiff memory init",
+      "devdiff memory status",
+      "devdiff memory rescan",
+      "devdiff memory clear-conversation",
+      "devdiff memory clear-all",
+    ],
+    subcommands: [
+      {
+        name: "init",
+        description: "Perform one-time full codebase scan and build index",
+        examples: ["devdiff memory init"],
+        category: "core",
+      },
+      {
+        name: "status",
+        description: "Display codebase index stats and snapshot history",
+        examples: ["devdiff memory status"],
+        category: "core",
+      },
+      {
+        name: "rescan",
+        description: "Force a full re-scan of the codebase",
+        examples: ["devdiff memory rescan"],
+        category: "core",
+      },
+      {
+        name: "clear-conversation",
+        description: "Clear continuous chat conversation history",
+        examples: ["devdiff memory clear-conversation"],
+        category: "core",
+      },
+      {
+        name: "clear-all",
+        description: "Clear all codebase memory indices and snapshots",
+        examples: ["devdiff memory clear-all"],
+        category: "core",
+      },
+    ],
+    category: "core",
+    since: "1.5.0",
+  },
+  {
+    name: "ask",
+    description: "Query persistent codebase memory with instant response and continuous context",
+    examples: [
+      'devdiff ask "What changed since yesterday?"',
+      'devdiff ask "Show me the history of UserService"',
+      'devdiff ask "When was the auth module added?"',
+      'devdiff ask "What does it depend on?"',
+    ],
+    args: [
+      {
+        name: "question",
+        description: "Question about codebase or history",
+        required: true,
+      },
+    ],
+    category: "core",
+    since: "1.5.0",
+  },
+  {
+    name: "skill",
+    description: "Manage SKILL.md project knowledge base for AI precision",
+    subcommands: [
+      { name: "generate", description: "Auto-generate SKILL.md by scanning project topology", category: "core" },
+      { name: "validate", description: "Validate SKILL.md coverage across 10 required knowledge sections", category: "core" },
+    ],
+    category: "core",
+    since: "1.5.0",
+  },
+  {
+    name: "schedule",
+    description: "Manage 24/7 background operation schedules",
+    subcommands: [
+      { name: "list", description: "List all active background operation schedules", category: "core" },
+      { name: "enable", description: "Enable a specific background schedule", category: "core" },
+      { name: "disable", description: "Disable a specific background schedule", category: "core" },
+    ],
+    category: "core",
+    since: "1.5.0",
+  },
+  {
+    name: "release",
+    description: "Automated SemVer bump + CHANGELOG.md generation + Git tag + Push",
+    options: [
+      { flags: "-t, --type <type>", description: "Bump type (auto, patch, minor, major)", defaultValue: "auto" },
+      { flags: "-d, --dry-run", description: "Preview release actions without mutating workspace" },
+    ],
+    category: "core",
+    since: "1.5.0",
+  },
 ];
+

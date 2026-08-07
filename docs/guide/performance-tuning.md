@@ -1,40 +1,23 @@
-# Performance Tuning
+# Performance Tuning & Low-End Device Optimization
 
-DevDiff's performance depends on hardware capabilities, model selections, and configuration profiles.
+DevDiff includes a hardware-aware **Low-End Device Optimizer** (`LowEndOptimizer`) that adapts memory consumption, concurrency, and worker thread pools based on hardware profile.
 
 ---
 
-## ⚡ Tuning Tips
+## ⚡ Performance Profiles by Hardware Tier
 
-### 1. Hardware Acceleration for Ollama
+| Parameter | Low Tier (<= 4GB RAM, <= 2 cores) | Medium Tier (8GB RAM, 4 cores) | High Tier (>= 16GB RAM, >= 8 cores) |
+| :--- | :--- | :--- | :--- |
+| **Max Heap Cap** | 128 MB | 256 MB | 512 MB |
+| **Max Files / Run** | 100 files | 500 files | 5,000 files |
+| **Concurrency** | Sequential (1 chunk) | 2 concurrent chunks | 4 concurrent chunks |
+| **Worker Threads** | 1 worker | 2 workers | 4 workers |
+| **AI Model Tier** | Smallest available | Balanced | Best available |
+| **Power Throttling** | Pauses on battery | Active | Active |
+| **Thermal Protection** | Pauses when hot | Pauses when hot | Full speed |
 
-Make sure Ollama is leveraging your GPU (NVIDIA CUDA or Apple Silicon Metal) rather than running purely on the CPU.
+---
 
-- **Mac:** Metal acceleration is enabled automatically.
-- **Windows/Linux:** Verify that GPU drivers and CUDA are installed. Running `ollama ps` or checking CPU usage during generation helps confirm if hardware acceleration is active.
+## 🛡️ Dynamic Battery & Thermal Management
 
-### 2. Fast Path Optimization
-
-DevDiff bypasses the AI provider entirely for trivial changes like formatting corrections, comment updates, and package-lock adjustments:
-
-```javascript
-// .devdiff.config.js
-export default {
-  optimizations: {
-    fastPath: true, // skips LLM for comment-only / formatting changes
-  },
-};
-```
-
-### 3. Response Temperature Tuning
-
-Set lower temperatures for deterministic, structural code explanations to prevent LLM hallucinations:
-
-```javascript
-// .devdiff.config.js
-export default {
-  ai: {
-    temperature: 0.1,
-  },
-};
-```
+DevDiff detects battery discharging status and CPU thermal state (`normal`, `warm`, `hot`, `critical`) to prevent thermal throttling or draining laptop batteries during long background operations.

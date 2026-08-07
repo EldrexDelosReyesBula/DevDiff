@@ -1,102 +1,157 @@
 # Terms of Use
 
-**Last Updated:** July 6, 2026 · v1.0.6  
+**Document Version:** v1.5.0  
+**Last Updated:** August 7, 2026  
 **Effective Date:** June 28, 2026
 
-Please read these Terms of Use ("Terms") carefully before using the DevDiff CLI, Gateway, VS Code Extension, Open VSX Extension, and associated open-source packages (collectively, the "Software").
+---
+
+## Introduction
+
+These Terms of Use ("Terms") govern your access to and use of DevDiff, including the CLI (`@eldrex/cli`), VS Code Extension, Gateway, MCP Server, and all associated open-source packages (collectively, the "Software"), made available by Eldrex Delos Reyes Bula ("Maintainer," "we," "us," or "our").
+
+By downloading, installing, or using the Software in any form, you acknowledge that you have read, understood, and agree to be bound by these Terms. **If you do not agree to these Terms, you must not install or use the Software.**
 
 ---
 
-## 1. Agreement to Terms
+## 1. License Grant
 
-By downloading, installing, or using the Software, you agree to be bound by these Terms and the [MIT License](https://github.com/EldrexDelosReyesBula/devdiff/blob/main/LICENSE) under which the Software is distributed.
+### 1.1 MIT License
 
-If you do not agree to these Terms, do not install or use the Software.
+The Software is distributed under the **MIT License**. A full copy of the license is available at:  
+[https://github.com/EldrexDelosReyesBula/devdiff/blob/main/LICENSE](https://github.com/EldrexDelosReyesBula/devdiff/blob/main/LICENSE)
 
----
+Under this license, you are granted the following rights, free of charge:
 
-## 2. License & Open Source
+| Permission | Detail |
+| :--- | :--- |
+| ✅ Personal & Commercial Use | Use DevDiff in any personal or commercial project |
+| ✅ Modification | Modify the source code to suit your needs |
+| ✅ Distribution | Redistribute original or modified versions |
+| ✅ Sublicensing | Include DevDiff in proprietary or larger software systems |
+| ✅ Private Use | Use without any obligation to publish changes |
 
-The Software is licensed under the **MIT License**.
+### 1.2 Conditions
 
-You are free to:
+The following conditions apply to all uses:
 
-- ✅ Use the Software for personal and commercial purposes
-- ✅ Copy, modify, and distribute the Software
-- ✅ Sublicense the Software
-- ✅ Use the Software in private or proprietary projects
-
-Subject to:
-
-- 📋 Including the original copyright notice and MIT License text in all copies
-- 📋 Not holding the authors liable for damages arising from use
-
-> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+- The original copyright notice and MIT License text must be included in all copies or substantial portions of the Software.
+- The Software is provided **"as is,"** without warranty of any kind. See Section 6 for full warranty disclaimer.
 
 ---
 
-## 3. Responsible Use of AI Providers
+## 2. Responsible Use of AI Providers
 
-DevDiff connects your local code repositories with local or cloud AI models.
+DevDiff is designed to route your local code diffs to AI models for changelog generation. You assume full responsibility for how the Software interacts with AI providers:
 
-- You are **solely responsible** for all API usage costs incurred on third-party cloud providers (OpenAI, Anthropic, Google Gemini, etc.) resulting from running DevDiff.
-- You agree to comply with the **terms of service and acceptable use policies** of any third-party AI provider you configure.
-- You must **not use DevDiff** in ways that violate applicable laws, export control regulations, or AI provider usage policies.
+2.1 **API Costs.** You are solely responsible for all API usage charges incurred on third-party cloud AI providers (OpenAI, Anthropic, Google Gemini, and others) as a result of using DevDiff. DevDiff does not mediate, reimburse, or cap these costs.
 
----
+2.2 **Provider Compliance.** You agree to comply fully with the terms of service, acceptable use policies, and data handling agreements of any third-party AI provider you configure with DevDiff.
 
-## 4. Prohibited Uses
+2.3 **Applicable Law.** You must not use DevDiff to transmit or process data in a manner that violates applicable local, national, or international laws, export control regulations, or AI provider usage policies.
 
-You agree not to:
-
-- Use DevDiff to generate or distribute malicious code, malware, or harmful content
-- Attempt to bypass or circumvent DevDiff's security controls (Injection Guard, Redaction Engine, Network Guard)
-- Use DevDiff to process or transmit data belonging to others without their authorization
-- Misrepresent your affiliation with DevDiff or the DevDiff project
+2.4 **No Automatic Cloud Use.** DevDiff never enables cloud AI providers without your explicit configuration. If cloud provider credentials are detected in your environment, they are not used unless you have run `devdiff auth add` or explicitly set a provider in `.devdiff.config.js`.
 
 ---
 
-## 5. Intellectual Property
+## 3. Prohibited Uses
 
-The DevDiff name, logo, and associated brand assets are the intellectual property of Eldrex Delos Reyes Bula. The source code is open source under MIT but the branding is not licensed for use in derivative products without explicit written permission.
+You agree that you will not use the Software to:
+
+- Generate, distribute, or facilitate the creation of malicious code, malware, ransomware, spyware, or harmful software of any kind
+- Attempt to bypass, circumvent, or compromise DevDiff's built-in security controls, including the Injection Guard, Redaction Engine, or Network Guard
+- Process, transmit, or expose data belonging to other individuals or organizations without their explicit authorization and in compliance with applicable data protection law
+- Impersonate DevDiff, the DevDiff project, or the Maintainer in any context
+- Use DevDiff to train competing AI models on your diff context without authorization from relevant data owners
+- Use DevDiff in applications or systems where AI-generated content could directly cause harm without human review (e.g., fully automated code deployment without review)
+
+---
+
+## 4. Intellectual Property
+
+4.1 **Source Code.** The DevDiff source code is open source under the MIT License. You may use, fork, and build upon it as permitted by the MIT License.
+
+4.2 **Brand Assets.** The DevDiff name, logo, and associated brand assets (including the DevDiff wordmark and icon) are the intellectual property of Eldrex Delos Reyes Bula. These brand assets are **not** licensed under the MIT License and may not be used in derivative products, forks, or competing tools without explicit written permission from the Maintainer.
+
+4.3 **User Content.** You retain full ownership of your source code and repository content. DevDiff does not claim any rights to your intellectual property.
+
+---
+
+## 5. Third-Party Services
+
+The Software may integrate with third-party services at your direction, including but not limited to Ollama, OpenAI, Anthropic, Google Gemini, Slack, GitHub, and GitLab.
+
+- The Maintainer is not responsible for the availability, security, accuracy, or terms of any third-party service.
+- Your use of third-party services is governed by their respective terms of service and privacy policies.
+- DevDiff does not warrant that third-party integrations will remain available or compatible in future software versions.
 
 ---
 
 ## 6. No Warranty
 
-The Software is provided free of charge and "as is". We make no warranties regarding:
+**THE SOFTWARE IS PROVIDED "AS IS," WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.** To the maximum extent permitted by applicable law, the Maintainer expressly disclaims all warranties, including but not limited to:
 
-- Uptime or availability of documentation services
-- Fitness for any particular purpose
-- Accuracy of AI-generated changelog outputs
+- Warranties of merchantability, fitness for a particular purpose, and non-infringement
+- Warranties regarding the accuracy, completeness, or reliability of AI-generated changelog outputs
+- Warranties regarding the continued availability or uptime of the documentation site or any associated service
+- Warranties that the Software will be error-free or that defects will be corrected
 
 ---
 
 ## 7. Limitation of Liability
 
-Under no circumstances shall the creators, maintainers, or sponsors of DevDiff be liable for any direct, indirect, incidental, special, or consequential damages — including loss of data, profits, or business interruption — arising in any way from the use or inability to use the Software.
+To the maximum extent permitted by applicable law, in no event shall the Maintainer, contributors, or sponsors of DevDiff be liable for any:
+
+- Direct, indirect, incidental, special, exemplary, or consequential damages
+- Loss of data, profits, revenue, or business opportunities
+- Business interruption or system downtime
+- Cost of substitute goods or services
+
+arising out of or in connection with your use of or inability to use the Software, even if advised of the possibility of such damages.
+
+If you are dissatisfied with the Software, your sole remedy is to discontinue use.
 
 ---
 
-## 8. Third-Party Services
+## 8. Indemnification
 
-DevDiff integrates with third-party services at your direction (Ollama, OpenAI, Anthropic, Slack, etc.). We are not responsible for the availability, security, or terms of those services.
+You agree to indemnify, defend, and hold harmless the Maintainer and contributors from and against any claims, liabilities, damages, losses, costs, and expenses (including reasonable legal fees) arising out of or related to:
 
----
-
-## 9. Governing Law
-
-These Terms are governed by and construed in accordance with the laws applicable in the user's jurisdiction. Any disputes will be resolved in accordance with those laws.
+- Your use of the Software in violation of these Terms
+- Your violation of any applicable law or third-party rights
+- Your configuration of the Software to interact with AI providers in an unauthorized or unlawful manner
 
 ---
 
-## 10. Changes to These Terms
+## 9. Governing Law & Dispute Resolution
 
-We may update these Terms when the Software's scope or policies change. Changes will be published to this page with an updated "Last Updated" date and tracked in git history.
+These Terms shall be governed by and construed in accordance with the laws applicable in the jurisdiction of the Maintainer's domicile, without regard to conflict-of-law principles. Any disputes arising under these Terms shall first be attempted to be resolved through good-faith negotiation. If negotiation fails, disputes shall be submitted to the courts of competent jurisdiction in the applicable jurisdiction.
 
 ---
 
-## 11. Contact
+## 10. Modifications to These Terms
 
-Questions about these Terms? Open a GitHub issue:  
-[https://github.com/EldrexDelosReyesBula/devdiff/issues](https://github.com/EldrexDelosReyesBula/devdiff/issues)
+The Maintainer reserves the right to update these Terms at any time. Material changes will be:
+
+- Published to this page with an updated **Document Version** and **Last Updated** date
+- Announced in the project's release notes or changelog
+- Tracked publicly in git history
+
+Continued use of the Software after publication of updated Terms constitutes acceptance of the revised Terms.
+
+---
+
+## 11. Severability
+
+If any provision of these Terms is found to be unenforceable or invalid under applicable law, that provision shall be modified to the minimum extent necessary to make it enforceable, and the remaining provisions shall continue in full force and effect.
+
+---
+
+## 12. Contact
+
+For questions regarding these Terms:
+
+| Channel | Link |
+| :--- | :--- |
+| GitHub Issues | [github.com/EldrexDelosReyesBula/devdiff/issues](https://github.com/EldrexDelosReyesBula/devdiff/issues) |
+| Email | eldrexdelosreyesbula@gmail.com |

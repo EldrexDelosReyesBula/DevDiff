@@ -93,9 +93,10 @@ See dedicated guides:
    ```bash
    devdiff context generate
    ```
-2. Add domain-specific notes to `.devdiff/context.md`:
+2. Add domain-specific notes to `.devdiff/SKILL.md`:
    ```bash
-   devdiff context edit
+   devdiff skill generate
+   devdiff skill validate
    ```
 3. For just-the-facts output with no interpretation:
    ```bash

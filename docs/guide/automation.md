@@ -1,63 +1,35 @@
-# 24/7 Continuous Automation Guide
+# Workflow Automation & 24/7 Scheduling
 
-DevDiff can be configured as a background daemon or system service to watch repositories and run intelligence pipelines continuously.
+DevDiff includes a 24/7 **Background Scheduler** (`BackgroundScheduler`) that executes automated standup digests, security audits, and project context refreshes on custom cron intervals.
 
-## Continuous Changelog Pipeline
+---
 
-To setup a continuous changelog builder that checks for changes every 15 minutes, create a configuration file at `.devdiff/automations/continuous-changelog.yaml`:
+## 📅 Built-In Default Schedules
 
-```yaml
-name: Continuous Changelog
-schedule: "*/15 * * * *" # Every 15 minutes
-watcher: git
-trigger: on_commit
+- **Morning Standup Digest**: `0 8 * * 1-5` (Every weekday at 8:00 AM)
+- **Weekly Security Audit**: `0 9 * * 1` (Every Monday at 9:00 AM)
+- **Project Context Refresh**: `0 2 * * *` (Daily at 2:00 AM when system is idle)
 
-pipeline:
-  - step: detect_changes
-    config:
-      watch_branches: [main, develop, "feature/*"]
-      min_changes: 1
+---
 
-  - step: batch_changes
-    config:
-      window: 15m
-      min_batch_size: 1
-      max_batch_size: 50
+## 🚀 Schedule CLI Commands
 
-  - step: analyze
-    config:
-      ai:
-        routing: auto
-      security:
-        redact_secrets: true
+```bash
+# List all active background operation schedules
+devdiff schedule list
 
-  - step: generate_outputs
-    config:
-      formats:
-        - type: markdown
-          output: CHANGELOG.md
-          mode: append
+# Enable a specific background schedule
+devdiff schedule enable --id morning-standup
+
+# Disable a specific background schedule
+devdiff schedule disable --id morning-standup
 ```
 
-## Running as a systemd Service
+---
 
-For Linux servers, save the following service file to `/etc/systemd/system/devdiff-gateway.service`:
+## 🛡️ Intelligent Constraints
 
-```ini
-[Unit]
-Description=DevDiff Gateway - AI Code Intelligence
-Documentation=https://devdiff.vercel.app
-After=network.target
-
-[Service]
-Type=simple
-User=devdiff
-Group=devdiff
-WorkingDirectory=/opt/devdiff
-ExecStart=/usr/bin/devdiff-gateway daemon --config /etc/devdiff/daemon.config.ts
-Restart=always
-RestartSec=10
-
-[Install]
-WantedBy=multi-user.target
-```
+Background schedules automatically respect hardware constraints:
+- **Idle System Awareness**: Long tasks pause when active user interaction is detected.
+- **Battery Guard**: Suppresses background cron jobs when discharging on battery.
+- **Thermal Safety**: Suppresses tasks when CPU thermals reach `hot` or `critical` levels.

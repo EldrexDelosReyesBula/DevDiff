@@ -39,7 +39,7 @@ Please include:
 - `@eldrex/core` — Core library
 - `@eldrex/cli` — CLI tool
 - `@eldrex/vscode` — VS Code extension
-- `devdiff.vercel.app` — Website and playground
+- `devdiff.vercel.app` — Documentation website
 - Data classification engine bypass
 
 ### Out of Scope

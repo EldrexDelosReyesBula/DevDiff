@@ -1,135 +1,171 @@
 # Security & Compliance
 
-**Last Updated:** July 6, 2026 · v1.0.6
+**Document Version:** v1.5.0  
+**Last Updated:** August 7, 2026  
+**Audience:** Enterprise teams, security reviewers, compliance officers
 
-This page provides an overview of DevDiff's security architecture and compliance posture for enterprise teams evaluating DevDiff for regulated environments.
+---
+
+## Overview
+
+This document provides a detailed overview of DevDiff's security architecture and compliance posture for organizations evaluating DevDiff for use in regulated or security-sensitive environments.
+
+DevDiff is designed around three foundational security principles:
+
+1. **Zero Attack Surface** — No DevDiff cloud servers means there are no DevDiff-operated systems to breach, no databases to exfiltrate, and no central point of failure.
+2. **Defense in Depth** — Multiple independent, layered security controls protect your code context at every processing step.
+3. **Complete Auditability** — Every security mechanism is open source, publicly auditable, and verifiable against a pinned lockfile.
 
 ---
 
 ## Security Architecture
 
-DevDiff's security model is built around three principles:
+### Data Flow Security
 
-1. **Offense is impossible when there's nothing to attack** — No DevDiff cloud servers means no attack surface for data breaches.
-2. **Defense in depth** — Multiple independent security layers protect code context at every step.
-3. **Auditability** — Every security mechanism is open source and verifiable.
+```
+Developer Machine
+  │
+  ├─ Git Diff Extracted Locally
+  │
+  ├─ Injection Guard v2 ──── Sanitizes all user-controlled content
+  │
+  ├─ Redaction Engine v2 ─── Strips credentials, secrets, tokens
+  │
+  ├─ Cloud Guard ──────────── Validates cloud provider is explicitly configured
+  │
+  ├─ [Local Model] OR [Cloud Provider API] ── Your choice, your control
+  │
+  └─ AccuracyGuard ────────── Validates output against raw diff
+```
+
+No step in this pipeline involves DevDiff-operated infrastructure.
 
 ---
 
-## Security Controls Summary
+## Security Controls
 
-| Control | Implementation | Status |
-|---|---|:---:|
-| Credential Redaction | Redaction Engine v2 — regex-based pre-flight stripping | ✅ Active |
-| Prompt Injection Prevention | Injection Guard v2 — multi-pattern sanitization | ✅ Active |
-| Network Egress Firewall | Network Guard — allowlist-only outbound | ✅ Active |
-| Path Traversal Prevention | Strict boundary checks on all filesystem operations | ✅ Active |
-| Shell Command Sanitization | Metacharacter stripping on all user inputs | ✅ Active |
-| Encrypted Audit Trail | AES-256-GCM encrypted local logs with PBKDF2 key derivation | ✅ Active |
-| MCP Authorization | Token-based auth for stdio and HTTP MCP server endpoints | ✅ Active |
-| Secure File Permissions | `.env` files created with `600` permissions automatically | ✅ Active |
-| Dependency Integrity | pnpm frozen lockfile enforcement in CI | ✅ Active |
-| CodeQL Analysis | Automated static analysis on every push to `main` | ✅ Active |
-| Secret Scanning | CI pipeline security scan via `scripts/security-scan.js` | ✅ Active |
+| Control | Implementation File | Status |
+| :--- | :--- | :---: |
+| Credential Redaction | `packages/core/src/ai/redaction-engine-v2.ts` | ✅ Active |
+| Prompt Injection Prevention | `packages/core/src/security/injection-guard-v2.ts` | ✅ Active |
+| Network Egress Firewall | `packages/core/src/security/network-guard.ts` | ✅ Active |
+| Cloud Provider Guard | `packages/core/src/ai/cloud-guard.ts` | ✅ Active |
+| Output Accuracy Validation | `packages/core/src/ai/accuracy-guard.ts` | ✅ Active |
+| Path Traversal Prevention | Strict boundary validation on all filesystem operations | ✅ Active |
+| Shell Metacharacter Sanitization | Applied to all user-controlled CLI arguments and inputs | ✅ Active |
+| Encrypted Local Audit Logs | AES-256-GCM with PBKDF2 key derivation for `.devdiff/audit/` | ✅ Active |
+| MCP Server Authorization | Token-based authentication on all stdio and HTTP MCP endpoints | ✅ Active |
+| Secure File Permissions | `.env` and credential files created with `600` permissions | ✅ Active |
+| Dependency Integrity | pnpm frozen lockfile (`pnpm-lock.yaml`) enforced in all CI pipelines | ✅ Active |
+| CodeQL Static Analysis | Automated code scanning on every push to `main` | ✅ Active |
+| Secret Scanning | CI pre-release scan via `scripts/security-scan.js` | ✅ Active |
+| Dry-Run Transparency | `devdiff generate --dry-run` previews all data before any AI call | ✅ Active |
 
 ---
 
 ## Compliance Posture
 
-DevDiff is designed to support compliance-conscious organizations.
+### GDPR (General Data Protection Regulation)
 
-### GDPR
+DevDiff is designed to operate entirely within the developer's local environment, which substantially reduces GDPR compliance exposure:
 
-- DevDiff processes **no personal data** about end users.
-- No cookies, tracking pixels, or behavioral analytics are used.
-- All developer code data stays on the developer's local machine (or CI runner) — it is never transmitted to DevDiff infrastructure.
-- When cloud AI providers are configured, data is transmitted directly to the provider under the developer's own API credentials. Developers should review their provider's DPA.
+| GDPR Requirement | DevDiff Posture |
+| :--- | :--- |
+| Lawful basis for processing | Not applicable — DevDiff processes no personal data belonging to end users |
+| Data minimization | No personal data collected or retained |
+| Right of access / erasure | Not applicable — no data held by DevDiff |
+| Data transfers | No transfer to DevDiff infrastructure occurs |
+| Sub-processor risk | If cloud AI providers are used, the developer's own DPA with that provider governs |
+| Cookie consent | No cookies used on the documentation site |
 
-### SOC 2 Considerations
+> [!NOTE]
+> When cloud AI providers are configured, data is transmitted directly from the developer's machine to the provider under the developer's own API credentials. DevDiff does not intermediate this transmission. Developers should review the Data Processing Addendum (DPA) of their chosen AI provider.
 
-For organizations pursuing SOC 2 Type II:
+### SOC 2 Type II Considerations
 
-| SOC 2 Criteria | DevDiff Posture |
-|---|---|
-| **Availability** | Fully offline-capable; no dependency on DevDiff uptime |
-| **Confidentiality** | Code never leaves local environment by default |
-| **Processing Integrity** | AccuracyGuard validates outputs against raw diff |
-| **Security** | See controls table above |
+| SOC 2 Trust Service Criteria | DevDiff Posture |
+| :--- | :--- |
+| **Availability** | Fully offline-capable; no operational dependency on DevDiff infrastructure uptime |
+| **Confidentiality** | Code context never leaves the local environment by default; Network Guard enforces this |
+| **Processing Integrity** | AccuracyGuard validates all AI-generated outputs against the source diff |
+| **Security** | See Security Controls table above |
 | **Privacy** | See [Privacy Policy](/legal/privacy-policy) |
 
 ### HIPAA
 
-DevDiff is **not designed for processing PHI (Protected Health Information)**. If your repository contains patient data, configure DevDiff to use local-only models (Ollama) to ensure zero network egress, and ensure your `.devdiff.config.js` has no cloud providers configured.
+> [!CAUTION]
+> DevDiff is **not designed or approved for processing Protected Health Information (PHI)**. If your repository contains patient data or healthcare records, you must:
+> 1. Configure DevDiff to use a local-only AI provider (Ollama) to ensure zero network egress.
+> 2. Verify that your `.devdiff.config.js` has no cloud AI providers configured.
+> 3. Consult your organization's compliance team before using any AI tooling on PHI-adjacent repositories.
 
-### Air-Gapped Environments
+### Air-Gapped & Offline Environments
 
-DevDiff fully supports air-gapped deployments:
+DevDiff is fully operational in air-gapped or offline environments:
 
 ```bash
-# Install CLI on air-gapped machine from pre-downloaded package
-npm install -g /path/to/@eldrex-cli-1.0.6.tgz
+# Install CLI on air-gapped machine from a pre-downloaded package tarball
+npm install -g /path/to/@eldrex-cli-1.5.0.tgz
 
-# VS Code Extension — install from VSIX
-# Available at: GitHub Releases → devdiff-1.0.6.vsix
+# Install VS Code Extension from VSIX file
+# Available at: GitHub Releases → devdiff-vscode-1.5.0.vsix
+# Install via: VS Code → Extensions → "Install from VSIX..."
 ```
 
-For more, see the [Air-Gapped Environments guide](/enterprise/air-gapped-environments).
+All core functionality — diff analysis, changelog generation, persistent memory indexing, and Q&A — operates completely offline when a local AI provider (Ollama) is used.
+
+For detailed deployment guidance, see the [Air-Gapped Environments](/enterprise/air-gapped-environments) guide.
 
 ---
 
 ## Vulnerability Disclosure
 
-We take security seriously and follow a responsible disclosure model.
+DevDiff follows a coordinated responsible disclosure model. Full details are documented in the [Security Policy](https://github.com/EldrexDelosReyesBula/devdiff/blob/main/SECURITY.md).
 
-### Reporting a Vulnerability
+> [!CAUTION]
+> **Do not open public GitHub issues for security vulnerabilities.** Public disclosure before a patch is released puts all users at risk.
 
-**Do not open public GitHub issues for security vulnerabilities.**
+**To report a vulnerability:**
 
-Instead:
-
-1. Go to [GitHub Security Advisories](https://github.com/EldrexDelosReyesBula/devdiff/security/advisories)
+1. Navigate to [GitHub Security Advisories](https://github.com/EldrexDelosReyesBula/devdiff/security/advisories/new)
 2. Click **"Report a vulnerability"**
-3. Fill in the details — include reproduction steps, affected versions, and potential impact
+3. Provide reproduction steps, affected versions, and impact assessment
 
-We will acknowledge within **48 hours** and aim to patch within **7 days** for critical issues.
+**Response Timeline:**
 
-### Scope
+| Stage | Target SLA |
+| :--- | :--- |
+| Acknowledgment | Within 48 hours |
+| Triage & Assessment | Within 5 business days |
+| Critical Fix | Within 14 days |
+| Standard Fix | Within 90 days |
+| Public Disclosure | After fix is released |
 
-In scope:
+**Scope:**
 
-- `@eldrex/core` — AI router, redaction engine, injection guard
-- `@eldrex/cli` — Command execution, credential handling
-- `@eldrex/gateway` — HTTP/WebSocket/MCP endpoints
-- `@eldrex/mcp` — MCP server authorization
-- VS Code / Open VSX Extension
-
-Out of scope:
-
-- Third-party AI provider security (OpenAI, Anthropic, etc.)
-- Issues requiring physical access to the user's machine
-- Social engineering attacks
+In scope: `@eldrex/core`, `@eldrex/cli`, `@eldrex/gateway`, `@eldrex/mcp`, VS Code Extension  
+Out of scope: Third-party AI provider security, social engineering, physical access
 
 ---
 
 ## Security Audit Trail
 
-All security-related changes are tracked in the public git history. Key security releases:
+All security-relevant changes are tracked in the public git history and release notes:
 
-| Version | Release | Security Changes |
-|---|---|---|
-| v1.0.6 | 2026-07-06 | Windows argument parsing hardening, port reuse security |
-| v1.0.5 | 2026-07-06 | Injection Guard v2, Redaction Engine v2, CI secret scanning |
-| v1.0.3 | 2026-07-04 | AES-256-GCM audit trail, MCP auth tokens, Network Guard |
-| v1.0.0 | 2026-06-28 | Initial security model established |
+| Version | Date | Security Changes |
+| :--- | :--- | :--- |
+| v1.5.0 | 2026-08-07 | Cloud Guard explicit opt-in enforcement, PersistentMemory audit trail, enhanced Injection Guard patterns |
+| v1.0.6 | 2026-07-06 | Windows argument parsing hardening, MCP port security improvements |
+| v1.0.3 | 2026-06-28 | Initial Redaction Engine v2, Network Guard firewall implementation |
 
 ---
 
-## Related Security Documentation
+## Contact
 
-- [Security Overview](/security/overview)
-- [Privacy Guarantees](/security/privacy)
-- [Network Guard](/security/network-guard)
-- [Redaction Engine](/security/redaction-engine)
-- [Injection Prevention](/security/injection-prevention)
-- [Responsible Disclosure](/security/disclosure)
-- [Compliance Frameworks](/security/compliance)
+For security-related inquiries or compliance documentation requests:
+
+| Channel | Link |
+| :--- | :--- |
+| Private Security Advisory | [GitHub Security Advisories](https://github.com/EldrexDelosReyesBula/devdiff/security/advisories/new) |
+| General Issues | [GitHub Issues](https://github.com/EldrexDelosReyesBula/devdiff/issues) |
+| Email | eldrexdelosreyesbula@gmail.com |

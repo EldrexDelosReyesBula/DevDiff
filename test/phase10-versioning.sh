@@ -32,7 +32,7 @@ echo ""
 echo "📋 Test 3: No auto-update mechanism"
 # Verify no auto-update code in CLI
 # Use project directory path
-PROJECT_DIR="c:/Users/Eldrex/Downloads/classhost/DevDiff"
+PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 if grep -r "autoUpdate\|auto-update\|auto update" "$PROJECT_DIR"/packages/cli/src/ 2>/dev/null; then
     echo "   ⚠️ Auto-update code found — should be user-initiated only"
 else

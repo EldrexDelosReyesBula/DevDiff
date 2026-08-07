@@ -66,7 +66,6 @@ const program = new Command();
 program
   .name("devdiff")
   .description("Privacy-first, BYOAI changelog intelligence")
-  .version(getVersion(), "-v, --version", "Show version")
   .helpOption("-h, --help", "Show help")
   .addHelpCommand("help [command]", "Show help for a command")
   .configureHelp({
@@ -106,7 +105,7 @@ async function executeCommand(fullPath: string, args: any[]) {
     case "doctor":
       return doctorCommand(args[0]);
     case "version":
-      return versionCommand(args[0]);
+      return versionCommand(sub || "status", args[0]);
     case "mvp":
       return mvpCommand(sub as any, args[0]);
     case "auth":
@@ -129,6 +128,27 @@ async function executeCommand(fullPath: string, args: any[]) {
     case "mcp": {
       const { mcpCommand } = await import("./commands/mcp");
       return mcpCommand(sub || "serve", args[0]);
+    }
+    case "memory": {
+      const { memoryCommand } = await import("./commands/memory");
+      return memoryCommand(sub || "status", args[0]);
+    }
+    case "ask": {
+      const { askCommand } = await import("./commands/ask");
+      const question = typeof args[0] === "string" ? args[0] : (args[0] && args[0].question) || "";
+      return askCommand(question, args[1] || {});
+    }
+    case "skill": {
+      const { skillCommand } = await import("./commands/skill");
+      return skillCommand(sub || "validate", args[0]);
+    }
+    case "schedule": {
+      const { scheduleCommand } = await import("./commands/schedule");
+      return scheduleCommand(sub || "list", args[0]);
+    }
+    case "release": {
+      const { releaseCommand } = await import("./commands/version");
+      return releaseCommand(args[0] || {});
     }
     case "plugin":
       console.log(

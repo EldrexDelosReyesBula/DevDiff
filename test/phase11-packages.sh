@@ -22,7 +22,7 @@ PACKAGES=(
 
 # Since packages are local and not published on registry under this specific name yet,
 # we will verify their local package.json package configurations.
-PROJECT_DIR="c:/Users/Eldrex/Downloads/classhost/DevDiff"
+PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 check_local_pkg() {
     local PKG_PATH="$1"

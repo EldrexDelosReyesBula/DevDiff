@@ -277,12 +277,10 @@ devdiff mvp clear           # Remove processed items
 
 ### `devdiff playground`
 
-Start local web UI.
+Displays IDE integration guides (VS Code extension, MCP server, and terminal memory Q&A).
 
 ```bash
-devdiff playground              # Start at localhost:3737
-devdiff playground --port 8080  # Custom port
-devdiff playground --open       # Auto-open browser
+devdiff playground              # Displays IDE integration status & setup commands
 ```
 
 ---

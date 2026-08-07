@@ -2,7 +2,7 @@
 # Run this before any release to verify code quality, security, privacy, performance, and package health.
 
 Write-Host "+----------------------------------------------+" -ForegroundColor Cyan
-Write-Host "|     DEVDIFF v1.0.3 -- RELEASE GATE (WIN)     |" -ForegroundColor Cyan
+Write-Host "|     DEVDIFF v1.5.0 -- RELEASE GATE (WIN)     |" -ForegroundColor Cyan
 Write-Host "|     ALL checks must PASS before release      |" -ForegroundColor Cyan
 Write-Host "+----------------------------------------------+" -ForegroundColor Cyan
 Write-Host ""

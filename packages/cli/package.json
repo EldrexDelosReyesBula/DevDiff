@@ -1,6 +1,6 @@
 {
   "name": "@eldrex/cli",
-  "version": "1.0.6",
+  "version": "1.5.0",
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },

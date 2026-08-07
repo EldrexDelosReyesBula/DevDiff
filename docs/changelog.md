@@ -2,83 +2,43 @@
 
 All notable changes to the DevDiff workspace packages will be documented in this file.
 
+## [1.5.0] - 2026-08-07 (Persistent Codebase Memory & Universal Intelligence Release)
+
+The **v1.5.0** major release introduces persistent codebase memory, automated semantic versioning, universal project detection, SKILL.md knowledge base validation, developer sovereignty controls, natural changelogs, hardware-aware optimization, and 24/7 background operation scheduling.
+
+### 🧠 Persistent Codebase Memory Engine
+- **One-Time Full Scan**: Scans codebase once and saves indexed snapshot (`.devdiff/memory/codebase-index.json`).
+- **Sub-50ms Index Queries**: Instant index-based lookup for time-range diffs, entity change histories, creation dates, purpose summaries, and dependencies.
+- **Incremental Updates**: Detects Git commit changes and updates only modified files incrementally in milliseconds.
+- **Continuous Conversation Context**: Resolves pronouns (`it`, `this`, `that`) automatically across multi-turn session chat history (`.devdiff/memory/conversation-history.json`).
+- **Commands**: `devdiff memory init`, `devdiff memory status`, `devdiff memory rescan`, `devdiff memory clear-conversation`, `devdiff memory clear-all`, `devdiff ask "<question>"`.
+
+### 📦 Automated Semantic Versioning & Release
+- **Automated SemVer Detection**: Analyzes git diffs, export removals, function signature changes, SQL drops, and commit messages to calculate `MAJOR`, `MINOR`, or `PATCH` version bumps.
+- **Keep a Changelog Formatting**: Groups change entries into `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`, and `Security`.
+- **One-Command Release**: `devdiff release` bumps version, updates CHANGELOG.md, creates git tag, and pushes to remote.
+
+### 🔍 Universal Language & Project Detection
+- **Universal Project Detector**: Analyzes single-file HTML/CSS/JS or Python scripts, static web apps, PWAs, Python projects, and generic repositories without requiring `package.json`.
+- **Framework & Web API Scanning**: Detects CDN frameworks (Tailwind, Bootstrap, Vue, React, Alpine, HTMX, jQuery, Google Fonts) and Web APIs (`IndexedDB`, `localStorage`, `fetch`, `Web Speech`, `Vibration`).
+
+### 🧠 SKILL.md Knowledge Base System
+- **Project Knowledge Base**: Auto-generates `.devdiff/SKILL.md` covering 10 domain knowledge sections.
+- **Commands**: `devdiff skill generate`, `devdiff skill validate`.
+
+### 🔐 Developer Sovereignty & Cloud Guard
+- **Explicit Cloud Opt-In (`CloudGuard`)**: Environment API keys are detected but **NEVER** called automatically without explicit setup via `devdiff auth add`.
+- **Flexible Engine Exclusions (`FlexibleIgnore`)**: Engine operational files are filtered dynamically; `.devdiffignore` is fully developer-controlled.
+- **Natural Developer Changelogs (`NaturalChangelogGenerator`)**: Sanitizes AI-sounding hedging terms (`appears to`, `seems to`) into factual past-tense developer language.
+- **Git Commit Guard (`CommitGuard`)**: Generated files are never auto-staged or committed without explicit developer commands.
+
+### ⚡ Low-End Device Optimizer & 24/7 Scheduler
+- **Hardware-Aware Memory Caps**: RAM caps (128MB Low, 256MB Medium, 512MB High) and single-worker concurrency limits.
+- **Battery & Thermal Throttling Guard**: Pauses background tasks during high thermal states or battery discharge.
+- **24/7 Background Scheduler**: Pre-configured background operational tasks (`devdiff schedule list`).
+
+---
+
 ## [1.0.6] - 2026-07-06 (Windows & Command Argument Hardening Release)
 
-The **Windows & Command Argument Hardening** release resolves critical command execution, argument parsing, option ordering, and environment performance behaviors:
-
-- **Commander Argument Parsing**: Filtered out Command class instances from execution argument arrays, preventing CLI parameter mismatches.
-- **Option Flag Standardization**: Re-ordered option flags so short options are parsed before long options consistently (e.g. `-p, --persona`).
-- **Windows Process Performance**: Tuned test threshold bounds to accommodate child process spawning time on Windows file structures.
-- **Port Reuse Handlers**: Verified playground listen fallback routines handling port collisions natively.
-
-## [1.0.5] - 2026-07-06 (CLI Registry & Security Hardening Release)
-
-The **CLI Registry & Security Hardening** release introduces production-grade resilience, unified command validation, local playground port auto-fallback, config auto-completions, and advanced security guards.
-
-### `@eldrex/cli`
-
-- Overhauled CLI command registration using a unified dynamic [Command Registry](file:///c:/Users/Eldrex/Downloads/classhost/DevDiff/packages/cli/src/registry/command-registry.ts) with pre-run validations.
-- Added visual terminal error boundaries with custom suggestions and recovery help.
-- Added settings schema generation (`devdiff schema`) and Bash/PowerShell completion script output.
-- Configured dynamic port retry fallbacks for the local playground server when port `3737` is occupied.
-
-### `@eldrex/core`
-
-- Implemented `ProgressiveChunking` and dynamic prompt-token-based timeout calculators to prevent Ollama connections from timing out on large diffs.
-- Created `InjectionGuardV2` protecting LLM interfaces against jailbreaks, command chainings, and injection payloads.
-- Upgraded the `RedactionEngineV2` to strip private keys and API tokens from dry-run prints.
-
-### `@eldrex/dashboard`
-
-- Unified the web-dashboard layout by serving the Design System-styled playground directly as the root application.
-
-### `@eldrex/connectors`
-
-- Added native connectors registry for Slack, Discord, Telegram, Microsoft Teams, WhatsApp, Email, Custom Webhooks, OpenClaw Bus, and MCP Protocol.
-
-### `@eldrex/openclaw`
-
-- Added OpenClaw Supervisor pipeline automation supporting consensus configs, automated fallback error handling, package manager dependency auto-installation, and human-in-the-loop interactive prompts.
-
-## [1.0.4] - 2026-07-04 (Maintenance Release)
-
-Maintenance update fixing internal workspace TSConfig and routing packages compilation.
-
-## [1.0.0] - 2026-06-28 (Initial Release)
-
-We are proud to release version **1.0.0** of all DevDiff packages under the `@eldrex` NPM scope. This release establishes the autonomous, privacy-first changelog and code intelligence layer.
-
-### `@eldrex/core`
-
-- Initial release of the core changelog engine.
-- Diff parser with line extraction and token estimation.
-- Token-aware Intelligent Router with model tiering, complexity scores, capability weights, and fallback chain retry loops.
-- AST parsing, trimming, and secret redaction.
-
-### `@eldrex/cli`
-
-- Command-line interface with interactive setups.
-- Commands: `devdiff generate`, `devdiff watch`, `devdiff config`, and `devdiff audit`.
-
-### `@eldrex/gateway`
-
-- Standardized automation hub and protocol gateway.
-- Simultaneous support for HTTP, WebSockets, Model Context Protocol (MCP), and OpenClaw protocol endpoints.
-- Concurrent Semaphore locks and per-repository sequentialPriority commit queues.
-- Mermaid diagram rendering engine with strict safety formatting and validation.
-- Progressive webhook streaming for real-time progress delivery.
-
-### `@eldrex/personas`
-
-- Persona configuration engine and profile registry.
-- 8 built-in developer personas (developer, ceo, pm, compliance, educator, robot, journalist, data-analyst).
-- Custom YAML configuration loader with profile inheritance.
-
-### `@eldrex/openclaw`
-
-- Protocol adapter, triggers engine, and custom skill triggers.
-
-### `@eldrex/vite` & `@eldrex/vscode`
-
-- Automatic changelog generation plugin for Vite bundles.
-- VS Code extension with status-bar quick trigger, sidebar webview panel, and inline explains.
+The **Windows & Command Argument Hardening** release resolves critical command execution, argument parsing, option ordering, and environment performance behaviors.

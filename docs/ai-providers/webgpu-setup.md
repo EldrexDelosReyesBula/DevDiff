@@ -107,11 +107,9 @@ devdiff generate
 }
 ```
 
----
+## WebGPU IDE Integration
 
-## DevDiff Playground
-
-The [DevDiff Playground](https://devdiff.vercel.app/playground) uses WebGPU inference by default. Try it in your browser — no installation required.
+WebGPU inference runs 100% locally inside your IDE environment via `@eldrex/vscode` or local engine bindings without sending any data over the network.
 
 ---
 

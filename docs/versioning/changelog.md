@@ -4,6 +4,23 @@ All notable changes to DevDiff are documented here.
 
 DevDiff uses [Semantic Versioning](https://semver.org). Every published version is **immutable** — it works exactly as released, forever. See the [Version Policy](./policy) for details.
 
+## [1.5.0] — 2026-08-07 · Persistent Codebase Memory & Continuous Chat
+
+The **Persistent Codebase Memory & Continuous Chat** release introduces a persistent, fast-query codebase memory engine that eliminates re-scanning and remembers conversation context across sessions.
+
+### 🧠 Persistent Codebase Memory Engine
+
+- **One-Time Full Scan**: Scans codebase once and saves indexed snapshot (`.devdiff/memory/codebase-index.json`).
+- **Sub-50ms Index Queries**: Instant index-based lookup for time-range diffs, entity change histories, creation dates, purpose summaries, and dependencies.
+- **Incremental Updates**: Detects Git commit changes and updates only modified files incrementally in milliseconds.
+- **Continuous Conversation Context**: Resolves pronouns (`it`, `this`, `that`) automatically across multi-turn session chat history (`.devdiff/memory/conversation-history.json`).
+- **Historical Snapshot Comparisons**: Saves historical repository snapshots over time (`.devdiff/memory/snapshot-history.json`).
+
+### 💻 New CLI Commands
+
+- `devdiff memory init` · `devdiff memory status` · `devdiff memory rescan` · `devdiff memory clear-conversation` · `devdiff memory clear-all`
+- `devdiff ask "<question>"`
+
 ---
 
 ## [1.0.6] — 2026-07-06 · Windows & Command Argument Hardening

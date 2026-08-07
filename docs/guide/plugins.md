@@ -30,7 +30,7 @@ export class CustomRegexFilterStep implements PipelineStep {
 }
 ```
 
-Register your custom step inside your [ProcessorPipeline](file:///c:/Users/Eldrex/Downloads/classhost/DevDiff/packages/gateway/src/processors/pipeline.ts) initialization:
+Register your custom step inside your [ProcessorPipeline](/api/core) initialization:
 
 ```typescript
 import { ProcessorPipeline } from "@eldrex/gateway";
