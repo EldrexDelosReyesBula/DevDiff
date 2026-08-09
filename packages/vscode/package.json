@@ -46,22 +46,26 @@
       "devdiff-sidebar": [
         {
           "id": "devdiff-changelog",
-          "name": "Changelog Explorer"
+          "name": "Changelog Explorer",
+          "icon": "$(git-commit)"
         },
         {
           "id": "devdiff-chat",
-          "name": "Q\u0026A Chat Panel",
-          "type": "webview"
+          "name": "Q&A Chat Panel",
+          "type": "webview",
+          "icon": "$(comment-discussion)"
         },
         {
           "id": "devdiff-security",
-          "name": "Security \u0026 Compliance",
-          "type": "webview"
+          "name": "Security & Compliance",
+          "type": "webview",
+          "icon": "$(shield)"
         },
         {
           "id": "devdiff-settings",
           "name": "Settings",
-          "type": "webview"
+          "type": "webview",
+          "icon": "$(settings-gear)"
         }
       ]
     },
@@ -69,8 +73,7 @@
       {
         "id": "devdiff.chat",
         "name": "devdiff",
-        "description": "DevDiff natural language changelog intelligence \u0026 codebase Q\u0026A assistant",
-        "isDefault": false
+        "description": "DevDiff natural language changelog intelligence & codebase Q&A assistant"
       }
     ],
     "commands": [
