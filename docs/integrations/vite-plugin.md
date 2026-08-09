@@ -32,8 +32,8 @@ export default defineConfig({
 
 ## ⚙️ Options & Configuration
 
-| Option | Type | Default | Description |
-|---|---|---|---|
-| `autoMemoryUpdate` | `boolean` | `true` | Automatically updates `.devdiff/memory` index when files change in dev mode |
-| `showDevBanner` | `boolean` | `true` | Displays DevDiff dev server status banner in terminal |
-| `exclude` | `string[]` | `['node_modules/**']` | Globs to exclude from change tracking |
+| Option             | Type       | Default               | Description                                                                 |
+| ------------------ | ---------- | --------------------- | --------------------------------------------------------------------------- |
+| `autoMemoryUpdate` | `boolean`  | `true`                | Automatically updates `.devdiff/memory` index when files change in dev mode |
+| `showDevBanner`    | `boolean`  | `true`                | Displays DevDiff dev server status banner in terminal                       |
+| `exclude`          | `string[]` | `['node_modules/**']` | Globs to exclude from change tracking                                       |

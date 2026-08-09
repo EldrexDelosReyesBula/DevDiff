@@ -6,24 +6,23 @@
 
 DevDiff operates at **three levels** of language support:
 
+### DEVDIFF LANGUAGE SUPPORT LEVELS
 
-### DEVDIFF LANGUAGE SUPPORT LEVELS                  
-                                                             
-| Feature | Level 1: Full Support | Level 2: Partial Support | Level 3: Passthrough Support |
-|---------|:---------------------:|:------------------------:|:----------------------------:|
-| AST-aware parsing | ✅ | ❌ | ❌ |
-| Function/class/export detection | ✅ | ❌ | ❌ |
-| Import resolution | ✅ | ❌ | ❌ |
-| Refactor & relationship detection | ✅ | ❌ | ❌ |
-| Framework detection | ✅ | ❌ | ❌ |
-| Optimized AI prompts with language context | ✅ | ❌ | ❌ |
-| Basic diff parsing (additions/deletions) | ✅ | ✅ | ❌ |
-| Template-based changelog | ❌ | ✅ | ✅ |
-| Secret scanning | ✅ | ✅ | ✅ |
-| File relationship detection (basic heuristics) | ✅ | ✅ | ❌ |
-| AI can explain changes | ✅ (optimized) | ✅ (basic) | ❌ |
-| Raw diff output only | ❌ | ❌ | ✅ |
-| No AST parsing / refactor detection | ❌ | ❌ | ✅ |
+| Feature                                        | Level 1: Full Support | Level 2: Partial Support | Level 3: Passthrough Support |
+| ---------------------------------------------- | :-------------------: | :----------------------: | :--------------------------: |
+| AST-aware parsing                              |          ✅           |            ❌            |              ❌              |
+| Function/class/export detection                |          ✅           |            ❌            |              ❌              |
+| Import resolution                              |          ✅           |            ❌            |              ❌              |
+| Refactor & relationship detection              |          ✅           |            ❌            |              ❌              |
+| Framework detection                            |          ✅           |            ❌            |              ❌              |
+| Optimized AI prompts with language context     |          ✅           |            ❌            |              ❌              |
+| Basic diff parsing (additions/deletions)       |          ✅           |            ✅            |              ❌              |
+| Template-based changelog                       |          ❌           |            ✅            |              ✅              |
+| Secret scanning                                |          ✅           |            ✅            |              ✅              |
+| File relationship detection (basic heuristics) |          ✅           |            ✅            |              ❌              |
+| AI can explain changes                         |    ✅ (optimized)     |        ✅ (basic)        |              ❌              |
+| Raw diff output only                           |          ❌           |            ❌            |              ✅              |
+| No AST parsing / refactor detection            |          ❌           |            ❌            |              ✅              |
 
 ---
 
@@ -31,16 +30,17 @@ DevDiff operates at **three levels** of language support:
 
 ### JavaScript Ecosystem
 
-| Language | AST Parser | Import Resolution | Framework Detection | Refactor Detection |
-|----------|-----------|-------------------|---------------------|-------------------|
-| **JavaScript (ES6+)** | ✅ tree-sitter | ✅ ESM + CJS | ✅ | ✅ |
-| **TypeScript** | ✅ tree-sitter | ✅ Path aliases | ✅ | ✅ |
-| **JSX** | ✅ tree-sitter | ✅ | ✅ React | ✅ |
-| **TSX** | ✅ tree-sitter | ✅ Path aliases | ✅ React | ✅ |
-| **MJS (ES Modules)** | ✅ | ✅ | ✅ | ✅ |
-| **CJS (CommonJS)** | ✅ | ✅ require() | ✅ | ✅ |
+| Language              | AST Parser     | Import Resolution | Framework Detection | Refactor Detection |
+| --------------------- | -------------- | ----------------- | ------------------- | ------------------ |
+| **JavaScript (ES6+)** | ✅ tree-sitter | ✅ ESM + CJS      | ✅                  | ✅                 |
+| **TypeScript**        | ✅ tree-sitter | ✅ Path aliases   | ✅                  | ✅                 |
+| **JSX**               | ✅ tree-sitter | ✅                | ✅ React            | ✅                 |
+| **TSX**               | ✅ tree-sitter | ✅ Path aliases   | ✅ React            | ✅                 |
+| **MJS (ES Modules)**  | ✅             | ✅                | ✅                  | ✅                 |
+| **CJS (CommonJS)**    | ✅             | ✅ require()      | ✅                  | ✅                 |
 
 **Frameworks detected:**
+
 - React, Next.js, Remix, Gatsby
 - Vue.js, Nuxt.js
 - Svelte, SvelteKit
@@ -54,12 +54,13 @@ DevDiff operates at **three levels** of language support:
 
 ### Python
 
-| Language | AST Parser | Import Resolution | Framework Detection | Refactor Detection |
-|----------|-----------|-------------------|---------------------|-------------------|
-| **Python 3.8+** | ✅ tree-sitter | ✅ | ✅ | ✅ |
-| **Python type hints** | ✅ | ✅ | ✅ | ✅ |
+| Language              | AST Parser     | Import Resolution | Framework Detection | Refactor Detection |
+| --------------------- | -------------- | ----------------- | ------------------- | ------------------ |
+| **Python 3.8+**       | ✅ tree-sitter | ✅                | ✅                  | ✅                 |
+| **Python type hints** | ✅             | ✅                | ✅                  | ✅                 |
 
 **Frameworks detected:**
+
 - Django, Flask, FastAPI, Litestar
 - SQLAlchemy, Django ORM, Peewee
 - Pytest, unittest
@@ -68,10 +69,10 @@ DevDiff operates at **three levels** of language support:
 
 ### TypeScript-First Languages
 
-| Language | AST Parser | Import Resolution | Framework Detection | Refactor Detection |
-|----------|-----------|-------------------|---------------------|-------------------|
-| **TypeScript** | ✅ tree-sitter | ✅ | ✅ | ✅ |
-| **TSX** | ✅ tree-sitter | ✅ | ✅ React | ✅ |
+| Language       | AST Parser     | Import Resolution | Framework Detection | Refactor Detection |
+| -------------- | -------------- | ----------------- | ------------------- | ------------------ |
+| **TypeScript** | ✅ tree-sitter | ✅                | ✅                  | ✅                 |
+| **TSX**        | ✅ tree-sitter | ✅                | ✅ React            | ✅                 |
 
 ---
 
@@ -81,105 +82,105 @@ These languages get **basic diff parsing** + **AI explanations** but lack full A
 
 ### Systems & Compiled Languages
 
-| Language | Diff Parsing | Secret Scanning | AI Can Explain | AST | Refactor Detection |
-|----------|-------------|-----------------|----------------|-----|-------------------|
-| **Go** | ✅ | ✅ | ✅ | ❌ (planned) | ⚠️ Basic |
-| **Rust** | ✅ | ✅ | ✅ | ❌ (planned) | ⚠️ Basic |
-| **C** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **C++** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **C# (.NET)** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **Zig** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **Odin** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **Nim** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **Carbon** | ✅ | ✅ | ✅ | ❌ | ❌ |
+| Language      | Diff Parsing | Secret Scanning | AI Can Explain | AST          | Refactor Detection |
+| ------------- | ------------ | --------------- | -------------- | ------------ | ------------------ |
+| **Go**        | ✅           | ✅              | ✅             | ❌ (planned) | ⚠️ Basic           |
+| **Rust**      | ✅           | ✅              | ✅             | ❌ (planned) | ⚠️ Basic           |
+| **C**         | ✅           | ✅              | ✅             | ❌           | ❌                 |
+| **C++**       | ✅           | ✅              | ✅             | ❌           | ❌                 |
+| **C# (.NET)** | ✅           | ✅              | ✅             | ❌           | ❌                 |
+| **Zig**       | ✅           | ✅              | ✅             | ❌           | ❌                 |
+| **Odin**      | ✅           | ✅              | ✅             | ❌           | ❌                 |
+| **Nim**       | ✅           | ✅              | ✅             | ❌           | ❌                 |
+| **Carbon**    | ✅           | ✅              | ✅             | ❌           | ❌                 |
 
 ### JVM Languages
 
-| Language | Diff Parsing | Secret Scanning | AI Can Explain | AST | Refactor Detection |
-|----------|-------------|-----------------|----------------|-----|-------------------|
-| **Java** | ✅ | ✅ | ✅ | ❌ (planned) | ⚠️ Basic |
-| **Kotlin** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **Scala** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **Groovy** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **Clojure** | ✅ | ✅ | ✅ | ❌ | ❌ |
+| Language    | Diff Parsing | Secret Scanning | AI Can Explain | AST          | Refactor Detection |
+| ----------- | ------------ | --------------- | -------------- | ------------ | ------------------ |
+| **Java**    | ✅           | ✅              | ✅             | ❌ (planned) | ⚠️ Basic           |
+| **Kotlin**  | ✅           | ✅              | ✅             | ❌           | ❌                 |
+| **Scala**   | ✅           | ✅              | ✅             | ❌           | ❌                 |
+| **Groovy**  | ✅           | ✅              | ✅             | ❌           | ❌                 |
+| **Clojure** | ✅           | ✅              | ✅             | ❌           | ❌                 |
 
 ### .NET Languages
 
-| Language | Diff Parsing | Secret Scanning | AI Can Explain | AST | Refactor Detection |
-|----------|-------------|-----------------|----------------|-----|-------------------|
-| **C#** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **F#** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **VB.NET** | ✅ | ✅ | ✅ | ❌ | ❌ |
+| Language   | Diff Parsing | Secret Scanning | AI Can Explain | AST | Refactor Detection |
+| ---------- | ------------ | --------------- | -------------- | --- | ------------------ |
+| **C#**     | ✅           | ✅              | ✅             | ❌  | ❌                 |
+| **F#**     | ✅           | ✅              | ✅             | ❌  | ❌                 |
+| **VB.NET** | ✅           | ✅              | ✅             | ❌  | ❌                 |
 
 ### Mobile Languages
 
-| Language | Diff Parsing | Secret Scanning | AI Can Explain | AST | Refactor Detection |
-|----------|-------------|-----------------|----------------|-----|-------------------|
-| **Swift** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **Kotlin (Android)** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **Dart** | ✅ | ✅ | ✅ | ❌ (planned) | ❌ |
-| **Objective-C** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **React Native (JSX)** | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Language               | Diff Parsing | Secret Scanning | AI Can Explain | AST          | Refactor Detection |
+| ---------------------- | ------------ | --------------- | -------------- | ------------ | ------------------ |
+| **Swift**              | ✅           | ✅              | ✅             | ❌           | ❌                 |
+| **Kotlin (Android)**   | ✅           | ✅              | ✅             | ❌           | ❌                 |
+| **Dart**               | ✅           | ✅              | ✅             | ❌ (planned) | ❌                 |
+| **Objective-C**        | ✅           | ✅              | ✅             | ❌           | ❌                 |
+| **React Native (JSX)** | ✅           | ✅              | ✅             | ✅           | ✅                 |
 
 ### Scripting Languages
 
-| Language | Diff Parsing | Secret Scanning | AI Can Explain | AST | Refactor Detection |
-|----------|-------------|-----------------|----------------|-----|-------------------|
-| **Ruby** | ✅ | ✅ | ✅ | ❌ | ⚠️ Basic |
-| **PHP** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **Perl** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **Lua** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **Shell (Bash/Zsh)** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **PowerShell** | ✅ | ✅ | ✅ | ❌ | ❌ |
+| Language             | Diff Parsing | Secret Scanning | AI Can Explain | AST | Refactor Detection |
+| -------------------- | ------------ | --------------- | -------------- | --- | ------------------ |
+| **Ruby**             | ✅           | ✅              | ✅             | ❌  | ⚠️ Basic           |
+| **PHP**              | ✅           | ✅              | ✅             | ❌  | ❌                 |
+| **Perl**             | ✅           | ✅              | ✅             | ❌  | ❌                 |
+| **Lua**              | ✅           | ✅              | ✅             | ❌  | ❌                 |
+| **Shell (Bash/Zsh)** | ✅           | ✅              | ✅             | ❌  | ❌                 |
+| **PowerShell**       | ✅           | ✅              | ✅             | ❌  | ❌                 |
 
 ### Web & Styling
 
-| Language | Diff Parsing | Secret Scanning | AI Can Explain | AST | Refactor Detection |
-|----------|-------------|-----------------|----------------|-----|-------------------|
-| **HTML** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **CSS** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **SCSS/SASS** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **Less** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **PostCSS** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **SVG** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **GraphQL** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **MDX** | ✅ | ✅ | ✅ | ❌ | ❌ |
+| Language      | Diff Parsing | Secret Scanning | AI Can Explain | AST | Refactor Detection |
+| ------------- | ------------ | --------------- | -------------- | --- | ------------------ |
+| **HTML**      | ✅           | ✅              | ✅             | ❌  | ❌                 |
+| **CSS**       | ✅           | ✅              | ✅             | ❌  | ❌                 |
+| **SCSS/SASS** | ✅           | ✅              | ✅             | ❌  | ❌                 |
+| **Less**      | ✅           | ✅              | ✅             | ❌  | ❌                 |
+| **PostCSS**   | ✅           | ✅              | ✅             | ❌  | ❌                 |
+| **SVG**       | ✅           | ✅              | ✅             | ❌  | ❌                 |
+| **GraphQL**   | ✅           | ✅              | ✅             | ❌  | ❌                 |
+| **MDX**       | ✅           | ✅              | ✅             | ❌  | ❌                 |
 
 ### Functional Languages
 
-| Language | Diff Parsing | Secret Scanning | AI Can Explain | AST | Refactor Detection |
-|----------|-------------|-----------------|----------------|-----|-------------------|
-| **Elixir** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **Erlang** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **Haskell** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **OCaml** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **ReasonML** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **F#** | ✅ | ✅ | ✅ | ❌ | ❌ |
+| Language     | Diff Parsing | Secret Scanning | AI Can Explain | AST | Refactor Detection |
+| ------------ | ------------ | --------------- | -------------- | --- | ------------------ |
+| **Elixir**   | ✅           | ✅              | ✅             | ❌  | ❌                 |
+| **Erlang**   | ✅           | ✅              | ✅             | ❌  | ❌                 |
+| **Haskell**  | ✅           | ✅              | ✅             | ❌  | ❌                 |
+| **OCaml**    | ✅           | ✅              | ✅             | ❌  | ❌                 |
+| **ReasonML** | ✅           | ✅              | ✅             | ❌  | ❌                 |
+| **F#**       | ✅           | ✅              | ✅             | ❌  | ❌                 |
 
 ### Database & Query
 
-| Language | Diff Parsing | Secret Scanning | AI Can Explain | AST | Refactor Detection |
-|----------|-------------|-----------------|----------------|-----|-------------------|
-| **SQL** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **PL/pgSQL** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **MongoDB queries** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **Prisma Schema** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **Drizzle Schema** | ✅ | ✅ | ✅ | ❌ | ❌ |
+| Language            | Diff Parsing | Secret Scanning | AI Can Explain | AST | Refactor Detection |
+| ------------------- | ------------ | --------------- | -------------- | --- | ------------------ |
+| **SQL**             | ✅           | ✅              | ✅             | ❌  | ❌                 |
+| **PL/pgSQL**        | ✅           | ✅              | ✅             | ❌  | ❌                 |
+| **MongoDB queries** | ✅           | ✅              | ✅             | ❌  | ❌                 |
+| **Prisma Schema**   | ✅           | ✅              | ✅             | ❌  | ❌                 |
+| **Drizzle Schema**  | ✅           | ✅              | ✅             | ❌  | ❌                 |
 
 ### Infrastructure & Config
 
-| Language | Diff Parsing | Secret Scanning | AI Can Explain | AST | Refactor Detection |
-|----------|-------------|-----------------|----------------|-----|-------------------|
-| **YAML** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **TOML** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **JSON** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **HCL (Terraform)** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **Dockerfile** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **Makefile** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **INI/Env files** | ✅ | ✅ (critical) | ✅ | ❌ | ❌ |
-| **Nginx config** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **GitHub Actions YAML** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **GitLab CI YAML** | ✅ | ✅ | ✅ | ❌ | ❌ |
+| Language                | Diff Parsing | Secret Scanning | AI Can Explain | AST | Refactor Detection |
+| ----------------------- | ------------ | --------------- | -------------- | --- | ------------------ |
+| **YAML**                | ✅           | ✅              | ✅             | ❌  | ❌                 |
+| **TOML**                | ✅           | ✅              | ✅             | ❌  | ❌                 |
+| **JSON**                | ✅           | ✅              | ✅             | ❌  | ❌                 |
+| **HCL (Terraform)**     | ✅           | ✅              | ✅             | ❌  | ❌                 |
+| **Dockerfile**          | ✅           | ✅              | ✅             | ❌  | ❌                 |
+| **Makefile**            | ✅           | ✅              | ✅             | ❌  | ❌                 |
+| **INI/Env files**       | ✅           | ✅ (critical)   | ✅             | ❌  | ❌                 |
+| **Nginx config**        | ✅           | ✅              | ✅             | ❌  | ❌                 |
+| **GitHub Actions YAML** | ✅           | ✅              | ✅             | ❌  | ❌                 |
+| **GitLab CI YAML**      | ✅           | ✅              | ✅             | ❌  | ❌                 |
 
 ---
 
@@ -189,28 +190,28 @@ These languages get **raw diff** + **template changelog** only. The AI can still
 
 ### Everything Else
 
-| Language/Format | Notes |
-|----------------|-------|
-| **R** | Template only |
-| **MATLAB** | Template only |
-| **Julia** | Template only |
-| **Fortran** | Template only |
-| **COBOL** | Template only |
-| **Ada** | Template only |
-| **VHDL/Verilog** | Template only |
-| **Assembly** | Template only |
-| **LaTeX** | Template only |
-| **Markdown** | Template only (already well-supported as text) |
-| **reStructuredText** | Template only |
-| **Protocol Buffers (.proto)** | Template only |
-| **Thrift** | Template only |
-| **Avro IDL** | Template only |
-| **Lex/Yacc** | Template only |
-| **ANTLR grammars** | Template only |
-| **CUDA** | Template only |
-| **Solidity (smart contracts)** | Template only |
-| **Move (Aptos/Sui)** | Template only |
-| **Cairo (StarkNet)** | Template only |
+| Language/Format                | Notes                                          |
+| ------------------------------ | ---------------------------------------------- |
+| **R**                          | Template only                                  |
+| **MATLAB**                     | Template only                                  |
+| **Julia**                      | Template only                                  |
+| **Fortran**                    | Template only                                  |
+| **COBOL**                      | Template only                                  |
+| **Ada**                        | Template only                                  |
+| **VHDL/Verilog**               | Template only                                  |
+| **Assembly**                   | Template only                                  |
+| **LaTeX**                      | Template only                                  |
+| **Markdown**                   | Template only (already well-supported as text) |
+| **reStructuredText**           | Template only                                  |
+| **Protocol Buffers (.proto)**  | Template only                                  |
+| **Thrift**                     | Template only                                  |
+| **Avro IDL**                   | Template only                                  |
+| **Lex/Yacc**                   | Template only                                  |
+| **ANTLR grammars**             | Template only                                  |
+| **CUDA**                       | Template only                                  |
+| **Solidity (smart contracts)** | Template only                                  |
+| **Move (Aptos/Sui)**           | Template only                                  |
+| **Cairo (StarkNet)**           | Template only                                  |
 
 ---
 
@@ -521,21 +522,21 @@ Add to .devdiffignore to ensure they're never processed.
 export default {
   customLanguages: {
     // Your internal DSL
-    '.myco': {
-      name: 'MyCo DSL',
-      commentPattern: '//',
+    ".myco": {
+      name: "MyCo DSL",
+      commentPattern: "//",
       importPattern: /import\s+['"]([^'"]+)['"]/g,
       functionPattern: /def\s+(\w+)/g,
       classPattern: /entity\s+(\w+)/g,
     },
     // GraphQL in .graphql files
-    '.graphql': {
-      name: 'GraphQL',
-      commentPattern: '#',
+    ".graphql": {
+      name: "GraphQL",
+      commentPattern: "#",
       importPattern: /#import\s+['"]([^'"]+)['"]/g,
-    }
-  }
-}
+    },
+  },
+};
 ```
 
 ---

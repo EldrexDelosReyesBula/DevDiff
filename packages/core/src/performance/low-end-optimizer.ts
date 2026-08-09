@@ -128,10 +128,14 @@ export class LowEndOptimizer {
     return setInterval(() => {
       const current = this.detect();
       if (current.thermalState === "critical") {
-        console.warn("[lucide:alert-triangle] Device thermal critical — throttling DevDiff tasks");
+        console.warn(
+          "[lucide:alert-triangle] Device thermal critical — throttling DevDiff tasks",
+        );
       }
       if (current.onBattery && current.estimatedBatteryRemaining < 30) {
-        console.warn("[lucide:battery-charging] Battery low — entering power saving mode");
+        console.warn(
+          "[lucide:battery-charging] Battery low — entering power saving mode",
+        );
       }
       callback(current);
     }, 30000);
@@ -144,11 +148,16 @@ export class LowEndOptimizer {
         return output.includes("discharging");
       }
       if (process.platform === "linux") {
-        const output = execSync("upower -i /org/freedesktop/UPower/devices/battery_BAT0", { encoding: "utf-8" });
+        const output = execSync(
+          "upower -i /org/freedesktop/UPower/devices/battery_BAT0",
+          { encoding: "utf-8" },
+        );
         return output.includes("discharging");
       }
       if (process.platform === "win32") {
-        const output = execSync("wmic path Win32_Battery get BatteryStatus", { encoding: "utf-8" });
+        const output = execSync("wmic path Win32_Battery get BatteryStatus", {
+          encoding: "utf-8",
+        });
         return output.includes("1");
       }
     } catch (e) {
@@ -178,8 +187,14 @@ export class LowEndOptimizer {
         if (output.includes("high")) return "hot";
         if (output.includes("mid")) return "warm";
       }
-      if (process.platform === "linux" && fs.existsSync("/sys/class/thermal/thermal_zone0/temp")) {
-        const temp = fs.readFileSync("/sys/class/thermal/thermal_zone0/temp", "utf-8");
+      if (
+        process.platform === "linux" &&
+        fs.existsSync("/sys/class/thermal/thermal_zone0/temp")
+      ) {
+        const temp = fs.readFileSync(
+          "/sys/class/thermal/thermal_zone0/temp",
+          "utf-8",
+        );
         const tempC = parseInt(temp) / 1000;
         if (tempC > 90) return "critical";
         if (tempC > 75) return "hot";

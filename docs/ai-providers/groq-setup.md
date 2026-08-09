@@ -16,10 +16,10 @@ export default {
         name: "groq-cloud",
         url: "groq://llama-3.1-8b-instant",
         apiKey: process.env.GROQ_API_KEY,
-        priority: 1
-      }
-    ]
-  }
+        priority: 1,
+      },
+    ],
+  },
 };
 ```
 

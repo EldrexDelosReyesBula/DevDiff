@@ -1,12 +1,14 @@
 import * as vscode from "vscode";
 
 export class ChangelogCodeLensProvider implements vscode.CodeLensProvider {
-  private _onDidChangeCodeLenses: vscode.EventEmitter<void> = new vscode.EventEmitter<void>();
-  public readonly onDidChangeCodeLenses: vscode.Event<void> = this._onDidChangeCodeLenses.event;
+  private _onDidChangeCodeLenses: vscode.EventEmitter<void> =
+    new vscode.EventEmitter<void>();
+  public readonly onDidChangeCodeLenses: vscode.Event<void> =
+    this._onDidChangeCodeLenses.event;
 
   public provideCodeLenses(
     document: vscode.TextDocument,
-    _token: vscode.CancellationToken
+    _token: vscode.CancellationToken,
   ): vscode.CodeLens[] {
     const config = vscode.workspace.getConfiguration("devdiff");
     if (!config.get("showGutterAnnotations", true)) {

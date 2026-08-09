@@ -37,7 +37,7 @@ DevDiff integrates directly with **Ollama**, an open-source tool for running lar
 ```
 
 1. **Extraction**: DevDiff parses git diffs using Git's native APIs and formats them.
-2. **Redaction**: A built-in secret scanner strips API keys, JWTs, and database credentials *before* sending anything to the model.
+2. **Redaction**: A built-in secret scanner strips API keys, JWTs, and database credentials _before_ sending anything to the model.
 3. **Inference**: The CLI communicates with the local Ollama API server running at `http://localhost:11434`.
 4. **Rendering**: The generated summary is returned and printed to your terminal, git commit messages, or playground interface.
 
@@ -50,17 +50,23 @@ At no point in this cycle is any network request made to external cloud servers.
 You shouldn't have to take our word for it. We believe developer tools must be fully transparent and auditable. DevDiff includes built-in commands to monitor network connections and audit security logs:
 
 ### 1. `devdiff monitor`
+
 Run the real-time network monitor to watch active network connections:
+
 ```bash
 devdiff monitor
 ```
+
 This starts a network socket check that registers any external API or telemetry requests made by the process. In its default configuration, you will see exactly `0` external calls.
 
 ### 2. `devdiff disclose`
+
 Want to inspect the exact prompt sent to the LLM? Use the `--verbose` or `--dry-run` flags on the CLI, or run:
+
 ```bash
 devdiff disclose
 ```
+
 This logs the complete structured payload sent to Ollama, so you can verify exactly what parts of your diff are processed.
 
 ---
@@ -68,6 +74,7 @@ This logs the complete structured payload sent to Ollama, so you can verify exac
 ## ✈️ Air-Gapped Environments
 
 Because it runs completely offline, DevDiff works in places cloud tools cannot:
+
 - Secure corporate subnets with disabled internet access.
 - Air-gapped government, healthcare, or financial server rooms.
 - High-latency remote locations, trains, or flights.
@@ -80,13 +87,13 @@ To set up an air-gapped system, simply download Ollama and pull your model (like
 
 While local AI is private and cost-free, it's important to be realistic about the trade-offs:
 
-| Metric | Local AI (`llama3.2:3b`) | Cloud AI (`gpt-4o`) |
-| :--- | :--- | :--- |
-| **Cost** | **$0 / free forever** | Paid (API usage/tokens) |
-| **Privacy** | **100% private (offline)** | Data sent to external servers |
-| **Hardware Required** | Requires 8GB+ RAM, GPU optional | Runs on any machine (browser/API) |
-| **Inference Speed** | 3s - 15s (dependent on CPU/GPU) | 2s - 5s (instant API response) |
-| **Understanding** | Good for syntax changes & diffs | Excellent for complex global context |
+| Metric                | Local AI (`llama3.2:3b`)        | Cloud AI (`gpt-4o`)                  |
+| :-------------------- | :------------------------------ | :----------------------------------- |
+| **Cost**              | **$0 / free forever**           | Paid (API usage/tokens)              |
+| **Privacy**           | **100% private (offline)**      | Data sent to external servers        |
+| **Hardware Required** | Requires 8GB+ RAM, GPU optional | Runs on any machine (browser/API)    |
+| **Inference Speed**   | 3s - 15s (dependent on CPU/GPU) | 2s - 5s (instant API response)       |
+| **Understanding**     | Good for syntax changes & diffs | Excellent for complex global context |
 
 If you ever need the extra reasoning power of cloud LLMs, DevDiff supports them as an opt-in config via `devdiff auth add openai` or `devdiff auth add gemini`. But the choice is entirely yours.
 

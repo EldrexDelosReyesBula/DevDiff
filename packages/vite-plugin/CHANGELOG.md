@@ -21,6 +21,7 @@
 - Fixed `vite.config.ts` type inference — plugin options are now fully typed.
 
 ### Updated Dependencies
+
 - `@eldrex/core@1.6.0`
 
 ---

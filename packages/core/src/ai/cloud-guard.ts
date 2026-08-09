@@ -12,7 +12,7 @@ export class CloudGuard {
       const match = providers.find(
         (p) =>
           p.name?.toLowerCase() === providerName.toLowerCase() ||
-          p.url?.toLowerCase().includes(providerName.toLowerCase())
+          p.url?.toLowerCase().includes(providerName.toLowerCase()),
       ) as any;
 
       if (!match) return false;
@@ -48,7 +48,9 @@ export class CloudGuard {
       console.log("   Cloud AI requires explicit setup:");
       console.log("   devdiff auth add <provider>");
       console.log("");
-      console.log("   Your API keys are safe. Nothing is called without your consent.");
+      console.log(
+        "   Your API keys are safe. Nothing is called without your consent.",
+      );
       console.log("");
     }
 
@@ -67,7 +69,8 @@ export class CloudGuard {
       deepseek: "devdiff auth add deepseek",
     };
 
-    const cmd = instructions[provider.toLowerCase()] || `devdiff auth add ${provider}`;
+    const cmd =
+      instructions[provider.toLowerCase()] || `devdiff auth add ${provider}`;
 
     return [
       "",

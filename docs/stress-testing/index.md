@@ -53,16 +53,16 @@ STRESS_CONCURRENCY=10 ./test/stress/full-suite.sh
 
 ## 📊 Comprehensive Benchmark Matrix
 
-| Test ID | Benchmark Name | Primary Focus Area | Target / SLA Pass Criteria | Verified Benchmark Results |
-|---|---|---|---|---|
-| **T1** | Single File Diff | Process Spawn & AST Parsing | Execution in `< 200ms` | **118ms** |
-| **T2** | Memory Index Lookup | Sub-50ms Persistent Memory | Response in `< 50ms` | **32ms** |
-| **T3** | 1,000 Files Large Diff | Progressive Chunking Resiliency | Auto-chunking without context overflow | **Passed (100% chunks processed)** |
-| **T4** | 5,000 Files Memory Cap | Heap Memory & Garbage Collection | Memory peak strictly `< 512MB` | **Peak RAM 214MB** |
-| **T5** | 5x Swarm Concurrency | Parallel Thread Lock-Free Read/Write | 5 simultaneous agent queries without lock collision | **Passed (0 file lock errors)** |
-| **T6** | Edge Cases & Symlinks | File System Resiliency | Gracefully skip binaries, broken symlinks, & null bytes | **Passed (0 crashes)** |
-| **T7** | Prompt Injection Guard | Adversarial LLM Security | 100% block rate on prompt/shell injections | **Passed (0 jailbreaks)** |
-| **T8** | High-Entropy Redaction | Secret Leak Prevention | 100% masking of API keys & JWT tokens | **Passed (0 credential leaks)** |
+| Test ID | Benchmark Name         | Primary Focus Area                   | Target / SLA Pass Criteria                              | Verified Benchmark Results         |
+| ------- | ---------------------- | ------------------------------------ | ------------------------------------------------------- | ---------------------------------- |
+| **T1**  | Single File Diff       | Process Spawn & AST Parsing          | Execution in `< 200ms`                                  | **118ms**                          |
+| **T2**  | Memory Index Lookup    | Sub-50ms Persistent Memory           | Response in `< 50ms`                                    | **32ms**                           |
+| **T3**  | 1,000 Files Large Diff | Progressive Chunking Resiliency      | Auto-chunking without context overflow                  | **Passed (100% chunks processed)** |
+| **T4**  | 5,000 Files Memory Cap | Heap Memory & Garbage Collection     | Memory peak strictly `< 512MB`                          | **Peak RAM 214MB**                 |
+| **T5**  | 5x Swarm Concurrency   | Parallel Thread Lock-Free Read/Write | 5 simultaneous agent queries without lock collision     | **Passed (0 file lock errors)**    |
+| **T6**  | Edge Cases & Symlinks  | File System Resiliency               | Gracefully skip binaries, broken symlinks, & null bytes | **Passed (0 crashes)**             |
+| **T7**  | Prompt Injection Guard | Adversarial LLM Security             | 100% block rate on prompt/shell injections              | **Passed (0 jailbreaks)**          |
+| **T8**  | High-Entropy Redaction | Secret Leak Prevention               | 100% masking of API keys & JWT tokens                   | **Passed (0 credential leaks)**    |
 
 ---
 

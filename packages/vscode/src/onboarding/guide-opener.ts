@@ -17,20 +17,25 @@ export class OnboardingGuide {
     })();
 
     context.subscriptions.push(
-      vscode.workspace.registerTextDocumentContentProvider("devdiff", provider)
+      vscode.workspace.registerTextDocumentContentProvider("devdiff", provider),
     );
 
     context.subscriptions.push(
-      vscode.commands.registerCommand("devdiff.showGettingStarted", async () => {
-        await OnboardingGuide.openGuide();
-      })
+      vscode.commands.registerCommand(
+        "devdiff.showGettingStarted",
+        async () => {
+          await OnboardingGuide.openGuide();
+        },
+      ),
     );
   }
 
   /**
    * Open the onboarding guide in the editor on first install
    */
-  static async showIfFirstTime(context: vscode.ExtensionContext): Promise<void> {
+  static async showIfFirstTime(
+    context: vscode.ExtensionContext,
+  ): Promise<void> {
     const hasSeen = context.globalState.get<boolean>(this.HAS_SEEN_GUIDE_KEY);
 
     if (hasSeen) {
@@ -47,7 +52,7 @@ export class OnboardingGuide {
       "👋 Welcome to DevDiff! Your Getting Started guide is open in the editor.",
       "Generate First Changelog",
       "Read Full Docs",
-      "Dismiss"
+      "Dismiss",
     );
 
     if (action === "Generate First Changelog") {
@@ -149,7 +154,9 @@ ${quickStartSection}
       } else if (path.setupRequired && path.action) {
         lines.push(`⚠️ **${path.icon} ${path.name}** — ${path.details}`);
         if (path.action.type === "install") {
-          lines.push(`   → [Install ${path.name}](${path.action.url}) — ${path.action.platformInstructions || "Free, private, 2-minute setup"}`);
+          lines.push(
+            `   → [Install ${path.name}](${path.action.url}) — ${path.action.platformInstructions || "Free, private, 2-minute setup"}`,
+          );
         }
         if (path.action.type === "setup") {
           lines.push(`   → Setup command: \`${path.action.command}\``);
@@ -174,7 +181,9 @@ ${quickStartSection}
     return lines.join("\n");
   }
 
-  private static generateQuickStartSection(detection: AIDetectionResult): string {
+  private static generateQuickStartSection(
+    detection: AIDetectionResult,
+  ): string {
     const recommended = detection.recommendedPath;
 
     if (recommended) {

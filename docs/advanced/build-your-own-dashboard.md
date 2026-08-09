@@ -63,17 +63,17 @@ export function TeamChangelogDashboard() {
 ## 💬 Slack Standup Integration Example
 
 ```typescript
-import { DevDiffEngine } from '@eldrex/core';
-import { WebClient } from '@slack/web-api';
+import { DevDiffEngine } from "@eldrex/core";
+import { WebClient } from "@slack/web-api";
 
 const slack = new WebClient(process.env.SLACK_TOKEN);
 const engine = new DevDiffEngine({ workspacePath: process.cwd() });
 
 export async function sendDailyStandup() {
-  const changelog = await engine.analyze({ since: '24h', persona: 'pm' });
+  const changelog = await engine.analyze({ since: "24h", persona: "pm" });
   await slack.chat.postMessage({
-    channel: '#engineering-standup',
-    text: `🚀 *Daily Codebase Update*\n\n${changelog.summary || changelog}`
+    channel: "#engineering-standup",
+    text: `🚀 *Daily Codebase Update*\n\n${changelog.summary || changelog}`,
   });
 }
 ```

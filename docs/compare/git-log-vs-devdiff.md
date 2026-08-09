@@ -6,16 +6,16 @@ Understanding what changed across commits, PRs, and monorepo merges is critical 
 
 ## 🎯 Detailed Feature Comparison Matrix
 
-| Feature | `git log` | DevDiff (v1.6.0) |
-|---|---|---|
-| **Audience Targeting** | Technical developers only | Custom personas (Developer, PM, Security Auditor, Executive, Educator) |
-| **Content Source** | Manually typed commit messages | AST-analyzed code differences, export changes, & package manifests |
-| **Codebase Memory Context** | None (reads raw commit text only) | Persistent codebase memory index (`.devdiff/memory/codebase-index.json`) |
-| **Executive / PM Summaries** | Raw commit hashes | Clean Keep a Changelog narrative grouped by business impact |
-| **Credential Redaction** | Plaintext (exposes leaked API keys) | `RedactionEngineV2` masks credentials before output processing |
-| **Injection Safeguards** | None | `PromptSanitizer` strips Unicode Tag Blocks & malicious payloads |
-| **SemVer Detection** | Manual tag creation | Automated AST breaking change detection (`SemverDetector`) |
-| **Query Latency** | Command execution dependent | Sub-50ms index queries via MCP Server (`@eldrex/mcp`) |
+| Feature                      | `git log`                           | DevDiff (v1.6.0)                                                         |
+| ---------------------------- | ----------------------------------- | ------------------------------------------------------------------------ |
+| **Audience Targeting**       | Technical developers only           | Custom personas (Developer, PM, Security Auditor, Executive, Educator)   |
+| **Content Source**           | Manually typed commit messages      | AST-analyzed code differences, export changes, & package manifests       |
+| **Codebase Memory Context**  | None (reads raw commit text only)   | Persistent codebase memory index (`.devdiff/memory/codebase-index.json`) |
+| **Executive / PM Summaries** | Raw commit hashes                   | Clean Keep a Changelog narrative grouped by business impact              |
+| **Credential Redaction**     | Plaintext (exposes leaked API keys) | `RedactionEngineV2` masks credentials before output processing           |
+| **Injection Safeguards**     | None                                | `PromptSanitizer` strips Unicode Tag Blocks & malicious payloads         |
+| **SemVer Detection**         | Manual tag creation                 | Automated AST breaking change detection (`SemverDetector`)               |
+| **Query Latency**            | Command execution dependent         | Sub-50ms index queries via MCP Server (`@eldrex/mcp`)                    |
 
 ---
 
@@ -31,7 +31,7 @@ Date:   Sat Aug 8 12:34:56 2026
     refactor signal reactivity and update login
 ```
 
-*Problem:* `git log` only shows what the developer typed. It does not explain what functions were altered, whether breaking API changes occurred, or whether credentials were included.
+_Problem:_ `git log` only shows what the developer typed. It does not explain what functions were altered, whether breaking API changes occurred, or whether credentials were included.
 
 ---
 
@@ -46,4 +46,4 @@ Date:   Sat Aug 8 12:34:56 2026
 - **SemVer Recommendation**: MINOR increment (Feature addition, fully backward-compatible).
 ```
 
-*Solution:* DevDiff parses AST modifications, extracts modified exported functions, filters sensitive keys, and formats the output into clean, scannable developer language.
+_Solution:_ DevDiff parses AST modifications, extracts modified exported functions, filters sensitive keys, and formats the output into clean, scannable developer language.

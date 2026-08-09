@@ -11,7 +11,7 @@ flowchart LR
     n8n[n8n Workflow Engine] -->|HTTP POST /api/v1/analyze| Gateway[DevDiff Local Gateway / Port 3737]
     Gateway -->|Sub-second Changelog Output| n8n
     n8n -->|Dispatch Notification| Channels[Slack / Email / Discord / Teams]
-    
+
     style Gateway fill:#bbf,stroke:#333,stroke-width:2px
     style Channels fill:#9f9,stroke:#333,stroke-width:2px
 ```

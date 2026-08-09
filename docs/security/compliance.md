@@ -9,7 +9,7 @@ DevDiff includes built-in compliance scanning capabilities to analyze code diffs
 ```mermaid
 flowchart TD
     Diff[Codebase Changes & Staged Diff] --> Engine[DevDiff Compliance Analyzer]
-    
+
     subgraph Frameworks [10 Regulatory Framework Mappings]
       F1[GDPR - EU Data Privacy]
       F2[HIPAA - Health Data Security]
@@ -22,10 +22,10 @@ flowchart TD
       F9[OWASP Top 10 - Application Risks]
       F10[CIS Controls - Cyber Defense]
     end
-    
+
     Engine --> Frameworks
     Frameworks --> Report[Compliance Audit Report & Risk Rating]
-    
+
     style Report fill:#bbf,stroke:#333,stroke-width:2px
 ```
 
@@ -33,18 +33,18 @@ flowchart TD
 
 ## 📋 Framework Mapping & Rule Matrix
 
-| Framework | Primary Focus Area | Detection Rules & Patterns |
-|---|---|---|
-| **GDPR** | Personal Data & Privacy | Unsanitized PII logging, unencrypted user storage, missing consent flags |
-| **HIPAA** | Protected Health Info (PHI) | Hardcoded patient identifiers, unencrypted health payload transmissions |
-| **SOC 2** | Security & Availability | Missing audit logs, unauthenticated routes, weak cryptography |
-| **ISO 27001** | Information Security | Hardcoded API keys, unvalidated inputs, missing error boundary isolation |
-| **FedRAMP** | Federal Cloud Security | Non-FIPS cryptographic algorithms, unauthorized outbound connections |
-| **PCI-DSS** | Cardholder Data | Plaintext Primary Account Numbers (PAN), CVV storage in logs |
-| **NIST 800-53** | Access Control & Integrity | Excessive default privileges, missing session timeout parameters |
-| **CCPA** | Consumer Privacy Rights | Third-party data sharing endpoints without opt-out controls |
-| **OWASP Top 10** | Web App Vulnerabilities | SQL injection, XSS, Broken Auth, SSRF, Insecure Deserialization |
-| **CIS Controls** | Inventory & Access | Unrestricted CORS policies, weak TLS configurations, legacy dependencies |
+| Framework        | Primary Focus Area          | Detection Rules & Patterns                                               |
+| ---------------- | --------------------------- | ------------------------------------------------------------------------ |
+| **GDPR**         | Personal Data & Privacy     | Unsanitized PII logging, unencrypted user storage, missing consent flags |
+| **HIPAA**        | Protected Health Info (PHI) | Hardcoded patient identifiers, unencrypted health payload transmissions  |
+| **SOC 2**        | Security & Availability     | Missing audit logs, unauthenticated routes, weak cryptography            |
+| **ISO 27001**    | Information Security        | Hardcoded API keys, unvalidated inputs, missing error boundary isolation |
+| **FedRAMP**      | Federal Cloud Security      | Non-FIPS cryptographic algorithms, unauthorized outbound connections     |
+| **PCI-DSS**      | Cardholder Data             | Plaintext Primary Account Numbers (PAN), CVV storage in logs             |
+| **NIST 800-53**  | Access Control & Integrity  | Excessive default privileges, missing session timeout parameters         |
+| **CCPA**         | Consumer Privacy Rights     | Third-party data sharing endpoints without opt-out controls              |
+| **OWASP Top 10** | Web App Vulnerabilities     | SQL injection, XSS, Broken Auth, SSRF, Insecure Deserialization          |
+| **CIS Controls** | Inventory & Access          | Unrestricted CORS policies, weak TLS configurations, legacy dependencies |
 
 ---
 

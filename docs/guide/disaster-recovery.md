@@ -25,6 +25,7 @@ devdiff recover list
 ```
 
 Output:
+
 ```
 Available Workspace Checkpoints:
   ID: ckpt-1719000300-def456  Time: 2026-08-08 22:10:00  Files: 5

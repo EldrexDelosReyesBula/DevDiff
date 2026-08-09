@@ -15,6 +15,7 @@ description: Enforces team-specific changelog formatting rules and breaking chan
 ---
 
 # Team Changelog Guidelines
+
 - All breaking changes must be highlighted in bold red.
 - Reference Jira ticket IDs in square brackets (e.g. [PROJ-123]).
 ```

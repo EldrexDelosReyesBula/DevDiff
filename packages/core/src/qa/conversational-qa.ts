@@ -84,7 +84,6 @@ export class ConversationalQA {
     return answer;
   }
 
-
   /**
    * Resolve pronouns and references from conversation context
    */
@@ -92,7 +91,10 @@ export class ConversationalQA {
     let resolved = question;
 
     if (/^what about/i.test(question) && this.context.currentTopic) {
-      resolved = question.replace(/what about/i, `Tell me about ${this.context.currentTopic}`);
+      resolved = question.replace(
+        /what about/i,
+        `Tell me about ${this.context.currentTopic}`,
+      );
     }
 
     if (
@@ -100,8 +102,13 @@ export class ConversationalQA {
       this.context.referencedEntities.length > 0
     ) {
       const lastEntity =
-        this.context.referencedEntities[this.context.referencedEntities.length - 1];
-      resolved = question.replace(/^(and|what about) the\s+/i, `Tell me about the ${lastEntity} `);
+        this.context.referencedEntities[
+          this.context.referencedEntities.length - 1
+        ];
+      resolved = question.replace(
+        /^(and|what about) the\s+/i,
+        `Tell me about the ${lastEntity} `,
+      );
     }
 
     if (this.context.currentTopic) {
@@ -191,7 +198,11 @@ export class ConversationalQA {
         answer: res.summary || "No AI explanation available.",
         confidence: 0.85,
         sources: res.files ? res.files.map((f) => f.path) : [],
-        followUps: ["Tell me more", "Show code snippet", "What changed recently?"],
+        followUps: [
+          "Tell me more",
+          "Show code snippet",
+          "What changed recently?",
+        ],
       };
     } catch {
       return {

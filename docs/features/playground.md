@@ -11,11 +11,11 @@ flowchart LR
     VSCode[VS Code Extension @eldrex/vscode] --> Panel1[1. Interactive Changelog Explorer]
     VSCode --> Panel2[2. Q&A Chat Panel]
     VSCode --> Panel3[3. Security & Compliance Panel]
-    
+
     Terminal[Integrated Terminal @eldrex/cli] --> CLICommands[devdiff generate / devdiff memory]
-    
+
     MCP[MCP Server @eldrex/mcp] --> Cursor[Cursor / Windsurf AI Assistant]
-    
+
     style VSCode fill:#bbf,stroke:#333,stroke-width:2px
     style Terminal fill:#9f9,stroke:#333,stroke-width:2px
 ```

@@ -12,7 +12,7 @@ flowchart LR
     Hook1 --> AI[DevDiff AI & Memory Engine]
     AI --> Hook2[afterAnalysis Hook]
     Hook2 --> Output[Changelog Output & Storage]
-    
+
     subgraph PluginSDK [@eldrex/plugin-sdk Environment]
       Hook1
       Hook2
@@ -20,7 +20,7 @@ flowchart LR
       Storage[PluginStorage]
       Notify[PluginNotifications]
     end
-    
+
     style PluginSDK fill:#eef,stroke:#333,stroke-width:2px
     style Output fill:#9f9,stroke:#333,stroke-width:2px
 ```
@@ -31,14 +31,14 @@ flowchart LR
 
 DevDiff plugins can register for 6 core execution hooks:
 
-| Hook Name | Invocation Timing | Primary Use Case |
-|---|---|---|
+| Hook Name        | Invocation Timing                           | Primary Use Case                                        |
+| ---------------- | ------------------------------------------- | ------------------------------------------------------- |
 | `beforeAnalysis` | Executed before diff payload is sent to LLM | Inspect diffs, inject metadata, block dangerous changes |
-| `afterAnalysis` | Executed after changelog is generated | Post-process summaries, dispatch webhooks (Slack/Jira) |
-| `onError` | Executed on any DevDiff error | Centralized error logging, alerting |
-| `onFileChange` | Executed when workspace files modify | Trigger external linters, background build checks |
-| `onCommit` | Executed when a git commit occurs | CI/CD pipeline triggers |
-| `onAIComplete` | Executed when LLM completes inference | Token tracking, cost monitoring |
+| `afterAnalysis`  | Executed after changelog is generated       | Post-process summaries, dispatch webhooks (Slack/Jira)  |
+| `onError`        | Executed on any DevDiff error               | Centralized error logging, alerting                     |
+| `onFileChange`   | Executed when workspace files modify        | Trigger external linters, background build checks       |
+| `onCommit`       | Executed when a git commit occurs           | CI/CD pipeline triggers                                 |
+| `onAIComplete`   | Executed when LLM completes inference       | Token tracking, cost monitoring                         |
 
 ---
 

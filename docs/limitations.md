@@ -11,7 +11,7 @@ Transparency about what DevDiff can and cannot do today.
 | **First-run on massive codebases** | AI lacks deep context on initial analysis              | Run `devdiff context generate` first |
 | **Very large diffs (>500 files)**  | Explanation will be architecture-level, not file-level | Stage smaller changesets             |
 | **Auto-generated code**            | AI cannot meaningfully explain generated files         | Exclude in `.devdiffignore`          |
-| **Domain-specific jargon**         | AI may not understand internal terminology             | Add to `.devdiff/SKILL.md`          |
+| **Domain-specific jargon**         | AI may not understand internal terminology             | Add to `.devdiff/SKILL.md`           |
 | **Hallucination risk**             | AI may reference files/functions not in the diff       | Review flagged explanations          |
 | **Non-English codebases**          | Best results with English comments and identifiers     | Community translations planned       |
 

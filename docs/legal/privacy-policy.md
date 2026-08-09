@@ -35,23 +35,23 @@ DevDiff is designed as a **local-first, privacy-first** developer tool. By defau
 
 When DevDiff is configured with a local AI provider (Ollama, llama.cpp, or WebGPU/Transformers.js):
 
-| What Happens | Detail |
-| :--- | :--- |
-| All processing is local | AST parsing, diff extraction, token budgeting, and LLM inference run entirely within your system's memory |
-| Zero network egress | No data is transmitted over the internet during local model operation |
-| Offline operation | DevDiff is fully functional offline once local models are downloaded |
-| No DevDiff server involvement | We operate no servers, proxies, or relays for local model traffic |
+| What Happens                  | Detail                                                                                                    |
+| :---------------------------- | :-------------------------------------------------------------------------------------------------------- |
+| All processing is local       | AST parsing, diff extraction, token budgeting, and LLM inference run entirely within your system's memory |
+| Zero network egress           | No data is transmitted over the internet during local model operation                                     |
+| Offline operation             | DevDiff is fully functional offline once local models are downloaded                                      |
+| No DevDiff server involvement | We operate no servers, proxies, or relays for local model traffic                                         |
 
 ### 2.2 Cloud AI Provider Mode (Explicit Opt-In Only)
 
 Cloud AI providers (OpenAI, Anthropic, Google Gemini, etc.) are **never used automatically**. You must explicitly configure them in `.devdiff.config.js` or via `devdiff auth add`. When you do:
 
-| What Happens | Detail |
-| :--- | :--- |
+| What Happens             | Detail                                                                                                       |
+| :----------------------- | :----------------------------------------------------------------------------------------------------------- |
 | Direct API communication | DevDiff transmits your pre-trimmed, redacted diff context directly to the configured provider's API endpoint |
-| No intermediate servers | Requests are never proxied through DevDiff infrastructure |
-| Local key storage only | API keys are read from local environment variables at runtime and never persisted by DevDiff |
-| Provider policies apply | Data sent to cloud AI providers is subject to their own privacy policies and terms |
+| No intermediate servers  | Requests are never proxied through DevDiff infrastructure                                                    |
+| Local key storage only   | API keys are read from local environment variables at runtime and never persisted by DevDiff                 |
+| Provider policies apply  | Data sent to cloud AI providers is subject to their own privacy policies and terms                           |
 
 > [!NOTE]
 > Most enterprise API tiers of major AI providers (OpenAI, Anthropic) explicitly guarantee that API request data is not used for model training. Verify your provider's current data usage policy before sending proprietary code.
@@ -71,17 +71,17 @@ Redacted values are replaced with the placeholder `[REDACTED]` before the conten
 
 ### 2.4 Data We Never Collect
 
-| Data Type | Collected? |
-| :--- | :---: |
-| Source code or git diffs | ❌ Never |
-| CLI command history or arguments | ❌ Never |
-| Repository names, paths, or identifiers | ❌ Never |
-| API keys or credentials | ❌ Never |
-| Developer names or email addresses | ❌ Never |
-| IP addresses or device identifiers | ❌ Never |
-| Crash reports or error telemetry | ❌ Never |
-| Usage analytics or feature metrics | ❌ Never |
-| Operating system or environment information | ❌ Never |
+| Data Type                                   | Collected? |
+| :------------------------------------------ | :--------: |
+| Source code or git diffs                    |  ❌ Never  |
+| CLI command history or arguments            |  ❌ Never  |
+| Repository names, paths, or identifiers     |  ❌ Never  |
+| API keys or credentials                     |  ❌ Never  |
+| Developer names or email addresses          |  ❌ Never  |
+| IP addresses or device identifiers          |  ❌ Never  |
+| Crash reports or error telemetry            |  ❌ Never  |
+| Usage analytics or feature metrics          |  ❌ Never  |
+| Operating system or environment information |  ❌ Never  |
 
 ---
 
@@ -99,12 +99,12 @@ The DevDiff documentation site (`https://devdiff.vercel.app`) is a **static site
 
 DevDiff generates local-only artifacts in your workspace:
 
-| Artifact | Location | Purpose |
-| :--- | :--- | :--- |
-| Codebase index | `.devdiff/memory/codebase-index.json` | Persistent memory index for conversational Q&A |
-| Snapshot history | `.devdiff/memory/snapshot-history.json` | Historical diff snapshots |
-| Conversation history | `.devdiff/memory/conversation-history.json` | Multi-turn Q&A context |
-| Audit logs | `.devdiff/audit/` | Local record of AI calls (provider, model, token count — no content) |
+| Artifact             | Location                                    | Purpose                                                              |
+| :------------------- | :------------------------------------------ | :------------------------------------------------------------------- |
+| Codebase index       | `.devdiff/memory/codebase-index.json`       | Persistent memory index for conversational Q&A                       |
+| Snapshot history     | `.devdiff/memory/snapshot-history.json`     | Historical diff snapshots                                            |
+| Conversation history | `.devdiff/memory/conversation-history.json` | Multi-turn Q&A context                                               |
+| Audit logs           | `.devdiff/audit/`                           | Local record of AI calls (provider, model, token count — no content) |
 
 All of these files reside exclusively on your filesystem. DevDiff never reads, transmits, or has access to these files remotely. You may delete them at any time.
 
@@ -152,8 +152,8 @@ If this Privacy Policy changes materially, we will update the version number and
 
 For privacy-related questions or concerns:
 
-| Channel | Link |
-| :--- | :--- |
-| GitHub Issues | [github.com/EldrexDelosReyesBula/devdiff/issues](https://github.com/EldrexDelosReyesBula/devdiff/issues) |
-| Security Disclosures | [GitHub Private Advisory](https://github.com/EldrexDelosReyesBula/devdiff/security/advisories/new) |
-| Email | eldrexdelosreyesbula@gmail.com |
+| Channel              | Link                                                                                                     |
+| :------------------- | :------------------------------------------------------------------------------------------------------- |
+| GitHub Issues        | [github.com/EldrexDelosReyesBula/devdiff/issues](https://github.com/EldrexDelosReyesBula/devdiff/issues) |
+| Security Disclosures | [GitHub Private Advisory](https://github.com/EldrexDelosReyesBula/devdiff/security/advisories/new)       |
+| Email                | eldrexdelosreyesbula@gmail.com                                                                           |

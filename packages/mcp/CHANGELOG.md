@@ -23,5 +23,6 @@
 - Fixed tool response serialization for binary diff content.
 
 ### Updated Dependencies
+
 - `@eldrex/core@1.6.0`
 - `@modelcontextprotocol/sdk@^1.0.1`

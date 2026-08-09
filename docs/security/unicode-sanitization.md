@@ -24,13 +24,13 @@ When an AI agent reads the file contents via raw file inspection, the embedded U
 
 DevDiff's `PromptSanitizer` scans and strips characters across the following high-risk Unicode ranges:
 
-| Unicode Range | Range Name / Description | Threat Category | Action Taken |
-|---|---|---|---|
-| `U+E0000..U+E007F` | Tags Block (ASCII Mirror Tags) | Adversarial Prompt Injection | **STRIPPED** |
-| `U+200B..U+200D` | Zero-Width Spaces & Joiners | Invisible Payload Hiding | **STRIPPED** |
-| `U+202A..U+202E` | Bidirectional Text Controls (LRO/RLO) | BIDI Source Code Obfuscation | **STRIPPED** |
-| `U+2060..U+2064` | Invisible Operators & Word Joiners | Context Manipulation | **STRIPPED** |
-| `U+FEFF` | Byte Order Mark (BOM) | Unexpected Parsing Errors | **NORMALIZED** |
+| Unicode Range      | Range Name / Description              | Threat Category              | Action Taken   |
+| ------------------ | ------------------------------------- | ---------------------------- | -------------- |
+| `U+E0000..U+E007F` | Tags Block (ASCII Mirror Tags)        | Adversarial Prompt Injection | **STRIPPED**   |
+| `U+200B..U+200D`   | Zero-Width Spaces & Joiners           | Invisible Payload Hiding     | **STRIPPED**   |
+| `U+202A..U+202E`   | Bidirectional Text Controls (LRO/RLO) | BIDI Source Code Obfuscation | **STRIPPED**   |
+| `U+2060..U+2064`   | Invisible Operators & Word Joiners    | Context Manipulation         | **STRIPPED**   |
+| `U+FEFF`           | Byte Order Mark (BOM)                 | Unexpected Parsing Errors    | **NORMALIZED** |
 
 ---
 

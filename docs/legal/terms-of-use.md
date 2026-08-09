@@ -23,13 +23,13 @@ The Software is distributed under the **MIT License**. A full copy of the licens
 
 Under this license, you are granted the following rights, free of charge:
 
-| Permission | Detail |
-| :--- | :--- |
-| ✅ Personal & Commercial Use | Use DevDiff in any personal or commercial project |
-| ✅ Modification | Modify the source code to suit your needs |
-| ✅ Distribution | Redistribute original or modified versions |
-| ✅ Sublicensing | Include DevDiff in proprietary or larger software systems |
-| ✅ Private Use | Use without any obligation to publish changes |
+| Permission                   | Detail                                                    |
+| :--------------------------- | :-------------------------------------------------------- |
+| ✅ Personal & Commercial Use | Use DevDiff in any personal or commercial project         |
+| ✅ Modification              | Modify the source code to suit your needs                 |
+| ✅ Distribution              | Redistribute original or modified versions                |
+| ✅ Sublicensing              | Include DevDiff in proprietary or larger software systems |
+| ✅ Private Use               | Use without any obligation to publish changes             |
 
 ### 1.2 Conditions
 
@@ -151,7 +151,7 @@ If any provision of these Terms is found to be unenforceable or invalid under ap
 
 For questions regarding these Terms:
 
-| Channel | Link |
-| :--- | :--- |
+| Channel       | Link                                                                                                     |
+| :------------ | :------------------------------------------------------------------------------------------------------- |
 | GitHub Issues | [github.com/EldrexDelosReyesBula/devdiff/issues](https://github.com/EldrexDelosReyesBula/devdiff/issues) |
-| Email | eldrexdelosreyesbula@gmail.com |
+| Email         | eldrexdelosreyesbula@gmail.com                                                                           |

@@ -59,7 +59,7 @@ export class SkillManager {
     try {
       gitHistorySummary = execSync(
         'git log -n 5 --pretty=format:"| %cd | %s |"',
-        { cwd: this.workspaceRoot, encoding: "utf-8" }
+        { cwd: this.workspaceRoot, encoding: "utf-8" },
       );
     } catch (e) {
       gitHistorySummary = "| Recent | Workspace initialized |";

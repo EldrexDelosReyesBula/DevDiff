@@ -7,7 +7,7 @@ export class ChangelogItem extends vscode.TreeItem {
     public readonly description: string,
     public readonly collapsibleState: vscode.TreeItemCollapsibleState,
     public readonly command?: vscode.Command,
-    public readonly iconName?: string
+    public readonly iconName?: string,
   ) {
     super(label, collapsibleState);
     this.tooltip = `${this.label} — ${this.description}`;
@@ -19,12 +19,17 @@ export class ChangelogItem extends vscode.TreeItem {
 }
 
 export class ChangelogExplorer implements vscode.TreeDataProvider<ChangelogItem> {
-  private _onDidChangeTreeData: vscode.EventEmitter<ChangelogItem | undefined | null | void> =
-    new vscode.EventEmitter<ChangelogItem | undefined | null | void>();
-  readonly onDidChangeTreeData: vscode.Event<ChangelogItem | undefined | null | void> =
-    this._onDidChangeTreeData.event;
+  private _onDidChangeTreeData: vscode.EventEmitter<
+    ChangelogItem | undefined | null | void
+  > = new vscode.EventEmitter<ChangelogItem | undefined | null | void>();
+  readonly onDidChangeTreeData: vscode.Event<
+    ChangelogItem | undefined | null | void
+  > = this._onDidChangeTreeData.event;
 
-  constructor(private context: vscode.ExtensionContext, private engine: DevDiffEngine) {}
+  constructor(
+    private context: vscode.ExtensionContext,
+    private engine: DevDiffEngine,
+  ) {}
 
   refresh(): void {
     this._onDidChangeTreeData.fire();
@@ -45,14 +50,14 @@ export class ChangelogExplorer implements vscode.TreeDataProvider<ChangelogItem>
             command: "devdiff.generateChangelog",
             title: "Generate Changelog",
           },
-          "play"
+          "play",
         ),
         new ChangelogItem(
           "Staged Changes",
           "Inspect staged files",
           vscode.TreeItemCollapsibleState.Collapsed,
           undefined,
-          "git-commit"
+          "git-commit",
         ),
         new ChangelogItem(
           "Architecture Diagram",
@@ -62,14 +67,15 @@ export class ChangelogExplorer implements vscode.TreeDataProvider<ChangelogItem>
             command: "devdiff.generateDiagram",
             title: "Generate Diagram",
           },
-          "graph"
+          "graph",
         ),
       ];
     }
 
     if (element.label === "Staged Changes") {
       try {
-        const workspacePath = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || process.cwd();
+        const workspacePath =
+          vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || process.cwd();
         const contextData = await this.engine.getProjectContext();
         return [
           new ChangelogItem(
@@ -77,7 +83,7 @@ export class ChangelogExplorer implements vscode.TreeDataProvider<ChangelogItem>
             contextData.slice(0, 40) + "...",
             vscode.TreeItemCollapsibleState.None,
             undefined,
-            "info"
+            "info",
           ),
         ];
       } catch {
@@ -87,7 +93,7 @@ export class ChangelogExplorer implements vscode.TreeDataProvider<ChangelogItem>
             "Stage files with git to analyze",
             vscode.TreeItemCollapsibleState.None,
             undefined,
-            "info"
+            "info",
           ),
         ];
       }

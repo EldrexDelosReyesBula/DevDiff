@@ -14,7 +14,7 @@ import {
   ChangelogResult,
   AIResult,
   PluginStorage,
-  PluginLogger
+  PluginLogger,
 } from "@eldrex/plugin-sdk";
 ```
 
@@ -36,7 +36,10 @@ export interface DevDiffPlugin {
   deactivate?: () => Promise<void>;
   hooks?: {
     beforeAnalysis?: (diff: ParsedDiff) => Promise<ParsedDiff>;
-    afterAnalysis?: (result: ChangelogResult, context: PluginContext) => Promise<void>;
+    afterAnalysis?: (
+      result: ChangelogResult,
+      context: PluginContext,
+    ) => Promise<void>;
     onError?: (error: Error, context: PluginContext) => Promise<void>;
     onFileChange?: (filePath: string, context: PluginContext) => Promise<void>;
     onCommit?: (commitHash: string, context: PluginContext) => Promise<void>;

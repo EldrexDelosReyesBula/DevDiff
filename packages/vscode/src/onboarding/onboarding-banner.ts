@@ -27,14 +27,16 @@ export class OnboardingBanner {
   /**
    * Everything is ready — quick start
    */
-  private static async showReadyBanner(detection: AIDetectionResult): Promise<void> {
+  private static async showReadyBanner(
+    detection: AIDetectionResult,
+  ): Promise<void> {
     const path = detection.recommendedPath!;
 
     const result = await vscode.window.showInformationMessage(
       `🎉 DevDiff ready — ${path.icon} ${path.name}`,
       { modal: false },
       "Generate First Changelog",
-      "Learn More"
+      "Learn More",
     );
 
     if (result === "Generate First Changelog") {
@@ -49,7 +51,9 @@ export class OnboardingBanner {
   /**
    * Something is available but not everything
    */
-  private static async showPartialBanner(detection: AIDetectionResult): Promise<void> {
+  private static async showPartialBanner(
+    detection: AIDetectionResult,
+  ): Promise<void> {
     const available = detection.availablePaths[0];
     const setupOptions = detection.setupOptions;
 
@@ -71,7 +75,7 @@ export class OnboardingBanner {
     const result = await vscode.window.showInformationMessage(
       `DevDiff: ${available ? `${available.icon} ${available.name} ready` : "Setup needed"}`,
       { modal: false },
-      ...items
+      ...items,
     );
 
     if (result?.includes("Use")) {
@@ -90,13 +94,15 @@ export class OnboardingBanner {
   /**
    * Nothing set up — full guidance
    */
-  private static async showSetupBanner(detection: AIDetectionResult): Promise<void> {
+  private static async showSetupBanner(
+    detection: AIDetectionResult,
+  ): Promise<void> {
     const result = await vscode.window.showInformationMessage(
       "👋 Welcome to DevDiff! Choose your AI provider to get started.",
       { modal: false },
       "🦙 Install Ollama (Free, Private)",
       "☁️ Use Cloud AI (Your API Key)",
-      "📖 Read the Docs"
+      "📖 Read the Docs",
     );
 
     if (result?.includes("Ollama")) {

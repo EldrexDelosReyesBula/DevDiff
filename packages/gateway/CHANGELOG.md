@@ -27,6 +27,7 @@
 - Fixed JSON response parsing edge cases — trailing commas and extra whitespace now handled correctly.
 
 ### Updated Dependencies
+
 - `@eldrex/core@1.6.0`
 - `@eldrex/personas@1.6.0`
 

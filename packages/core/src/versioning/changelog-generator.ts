@@ -26,7 +26,7 @@ export class ChangelogGenerator {
       outputPath?: string;
       prepend?: boolean;
       dryRun?: boolean;
-    }
+    },
   ): Promise<ChangelogEntry> {
     const entry: ChangelogEntry = {
       version: options.version,
@@ -88,7 +88,10 @@ export class ChangelogGenerator {
     lines.push(`## [${entry.version}] — ${entry.date}`);
     lines.push("");
 
-    const sections: Array<{ key: keyof ChangelogEntry["sections"]; title: string }> = [
+    const sections: Array<{
+      key: keyof ChangelogEntry["sections"];
+      title: string;
+    }> = [
       { key: "added", title: "Added" },
       { key: "changed", title: "Changed" },
       { key: "deprecated", title: "Deprecated" },
@@ -111,7 +114,9 @@ export class ChangelogGenerator {
     }
 
     if (entry.compareUrl) {
-      lines.push(`**Full Changelog:** [v${entry.version}](${entry.compareUrl})`);
+      lines.push(
+        `**Full Changelog:** [v${entry.version}](${entry.compareUrl})`,
+      );
       lines.push("");
     }
 
@@ -123,10 +128,17 @@ export class ChangelogGenerator {
     const lower = message.toLowerCase();
     if (lower.startsWith("feat") || lower.startsWith("add")) return "added";
     if (lower.startsWith("fix") || lower.startsWith("bug")) return "fixed";
-    if (lower.startsWith("sec") || lower.includes("vulnerability")) return "security";
+    if (lower.startsWith("sec") || lower.includes("vulnerability"))
+      return "security";
     if (lower.startsWith("deprecate")) return "deprecated";
-    if (lower.startsWith("remove") || lower.startsWith("delete")) return "removed";
-    if (lower.startsWith("refactor") || lower.startsWith("docs") || lower.startsWith("chore")) return "changed";
+    if (lower.startsWith("remove") || lower.startsWith("delete"))
+      return "removed";
+    if (
+      lower.startsWith("refactor") ||
+      lower.startsWith("docs") ||
+      lower.startsWith("chore")
+    )
+      return "changed";
     return null;
   }
 
@@ -144,12 +156,17 @@ export class ChangelogGenerator {
     return "changed";
   }
 
-  private static generateDescription(file: FileChangeInfo, category: string): string {
+  private static generateDescription(
+    file: FileChangeInfo,
+    category: string,
+  ): string {
     const fileName = path.basename(file.path);
     let description = "";
 
     if (file.commitMessage) {
-      description = file.commitMessage.replace(/^(feat|fix|docs|refactor|chore):\s*/i, "").trim();
+      description = file.commitMessage
+        .replace(/^(feat|fix|docs|refactor|chore):\s*/i, "")
+        .trim();
     }
 
     if (!description) {
@@ -174,7 +191,7 @@ export class ChangelogGenerator {
 
   private static writeChangelog(
     entry: ChangelogEntry,
-    options: { outputPath?: string; prepend?: boolean }
+    options: { outputPath?: string; prepend?: boolean },
   ): void {
     if (!options.outputPath) return;
     const newContent = this.formatMarkdown(entry);
@@ -182,10 +199,14 @@ export class ChangelogGenerator {
     if (options.prepend && fs.existsSync(options.outputPath)) {
       const existing = fs.readFileSync(options.outputPath, "utf-8");
       const headerEnd = existing.indexOf("\n## ");
-      const header = headerEnd > 0 ? existing.slice(0, headerEnd) : "# Changelog\n\n";
+      const header =
+        headerEnd > 0 ? existing.slice(0, headerEnd) : "# Changelog\n\n";
       const rest = headerEnd > 0 ? existing.slice(headerEnd) : existing;
 
-      fs.writeFileSync(options.outputPath, `${header}\n\n${newContent}\n\n${rest}`);
+      fs.writeFileSync(
+        options.outputPath,
+        `${header}\n\n${newContent}\n\n${rest}`,
+      );
     } else {
       const fullContent = `# Changelog\n\nAll notable changes to this project will be documented in this file.\n\n---\n\n${newContent}`;
       fs.writeFileSync(options.outputPath, fullContent);

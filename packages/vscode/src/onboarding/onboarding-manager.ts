@@ -25,7 +25,8 @@ export class OnboardingManager {
       {
         id: "welcome",
         title: "Welcome to DevDiff! 🎉",
-        description: "AI-powered changelogs & persistent memory. Your code never leaves your machine.",
+        description:
+          "AI-powered changelogs & persistent memory. Your code never leaves your machine.",
         duration: "2 minute setup",
         actions: [
           { label: "Start Setup", command: "devdiff.onboarding.next" },
@@ -66,7 +67,9 @@ export class OnboardingManager {
   }
 
   async start(): Promise<void> {
-    const hasCompleted = this.context.globalState.get("devdiff.onboarding.completed");
+    const hasCompleted = this.context.globalState.get(
+      "devdiff.onboarding.completed",
+    );
     if (hasCompleted) return;
 
     await this.showStep(0);
@@ -78,7 +81,7 @@ export class OnboardingManager {
       "devdiff-onboarding",
       `DevDiff Setup — Step ${index + 1}/${this.steps.length}`,
       vscode.ViewColumn.One,
-      { enableScripts: true }
+      { enableScripts: true },
     );
 
     panel.webview.html = this.renderStep(step, index);
@@ -104,7 +107,9 @@ export class OnboardingManager {
 
   private async finish(): Promise<void> {
     await this.context.globalState.update("devdiff.onboarding.completed", true);
-    vscode.window.showInformationMessage("🎉 DevDiff setup complete! Press Ctrl+Shift+G anytime.");
+    vscode.window.showInformationMessage(
+      "🎉 DevDiff setup complete! Press Ctrl+Shift+G anytime.",
+    );
   }
 
   private renderStep(step: OnboardingStep, index: number): string {

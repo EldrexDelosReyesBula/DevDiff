@@ -20,6 +20,7 @@ Submit a **private security advisory** through GitHub:
 For direct contact, email: **eldrexdelosreyesbula@gmail.com**
 
 Include the following in your report:
+
 - A concise description of the vulnerability
 - Reproduction steps or a proof-of-concept
 - The affected version(s)
@@ -30,12 +31,12 @@ Include the following in your report:
 
 ## Response Timeline
 
-| Stage | Target SLA |
-| :--- | :--- |
-| Initial Acknowledgment | Within **48 hours** |
-| Triage & Severity Assessment | Within **5 business days** |
-| Fix Development | Within **90 days** (critical: 14 days) |
-| Coordinated Public Disclosure | After fix is released and deployed |
+| Stage                         | Target SLA                             |
+| :---------------------------- | :------------------------------------- |
+| Initial Acknowledgment        | Within **48 hours**                    |
+| Triage & Severity Assessment  | Within **5 business days**             |
+| Fix Development               | Within **90 days** (critical: 14 days) |
+| Coordinated Public Disclosure | After fix is released and deployed     |
 
 ---
 
@@ -43,25 +44,25 @@ Include the following in your report:
 
 ### In Scope
 
-| Category | Examples |
-| :--- | :--- |
+| Category                        | Examples                                                          |
+| :------------------------------ | :---------------------------------------------------------------- |
 | Code injection via diff content | Prompt injection through commit messages, malicious diff payloads |
-| Secret / credential leakage | API keys transmitted to unauthorized endpoints |
-| Local model escape | Exploiting LLM inference to execute host commands |
-| Configuration file injection | `.devdiff.config.js` parsing leading to unintended behavior |
-| Network Guard bypass | Circumventing whitelist-only outbound connection enforcement |
-| Injection Guard bypass | Evading the `injection-guard-v2.ts` sanitization layer |
-| Redaction Engine failure | Credentials surviving to AI prompt submission |
+| Secret / credential leakage     | API keys transmitted to unauthorized endpoints                    |
+| Local model escape              | Exploiting LLM inference to execute host commands                 |
+| Configuration file injection    | `.devdiff.config.js` parsing leading to unintended behavior       |
+| Network Guard bypass            | Circumventing whitelist-only outbound connection enforcement      |
+| Injection Guard bypass          | Evading the `injection-guard-v2.ts` sanitization layer            |
+| Redaction Engine failure        | Credentials surviving to AI prompt submission                     |
 
 ### Out of Scope
 
-| Category | Reason |
-| :--- | :--- |
-| Known CVEs in upstream dependencies | Track via `npm audit` / Dependabot |
-| Social engineering attacks on maintainers | Outside software scope |
-| Physical access to developer machines | Outside software scope |
-| Mishandling of user's own API keys externally | User responsibility |
-| Vulnerabilities in third-party AI provider APIs | Contact the respective provider |
+| Category                                        | Reason                             |
+| :---------------------------------------------- | :--------------------------------- |
+| Known CVEs in upstream dependencies             | Track via `npm audit` / Dependabot |
+| Social engineering attacks on maintainers       | Outside software scope             |
+| Physical access to developer machines           | Outside software scope             |
+| Mishandling of user's own API keys externally   | User responsibility                |
+| Vulnerabilities in third-party AI provider APIs | Contact the respective provider    |
 
 ---
 
@@ -104,24 +105,24 @@ DevDiff does not currently operate a monetary bug bounty program. However, for v
 
 ## Security Hall of Fame
 
-| Researcher | Report | Year |
-| :--- | :--- | :--- |
-| _Be the first_ | — | — |
+| Researcher     | Report | Year |
+| :------------- | :----- | :--- |
+| _Be the first_ | —      | —    |
 
 ---
 
 ## Past Security Advisories
 
-| Advisory ID | Date | Severity | Description |
-| :--- | :--- | :--- | :--- |
-| _None_ | — | — | No advisories to date |
+| Advisory ID | Date | Severity | Description           |
+| :---------- | :--- | :------- | :-------------------- |
+| _None_      | —    | —        | No advisories to date |
 
 ---
 
 ## Contact
 
-| Channel | Link |
-| :--- | :--- |
-| Private Advisory (preferred) | [GitHub Security Advisories](https://github.com/EldrexDelosReyesBula/devdiff/security/advisories/new) |
-| Email (sensitive disclosures) | eldrexdelosreyesbula@gmail.com |
-| Public Issue Tracker | [GitHub Issues](https://github.com/EldrexDelosReyesBula/devdiff/issues) |
+| Channel                       | Link                                                                                                  |
+| :---------------------------- | :---------------------------------------------------------------------------------------------------- |
+| Private Advisory (preferred)  | [GitHub Security Advisories](https://github.com/EldrexDelosReyesBula/devdiff/security/advisories/new) |
+| Email (sensitive disclosures) | eldrexdelosreyesbula@gmail.com                                                                        |
+| Public Issue Tracker          | [GitHub Issues](https://github.com/EldrexDelosReyesBula/devdiff/issues)                               |

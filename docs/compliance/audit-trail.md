@@ -9,12 +9,12 @@ DevDiff (v1.6.0) includes a local **Audit Logging Engine** that maintains transp
 ```mermaid
 flowchart TD
     Operation[DevDiff Operation / AI Model Call] --> AuditEngine[Audit Engine packages/core/src/security]
-    
+
     AuditEngine --> Redact[Redact Secrets via RedactionEngineV2]
     Redact --> FileLog[.devdiff/audit/log-YYYY-MM-DD.json]
-    
+
     FileLog --> CLI[devdiff audit CLI Viewer]
-    
+
     style AuditEngine fill:#bbf,stroke:#333,stroke-width:2px
     style FileLog fill:#9f9,stroke:#333,stroke-width:2px
 ```

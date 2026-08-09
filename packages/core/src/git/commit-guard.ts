@@ -16,7 +16,7 @@ export class CommitGuard {
   static isDevDiffGenerated(filePath: string): boolean {
     const normalized = filePath.replace(/\\/g, "/");
     return this.DEVDIFF_GENERATED_FILES.some((pattern) =>
-      normalized.startsWith(pattern.replace(/\/$/, ""))
+      normalized.startsWith(pattern.replace(/\/$/, "")),
     );
   }
 
@@ -25,7 +25,9 @@ export class CommitGuard {
    */
   static getStagedFiles(): string[] {
     try {
-      const output = execSync("git diff --cached --name-only", { encoding: "utf-8" }).trim();
+      const output = execSync("git diff --cached --name-only", {
+        encoding: "utf-8",
+      }).trim();
       return output.split("\n").filter(Boolean);
     } catch {
       return [];
@@ -48,7 +50,7 @@ export class CommitGuard {
       console.log("");
       console.log("   These files are NOT automatically committed.");
       console.log("   If you want to commit them, do so explicitly:");
-      console.log("   git add <file> && git commit -m \"your message\"");
+      console.log('   git add <file> && git commit -m "your message"');
       console.log("");
       console.log("   To unstage: git reset -- <file>");
       console.log("");

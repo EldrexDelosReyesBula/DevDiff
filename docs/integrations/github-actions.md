@@ -11,9 +11,9 @@ name: DevDiff Automated Changelog
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    types: [ opened, synchronize ]
+    types: [opened, synchronize]
 
 jobs:
   changelog:

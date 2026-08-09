@@ -55,7 +55,7 @@ export const CODEBASE_QUERY_TOOLS = [
         module: {
           type: "string",
           description:
-            "Limit to a specific module or directory path (optional). Example: \"auth\", \"src/api\"",
+            'Limit to a specific module or directory path (optional). Example: "auth", "src/api"',
         },
       },
       required: ["since"],
@@ -96,7 +96,8 @@ export const CODEBASE_QUERY_TOOLS = [
       properties: {
         module: {
           type: "string",
-          description: "Focus on a specific module (optional — omit for full project)",
+          description:
+            "Focus on a specific module (optional — omit for full project)",
         },
         include_diagram: {
           type: "boolean",
@@ -115,7 +116,8 @@ export const CODEBASE_QUERY_TOOLS = [
       properties: {
         query: {
           type: "string",
-          description: "Search query — supports partial names and path segments",
+          description:
+            "Search query — supports partial names and path segments",
         },
         type: {
           type: "string",
@@ -145,7 +147,8 @@ export const CODEBASE_QUERY_TOOLS = [
         },
         severity: {
           type: "string",
-          description: "Minimum severity to include: low, medium, high, critical",
+          description:
+            "Minimum severity to include: low, medium, high, critical",
           default: "medium",
         },
       },
@@ -160,7 +163,8 @@ export const CODEBASE_QUERY_TOOLS = [
       properties: {
         include_trends: {
           type: "boolean",
-          description: "Include delta trends vs previous scan (requires 2+ snapshots)",
+          description:
+            "Include delta trends vs previous scan (requires 2+ snapshots)",
           default: false,
         },
       },

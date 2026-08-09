@@ -13,7 +13,7 @@ flowchart TD
     IgnoreFilter -->|Allowed Code| AST[AST Structural Indexing]
     AST --> Redact[RedactionEngineV2 Masking]
     Redact --> LocalEngine[DevDiff Local Engine]
-    
+
     style Excluded fill:#f99,stroke:#333,stroke-width:2px
     style LocalEngine fill:#9f9,stroke:#333,stroke-width:2px
 ```
@@ -23,6 +23,7 @@ flowchart TD
 ## 🛡️ Key Protection Features
 
 ### 1. `.devdiffignore` Exclusion Rules
+
 DevDiff respects `.gitignore` automatically and adds support for `.devdiffignore`. Any file or pattern specified in `.devdiffignore` is strictly excluded from AST indexing, memory generation, and LLM context:
 
 ```gitignore
@@ -39,6 +40,7 @@ certs/
 ```
 
 ### 2. AST Structural Abstraction Mode
+
 For extreme privacy environments, DevDiff supports **AST Abstraction Mode**. Instead of sending raw code snippets, DevDiff abstracts code into high-level AST structural signatures before LLM analysis:
 
 ```typescript
@@ -54,5 +56,6 @@ function computeProprietaryAlpha(param_1: number[]): number {
 ```
 
 ### 3. Enterprise IP Leakage Prevention
+
 - **No Remote Repositories**: DevDiff never creates or pushes git commits, tags, or remote references without explicit developer authorization.
 - **Local Index Storage**: All memory indexes reside inside `.devdiff/memory/`, keeping proprietary knowledge locked inside the local repository directory.

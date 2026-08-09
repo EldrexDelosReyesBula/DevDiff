@@ -1,7 +1,10 @@
 import * as path from "path";
 import { loadConfig } from "../config/loader";
 import { AIRouter } from "../ai/router";
-import { UniversalProjectDetector, ProjectDetection } from "../detection/universal-detector";
+import {
+  UniversalProjectDetector,
+  ProjectDetection,
+} from "../detection/universal-detector";
 
 export interface LearningStep {
   step: number;
@@ -78,7 +81,8 @@ Structure your response into:
 
     const response = await router.getExplanation(prompt, {
       depth: "deep",
-      projectContext: "Study Buddy Mode: Patient educational explanation for learning developers.",
+      projectContext:
+        "Study Buddy Mode: Patient educational explanation for learning developers.",
       personaId: "study-buddy",
     });
 
@@ -173,7 +177,9 @@ Respond with a JSON object matching this schema:
     return {
       projectName,
       overview: `Welcome to ${projectName}! This is a ${detection.type} project written primarily in ${detection.primaryLanguage}.`,
-      techStack: detection.languages.map((l) => `${l.name} (${l.fileCount} files)`),
+      techStack: detection.languages.map(
+        (l) => `${l.name} (${l.fileCount} files)`,
+      ),
       sections: [
         {
           category: "Core Engine & Logic",

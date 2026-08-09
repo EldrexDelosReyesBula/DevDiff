@@ -11,7 +11,7 @@ flowchart LR
     OpenClaw[OpenClaw Agent Runtime] -->|Connector API| Connector[@eldrex/integrations/openclaw]
     Connector -->|Sub-50ms Read-Only Queries| DevDiffEngine[DevDiff Core Memory Engine]
     DevDiffEngine -->|Redacted AST & Change Summaries| OpenClaw
-    
+
     style Connector fill:#bbf,stroke:#333,stroke-width:2px
     style DevDiffEngine fill:#9f9,stroke:#333,stroke-width:2px
 ```

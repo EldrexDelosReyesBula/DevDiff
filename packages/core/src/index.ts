@@ -188,33 +188,76 @@ export type {
 
 // v1.5.0 SKILL.md, Low-End Performance, & Scheduling Exports
 export { SkillManager, SkillCoverage } from "./skill/skill-manager";
-export { LowEndOptimizer, DeviceProfile, PerformanceConfig } from "./performance/low-end-optimizer";
-export { BackgroundScheduler, Schedule } from "./scheduler/background-scheduler";
+export {
+  LowEndOptimizer,
+  DeviceProfile,
+  PerformanceConfig,
+} from "./performance/low-end-optimizer";
+export {
+  BackgroundScheduler,
+  Schedule,
+} from "./scheduler/background-scheduler";
 
 // Automated Versioning & Release Exports
-export { SemverDetector, VersionBump, VersionBumpReason, ParsedDiff } from "./versioning/semver-detector";
-export { ChangelogGenerator, ChangelogEntry } from "./versioning/changelog-generator";
+export {
+  SemverDetector,
+  VersionBump,
+  VersionBumpReason,
+  ParsedDiff,
+} from "./versioning/semver-detector";
+export {
+  ChangelogGenerator,
+  ChangelogEntry,
+} from "./versioning/changelog-generator";
 
 // Developer Sovereignty & Natural Changelog Exports
 export { CloudGuard } from "./ai/cloud-guard";
 export { FlexibleIgnore } from "./config/flexible-ignore";
-export { NaturalChangelogGenerator, ChangeItem, NaturalChangelogData } from "./generators/natural-changelog";
+export {
+  NaturalChangelogGenerator,
+  ChangeItem,
+  NaturalChangelogData,
+} from "./generators/natural-changelog";
 export { NATURAL_CHANGELOG_PROMPT } from "./ai/prompts/natural-prompt";
 // Universal Language & Project Detection Exports
-export { UniversalProjectDetector, ProjectDetection, LanguageCount } from "./detection/universal-detector";
+export {
+  UniversalProjectDetector,
+  ProjectDetection,
+  LanguageCount,
+} from "./detection/universal-detector";
 
 // Conversational Q&A Engine Exports
-export { ConversationalQA, ConversationContext, QAAnswer, QATurn } from "./qa/conversational-qa";
+export {
+  ConversationalQA,
+  ConversationContext,
+  QAAnswer,
+  QATurn,
+} from "./qa/conversational-qa";
 
 // Onboarding & Zero-Friction AI Detection Exports
 export { AIDetector } from "./onboarding/ai-detector";
-export type { AIDetectionResult, AIPath, Action as AIAction } from "./onboarding/ai-detector";
+export type {
+  AIDetectionResult,
+  AIPath,
+  Action as AIAction,
+} from "./onboarding/ai-detector";
 
 // Plugin Ecosystem Security Scanner Exports
 export { PluginSecurityScanner } from "./plugins/security-scanner";
-export type { PluginScanResult, SecurityFinding, SecurityWarning, PluginRecommendation } from "./plugins/security-scanner";
+export type {
+  PluginScanResult,
+  SecurityFinding,
+  SecurityWarning,
+  PluginRecommendation,
+} from "./plugins/security-scanner";
 
 // Study Buddy Mode Exports
 export { StudyEngine } from "./study/study-engine";
-export type { LearningPath, LearningStep, CodebaseTour, CodebaseTourSection, StudyQuiz, QuizQuestion } from "./study/study-engine";
-
+export type {
+  LearningPath,
+  LearningStep,
+  CodebaseTour,
+  CodebaseTourSection,
+  StudyQuiz,
+  QuizQuestion,
+} from "./study/study-engine";

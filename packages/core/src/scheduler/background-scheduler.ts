@@ -6,7 +6,12 @@ export interface Schedule {
   id: string;
   name: string;
   cron: string;
-  action: "generate" | "security-scan" | "compliance-report" | "context-refresh" | "mvp-process";
+  action:
+    | "generate"
+    | "security-scan"
+    | "compliance-report"
+    | "context-refresh"
+    | "mvp-process";
   config: Record<string, any>;
   enabled: boolean;
   lastRun?: string;
@@ -27,7 +32,11 @@ export class BackgroundScheduler {
 
   constructor(workspaceRoot: string = process.cwd()) {
     this.workspaceRoot = workspaceRoot;
-    this.schedulePath = path.join(this.workspaceRoot, ".devdiff", "schedules.json");
+    this.schedulePath = path.join(
+      this.workspaceRoot,
+      ".devdiff",
+      "schedules.json",
+    );
   }
 
   async initialize(): Promise<void> {
@@ -38,7 +47,9 @@ export class BackgroundScheduler {
 
     if (fs.existsSync(this.schedulePath)) {
       try {
-        const stored: Schedule[] = JSON.parse(fs.readFileSync(this.schedulePath, "utf-8"));
+        const stored: Schedule[] = JSON.parse(
+          fs.readFileSync(this.schedulePath, "utf-8"),
+        );
         stored.forEach((s) => this.schedules.set(s.id, s));
       } catch (e) {
         // ignore error
@@ -121,7 +132,8 @@ export class BackgroundScheduler {
   private tick(): void {
     const profile = LowEndOptimizer.detect();
     if (profile.onBattery) return;
-    if (profile.thermalState === "critical" || profile.thermalState === "hot") return;
+    if (profile.thermalState === "critical" || profile.thermalState === "hot")
+      return;
 
     // Background iteration tick
   }

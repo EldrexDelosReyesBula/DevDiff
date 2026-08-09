@@ -30,6 +30,7 @@ devdiff schedule disable --id morning-standup
 ## 🛡️ Intelligent Constraints
 
 Background schedules automatically respect hardware constraints:
+
 - **Idle System Awareness**: Long tasks pause when active user interaction is detected.
 - **Battery Guard**: Suppresses background cron jobs when discharging on battery.
 - **Thermal Safety**: Suppresses tasks when CPU thermals reach `hot` or `critical` levels.

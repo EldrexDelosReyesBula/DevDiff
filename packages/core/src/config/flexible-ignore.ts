@@ -59,7 +59,9 @@ export class FlexibleIgnore {
     const suggestions: string[] = [];
 
     const ignorePath = path.join(process.cwd(), ".devdiffignore");
-    const existing = fs.existsSync(ignorePath) ? fs.readFileSync(ignorePath, "utf-8") : "";
+    const existing = fs.existsSync(ignorePath)
+      ? fs.readFileSync(ignorePath, "utf-8")
+      : "";
 
     const recommended = [
       { pattern: "node_modules/", reason: "Dependencies" },
@@ -90,7 +92,9 @@ export class FlexibleIgnore {
       console.log(`   ${suggestion}`);
     }
     console.log("");
-    console.log("   Add these to .devdiffignore to exclude them from analysis.");
+    console.log(
+      "   Add these to .devdiffignore to exclude them from analysis.",
+    );
     console.log("   DevDiff will NOT modify this file automatically.");
     console.log("");
   }
@@ -115,7 +119,7 @@ export class FlexibleIgnore {
           .replace(/\*\*/g, "<<<STAR>>>")
           .replace(/\*/g, "[^/]*")
           .replace(/<<<STAR>>>/g, ".*") +
-        "$"
+        "$",
     );
     return regex.test(normalizedFile);
   }

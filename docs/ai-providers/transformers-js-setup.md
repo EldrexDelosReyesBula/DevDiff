@@ -16,9 +16,9 @@ export default {
         name: "transformers-local",
         url: "transformers://Xenova/Qwen1.5-0.5B-Chat",
         quantization: "q4",
-        priority: 1
-      }
-    ]
-  }
+        priority: 1,
+      },
+    ],
+  },
 };
 ```

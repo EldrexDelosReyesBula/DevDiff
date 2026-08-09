@@ -16,10 +16,10 @@ export default {
         name: "gemini-cloud",
         url: "gemini://gemini-1.5-flash",
         apiKey: process.env.GEMINI_API_KEY,
-        priority: 1
-      }
-    ]
-  }
+        priority: 1,
+      },
+    ],
+  },
 };
 ```
 

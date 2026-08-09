@@ -74,45 +74,70 @@ export async function activate(context: vscode.ExtensionContext) {
 
   // ── REGISTER SIDEBAR PANELS (IDE-NATIVE) ──
   const changelogExplorer = new ChangelogExplorer(context, engine);
-  vscode.window.registerTreeDataProvider("devdiff-changelog", changelogExplorer);
+  vscode.window.registerTreeDataProvider(
+    "devdiff-changelog",
+    changelogExplorer,
+  );
 
   const chatPanel = new ChatPanel(context.extensionUri, engine);
   vscode.window.registerWebviewViewProvider(ChatPanel.viewType, chatPanel);
 
   const securityPanel = new SecurityPanel(context.extensionUri, engine);
-  vscode.window.registerWebviewViewProvider(SecurityPanel.viewType, securityPanel);
+  vscode.window.registerWebviewViewProvider(
+    SecurityPanel.viewType,
+    securityPanel,
+  );
 
   const settingsPanel = new SettingsPanel(context.extensionUri);
-  vscode.window.registerWebviewViewProvider(SettingsPanel.viewType, settingsPanel);
+  vscode.window.registerWebviewViewProvider(
+    SettingsPanel.viewType,
+    settingsPanel,
+  );
 
   // ── REGISTER CODELENS / GUTTER ANNOTATIONS ──
   context.subscriptions.push(
     vscode.languages.registerCodeLensProvider(
       { scheme: "file" },
-      new ChangelogCodeLensProvider()
-    )
+      new ChangelogCodeLensProvider(),
+    ),
   );
 
   // ── REGISTER @devdiff CHAT PARTICIPANT ──
   if ((vscode as any).lm && (vscode as any).lm.registerChatParticipant) {
     try {
       const qa = new ConversationalQA(workspacePath);
-      const participant = (vscode as any).lm.registerChatParticipant("devdiff.chat", async (request: any, chatContext: any, stream: any) => {
-        const prompt = request.prompt.toLowerCase();
-        if (prompt.includes("changelog") || prompt.includes("what changed")) {
-          const changelog = await IDEGuardian.runTask("generateChangelog", () => engine.analyze({ since: "24h" }));
-          stream.markdown(typeof changelog === "string" ? changelog : changelog.summary || JSON.stringify(changelog));
-        } else if (prompt.includes("security") || prompt.includes("scan")) {
-          const report = await IDEGuardian.runTask("securityScan", () => engine.securityScan({ since: "1 week" }));
-          stream.markdown(JSON.stringify(report, null, 2));
-        } else {
-          const answer = await IDEGuardian.runTask("askQA", () => qa.ask(request.prompt));
-          stream.markdown(answer.answer);
-        }
-      });
+      const participant = (vscode as any).lm.registerChatParticipant(
+        "devdiff.chat",
+        async (request: any, chatContext: any, stream: any) => {
+          const prompt = request.prompt.toLowerCase();
+          if (prompt.includes("changelog") || prompt.includes("what changed")) {
+            const changelog = await IDEGuardian.runTask(
+              "generateChangelog",
+              () => engine.analyze({ since: "24h" }),
+            );
+            stream.markdown(
+              typeof changelog === "string"
+                ? changelog
+                : changelog.summary || JSON.stringify(changelog),
+            );
+          } else if (prompt.includes("security") || prompt.includes("scan")) {
+            const report = await IDEGuardian.runTask("securityScan", () =>
+              engine.securityScan({ since: "1 week" }),
+            );
+            stream.markdown(JSON.stringify(report, null, 2));
+          } else {
+            const answer = await IDEGuardian.runTask("askQA", () =>
+              qa.ask(request.prompt),
+            );
+            stream.markdown(answer.answer);
+          }
+        },
+      );
       context.subscriptions.push(participant);
     } catch {
-      outputChannel.appendLine("ℹ️ Chat participant registration bypassed (API not supported in host version)");
+      outputChannel.appendLine(
+        "ℹ️ Chat participant registration bypassed (API not supported in host version)",
+      );
     }
   }
 
@@ -189,7 +214,9 @@ export async function activate(context: vscode.ExtensionContext) {
     }),
 
     vscode.commands.registerCommand("devdiff.study.start", async () => {
-      vscode.window.showInformationMessage("📖 DevDiff Study Buddy Mode Activated! Type @devdiff in chat or select code to explain.");
+      vscode.window.showInformationMessage(
+        "📖 DevDiff Study Buddy Mode Activated! Type @devdiff in chat or select code to explain.",
+      );
     }),
 
     vscode.commands.registerCommand("devdiff.study.explain", async () => {

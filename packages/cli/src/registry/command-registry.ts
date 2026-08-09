@@ -790,14 +790,28 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
         name: "bump",
         description: "Analyze code changes and bump semver automatically",
         options: [
-          { flags: "-t, --type <type>", description: "Bump type (auto, patch, minor, major)", defaultValue: "auto" },
-          { flags: "-d, --dry-run", description: "Preview version bump without modifying files" },
-          { flags: "--no-changelog", description: "Skip CHANGELOG.md generation" },
+          {
+            flags: "-t, --type <type>",
+            description: "Bump type (auto, patch, minor, major)",
+            defaultValue: "auto",
+          },
+          {
+            flags: "-d, --dry-run",
+            description: "Preview version bump without modifying files",
+          },
+          {
+            flags: "--no-changelog",
+            description: "Skip CHANGELOG.md generation",
+          },
           { flags: "--no-tag", description: "Skip creating git tag" },
         ],
         category: "core",
       },
-      { name: "status", description: "Display current CLI package version", category: "core" },
+      {
+        name: "status",
+        description: "Display current CLI package version",
+        category: "core",
+      },
     ],
     options: [
       {
@@ -1002,7 +1016,8 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
   // ── PERSISTENT MEMORY COMMANDS ──
   {
     name: "memory",
-    description: "Manage persistent codebase memory engine and snapshot history",
+    description:
+      "Manage persistent codebase memory engine and snapshot history",
     examples: [
       "devdiff memory init",
       "devdiff memory status",
@@ -1047,7 +1062,8 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
   },
   {
     name: "ask",
-    description: "Query persistent codebase memory with instant response and continuous context",
+    description:
+      "Query persistent codebase memory with instant response and continuous context",
     examples: [
       'devdiff ask "What changed since yesterday?"',
       'devdiff ask "Show me the history of UserService"',
@@ -1068,8 +1084,17 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
     name: "skill",
     description: "Manage SKILL.md project knowledge base for AI precision",
     subcommands: [
-      { name: "generate", description: "Auto-generate SKILL.md by scanning project topology", category: "core" },
-      { name: "validate", description: "Validate SKILL.md coverage across 10 required knowledge sections", category: "core" },
+      {
+        name: "generate",
+        description: "Auto-generate SKILL.md by scanning project topology",
+        category: "core",
+      },
+      {
+        name: "validate",
+        description:
+          "Validate SKILL.md coverage across 10 required knowledge sections",
+        category: "core",
+      },
     ],
     category: "core",
     since: "1.5.0",
@@ -1078,22 +1103,41 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
     name: "schedule",
     description: "Manage 24/7 background operation schedules",
     subcommands: [
-      { name: "list", description: "List all active background operation schedules", category: "core" },
-      { name: "enable", description: "Enable a specific background schedule", category: "core" },
-      { name: "disable", description: "Disable a specific background schedule", category: "core" },
+      {
+        name: "list",
+        description: "List all active background operation schedules",
+        category: "core",
+      },
+      {
+        name: "enable",
+        description: "Enable a specific background schedule",
+        category: "core",
+      },
+      {
+        name: "disable",
+        description: "Disable a specific background schedule",
+        category: "core",
+      },
     ],
     category: "core",
     since: "1.5.0",
   },
   {
     name: "release",
-    description: "Automated SemVer bump + CHANGELOG.md generation + Git tag + Push",
+    description:
+      "Automated SemVer bump + CHANGELOG.md generation + Git tag + Push",
     options: [
-      { flags: "-t, --type <type>", description: "Bump type (auto, patch, minor, major)", defaultValue: "auto" },
-      { flags: "-d, --dry-run", description: "Preview release actions without mutating workspace" },
+      {
+        flags: "-t, --type <type>",
+        description: "Bump type (auto, patch, minor, major)",
+        defaultValue: "auto",
+      },
+      {
+        flags: "-d, --dry-run",
+        description: "Preview release actions without mutating workspace",
+      },
     ],
     category: "core",
     since: "1.5.0",
   },
 ];
-

@@ -24,6 +24,7 @@ Send your security advisory directly to our dedicated security team:
 - **PGP Encryption Key**: Available upon request or via `https://devdiff.vercel.app/security/pgp-key.asc`
 
 ### Report Format Checklist:
+
 - Component affected (`@eldrex/vscode`, `@eldrex/mcp`, `@eldrex/core`, CLI)
 - Type of vulnerability (e.g. Path Traversal, Prompt Injection, Secret Leakage, RPC Flaw)
 - Steps to reproduce

@@ -15,14 +15,23 @@ description: Standardized project rules and architectural standards.
 ---
 
 # 1. Project Identity: Mission & technology stack
+
 # 2. Architecture: Directory topology & module boundaries
+
 # 3. Naming Conventions: Class, function, interface, & branch standards
+
 # 4. Business Domain: Domain vocabulary & business logic rules
+
 # 5. Patterns: Recommended design & refactoring patterns
+
 # 6. Anti-Patterns: Code practices the AI must NEVER introduce
+
 # 7. Compliance Requirements: Active regulatory standards (GDPR, SOC 2)
+
 # 8. Output Preferences: Format preferences for changelogs & reviews
+
 # 9. Team Context: Ownership boundaries & review requirements
+
 # 10. Historical Context: Major refactorings & architectural technical debt
 ```
 

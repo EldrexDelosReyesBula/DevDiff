@@ -17,7 +17,7 @@ import { WebLLMProvider, MLCModelConfig } from "@eldrex/core";
 ```typescript
 const provider = new WebLLMProvider({
   model: "Llama-3.2-3B-Instruct-q4f16_1-MLC",
-  vramCapMb: 2560
+  vramCapMb: 2560,
 });
 
 await provider.initializeEngine();

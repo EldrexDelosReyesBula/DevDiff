@@ -21,10 +21,10 @@ export default {
       {
         name: "deepseek-local",
         url: "ollama://deepseek-coder:6.7b",
-        baseUrl: "http://localhost:11434"
-      }
-    ]
-  }
+        baseUrl: "http://localhost:11434",
+      },
+    ],
+  },
 };
 ```
 
@@ -38,9 +38,9 @@ export default {
         name: "deepseek-cloud",
         url: "openai://deepseek-coder",
         baseUrl: "https://api.deepseek.com/v1",
-        apiKey: process.env.DEEPSEEK_API_KEY
-      }
-    ]
-  }
+        apiKey: process.env.DEEPSEEK_API_KEY,
+      },
+    ],
+  },
 };
 ```

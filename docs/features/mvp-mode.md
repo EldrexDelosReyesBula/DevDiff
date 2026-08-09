@@ -11,15 +11,15 @@ DevDiff provides **MVP Mode** (Most Valuable Deferral) — a non-blocking queuei
 ```mermaid
 flowchart TD
     Diff[Workspace Git Diff] --> Threshold{Exceeds Threshold? >50k chars / >30 files}
-    
+
     Threshold -->|No| DirectAI[Immediate AI Analysis]
-    
+
     Threshold -->|Yes| Defer[Defer to Local MVP Queue .devdiff/mvp/]
     Defer --> Summary[Print Instant Local Statistics Summary]
-    
+
     Summary --> AsyncProcess[Process Queue via Background CLI / Manual Command]
     AsyncProcess --> FinalChangelog[Final Generated Changelog]
-    
+
     style Defer fill:#f99,stroke:#333,stroke-width:2px
     style AsyncProcess fill:#9f9,stroke:#333,stroke-width:2px
 ```

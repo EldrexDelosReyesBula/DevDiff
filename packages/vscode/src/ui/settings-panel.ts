@@ -9,15 +9,21 @@ export class SettingsPanel implements vscode.WebviewViewProvider {
   public resolveWebviewView(
     webviewView: vscode.WebviewView,
     context: vscode.WebviewViewResolveContext,
-    _token: vscode.CancellationToken
+    _token: vscode.CancellationToken,
   ) {
     this._view = webviewView;
-    webviewView.webview.options = { enableScripts: true, localResourceRoots: [this.extensionUri] };
+    webviewView.webview.options = {
+      enableScripts: true,
+      localResourceRoots: [this.extensionUri],
+    };
     webviewView.webview.html = this._getHtmlForWebview();
 
     webviewView.webview.onDidReceiveMessage(async (data) => {
       if (data.type === "openConfig") {
-        vscode.commands.executeCommand("workbench.action.openSettings", "devdiff");
+        vscode.commands.executeCommand(
+          "workbench.action.openSettings",
+          "devdiff",
+        );
       }
     });
   }

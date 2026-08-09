@@ -11,7 +11,7 @@ flowchart LR
     DevDiff[DevDiff CLI / Engine] -->|afterAnalysis Hook| Plugin[Slack Notifier Plugin]
     Plugin -->|HTTPS Post JSON| SlackWebhook[Slack Incoming Webhook URL]
     SlackWebhook -->|Notification| SlackChannel[#engineering-changelog Channel]
-    
+
     style Plugin fill:#bbf,stroke:#333,stroke-width:2px
     style SlackChannel fill:#9f9,stroke:#333,stroke-width:2px
 ```

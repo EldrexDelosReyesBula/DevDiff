@@ -41,7 +41,11 @@ npm install -D typescript tsup
 Create `src/index.ts`:
 
 ```typescript
-import { DevDiffPlugin, PluginContext, ChangelogResult } from "@eldrex/plugin-sdk";
+import {
+  DevDiffPlugin,
+  PluginContext,
+  ChangelogResult,
+} from "@eldrex/plugin-sdk";
 
 export const MyCustomPlugin: DevDiffPlugin = {
   id: "devdiff-plugin-my-extension",
@@ -59,7 +63,9 @@ export const MyCustomPlugin: DevDiffPlugin = {
 
   hooks: {
     async afterAnalysis(changelog: ChangelogResult) {
-      console.log(`[My Custom Plugin] Generated changelog for ${changelog.files.length} files.`);
+      console.log(
+        `[My Custom Plugin] Generated changelog for ${changelog.files.length} files.`,
+      );
       return changelog;
     },
   },
@@ -76,9 +82,7 @@ Add your plugin entry to your project's `.devdiff/config.json`:
 
 ```json
 {
-  "plugins": [
-    "./my-devdiff-plugin"
-  ]
+  "plugins": ["./my-devdiff-plugin"]
 }
 ```
 

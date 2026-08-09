@@ -17,6 +17,7 @@ Running `devdiff doctor` checks local Git status, active AI providers, network c
 **Problem:** DevDiff reports zero staged changes to analyze.
 
 **Solutions:**
+
 1. Stage your modified files:
    ```bash
    git add .
@@ -34,6 +35,7 @@ Running `devdiff doctor` checks local Git status, active AI providers, network c
 **Problem:** Current working directory does not contain a `.git` folder.
 
 **Solutions:**
+
 ```bash
 git init
 git add .
@@ -47,6 +49,7 @@ devdiff generate
 ### 3. "Unknown option --persona"
 
 **Syntax check:**
+
 ```bash
 devdiff generate --persona developer    # ✅ Valid
 devdiff generate -p ceo                 # ✅ Valid (short form)
@@ -61,6 +64,7 @@ devdiff generate -p ceo                 # ✅ Valid (short form)
 **Problem:** `devdiff ask` returns outdated file context.
 
 **Solutions:**
+
 ```bash
 # Force full codebase rescan
 devdiff memory rescan --full

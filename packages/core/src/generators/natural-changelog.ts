@@ -54,10 +54,13 @@ export class NaturalChangelogGenerator {
       cleaned = cleaned.replace(pattern, replacement);
     }
 
-    cleaned = cleaned.replace(/\b(?:perhaps|maybe|possibly|potentially|likely)\b/gi, "");
+    cleaned = cleaned.replace(
+      /\b(?:perhaps|maybe|possibly|potentially|likely)\b/gi,
+      "",
+    );
     cleaned = cleaned.replace(
       /\b(?:I think|I believe|in my analysis|based on the diff|from the changes)\b/gi,
-      ""
+      "",
     );
 
     cleaned = cleaned.replace(/  +/g, " ");
@@ -92,7 +95,11 @@ export class NaturalChangelogGenerator {
       lines.push("");
       for (const change of items) {
         const fileList = change.files.map((f) => `\`${f}\``).join(", ");
-        lines.push(fileList ? `- ${change.description} (${fileList})` : `- ${change.description}`);
+        lines.push(
+          fileList
+            ? `- ${change.description} (${fileList})`
+            : `- ${change.description}`,
+        );
       }
       lines.push("");
     }

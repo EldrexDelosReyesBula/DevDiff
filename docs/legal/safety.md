@@ -20,15 +20,15 @@ This document describes DevDiff's approach to AI safety, responsible use, harm p
 
 All diff content, commit messages, file names, and repository metadata pass through **Injection Guard v2** (`packages/core/src/security/injection-guard-v2.ts`) before being included in any AI prompt.
 
-| Attack Vector | Defense Mechanism |
-| :--- | :--- |
-| Prompt injection via commit messages | Input sanitization and context isolation before LLM submission |
-| Jailbreak sequences in diff content | Pattern matching against known evasion sequences and adversarial payloads |
-| Shell command chaining (`&&`, `\|\|`, `;`) | Character-level sanitization and escaping |
-| SQL injection sequences | Regex-based detection and stripping |
-| HTML/XSS payloads | Entity escaping and markup stripping |
-| Prototype pollution patterns | Object key validation and allowlisting |
-| Indirect prompt injection via file content | Structural isolation of user-controlled content from system prompts |
+| Attack Vector                              | Defense Mechanism                                                         |
+| :----------------------------------------- | :------------------------------------------------------------------------ |
+| Prompt injection via commit messages       | Input sanitization and context isolation before LLM submission            |
+| Jailbreak sequences in diff content        | Pattern matching against known evasion sequences and adversarial payloads |
+| Shell command chaining (`&&`, `\|\|`, `;`) | Character-level sanitization and escaping                                 |
+| SQL injection sequences                    | Regex-based detection and stripping                                       |
+| HTML/XSS payloads                          | Entity escaping and markup stripping                                      |
+| Prototype pollution patterns               | Object key validation and allowlisting                                    |
+| Indirect prompt injection via file content | Structural isolation of user-controlled content from system prompts       |
 
 ### 1.2 Credential Redaction Before AI Submission
 
@@ -48,6 +48,7 @@ Redaction happens locally, before any network transmission, regardless of whethe
 DevDiff's **Cloud Guard** (`packages/core/src/ai/cloud-guard.ts`) enforces that no cloud AI provider is ever contacted automatically, even if provider API keys are detected in the local environment.
 
 Cloud providers are only activated when you:
+
 - Run `devdiff auth add` to explicitly configure a provider, **or**
 - Set a `provider` entry in `.devdiff.config.js` with explicit intent
 
@@ -61,12 +62,12 @@ This prevents accidental API usage, unintended costs, and unintended data transm
 
 The **Network Guard** (`packages/core/src/security/network-guard.ts`) enforces whitelist-only outbound connectivity:
 
-| Control | Description |
-| :--- | :--- |
-| Whitelist-only connections | DevDiff only communicates with AI provider API endpoints you have explicitly configured |
-| Telemetry blocking | Over 20 known analytics and telemetry platforms are blocked at the network layer (Mixpanel, Sentry, Datadog, Amplitude, Segment, etc.) |
-| No phone-home behavior | DevDiff never contacts DevDiff servers, update servers, or external hosts for any operational purpose |
-| Dry-run preview | `devdiff generate --dry-run` shows exactly what would be transmitted before any network call is made |
+| Control                    | Description                                                                                                                            |
+| :------------------------- | :------------------------------------------------------------------------------------------------------------------------------------- |
+| Whitelist-only connections | DevDiff only communicates with AI provider API endpoints you have explicitly configured                                                |
+| Telemetry blocking         | Over 20 known analytics and telemetry platforms are blocked at the network layer (Mixpanel, Sentry, Datadog, Amplitude, Segment, etc.) |
+| No phone-home behavior     | DevDiff never contacts DevDiff servers, update servers, or external hosts for any operational purpose                                  |
+| Dry-run preview            | `devdiff generate --dry-run` shows exactly what would be transmitted before any network call is made                                   |
 
 ---
 
@@ -98,12 +99,12 @@ DevDiff outputs are advisory in nature. The developer retains full responsibilit
 
 When using the multi-agent consensus mode via OpenClaw Supervisor:
 
-| Safety Property | Implementation |
-| :--- | :--- |
-| Agent isolation | Each agent operates in a sandboxed analysis scope with no access to the filesystem or network beyond what the host DevDiff process permits |
-| No autonomous side effects | No agent can trigger commits, file writes, API calls, or other side effects independently |
-| Human-in-the-loop | Interactive approval prompts are required before any automated action (approve, reject, modify, delegate) |
-| CI/CD safe fallback | In non-interactive CI environments, consensus mode defaults to the most conservative available option automatically |
+| Safety Property            | Implementation                                                                                                                             |
+| :------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------- |
+| Agent isolation            | Each agent operates in a sandboxed analysis scope with no access to the filesystem or network beyond what the host DevDiff process permits |
+| No autonomous side effects | No agent can trigger commits, file writes, API calls, or other side effects independently                                                  |
+| Human-in-the-loop          | Interactive approval prompts are required before any automated action (approve, reject, modify, delegate)                                  |
+| CI/CD safe fallback        | In non-interactive CI environments, consensus mode defaults to the most conservative available option automatically                        |
 
 ---
 
@@ -129,11 +130,11 @@ If you discover a safety concern, prompt injection vulnerability, or behavior th
 > [!CAUTION]
 > For vulnerabilities that could be exploited before a fix is released, please use the **private advisory channel** rather than a public issue.
 
-| Channel | Use When |
-| :--- | :--- |
+| Channel                                                                                                     | Use When                                                                     |
+| :---------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------- |
 | [GitHub Private Security Advisory](https://github.com/EldrexDelosReyesBula/devdiff/security/advisories/new) | Sensitive vulnerabilities that should not be publicly disclosed before a fix |
-| [GitHub Public Issues](https://github.com/EldrexDelosReyesBula/devdiff/issues) | General safety improvement suggestions, non-exploitable behavioral concerns |
-| Email: eldrexdelosreyesbula@gmail.com | Sensitive disclosures requiring direct contact |
+| [GitHub Public Issues](https://github.com/EldrexDelosReyesBula/devdiff/issues)                              | General safety improvement suggestions, non-exploitable behavioral concerns  |
+| Email: eldrexdelosreyesbula@gmail.com                                                                       | Sensitive disclosures requiring direct contact                               |
 
 We follow a responsible disclosure process and will acknowledge all reports within **48 hours**.
 

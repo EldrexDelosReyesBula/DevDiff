@@ -44,22 +44,22 @@ No step in this pipeline involves DevDiff-operated infrastructure.
 
 ## Security Controls
 
-| Control | Implementation File | Status |
-| :--- | :--- | :---: |
-| Credential Redaction | `packages/core/src/ai/redaction-engine-v2.ts` | ✅ Active |
-| Prompt Injection Prevention | `packages/core/src/security/injection-guard-v2.ts` | ✅ Active |
-| Network Egress Firewall | `packages/core/src/security/network-guard.ts` | ✅ Active |
-| Cloud Provider Guard | `packages/core/src/ai/cloud-guard.ts` | ✅ Active |
-| Output Accuracy Validation | `packages/core/src/ai/accuracy-guard.ts` | ✅ Active |
-| Path Traversal Prevention | Strict boundary validation on all filesystem operations | ✅ Active |
-| Shell Metacharacter Sanitization | Applied to all user-controlled CLI arguments and inputs | ✅ Active |
-| Encrypted Local Audit Logs | AES-256-GCM with PBKDF2 key derivation for `.devdiff/audit/` | ✅ Active |
-| MCP Server Authorization | Token-based authentication on all stdio and HTTP MCP endpoints | ✅ Active |
-| Secure File Permissions | `.env` and credential files created with `600` permissions | ✅ Active |
-| Dependency Integrity | pnpm frozen lockfile (`pnpm-lock.yaml`) enforced in all CI pipelines | ✅ Active |
-| CodeQL Static Analysis | Automated code scanning on every push to `main` | ✅ Active |
-| Secret Scanning | CI pre-release scan via `scripts/security-scan.js` | ✅ Active |
-| Dry-Run Transparency | `devdiff generate --dry-run` previews all data before any AI call | ✅ Active |
+| Control                          | Implementation File                                                  |  Status   |
+| :------------------------------- | :------------------------------------------------------------------- | :-------: |
+| Credential Redaction             | `packages/core/src/ai/redaction-engine-v2.ts`                        | ✅ Active |
+| Prompt Injection Prevention      | `packages/core/src/security/injection-guard-v2.ts`                   | ✅ Active |
+| Network Egress Firewall          | `packages/core/src/security/network-guard.ts`                        | ✅ Active |
+| Cloud Provider Guard             | `packages/core/src/ai/cloud-guard.ts`                                | ✅ Active |
+| Output Accuracy Validation       | `packages/core/src/ai/accuracy-guard.ts`                             | ✅ Active |
+| Path Traversal Prevention        | Strict boundary validation on all filesystem operations              | ✅ Active |
+| Shell Metacharacter Sanitization | Applied to all user-controlled CLI arguments and inputs              | ✅ Active |
+| Encrypted Local Audit Logs       | AES-256-GCM with PBKDF2 key derivation for `.devdiff/audit/`         | ✅ Active |
+| MCP Server Authorization         | Token-based authentication on all stdio and HTTP MCP endpoints       | ✅ Active |
+| Secure File Permissions          | `.env` and credential files created with `600` permissions           | ✅ Active |
+| Dependency Integrity             | pnpm frozen lockfile (`pnpm-lock.yaml`) enforced in all CI pipelines | ✅ Active |
+| CodeQL Static Analysis           | Automated code scanning on every push to `main`                      | ✅ Active |
+| Secret Scanning                  | CI pre-release scan via `scripts/security-scan.js`                   | ✅ Active |
+| Dry-Run Transparency             | `devdiff generate --dry-run` previews all data before any AI call    | ✅ Active |
 
 ---
 
@@ -69,32 +69,33 @@ No step in this pipeline involves DevDiff-operated infrastructure.
 
 DevDiff is designed to operate entirely within the developer's local environment, which substantially reduces GDPR compliance exposure:
 
-| GDPR Requirement | DevDiff Posture |
-| :--- | :--- |
-| Lawful basis for processing | Not applicable — DevDiff processes no personal data belonging to end users |
-| Data minimization | No personal data collected or retained |
-| Right of access / erasure | Not applicable — no data held by DevDiff |
-| Data transfers | No transfer to DevDiff infrastructure occurs |
-| Sub-processor risk | If cloud AI providers are used, the developer's own DPA with that provider governs |
-| Cookie consent | No cookies used on the documentation site |
+| GDPR Requirement            | DevDiff Posture                                                                    |
+| :-------------------------- | :--------------------------------------------------------------------------------- |
+| Lawful basis for processing | Not applicable — DevDiff processes no personal data belonging to end users         |
+| Data minimization           | No personal data collected or retained                                             |
+| Right of access / erasure   | Not applicable — no data held by DevDiff                                           |
+| Data transfers              | No transfer to DevDiff infrastructure occurs                                       |
+| Sub-processor risk          | If cloud AI providers are used, the developer's own DPA with that provider governs |
+| Cookie consent              | No cookies used on the documentation site                                          |
 
 > [!NOTE]
 > When cloud AI providers are configured, data is transmitted directly from the developer's machine to the provider under the developer's own API credentials. DevDiff does not intermediate this transmission. Developers should review the Data Processing Addendum (DPA) of their chosen AI provider.
 
 ### SOC 2 Type II Considerations
 
-| SOC 2 Trust Service Criteria | DevDiff Posture |
-| :--- | :--- |
-| **Availability** | Fully offline-capable; no operational dependency on DevDiff infrastructure uptime |
-| **Confidentiality** | Code context never leaves the local environment by default; Network Guard enforces this |
-| **Processing Integrity** | AccuracyGuard validates all AI-generated outputs against the source diff |
-| **Security** | See Security Controls table above |
-| **Privacy** | See [Privacy Policy](/legal/privacy-policy) |
+| SOC 2 Trust Service Criteria | DevDiff Posture                                                                         |
+| :--------------------------- | :-------------------------------------------------------------------------------------- |
+| **Availability**             | Fully offline-capable; no operational dependency on DevDiff infrastructure uptime       |
+| **Confidentiality**          | Code context never leaves the local environment by default; Network Guard enforces this |
+| **Processing Integrity**     | AccuracyGuard validates all AI-generated outputs against the source diff                |
+| **Security**                 | See Security Controls table above                                                       |
+| **Privacy**                  | See [Privacy Policy](/legal/privacy-policy)                                             |
 
 ### HIPAA
 
 > [!CAUTION]
 > DevDiff is **not designed or approved for processing Protected Health Information (PHI)**. If your repository contains patient data or healthcare records, you must:
+>
 > 1. Configure DevDiff to use a local-only AI provider (Ollama) to ensure zero network egress.
 > 2. Verify that your `.devdiff.config.js` has no cloud AI providers configured.
 > 3. Consult your organization's compliance team before using any AI tooling on PHI-adjacent repositories.
@@ -133,13 +134,13 @@ DevDiff follows a coordinated responsible disclosure model. Full details are doc
 
 **Response Timeline:**
 
-| Stage | Target SLA |
-| :--- | :--- |
-| Acknowledgment | Within 48 hours |
+| Stage               | Target SLA             |
+| :------------------ | :--------------------- |
+| Acknowledgment      | Within 48 hours        |
 | Triage & Assessment | Within 5 business days |
-| Critical Fix | Within 14 days |
-| Standard Fix | Within 90 days |
-| Public Disclosure | After fix is released |
+| Critical Fix        | Within 14 days         |
+| Standard Fix        | Within 90 days         |
+| Public Disclosure   | After fix is released  |
 
 **Scope:**
 
@@ -152,11 +153,11 @@ Out of scope: Third-party AI provider security, social engineering, physical acc
 
 All security-relevant changes are tracked in the public git history and release notes:
 
-| Version | Date | Security Changes |
-| :--- | :--- | :--- |
-| v1.5.0 | 2026-08-07 | Cloud Guard explicit opt-in enforcement, PersistentMemory audit trail, enhanced Injection Guard patterns |
-| v1.0.6 | 2026-07-06 | Windows argument parsing hardening, MCP port security improvements |
-| v1.0.3 | 2026-06-28 | Initial Redaction Engine v2, Network Guard firewall implementation |
+| Version | Date       | Security Changes                                                                                         |
+| :------ | :--------- | :------------------------------------------------------------------------------------------------------- |
+| v1.5.0  | 2026-08-07 | Cloud Guard explicit opt-in enforcement, PersistentMemory audit trail, enhanced Injection Guard patterns |
+| v1.0.6  | 2026-07-06 | Windows argument parsing hardening, MCP port security improvements                                       |
+| v1.0.3  | 2026-06-28 | Initial Redaction Engine v2, Network Guard firewall implementation                                       |
 
 ---
 
@@ -164,8 +165,8 @@ All security-relevant changes are tracked in the public git history and release 
 
 For security-related inquiries or compliance documentation requests:
 
-| Channel | Link |
-| :--- | :--- |
+| Channel                   | Link                                                                                                  |
+| :------------------------ | :---------------------------------------------------------------------------------------------------- |
 | Private Security Advisory | [GitHub Security Advisories](https://github.com/EldrexDelosReyesBula/devdiff/security/advisories/new) |
-| General Issues | [GitHub Issues](https://github.com/EldrexDelosReyesBula/devdiff/issues) |
-| Email | eldrexdelosreyesbula@gmail.com |
+| General Issues            | [GitHub Issues](https://github.com/EldrexDelosReyesBula/devdiff/issues)                               |
+| Email                     | eldrexdelosreyesbula@gmail.com                                                                        |

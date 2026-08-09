@@ -9,12 +9,14 @@ We as contributors and maintainers pledge to make participation in the DevDiff o
 ## Our Standards
 
 Examples of behavior that contributes to creating a positive environment:
+
 - Demonstrating empathy and kindness toward other people
 - Being respectful of differing opinions, viewpoints, and experiences
 - Giving and gracefully accepting constructive feedback
 - Accepting responsibility and apologizing to those affected by our mistakes
 
 Examples of unacceptable behavior:
+
 - The use of sexualized language or imagery
 - Trolling, insulting or derogatory comments, and personal or political attacks
 - Public or private harassment

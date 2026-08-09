@@ -1,7 +1,14 @@
 import * as path from "path";
 
 export interface VersionBumpReason {
-  type: "breaking-change" | "new-feature" | "bug-fix" | "refactor" | "docs" | "dependency" | "unknown";
+  type:
+    | "breaking-change"
+    | "new-feature"
+    | "bug-fix"
+    | "refactor"
+    | "docs"
+    | "dependency"
+    | "unknown";
   description: string;
   files: string[];
   confidence: number;
@@ -68,7 +75,7 @@ export class SemverDetector {
       const hasFix = diff.files.some(
         (f) =>
           f.path.includes("fix") ||
-          (f.commitMessage && f.commitMessage.toLowerCase().startsWith("fix"))
+          (f.commitMessage && f.commitMessage.toLowerCase().startsWith("fix")),
       );
       reasons.push({
         type: hasFix ? "bug-fix" : "refactor",
@@ -99,7 +106,10 @@ export class SemverDetector {
   /**
    * Bump version string (e.g. "1.5.0" -> "1.6.0")
    */
-  static bumpVersion(current: string, type: "major" | "minor" | "patch"): string {
+  static bumpVersion(
+    current: string,
+    type: "major" | "minor" | "patch",
+  ): string {
     const clean = current.replace(/^v/, "");
     const parts = clean.split(".").map((n) => parseInt(n, 10) || 0);
 
@@ -123,7 +133,7 @@ export class SemverDetector {
       const oldContent = file.oldContent || "";
 
       const removedExports = this.extractExports(oldContent).filter(
-        (e) => !this.extractExports(content).includes(e)
+        (e) => !this.extractExports(content).includes(e),
       );
       if (removedExports.length > 0) {
         reasons.push({
@@ -134,7 +144,10 @@ export class SemverDetector {
         });
       }
 
-      if (file.commitMessage?.includes("BREAKING CHANGE") || file.commitMessage?.includes("BREAKING:")) {
+      if (
+        file.commitMessage?.includes("BREAKING CHANGE") ||
+        file.commitMessage?.includes("BREAKING:")
+      ) {
         reasons.push({
           type: "breaking-change",
           description: "Breaking change declared in commit message",
@@ -152,7 +165,10 @@ export class SemverDetector {
         });
       }
 
-      if (file.path.includes("migration") && content.toUpperCase().includes("DROP")) {
+      if (
+        file.path.includes("migration") &&
+        content.toUpperCase().includes("DROP")
+      ) {
         reasons.push({
           type: "breaking-change",
           description: "Database migration drops columns/tables",
@@ -172,7 +188,11 @@ export class SemverDetector {
       const content = file.content || "";
       const oldContent = file.oldContent || "";
 
-      if (file.status === "added" && !this.isTest(file.path) && !this.isDocs(file.path)) {
+      if (
+        file.status === "added" &&
+        !this.isTest(file.path) &&
+        !this.isDocs(file.path)
+      ) {
         reasons.push({
           type: "new-feature",
           description: `New file: ${file.path}`,
@@ -182,7 +202,7 @@ export class SemverDetector {
       }
 
       const newExports = this.extractExports(content).filter(
-        (e) => !this.extractExports(oldContent).includes(e)
+        (e) => !this.extractExports(oldContent).includes(e),
       );
       if (newExports.length > 0) {
         reasons.push({
@@ -208,7 +228,8 @@ export class SemverDetector {
 
   private static extractExports(content: string): string[] {
     const exports: string[] = [];
-    const pattern = /export\s+(?:default\s+)?(?:class|function|const|let|var|interface|type|enum)\s+(\w+)/g;
+    const pattern =
+      /export\s+(?:default\s+)?(?:class|function|const|let|var|interface|type|enum)\s+(\w+)/g;
     let match: RegExpExecArray | null;
     while ((match = pattern.exec(content)) !== null) {
       exports.push(match[1]);
@@ -217,7 +238,10 @@ export class SemverDetector {
   }
 
   private static isTest(filePath: string): boolean {
-    return /\.(test|spec)\.(ts|js|tsx|jsx)$/.test(filePath) || filePath.includes("__tests__");
+    return (
+      /\.(test|spec)\.(ts|js|tsx|jsx)$/.test(filePath) ||
+      filePath.includes("__tests__")
+    );
   }
 
   private static isDocs(filePath: string): boolean {

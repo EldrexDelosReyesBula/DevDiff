@@ -4,7 +4,8 @@ export const JiraLinkerPlugin: DevDiffPlugin = {
   id: "devdiff-plugin-jira",
   name: "Jira Issue Auto-Linker",
   version: "1.0.0",
-  description: "Extracts Jira issue keys (e.g. PROJ-123) from diffs and links them to DevDiff metadata.",
+  description:
+    "Extracts Jira issue keys (e.g. PROJ-123) from diffs and links them to DevDiff metadata.",
   author: {
     name: "DevDiff Core Team",
     url: "https://github.com/EldrexDelosReyesBula/DevDiff",
@@ -30,7 +31,9 @@ export const JiraLinkerPlugin: DevDiffPlugin = {
       }
 
       if (issuesFound.size > 0) {
-        console.log(`[Jira Plugin] Detected ${issuesFound.size} Jira issues: ${Array.from(issuesFound).join(", ")}`);
+        console.log(
+          `[Jira Plugin] Detected ${issuesFound.size} Jira issues: ${Array.from(issuesFound).join(", ")}`,
+        );
       }
       return diff;
     },

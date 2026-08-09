@@ -12,6 +12,7 @@ author: "Eldrex Delos Reyes Bula"
 ---
 
 As developers, we install dozens of tools. Almost all of them follow a similar pattern:
+
 1. Install package.
 2. Sign up for a cloud account.
 3. Configure API keys, environment variables, and config files.
@@ -29,16 +30,19 @@ This is why we built DevDiff around the **3-Tap Rule**: a user must be able to g
 Here is the exact installation flow:
 
 ### Tap 1: Download the Package
+
 ```bash
 npm install -g @eldrex/cli
 ```
 
 ### Tap 2: Initialize DevDiff
+
 ```bash
 devdiff init
 ```
 
 ### Tap 3: Generate Changelog
+
 ```bash
 devdiff generate
 ```

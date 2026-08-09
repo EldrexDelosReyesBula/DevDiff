@@ -14,7 +14,7 @@ flowchart TD
     C -->|Yes| E[Path Sanitization & Injection Guard]
     E -->|Read-Only AST Index| F[.devdiff/memory/codebase-index.json]
     F -->|Redacted & Sanitized Response| A
-    
+
     style D fill:#f9f,stroke:#333,stroke-width:2px
     style F fill:#bbf,stroke:#333,stroke-width:2px
 ```
@@ -24,15 +24,18 @@ flowchart TD
 ## 🛡️ Core Safety Guarantees
 
 ### 1. Read-Only Knowledge Provider Guarantee
+
 - DevDiff MCP tools (`devdiff_query_entity`, `devdiff_query_changes`, `devdiff_query_dependencies`, etc.) operate purely as **read-only knowledge providers**.
 - Query tools return structured JSON payloads, Mermaid architecture graphs, or sanitized diff text.
 - Query tools **never** execute arbitrary shell scripts, modify files, or trigger network requests automatically.
 
 ### 2. Strict Workspace Boundary Scoping
+
 - All path inputs provided by AI agents are strictly validated against the project workspace root.
 - Traversal sequences (`../`, `..\`, `%2e%2e%2f`, etc.) attempting to reference `/etc/passwd`, `~/.ssh`, or system files outside the workspace are blocked with an immediate security fault.
 
 ### 3. Human-in-the-Loop Confirmation
+
 - Destructive operations (such as branch modifications, version tagging, or dependency updates) require **explicit human confirmation**.
 - DevDiff respects user-defined global development rules (`Manual by default. Automation only by explicit request`).
 

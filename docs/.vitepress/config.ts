@@ -28,7 +28,10 @@ export default withMermaid({
     ["meta", { property: "og:type", content: "website" }],
     ["meta", { property: "og:locale", content: "en_US" }],
     ["meta", { property: "og:site_name", content: "DevDiff Documentation" }],
-    ["meta", { property: "og:title", content: "DevDiff — Your Codebase's Memory" }],
+    [
+      "meta",
+      { property: "og:title", content: "DevDiff — Your Codebase's Memory" },
+    ],
     [
       "meta",
       {
@@ -38,15 +41,30 @@ export default withMermaid({
       },
     ],
     ["meta", { property: "og:url", content: "https://devdiff.vercel.app" }],
-    ["meta", { property: "og:image", content: "https://devdiff.vercel.app/devdiff-og.png" }],
+    [
+      "meta",
+      {
+        property: "og:image",
+        content: "https://devdiff.vercel.app/devdiff-og.png",
+      },
+    ],
     ["meta", { property: "og:image:width", content: "1200" }],
     ["meta", { property: "og:image:height", content: "630" }],
-    ["meta", { property: "og:image:alt", content: "DevDiff — Privacy-first AI Changelog Intelligence" }],
+    [
+      "meta",
+      {
+        property: "og:image:alt",
+        content: "DevDiff — Privacy-first AI Changelog Intelligence",
+      },
+    ],
 
     // Twitter Card
     ["meta", { name: "twitter:card", content: "summary_large_image" }],
     ["meta", { name: "twitter:site", content: "@devdiff" }],
-    ["meta", { name: "twitter:title", content: "DevDiff — Your Codebase's Memory" }],
+    [
+      "meta",
+      { name: "twitter:title", content: "DevDiff — Your Codebase's Memory" },
+    ],
     [
       "meta",
       {
@@ -55,12 +73,25 @@ export default withMermaid({
           "Privacy-first, BYOAI changelog intelligence that runs entirely on your machine. No telemetry. No cloud servers. Your code stays on your device.",
       },
     ],
-    ["meta", { name: "twitter:image", content: "https://devdiff.vercel.app/devdiff-og.png" }],
+    [
+      "meta",
+      {
+        name: "twitter:image",
+        content: "https://devdiff.vercel.app/devdiff-og.png",
+      },
+    ],
 
     // Additional SEO
     ["meta", { name: "author", content: "Eldrex Delos Reyes Bula" }],
     ["meta", { name: "robots", content: "index, follow" }],
-    ["meta", { name: "keywords", content: "devdiff, changelog, ai, developer tools, privacy, local-first, git, byoai, ollama, VS Code, IDE" }],
+    [
+      "meta",
+      {
+        name: "keywords",
+        content:
+          "devdiff, changelog, ai, developer tools, privacy, local-first, git, byoai, ollama, VS Code, IDE",
+      },
+    ],
     ["link", { rel: "canonical", href: "https://devdiff.vercel.app" }],
   ],
 
@@ -108,15 +139,27 @@ export default withMermaid({
         text: "Features (v1.6.0)",
         collapsed: false,
         items: [
-          { text: "IDE-Native Architecture (v1.6.0)", link: "/features/ide-integration" },
+          {
+            text: "IDE-Native Architecture (v1.6.0)",
+            link: "/features/ide-integration",
+          },
           { text: "Study Buddy Mode (v1.6.0)", link: "/features/study-mode" },
           { text: "Persistent Memory", link: "/features/persistent-memory" },
           { text: "Conversational Q&A", link: "/features/conversational-qa" },
-          { text: "Automated Versioning", link: "/features/automated-versioning" },
-          { text: "Universal Detection", link: "/features/universal-detection" },
+          {
+            text: "Automated Versioning",
+            link: "/features/automated-versioning",
+          },
+          {
+            text: "Universal Detection",
+            link: "/features/universal-detection",
+          },
           { text: "Natural Changelogs", link: "/features/natural-changelogs" },
           { text: "SKILL.md Knowledge Base", link: "/features/skill-md" },
-          { text: "Developer Sovereignty", link: "/guide/developer-sovereignty" },
+          {
+            text: "Developer Sovereignty",
+            link: "/guide/developer-sovereignty",
+          },
           { text: "Personas", link: "/features/personas" },
           { text: "Output Formats", link: "/features/output-formats" },
           { text: "Multi-Agent Swarms", link: "/features/multi-agent" },
@@ -129,8 +172,14 @@ export default withMermaid({
         text: "SDK & Custom Dashboards (v1.6.0)",
         collapsed: false,
         items: [
-          { text: "Build Your Own Dashboard", link: "/advanced/build-your-own-dashboard" },
-          { text: "Build Custom Integrations", link: "/advanced/build-your-own-integration" },
+          {
+            text: "Build Your Own Dashboard",
+            link: "/advanced/build-your-own-dashboard",
+          },
+          {
+            text: "Build Custom Integrations",
+            link: "/advanced/build-your-own-integration",
+          },
           { text: "SDK Code Examples", link: "/advanced/sdk-examples" },
         ],
       },
@@ -139,11 +188,17 @@ export default withMermaid({
         collapsed: true,
         items: [
           { text: "How It Works", link: "/guide/how-it-works" },
-          { text: "Language & Framework Matrix", link: "/guide/language-support" },
+          {
+            text: "Language & Framework Matrix",
+            link: "/guide/language-support",
+          },
           { text: "Bring Your Own AI", link: "/guide/byoai" },
           { text: "Token Optimization", link: "/guide/token-optimization" },
           { text: "Offline-First Design", link: "/guide/offline-first" },
-          { text: "Large Codebase Strategies", link: "/guide/large-codebase-strategies" },
+          {
+            text: "Large Codebase Strategies",
+            link: "/guide/large-codebase-strategies",
+          },
           { text: "Performance Tuning", link: "/guide/performance-tuning" },
         ],
       },
@@ -158,7 +213,10 @@ export default withMermaid({
           { text: "Google Gemini", link: "/ai-providers/gemini-setup" },
           { text: "DeepSeek AI", link: "/ai-providers/deepseek-setup" },
           { text: "Groq LPU", link: "/ai-providers/groq-setup" },
-          { text: "Transformers.js (ONNX)", link: "/ai-providers/transformers-js-setup" },
+          {
+            text: "Transformers.js (ONNX)",
+            link: "/ai-providers/transformers-js-setup",
+          },
           { text: "WebGPU (Browser)", link: "/ai-providers/webgpu-setup" },
           { text: "Custom Provider", link: "/ai-providers/custom-provider" },
         ],
@@ -169,9 +227,18 @@ export default withMermaid({
         items: [
           { text: "Security Architecture", link: "/guide/security" },
           { text: "MCP Hardening", link: "/security/mcp-hardening" },
-          { text: "Unicode Sanitization", link: "/security/unicode-sanitization" },
-          { text: "Agent System Instructions", link: "/security/agent-instructions" },
-          { text: "Developer Sovereignty", link: "/guide/developer-sovereignty" },
+          {
+            text: "Unicode Sanitization",
+            link: "/security/unicode-sanitization",
+          },
+          {
+            text: "Agent System Instructions",
+            link: "/security/agent-instructions",
+          },
+          {
+            text: "Developer Sovereignty",
+            link: "/guide/developer-sovereignty",
+          },
           { text: "Privacy Guarantees", link: "/guide/privacy" },
           { text: "Compliance Frameworks", link: "/guide/compliance" },
           { text: "Vulnerability Disclosure", link: "/security/disclosure" },
@@ -181,9 +248,18 @@ export default withMermaid({
         text: "Enterprise Solutions",
         collapsed: true,
         items: [
-          { text: "Compliance Frameworks", link: "/enterprise/compliance-frameworks" },
-          { text: "Air-Gapped Environments", link: "/enterprise/air-gapped-environments" },
-          { text: "Proprietary Codebases", link: "/enterprise/proprietary-codebases" },
+          {
+            text: "Compliance Frameworks",
+            link: "/enterprise/compliance-frameworks",
+          },
+          {
+            text: "Air-Gapped Environments",
+            link: "/enterprise/air-gapped-environments",
+          },
+          {
+            text: "Proprietary Codebases",
+            link: "/enterprise/proprietary-codebases",
+          },
         ],
       },
       {
@@ -214,9 +290,18 @@ export default withMermaid({
         collapsed: true,
         items: [
           { text: "Benchmark Overview", link: "/stress-testing/" },
-          { text: "Concurrent Operations", link: "/stress-testing/concurrent-operations" },
-          { text: "Large Diff Scenarios", link: "/stress-testing/large-diff-scenarios" },
-          { text: "Memory Profiling", link: "/stress-testing/memory-profiling" },
+          {
+            text: "Concurrent Operations",
+            link: "/stress-testing/concurrent-operations",
+          },
+          {
+            text: "Large Diff Scenarios",
+            link: "/stress-testing/large-diff-scenarios",
+          },
+          {
+            text: "Memory Profiling",
+            link: "/stress-testing/memory-profiling",
+          },
         ],
       },
       {
@@ -224,7 +309,10 @@ export default withMermaid({
         collapsed: true,
         items: [
           { text: "Troubleshooting Overview", link: "/troubleshooting/" },
-          { text: "Troubleshooting Ollama", link: "/guide/troubleshooting-ollama-timeouts" },
+          {
+            text: "Troubleshooting Ollama",
+            link: "/guide/troubleshooting-ollama-timeouts",
+          },
           { text: "Disaster Recovery", link: "/guide/disaster-recovery" },
         ],
       },

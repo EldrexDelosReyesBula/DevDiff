@@ -41,6 +41,7 @@ The VS Code extension provides a comprehensive IDE experience:
 4. **Settings Panel**: Configure active personas, inline annotations, and MCP rate limits.
 
 ### 🛡️ IDEGuardian Performance Guard
+
 - **Worker Isolation**: Operations execute safely in worker threads without freezing the editor.
 - **256MB Memory Ceiling**: Automatic memory monitoring.
 - **5s Typing Idle Detection**: Background scans pause automatically when you are actively typing.
@@ -63,6 +64,7 @@ Type `@devdiff` directly in VS Code Chat:
 ## 🔌 3. MCP Server Protocol (`@eldrex/mcp`)
 
 DevDiff v1.6.0 exposes **8 sub-50ms query tools** via MCP:
+
 - `devdiff_query_entity`: Entity history & dependencies
 - `devdiff_query_changes`: Time-range change scans
 - `devdiff_query_dependencies`: Upstream & downstream graph

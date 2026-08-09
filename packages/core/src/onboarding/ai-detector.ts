@@ -40,7 +40,11 @@ export class AIDetector {
 
     // ── Path 1: Ollama (Local) ──
     const ollamaStatus = this.detectOllamaSync();
-    if (ollamaStatus.installed && ollamaStatus.running && ollamaStatus.models.length > 0) {
+    if (
+      ollamaStatus.installed &&
+      ollamaStatus.running &&
+      ollamaStatus.models.length > 0
+    ) {
       paths.push({
         id: "ollama",
         name: "Ollama (Local)",
@@ -150,10 +154,16 @@ export class AIDetector {
     };
   }
 
-  private static detectOllamaSync(): { installed: boolean; running: boolean; models: string[] } {
+  private static detectOllamaSync(): {
+    installed: boolean;
+    running: boolean;
+    models: string[];
+  } {
     // Check environment or standard default port
     const envKeys = Object.keys(process.env);
-    const isInstalledHint = Boolean(process.env.OLLAMA_HOST || process.env.OLLAMA_MODELS);
+    const isInstalledHint = Boolean(
+      process.env.OLLAMA_HOST || process.env.OLLAMA_MODELS,
+    );
 
     // We can infer Ollama availability based on default host environment
     return {
@@ -173,7 +183,10 @@ export class AIDetector {
     return { available: false, name: "IDE" };
   }
 
-  private static detectCloudProviders(): { configured: string[]; keysDetected: string[] } {
+  private static detectCloudProviders(): {
+    configured: string[];
+    keysDetected: string[];
+  } {
     const keysDetected: string[] = [];
     if (process.env.OPENAI_API_KEY) keysDetected.push("openai");
     if (process.env.ANTHROPIC_API_KEY) keysDetected.push("anthropic");
@@ -200,7 +213,9 @@ export class AIDetector {
     return null;
   }
 
-  private static determineStage(paths: AIPath[]): "ready" | "partial" | "setup-needed" {
+  private static determineStage(
+    paths: AIPath[],
+  ): "ready" | "partial" | "setup-needed" {
     const available = paths.filter((p) => p.available);
     if (available.length >= 2) return "ready";
     if (available.length === 1) return "partial";
@@ -221,11 +236,23 @@ export class AIDetector {
   private static getOllamaStartInstructions(): Action {
     switch (process.platform) {
       case "win32":
-        return { type: "info", label: "Start Ollama", details: "Open Ollama from the Start Menu" };
+        return {
+          type: "info",
+          label: "Start Ollama",
+          details: "Open Ollama from the Start Menu",
+        };
       case "darwin":
-        return { type: "command", label: "Start Ollama", command: "brew services start ollama" };
+        return {
+          type: "command",
+          label: "Start Ollama",
+          command: "brew services start ollama",
+        };
       default:
-        return { type: "command", label: "Start Ollama", command: "sudo systemctl start ollama" };
+        return {
+          type: "command",
+          label: "Start Ollama",
+          command: "sudo systemctl start ollama",
+        };
     }
   }
 }

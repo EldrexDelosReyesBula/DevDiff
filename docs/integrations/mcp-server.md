@@ -11,7 +11,7 @@ flowchart LR
     IDEAgent[Cursor / Claude / Copilot] -->|Stdio or SSE / JSON-RPC| MCPServer[DevDiff MCP Server @eldrex/mcp]
     MCPServer -->|Sub-50ms Read-Only Queries| MemoryIndex[.devdiff/memory/codebase-index.json]
     MemoryIndex -->|Redacted & Sanitized Payload| IDEAgent
-    
+
     style MCPServer fill:#bbf,stroke:#333,stroke-width:2px
     style MemoryIndex fill:#9f9,stroke:#333,stroke-width:2px
 ```
@@ -72,16 +72,16 @@ Add DevDiff to your Claude Desktop configuration:
 
 DevDiff exposes **8 dedicated, sub-50ms codebase query tools**:
 
-| MCP Tool Name | Function & Capability | Response Time |
-|---|---|---|
-| `devdiff_query_entity` | Query entity history, methods, and parent scopes | **< 35ms** |
-| `devdiff_query_changes` | Scan time-range modifications across files | **< 40ms** |
-| `devdiff_query_dependencies` | Upstream and downstream module dependency graph | **< 30ms** |
-| `devdiff_query_architecture` | Generate Mermaid architecture graph for module relationships | **< 45ms** |
-| `devdiff_query_search` | Sub-string and AST entity search | **< 35ms** |
-| `devdiff_query_compliance` | Scan staged changes against 10 compliance frameworks | **< 50ms** |
-| `devdiff_query_stats` | Codebase metrics, lines changed, file counts | **< 20ms** |
-| `devdiff_query_timeline` | Chronological change timeline | **< 40ms** |
+| MCP Tool Name                | Function & Capability                                        | Response Time |
+| ---------------------------- | ------------------------------------------------------------ | ------------- |
+| `devdiff_query_entity`       | Query entity history, methods, and parent scopes             | **< 35ms**    |
+| `devdiff_query_changes`      | Scan time-range modifications across files                   | **< 40ms**    |
+| `devdiff_query_dependencies` | Upstream and downstream module dependency graph              | **< 30ms**    |
+| `devdiff_query_architecture` | Generate Mermaid architecture graph for module relationships | **< 45ms**    |
+| `devdiff_query_search`       | Sub-string and AST entity search                             | **< 35ms**    |
+| `devdiff_query_compliance`   | Scan staged changes against 10 compliance frameworks         | **< 50ms**    |
+| `devdiff_query_stats`        | Codebase metrics, lines changed, file counts                 | **< 20ms**    |
+| `devdiff_query_timeline`     | Chronological change timeline                                | **< 40ms**    |
 
 ---
 

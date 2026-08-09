@@ -6,12 +6,12 @@ DevDiff **v1.6.0** includes **Universal Project Detection** (`UniversalProjectDe
 
 ## 🎯 Multi-Tier Project Topology Matrix
 
-| Tier | Project Topology | Example Tech Stack | DevDiff Action & AST Capabilities |
-| :--- | :--- | :--- | :--- |
-| **Tier 1** | Node.js & Monorepos | React, Vue, Next.js, Vite, TypeScript | Full AST parsing, export extraction, & package manifest detection |
-| **Tier 2** | Static Web & PWAs | HTML5, Vanilla JS, CSS3, Web APIs | Detects CDN scripts, Service Workers, DOM handlers, & PWA manifests |
-| **Tier 3** | Python Workspaces | Django, Flask, FastAPI, Scripts | Scans `.py` files, `requirements.txt`, `pyproject.toml`, & AST functions |
-| **Tier 4** | Multilingual Systems | Go, Rust, C++, Java, C#, Ruby, PHP, SQL, Shell | Extension mapping, AST scope trimming, & raw diff analysis |
+| Tier       | Project Topology     | Example Tech Stack                             | DevDiff Action & AST Capabilities                                        |
+| :--------- | :------------------- | :--------------------------------------------- | :----------------------------------------------------------------------- |
+| **Tier 1** | Node.js & Monorepos  | React, Vue, Next.js, Vite, TypeScript          | Full AST parsing, export extraction, & package manifest detection        |
+| **Tier 2** | Static Web & PWAs    | HTML5, Vanilla JS, CSS3, Web APIs              | Detects CDN scripts, Service Workers, DOM handlers, & PWA manifests      |
+| **Tier 3** | Python Workspaces    | Django, Flask, FastAPI, Scripts                | Scans `.py` files, `requirements.txt`, `pyproject.toml`, & AST functions |
+| **Tier 4** | Multilingual Systems | Go, Rust, C++, Java, C#, Ruby, PHP, SQL, Shell | Extension mapping, AST scope trimming, & raw diff analysis               |
 
 ---
 

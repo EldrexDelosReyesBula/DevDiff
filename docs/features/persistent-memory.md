@@ -64,20 +64,20 @@ devdiff ask "What does it depend on?" # Resolves "it" to PersistentMemory
 
 All persistent memory assets are stored inside the project workspace under `.devdiff/memory/`:
 
-| File Path | Description |
-| :--- | :--- |
-| `.devdiff/memory/codebase-index.json` | Current indexed snapshot (entities, AST declarations, lines, dependency map). |
-| `.devdiff/memory/snapshot-history.json` | Array of historical codebase snapshots over time. |
-| `.devdiff/memory/conversation-history.json` | Session conversation turns for pronoun resolution. |
+| File Path                                   | Description                                                                   |
+| :------------------------------------------ | :---------------------------------------------------------------------------- |
+| `.devdiff/memory/codebase-index.json`       | Current indexed snapshot (entities, AST declarations, lines, dependency map). |
+| `.devdiff/memory/snapshot-history.json`     | Array of historical codebase snapshots over time.                             |
+| `.devdiff/memory/conversation-history.json` | Session conversation turns for pronoun resolution.                            |
 
 ---
 
 ## 📊 Performance Benchmark
 
-| Operation | Standard Re-Scan | Persistent Memory (v1.5.0) |
-| :--- | :--- | :--- |
-| **Initial Full Scan** | 30–60s | 200ms – 4s (one-time) |
-| **Incremental Update** | 30s | < 50ms |
-| **Entity Lookup** | 15–30s | < 5ms |
-| **Change History Query** | 20s | < 15ms |
-| **Context Resolution** | N/A (Forgotten) | < 1ms |
+| Operation                | Standard Re-Scan | Persistent Memory (v1.5.0) |
+| :----------------------- | :--------------- | :------------------------- |
+| **Initial Full Scan**    | 30–60s           | 200ms – 4s (one-time)      |
+| **Incremental Update**   | 30s              | < 50ms                     |
+| **Entity Lookup**        | 15–30s           | < 5ms                      |
+| **Change History Query** | 20s              | < 15ms                     |
+| **Context Resolution**   | N/A (Forgotten)  | < 1ms                      |

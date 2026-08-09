@@ -22,6 +22,7 @@
 - Added `--no-color` / `NO_COLOR=1` ANSI escape stripping.
 
 ### Updated Dependencies
+
 - `@eldrex/core@1.6.0`
 - `@eldrex/mcp@1.6.0`
 

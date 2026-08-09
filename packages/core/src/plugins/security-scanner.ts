@@ -87,7 +87,8 @@ export class PluginSecurityScanner {
         severity: "high",
         category: "obfuscation",
         title: "Obfuscated code detected",
-        details: "Plugin contains obfuscated or heavily minified code that cannot be reviewed",
+        details:
+          "Plugin contains obfuscated or heavily minified code that cannot be reviewed",
       });
     }
 
@@ -97,7 +98,8 @@ export class PluginSecurityScanner {
         severity: "critical",
         category: "telemetry",
         title: "Potential data exfiltration detected",
-        details: "Plugin contains patterns commonly used for data collection or exfiltration",
+        details:
+          "Plugin contains patterns commonly used for data collection or exfiltration",
       });
     }
 
@@ -107,14 +109,18 @@ export class PluginSecurityScanner {
         severity: "medium",
         category: "identity",
         title: "Unsigned plugin",
-        details: "Plugin is not cryptographically signed. Cannot verify publisher identity.",
+        details:
+          "Plugin is not cryptographically signed. Cannot verify publisher identity.",
       });
     }
 
     // ── Check 7: Permission vs actual usage mismatch ──
     const declaredPermissions = manifest.permissions || [];
     const actualUsage = this.analyzeActualUsage(sourceCode);
-    const undeclaredUsage = this.findUndeclaredPermissions(declaredPermissions, actualUsage);
+    const undeclaredUsage = this.findUndeclaredPermissions(
+      declaredPermissions,
+      actualUsage,
+    );
 
     if (undeclaredUsage.length > 0) {
       findings.push({
@@ -125,7 +131,9 @@ export class PluginSecurityScanner {
       });
     }
 
-    const criticalCount = findings.filter((f) => f.severity === "critical").length;
+    const criticalCount = findings.filter(
+      (f) => f.severity === "critical",
+    ).length;
     const highCount = findings.filter((f) => f.severity === "high").length;
 
     let safety: "safe" | "suspicious" | "dangerous";
@@ -145,7 +153,9 @@ export class PluginSecurityScanner {
     };
   }
 
-  private static async readManifest(pluginPath: string): Promise<{ signed?: boolean; permissions?: string[] }> {
+  private static async readManifest(
+    pluginPath: string,
+  ): Promise<{ signed?: boolean; permissions?: string[] }> {
     try {
       const manifestFile = path.join(pluginPath, "package.json");
       const raw = await fs.readFile(manifestFile, "utf-8");
@@ -164,7 +174,10 @@ export class PluginSecurityScanner {
       const entries = await fs.readdir(pluginPath, { recursive: true });
       let combined = "";
       for (const entry of entries) {
-        if (typeof entry === "string" && (entry.endsWith(".js") || entry.endsWith(".ts"))) {
+        if (
+          typeof entry === "string" &&
+          (entry.endsWith(".js") || entry.endsWith(".ts"))
+        ) {
           const fullPath = path.join(pluginPath, entry);
           try {
             const content = await fs.readFile(fullPath, "utf-8");
@@ -181,7 +194,8 @@ export class PluginSecurityScanner {
   }
 
   private static extractNetworkTargets(sourceCode: string): string[] {
-    const urlRegex = /https?:\/\/([a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})/g;
+    const urlRegex =
+      /https?:\/\/([a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})/g;
     const matches = sourceCode.match(urlRegex) || [];
     const domains: string[] = [];
     for (const match of matches) {
@@ -240,7 +254,8 @@ export class PluginSecurityScanner {
 
   private static detectExternalFileAccess(sourceCode: string): string[] {
     const paths: string[] = [];
-    const absolutePathRegex = /['"`](\/etc\/|\/usr\/|C:\\Windows\\|C:\\Users\\|\.\.\/\.\.\/)/g;
+    const absolutePathRegex =
+      /['"`](\/etc\/|\/usr\/|C:\\Windows\\|C:\\Users\\|\.\.\/\.\.\/)/g;
     let match: RegExpExecArray | null;
     while ((match = absolutePathRegex.exec(sourceCode)) !== null) {
       if (!paths.includes(match[1])) {
@@ -262,7 +277,8 @@ export class PluginSecurityScanner {
     ];
     const indicatorCount = indicators.filter(Boolean).length;
     const lines = sourceCode.split("\n");
-    const avgLineLength = lines.length > 0 ? sourceCode.length / lines.length : 0;
+    const avgLineLength =
+      lines.length > 0 ? sourceCode.length / lines.length : 0;
     return indicatorCount >= 2 || avgLineLength > 500;
   }
 
@@ -284,18 +300,22 @@ export class PluginSecurityScanner {
     const used: string[] = [];
     if (this.extractNetworkTargets(sourceCode).length > 0) used.push("network");
     if (this.extractShellPatterns(sourceCode).length > 0) used.push("shell");
-    if (this.detectExternalFileAccess(sourceCode).length > 0) used.push("filesystem");
+    if (this.detectExternalFileAccess(sourceCode).length > 0)
+      used.push("filesystem");
     return used;
   }
 
-  private static findUndeclaredPermissions(declared: string[], actual: string[]): string[] {
+  private static findUndeclaredPermissions(
+    declared: string[],
+    actual: string[],
+  ): string[] {
     return actual.filter((perm) => !declared.includes(perm));
   }
 
   private static generateRecommendation(
     safety: string,
     findings: SecurityFinding[],
-    warnings: SecurityWarning[]
+    warnings: SecurityWarning[],
   ): PluginRecommendation {
     if (safety === "dangerous") {
       const criticals = findings.filter((f) => f.severity === "critical");

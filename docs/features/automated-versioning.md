@@ -9,21 +9,21 @@ DevDiff **v1.6.0** includes an automated **Versioning & Release Engine** (`Semve
 ```mermaid
 flowchart TD
     Diff[Workspace Git Diff / Commit History] --> Parser[AST Diff Parser]
-    
+
     Parser --> Check1{Deleted Export / Signature Altered / Table Dropped?}
     Check1 -->|Yes| Major[MAJOR Version Bump 1.5.0 -> 2.0.0]
-    
+
     Check1 -->|No| Check2{New Export / Added Optional Param / New Feature?}
     Check2 -->|Yes| Minor[MINOR Version Bump 1.5.0 -> 1.6.0]
-    
+
     Check2 -->|No| Patch[PATCH Version Bump 1.5.0 -> 1.5.1]
-    
+
     Major --> Generator[Keep a Changelog Generator]
     Minor --> Generator
     Patch --> Generator
-    
+
     Generator --> Release[Automated Git Tagging & Release]
-    
+
     style Major fill:#f99,stroke:#333,stroke-width:2px
     style Minor fill:#bbf,stroke:#333,stroke-width:2px
     style Patch fill:#9f9,stroke:#333,stroke-width:2px

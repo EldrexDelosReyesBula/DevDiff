@@ -29,11 +29,11 @@ AFTER (DEVDIFF NATURAL DEVELOPER VOICE):
 
 DevDiff automatically strips hedging phrases from generated summaries before output is returned:
 
-| Category | Banned Hedging Phrases |
-|---|---|
-| **Speculative Words** | `appears to`, `seems to`, `could potentially`, `might be`, `it looks like` |
-| **Meta AI Filler** | `in my analysis`, `as an AI`, `AI-generated summary`, `here is what changed` |
-| **Passive Framing** | `the developer added`, `this file was updated to` |
+| Category              | Banned Hedging Phrases                                                       |
+| --------------------- | ---------------------------------------------------------------------------- |
+| **Speculative Words** | `appears to`, `seems to`, `could potentially`, `might be`, `it looks like`   |
+| **Meta AI Filler**    | `in my analysis`, `as an AI`, `AI-generated summary`, `here is what changed` |
+| **Passive Framing**   | `the developer added`, `this file was updated to`                            |
 
 ---
 

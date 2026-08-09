@@ -449,11 +449,13 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
     case "devdiff_query_entity": {
       const mem = await getMemory();
-      const result = mem.queryEntity(
-        (args as any).name,
-        { includeHistory: (args as any).include_history !== false, includeDependencies: (args as any).include_dependencies !== false }
-      );
-      return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      const result = mem.queryEntity((args as any).name, {
+        includeHistory: (args as any).include_history !== false,
+        includeDependencies: (args as any).include_dependencies !== false,
+      });
+      return {
+        content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
+      };
     }
 
     case "devdiff_query_changes": {
@@ -461,9 +463,11 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       const result = mem.queryChanges(
         (args as any).since || "7d",
         (args as any).filter || "all",
-        (args as any).module
+        (args as any).module,
       );
-      return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      return {
+        content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
+      };
     }
 
     case "devdiff_query_dependencies": {
@@ -471,18 +475,22 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       const result = mem.queryDependencies(
         (args as any).name,
         (args as any).direction || "both",
-        (args as any).max_depth || 2
+        (args as any).max_depth || 2,
       );
-      return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      return {
+        content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
+      };
     }
 
     case "devdiff_query_architecture": {
       const mem = await getMemory();
       const result = mem.queryArchitecture(
         (args as any).module,
-        (args as any).include_diagram || false
+        (args as any).include_diagram || false,
       );
-      return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      return {
+        content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
+      };
     }
 
     case "devdiff_query_search": {
@@ -490,33 +498,41 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       const result = mem.querySearch(
         (args as any).query,
         (args as any).type || "all",
-        (args as any).limit || 10
+        (args as any).limit || 10,
       );
-      return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      return {
+        content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
+      };
     }
 
     case "devdiff_query_compliance": {
       const mem = await getMemory();
       const result = mem.queryCompliance(
         (args as any).framework || "all",
-        (args as any).severity || "medium"
+        (args as any).severity || "medium",
       );
-      return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      return {
+        content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
+      };
     }
 
     case "devdiff_query_stats": {
       const mem = await getMemory();
       const result = mem.queryStats((args as any).include_trends || false);
-      return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      return {
+        content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
+      };
     }
 
     case "devdiff_query_timeline": {
       const mem = await getMemory();
       const result = mem.queryTimeline(
         (args as any).name,
-        (args as any).since || "30d"
+        (args as any).since || "30d",
       );
-      return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      return {
+        content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
+      };
     }
 
     default:

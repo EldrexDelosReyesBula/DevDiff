@@ -9,24 +9,24 @@ The DevDiff VS Code extension ([`@eldrex/vscode`](https://github.com/EldrexDelos
 ```mermaid
 flowchart TD
     VSCode[VS Code Workspace] --> Extension[@eldrex/vscode Extension Host]
-    
+
     subgraph Panels [4 Dedicated Sidebar Views]
       P1[1. Changelog Explorer]
       P2[2. Q&A Chat Panel]
       P3[3. Security & Compliance]
       P4[4. Settings & Personas]
     end
-    
+
     subgraph Safeguard [IDEGuardian Performance Enforcer]
       Worker[Worker Thread Execution]
       RAMCap[256MB Memory Ceiling]
       IdleDetect[5s Typing Idle Detection]
     end
-    
+
     Extension --> Panels
     Extension --> Safeguard
     Extension --> ChatParticipant[@devdiff Chat Participant]
-    
+
     style Extension fill:#bbf,stroke:#333,stroke-width:2px
     style Safeguard fill:#9f9,stroke:#333,stroke-width:2px
 ```

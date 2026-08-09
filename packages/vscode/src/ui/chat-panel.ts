@@ -8,16 +8,17 @@ export class ChatPanel implements vscode.WebviewViewProvider {
 
   constructor(
     private readonly extensionUri: vscode.Uri,
-    private readonly engine: DevDiffEngine
+    private readonly engine: DevDiffEngine,
   ) {
-    const workspacePath = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || process.cwd();
+    const workspacePath =
+      vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || process.cwd();
     this.qa = new ConversationalQA(workspacePath);
   }
 
   public resolveWebviewView(
     webviewView: vscode.WebviewView,
     context: vscode.WebviewViewResolveContext,
-    _token: vscode.CancellationToken
+    _token: vscode.CancellationToken,
   ) {
     this._view = webviewView;
 
@@ -34,8 +35,15 @@ export class ChatPanel implements vscode.WebviewViewProvider {
           const userQuestion = data.text;
           if (!userQuestion || !userQuestion.trim()) return;
 
-          this._view?.webview.postMessage({ type: "addMessage", role: "user", text: userQuestion });
-          this._view?.webview.postMessage({ type: "setLoading", loading: true });
+          this._view?.webview.postMessage({
+            type: "addMessage",
+            role: "user",
+            text: userQuestion,
+          });
+          this._view?.webview.postMessage({
+            type: "setLoading",
+            loading: true,
+          });
 
           try {
             const result = await this.qa.ask(userQuestion);
@@ -53,7 +61,10 @@ export class ChatPanel implements vscode.WebviewViewProvider {
               text: `⚠️ Could not query DevDiff memory: ${err?.message || err}`,
             });
           } finally {
-            this._view?.webview.postMessage({ type: "setLoading", loading: false });
+            this._view?.webview.postMessage({
+              type: "setLoading",
+              loading: false,
+            });
           }
           break;
         }

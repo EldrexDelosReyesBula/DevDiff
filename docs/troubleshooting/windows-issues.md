@@ -31,10 +31,12 @@ git config --global core.autocrlf true
 ## 🦙 Ollama Connection & Port 11434 on Windows
 
 ### 1. Verification Checklist
+
 - Check if Ollama is running in the Windows System Tray (bottom-right notification area, `^` icon).
 - If not running, open **Ollama** from the Windows Start Menu.
 
 ### 2. Port 11434 Collisions
+
 If port 11434 is blocked or claimed by another application:
 
 ```powershell
@@ -46,6 +48,7 @@ taskkill /PID [PID] /F
 ```
 
 ### 3. Windows Firewall Rules
+
 If Ollama is blocked from local HTTP connections:
 
 ```powershell
@@ -60,6 +63,7 @@ New-NetFirewallRule -DisplayName "Ollama Local Service" -Direction Inbound -Loca
 **Symptom:** Slow performance when accessing Windows file mounts (`/mnt/c/Users/...`) inside WSL2.
 
 **Best Practice:**
+
 - Place your Git repositories inside the native WSL2 Linux filesystem (`/home/username/projects/`) rather than `/mnt/c/`.
 - Access VS Code natively in WSL2 by running `code .` inside the WSL2 terminal.
 

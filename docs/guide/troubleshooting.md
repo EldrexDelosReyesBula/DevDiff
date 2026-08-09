@@ -9,11 +9,13 @@ This guide provides solutions for common issues, error messages, and environment
 ### 1. Local LLM / Ollama Connection Refused (`ECONNREFUSED 127.0.0.1:11434`)
 
 **Symptom:**
+
 ```
 Error: connect ECONNREFUSED 127.0.0.1:11434
 ```
 
 **Resolution:**
+
 1. Verify the Ollama daemon is running:
    ```bash
    ollama serve
@@ -34,6 +36,7 @@ Error: connect ECONNREFUSED 127.0.0.1:11434
 ### 2. MCP Port or Preview Server Port in Use (`EADDRINUSE`)
 
 **Symptom:**
+
 ```
 Error: listen EADDRINUSE: address already in use :::4173
 ```
@@ -54,6 +57,7 @@ Get-Process -Id (Get-NetTCPConnection -LocalPort 4173).OwningProcess | Stop-Proc
 ### 3. Missing Codebase Memory Index (`.devdiff/memory/codebase-index.json`)
 
 **Symptom:**
+
 ```
 Warning: Codebase memory index not initialized.
 ```
@@ -70,6 +74,7 @@ devdiff memory init
 ### 4. API Key Not Found Error
 
 **Symptom:**
+
 ```
 Error: Missing API key for cloud provider 'openai-cloud'.
 ```

@@ -15,7 +15,7 @@ flowchart TD
     L2 -->|Path Bounded & Prompt Sanitized| L3[3. Redaction Engine V2]
     L3 -->|Secrets Masked| L4[4. Network Guard V2]
     L4 -->|Offline-First / Allowlist Enforcement| Core[DevDiff Core Engine & Memory Index]
-    
+
     style L1 fill:#eef,stroke:#333,stroke-width:2px
     style L2 fill:#dde,stroke:#333,stroke-width:2px
     style L3 fill:#ccd,stroke:#333,stroke-width:2px
@@ -27,16 +27,16 @@ flowchart TD
 
 ## 🛡️ Core Security Modules & Safeguards
 
-| Security Module | Function & Purpose | Primary Guide |
-|---|---|---|
-| **Secret Redaction Engine (`RedactionEngineV2`)** | Automatic scanning and masking of API keys, JWT tokens, DB URIs, and RSA keys prior to LLM/MCP dispatch. | [Redaction Engine](./redaction-engine) |
-| **Injection Guard (`InjectionGuardV2`)** | Defense against prompt injection, command injection, path traversal, SQLi, and XSS. | [Injection Prevention](./injection-prevention) |
-| **Unicode Sanitizer (`PromptSanitizer`)** | Automated filtering of hidden Unicode Tag Blocks (`U+E0000..U+E007F`), zero-width spaces, and BIDI overrides. | [Unicode Sanitization](./unicode-sanitization) |
-| **Network Guard (`NetworkGuardV2`)** | 100% offline default mode, strict host allowlists, and zero telemetry enforcement. | [Network Guard](./network-guard) |
-| **MCP Hardening (`@eldrex/mcp`)** | Read-only tool scoping, rate limiting (30 queries/min), and workspace jail enforcement for IDE AI agents. | [MCP Hardening](./mcp-hardening) |
-| **Agent Safety Boundaries** | Formal operating rules, read-only guarantees, and human-in-the-loop triggers for AI agents. | [Agent Instructions](./agent-instructions) |
-| **Proprietary Code Safeguards** | AST structural abstraction and `.devdiffignore` file exclusion boundaries. | [Proprietary Code Protection](./proprietary-code-protection) |
-| **10 Compliance Frameworks** | Automated scanning against GDPR, HIPAA, SOC 2, ISO 27001, FedRAMP, PCI-DSS, NIST 800-53, CCPA, OWASP, and CIS. | [Compliance](./compliance) |
+| Security Module                                   | Function & Purpose                                                                                             | Primary Guide                                                |
+| ------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| **Secret Redaction Engine (`RedactionEngineV2`)** | Automatic scanning and masking of API keys, JWT tokens, DB URIs, and RSA keys prior to LLM/MCP dispatch.       | [Redaction Engine](./redaction-engine)                       |
+| **Injection Guard (`InjectionGuardV2`)**          | Defense against prompt injection, command injection, path traversal, SQLi, and XSS.                            | [Injection Prevention](./injection-prevention)               |
+| **Unicode Sanitizer (`PromptSanitizer`)**         | Automated filtering of hidden Unicode Tag Blocks (`U+E0000..U+E007F`), zero-width spaces, and BIDI overrides.  | [Unicode Sanitization](./unicode-sanitization)               |
+| **Network Guard (`NetworkGuardV2`)**              | 100% offline default mode, strict host allowlists, and zero telemetry enforcement.                             | [Network Guard](./network-guard)                             |
+| **MCP Hardening (`@eldrex/mcp`)**                 | Read-only tool scoping, rate limiting (30 queries/min), and workspace jail enforcement for IDE AI agents.      | [MCP Hardening](./mcp-hardening)                             |
+| **Agent Safety Boundaries**                       | Formal operating rules, read-only guarantees, and human-in-the-loop triggers for AI agents.                    | [Agent Instructions](./agent-instructions)                   |
+| **Proprietary Code Safeguards**                   | AST structural abstraction and `.devdiffignore` file exclusion boundaries.                                     | [Proprietary Code Protection](./proprietary-code-protection) |
+| **10 Compliance Frameworks**                      | Automated scanning against GDPR, HIPAA, SOC 2, ISO 27001, FedRAMP, PCI-DSS, NIST 800-53, CCPA, OWASP, and CIS. | [Compliance](./compliance)                                   |
 
 ---
 

@@ -10,9 +10,7 @@ DevDiff includes a production-ready Jira Issue Auto-Linker Plugin in [`examples/
 
 ```json
 {
-  "plugins": [
-    "./examples/plugins/jira-linker"
-  ]
+  "plugins": ["./examples/plugins/jira-linker"]
 }
 ```
 

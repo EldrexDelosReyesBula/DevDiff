@@ -9,6 +9,7 @@ All notable changes to DevDiff are documented here.
 The **v1.6.0** release delivers full production deployment readiness: VS Code 4-panel sidebar, `@devdiff` native chat participant, Study Buddy Mode (`devdiff study`), Zero-Friction AI Detection (`AIDetector`), Native Virtual Editor Getting Started Guide, Plugin Security Scanner (`PluginSecurityScanner`), `IDEGuardian` worker isolation, complete package manifest hardening for npm publishing, expanded AI provider suite (Groq, Gemini, DeepSeek, Transformers.js), and the DevDiff Reference Dictionary.
 
 ### 🎓 DevDiff Study Buddy Mode (`devdiff study`)
+
 - **Interactive Codebase Study Buddy**: Interactive senior developer AI assistant for students, beginners, and developers exploring new projects.
 - **Line-by-Line Educational Explanations**: Provides Overview, Line-by-Line breakdown with "Why?" rationale, Key Concepts Learned, Try It Yourself experiments, and Related Concepts.
 - **`study-buddy` Persona**: Warm, encouraging educational persona (9th built-in persona).
@@ -16,6 +17,7 @@ The **v1.6.0** release delivers full production deployment readiness: VS Code 4-
 - **VS Code Triggers**: `devdiff.study.start` and `devdiff.study.explain` integration.
 
 ### ⚡ Zero-Friction AI Detection & Guidance (`AIDetector`)
+
 - **Multi-Path Auto-Detection**: Priority evaluation of 3 AI paths:
   1. Ollama (Local) — detects running models on `http://localhost:11434`.
   2. IDE Agent — detects VS Code / Cursor environment for `@devdiff` chat with 0 setup.
@@ -23,11 +25,13 @@ The **v1.6.0** release delivers full production deployment readiness: VS Code 4-
 - **OS-Tailored Instructions**: Returns platform-specific setup commands for Windows (`win32`), macOS (`darwin`), and Linux.
 
 ### 📖 Native Virtual Editor Getting Started Guide
+
 - **Virtual Markdown Provider**: `devdiff://onboarding/DEVDIFF_GETTING_STARTED.md` opens a native Virtual Markdown tab on first install.
 - **Personalized Quick Start**: Generates getting started steps customized to live `AIDetector` results.
 - **Command Palette Action**: `DevDiff: Show Getting Started Guide` (`devdiff.showGettingStarted`).
 
 ### 🛡️ Plugin Ecosystem Security Scanner (`PluginSecurityScanner`)
+
 - **7-Pass Static Security Auditing**:
   1. Network Destinations (flags raw GitHub, ngrok, serveo, localtunnel, pastes, raw IPs, `.ru`/`.cn`/`.su` TLDs).
   2. Shell Command Execution (flags `child_process`, `execSync`, `spawn`, `exec`, `SHELL`).
@@ -38,6 +42,7 @@ The **v1.6.0** release delivers full production deployment readiness: VS Code 4-
   7. Undeclared Permission Analysis (compares declared manifest permissions vs actual code usage).
 
 ### 📖 DevDiff Reference Dictionary (`docs/guide/dictionary.md`)
+
 - Single-page reference manual for:
   - 16 CLI Commands
   - 10 VS Code Commands + `@devdiff` Chat Participant
@@ -48,6 +53,7 @@ The **v1.6.0** release delivers full production deployment readiness: VS Code 4-
   - Default Network Ports (`11434` Ollama, `3000` Gateway)
 
 ### 🖥️ VS Code Extension — 4-Panel Sidebar Architecture
+
 - **Changelog Explorer**: Inspect staged diff summaries, preview markdown changelogs, and render Mermaid architecture diagrams directly inside VS Code.
 - **Q&A Chat Panel (`@devdiff`)**: Registered as a VS Code native chat participant — use `@devdiff` directly in VS Code Chat view in <50ms.
 - **Security & Compliance Panel**: One-click vulnerability scanning against 10 regulatory frameworks (GDPR, SOC 2, HIPAA, FedRAMP, ISO 27001).
@@ -56,11 +62,13 @@ The **v1.6.0** release delivers full production deployment readiness: VS Code 4-
 - Fixed extension `categories`: `["AI", "Other"]`.
 
 ### 🛡️ IDEGuardian Worker Isolation
+
 - All AI inference and memory operations execute inside isolated Node.js worker threads.
 - Hard 256MB memory ceiling enforced per worker with automatic cleanup on completion.
 - 5-second typing activity idle detection pauses background tasks during active coding sessions.
 
 ### 📦 Package Publishing Readiness
+
 - Added `"access": "public"` to `publishConfig` across all scoped `@eldrex/*` packages (`core`, `cli`, `mcp`, `plugin-sdk`, `gateway`, `vite`, `personas`, `connectors`).
 - Fixed `create-devdiff-app`: added `publishConfig`, `files: ["dist"]`, `author`, `repository`, bumped `engines` from `>=18` to `>=20`.
 - Added TypeScript monorepo path mappings for all 12 packages in root `tsconfig.json`.
@@ -70,6 +78,7 @@ The **v1.6.0** release delivers full production deployment readiness: VS Code 4-
 ## [1.5.1] — 2026-08-08
 
 ### Changed
+
 - Updated `.devdiff.config.js`
 - Updated `package.json`
 - Updated `index.ts`

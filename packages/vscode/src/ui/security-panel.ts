@@ -7,13 +7,13 @@ export class SecurityPanel implements vscode.WebviewViewProvider {
 
   constructor(
     private readonly extensionUri: vscode.Uri,
-    private readonly engine: DevDiffEngine
+    private readonly engine: DevDiffEngine,
   ) {}
 
   public resolveWebviewView(
     webviewView: vscode.WebviewView,
     context: vscode.WebviewViewResolveContext,
-    _token: vscode.CancellationToken
+    _token: vscode.CancellationToken,
   ) {
     this._view = webviewView;
 
@@ -39,7 +39,10 @@ export class SecurityPanel implements vscode.WebviewViewProvider {
             report: { error: err?.message || String(err) },
           });
         } finally {
-          this._view?.webview.postMessage({ type: "setLoading", loading: false });
+          this._view?.webview.postMessage({
+            type: "setLoading",
+            loading: false,
+          });
         }
       }
     });

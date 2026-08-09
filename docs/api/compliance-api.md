@@ -11,7 +11,7 @@ import {
   COMPLIANCE_FRAMEWORKS,
   applyCompliance,
   verifyComplianceRules,
-  deepMerge
+  deepMerge,
 } from "@eldrex/core";
 ```
 

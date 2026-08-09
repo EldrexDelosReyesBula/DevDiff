@@ -83,15 +83,15 @@ npx devdiff memory init
 
 Customize DevDiff under **Settings** (`Ctrl+,` or `Cmd+,`) by searching for `devdiff`:
 
-| Setting | Type | Default | Description |
-|---|---|---|---|
-| `devdiff.persona` | `string` | `"developer"` | Persona perspective (`developer`, `ceo`, `educator`, `robot`, `data-analyst`, `journalist`, `pm`, `compliance`) |
-| `devdiff.provider` | `string` | `"ollama-local"` | AI model provider (`ollama-local`, `openai-cloud`, `anthropic-cloud`, `webllm-gpu`) |
-| `devdiff.model` | `string` | `"llama3.2:3b"` | Model identifier (e.g. `llama3.2:3b`, `qwen2.5-coder:7b`, `gpt-4o-mini`) |
-| `devdiff.autoGenerate` | `boolean` | `false` | Automatically analyze changes when files are staged |
-| `devdiff.showCodeLens` | `boolean` | `true` | Display inline `⚡ DevDiff: Explain` CodeLens annotations in editor |
-| `devdiff.memoryCapMb` | `number` | `256` | `IDEGuardian` worker memory ceiling in megabytes |
-| `devdiff.idleDetectionSeconds` | `number` | `5` | Pause background analysis when active typing is detected |
+| Setting                        | Type      | Default          | Description                                                                                                     |
+| ------------------------------ | --------- | ---------------- | --------------------------------------------------------------------------------------------------------------- |
+| `devdiff.persona`              | `string`  | `"developer"`    | Persona perspective (`developer`, `ceo`, `educator`, `robot`, `data-analyst`, `journalist`, `pm`, `compliance`) |
+| `devdiff.provider`             | `string`  | `"ollama-local"` | AI model provider (`ollama-local`, `openai-cloud`, `anthropic-cloud`, `webllm-gpu`)                             |
+| `devdiff.model`                | `string`  | `"llama3.2:3b"`  | Model identifier (e.g. `llama3.2:3b`, `qwen2.5-coder:7b`, `gpt-4o-mini`)                                        |
+| `devdiff.autoGenerate`         | `boolean` | `false`          | Automatically analyze changes when files are staged                                                             |
+| `devdiff.showCodeLens`         | `boolean` | `true`           | Display inline `⚡ DevDiff: Explain` CodeLens annotations in editor                                             |
+| `devdiff.memoryCapMb`          | `number`  | `256`            | `IDEGuardian` worker memory ceiling in megabytes                                                                |
+| `devdiff.idleDetectionSeconds` | `number`  | `5`              | Pause background analysis when active typing is detected                                                        |
 
 ---
 

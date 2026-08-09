@@ -17,7 +17,7 @@ flowchart TD
     E -->|No| G[Clean Text Stream]
     F --> H[Sanitized Payload to LLM / MCP]
     G --> H
-    
+
     style F fill:#f99,stroke:#333,stroke-width:2px
     style H fill:#9f9,stroke:#333,stroke-width:2px
 ```
@@ -29,6 +29,7 @@ flowchart TD
 `RedactionEngineV2` enforces built-in detection patterns across 5 core credential categories:
 
 ### 1. API Keys & Authentication Tokens
+
 - **OpenAI API Keys**: `sk-proj-[A-Za-z0-9-_]+` $\rightarrow$ `[REDACTED:OpenAI-API-Key]`
 - **Anthropic API Keys**: `sk-ant-api[0-9]{2}-[A-Za-z0-9-_]+` $\rightarrow$ `[REDACTED:Anthropic-API-Key]`
 - **GitHub PATs**: `ghp_[A-Za-z0-9]{36}` / `github_pat_[A-Za-z0-9_]{82}` $\rightarrow$ `[REDACTED:GitHub-Token]`
@@ -37,15 +38,19 @@ flowchart TD
 - **Stripe Secret Keys**: `sk_live_[0-9a-zA-Z]{24}` $\rightarrow$ `[REDACTED:Stripe-Secret-Key]`
 
 ### 2. JSON Web Tokens (JWT)
+
 - **Signed Tokens**: Matches 3-part base64 encoded JWT headers starting with `eyJhbGciOi...` $\rightarrow$ `[REDACTED:JWT-Token]`
 
 ### 3. Database Connection Strings
+
 - **Database URIs**: Recognizes `postgres://`, `postgresql://`, `mongodb://`, `mongodb+srv://`, `mysql://`, `redis://` connection URIs containing embedded passwords $\rightarrow$ `[REDACTED:Database-Connection]`
 
 ### 4. Cryptographic Material & Private Keys
+
 - **PEM Boundaries**: Scans for `-----BEGIN RSA PRIVATE KEY-----`, `-----BEGIN OPENSSH PRIVATE KEY-----`, `-----BEGIN PRIVATE KEY-----` $\rightarrow$ `[REDACTED:Private-Key]`
 
 ### 5. Hardcoded Assignment Credentials
+
 - **Password & Secret Assignments**: Scans assignments like `password = "..."`, `secret: "..."`, `api_key: "..."` $\rightarrow$ `[REDACTED:Password]`
 
 ---

@@ -14,7 +14,7 @@ flowchart TD
     Test -->|Yes| Commit[3. Session Continues / Git Commit]
     Test -->|No / Corrupted Code| Revert[4. devdiff recover Rollback]
     Revert --> Restore[Instant Restoration to Pre-AI State]
-    
+
     style Checkpoint fill:#bbf,stroke:#333,stroke-width:2px
     style Revert fill:#f99,stroke:#333,stroke-width:2px
     style Restore fill:#9f9,stroke:#333,stroke-width:2px
@@ -25,13 +25,16 @@ flowchart TD
 ## 🛡️ Core Safety Guarantees
 
 ### 1. Automated Pre-AI Checkpoints
+
 - Before any AI command executes or diff analysis occurs, DevDiff automatically creates a lightweight snapshot of all staged and unstaged workspace files inside `.devdiff/memory/snapshots/`.
 - Checkpoints capture exact file contents, permissions, and git status fingerprints without altering your git history.
 
 ### 2. Automatic Fallback Routing
+
 - If a cloud AI provider experiences rate limits or network dropouts mid-session, DevDiff's AIRouter automatically fails over to your configured local Ollama model (e.g. `llama3.2:3b`) without interrupting your session.
 
 ### 3. Instant Disaster Recovery
+
 - If an AI agent refactors a component incorrectly or deletes valid lines, you can revert your entire workspace back to any previous checkpoint in **< 1 second**.
 
 ---
@@ -53,6 +56,7 @@ devdiff vibe status
 ```
 
 Output:
+
 ```
 ⚡ DevDiff Vibe-Coding Guardian (Active)
 Recent Checkpoints:

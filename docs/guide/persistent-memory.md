@@ -14,7 +14,8 @@ Run `devdiff memory init` once inside your repository root:
 devdiff memory init
 ```
 
-*Output:*
+_Output:_
+
 ```text
 [lucide:search] Initializing codebase memory index...
    Scanning files, indexing AST entities, and building dependency graph.
@@ -32,7 +33,8 @@ Check indexed file counts and entity breakdowns with `devdiff memory status`:
 devdiff memory status
 ```
 
-*Output:*
+_Output:_
+
 ```text
 [lucide:bar-chart-3] DevDiff Persistent Codebase Memory Status
 ──────────────────────────────────────────────
@@ -78,6 +80,7 @@ devdiff ask "What does it depend on?"
 ## 🧹 Clearing & Resetting Memory
 
 - To clear **conversation context only** (keeping codebase indices):
+
   ```bash
   devdiff memory clear-conversation
   ```

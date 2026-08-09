@@ -3,7 +3,12 @@ import * as path from "path";
 import { execSync } from "child_process";
 import { fileURLToPath } from "url";
 import pc from "picocolors";
-import { SemverDetector, ChangelogGenerator, ParsedDiff, FileChangeInfo } from "@eldrex/core";
+import {
+  SemverDetector,
+  ChangelogGenerator,
+  ParsedDiff,
+  FileChangeInfo,
+} from "@eldrex/core";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -21,30 +26,39 @@ export function getVersion(): string {
   return "1.5.0";
 }
 
-export async function versionBumpCommand(options: {
-  type?: "major" | "minor" | "patch" | "auto";
-  dryRun?: boolean;
-  changelog?: boolean;
-  tag?: boolean;
-  push?: boolean;
-  monorepo?: boolean;
-  package?: string;
-} = {}) {
+export async function versionBumpCommand(
+  options: {
+    type?: "major" | "minor" | "patch" | "auto";
+    dryRun?: boolean;
+    changelog?: boolean;
+    tag?: boolean;
+    push?: boolean;
+    monorepo?: boolean;
+    package?: string;
+  } = {},
+) {
   const currentVersion = getVersion();
-  console.log(`${pc.cyan("[lucide:box]")} Current version: ${pc.bold("v" + currentVersion)}`);
+  console.log(
+    `${pc.cyan("[lucide:box]")} Current version: ${pc.bold("v" + currentVersion)}`,
+  );
 
   const diff = getStagedDiff();
   const detection = SemverDetector.detect(diff, currentVersion);
-  const bumpType = options.type === "auto" || !options.type ? detection.type : options.type;
+  const bumpType =
+    options.type === "auto" || !options.type ? detection.type : options.type;
 
   if (bumpType === "none") {
-    console.log(`${pc.gray("[lucide:info]")} No changes detected. Version unchanged.`);
+    console.log(
+      `${pc.gray("[lucide:info]")} No changes detected. Version unchanged.`,
+    );
     return;
   }
 
   const newVersion = SemverDetector.bumpVersion(currentVersion, bumpType);
 
-  console.log(`\n${pc.cyan("[lucide:clipboard-list]")} ${pc.bold("DevDiff Version Bump Plan:")}`);
+  console.log(
+    `\n${pc.cyan("[lucide:clipboard-list]")} ${pc.bold("DevDiff Version Bump Plan:")}`,
+  );
   console.log(pc.gray("──────────────────────────────────────────────"));
   console.log(`   Type: ${pc.white(bumpType.toUpperCase())}`);
   console.log(`   From: ${pc.gray("v" + currentVersion)}`);
@@ -63,7 +77,9 @@ export async function versionBumpCommand(options: {
     return;
   }
 
-  console.log(`${pc.green("[lucide:arrow-up-circle]")} Bumping version to v${newVersion}...`);
+  console.log(
+    `${pc.green("[lucide:arrow-up-circle]")} Bumping version to v${newVersion}...`,
+  );
 
   bumpRootPackage(newVersion);
   console.log(`   ${pc.green("[lucide:check]")} package.json updated`);
@@ -82,23 +98,35 @@ export async function versionBumpCommand(options: {
 
   if (options.tag !== false) {
     try {
-      execSync(`git tag -a v${newVersion} -m "Release v${newVersion}"`, { stdio: "ignore" });
-      console.log(`   ${pc.green("[lucide:check]")} Tag v${newVersion} created`);
+      execSync(`git tag -a v${newVersion} -m "Release v${newVersion}"`, {
+        stdio: "ignore",
+      });
+      console.log(
+        `   ${pc.green("[lucide:check]")} Tag v${newVersion} created`,
+      );
     } catch (e) {
-      console.log(`   ${pc.yellow("[lucide:alert-triangle]")} Git tag skipped or already exists`);
+      console.log(
+        `   ${pc.yellow("[lucide:alert-triangle]")} Git tag skipped or already exists`,
+      );
     }
   }
 
   if (options.push) {
     try {
       execSync("git push && git push --tags", { stdio: "ignore" });
-      console.log(`   ${pc.green("[lucide:check]")} Pushed to remote repository`);
+      console.log(
+        `   ${pc.green("[lucide:check]")} Pushed to remote repository`,
+      );
     } catch (e) {
-      console.log(`   ${pc.yellow("[lucide:alert-triangle]")} Remote push failed`);
+      console.log(
+        `   ${pc.yellow("[lucide:alert-triangle]")} Remote push failed`,
+      );
     }
   }
 
-  console.log(`\n${pc.green("[lucide:check-circle]")} ${pc.bold("Release complete! v" + newVersion + " ready.")}\n`);
+  console.log(
+    `\n${pc.green("[lucide:check-circle]")} ${pc.bold("Release complete! v" + newVersion + " ready.")}\n`,
+  );
 }
 
 export async function releaseCommand(options: any = {}) {
@@ -113,7 +141,9 @@ export async function releaseCommand(options: any = {}) {
 
 function getStagedDiff(): ParsedDiff {
   try {
-    const output = execSync("git diff --cached --name-only", { encoding: "utf-8" }).trim();
+    const output = execSync("git diff --cached --name-only", {
+      encoding: "utf-8",
+    }).trim();
     const files: FileChangeInfo[] = output
       .split("\n")
       .filter(Boolean)
@@ -136,10 +166,15 @@ function bumpRootPackage(newVersion: string): void {
   }
 }
 
-export async function versionCommand(subcommand: string = "status", options: any = {}) {
+export async function versionCommand(
+  subcommand: string = "status",
+  options: any = {},
+) {
   if (subcommand === "bump") {
     return versionBumpCommand(options);
   }
   const current = getVersion();
-  console.log(`${pc.cyan("[lucide:tag]")} ${pc.bold("DevDiff CLI Version:")} v${current}`);
+  console.log(
+    `${pc.cyan("[lucide:tag]")} ${pc.bold("DevDiff CLI Version:")} v${current}`,
+  );
 }

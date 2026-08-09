@@ -19,7 +19,7 @@ export class IDEGuardian {
   static async runTask<T>(
     taskName: string,
     operation: () => Promise<T>,
-    timeoutMs = 120000
+    timeoutMs = 120000,
   ): Promise<T> {
     const health = this.checkHealth();
     if (!health.canProcess) {
@@ -33,7 +33,11 @@ export class IDEGuardian {
     return new Promise<T>(async (resolve, reject) => {
       const timer = setTimeout(() => {
         this.activeOperationsCount--;
-        reject(new Error(`DevDiff task '${taskName}' timed out after ${timeoutMs / 1000}s`));
+        reject(
+          new Error(
+            `DevDiff task '${taskName}' timed out after ${timeoutMs / 1000}s`,
+          ),
+        );
       }, timeoutMs);
 
       try {

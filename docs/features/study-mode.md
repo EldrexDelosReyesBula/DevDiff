@@ -1,4 +1,4 @@
-# DevDiff Study Buddy Mode 
+# DevDiff Study Buddy Mode
 
 DevDiff is your interactive codebase study buddy. Designed for students, beginners, and developers exploring new projects, **Study Buddy Mode** turns every code explanation into an educational experience.
 
@@ -7,7 +7,9 @@ DevDiff is your interactive codebase study buddy. Designed for students, beginne
 ## 🎯 Core Features
 
 ### 1. Educational Line-by-Line Explanations
+
 When you select code and ask DevDiff to explain, Study Buddy Mode provides:
+
 - **Overview & Purpose**: Plain-English explanation of what the function or module accomplishes.
 - **Line-by-Line Breakdown**: Detailed explanations with rationale for design decisions ("Why?").
 - **Key Concepts Learned**: Essential computer science concepts (e.g. Salting, Hashing, Recursion, Promises).

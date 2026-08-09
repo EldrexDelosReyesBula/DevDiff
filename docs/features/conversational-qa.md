@@ -27,19 +27,18 @@ flowchart TD
     style I fill:#8b5cf6,color:#fff,stroke:#7c3aed
 ```
 
-
 ---
 
 ## ⚡ Performance Breakdown
 
-| Query Type | Typical Response Time | Data Source |
-| :--- | :--- | :--- |
-| **Entity Lookup** (`"What does X do?"`) | `< 10ms` | Codebase Index |
-| **Dependency Query** (`"What depends on X?"`) | `< 15ms` | Knowledge Graph |
-| **Count Queries** (`"How many functions?"`) | `< 5ms` | AST Statistics |
-| **Compliance Checks** (`"Is this GDPR safe?"`) | `< 20ms` | Privacy Rules Engine |
-| **Context Resolution** (`"Tell me about it"`) | `< 5ms` | Conversation State |
-| **AI Fallback** (`"Explain complex logic"`) | `500ms - 2s` | Ollama / Cloud LLM |
+| Query Type                                     | Typical Response Time | Data Source          |
+| :--------------------------------------------- | :-------------------- | :------------------- |
+| **Entity Lookup** (`"What does X do?"`)        | `< 10ms`              | Codebase Index       |
+| **Dependency Query** (`"What depends on X?"`)  | `< 15ms`              | Knowledge Graph      |
+| **Count Queries** (`"How many functions?"`)    | `< 5ms`               | AST Statistics       |
+| **Compliance Checks** (`"Is this GDPR safe?"`) | `< 20ms`              | Privacy Rules Engine |
+| **Context Resolution** (`"Tell me about it"`)  | `< 5ms`               | Conversation State   |
+| **AI Fallback** (`"Explain complex logic"`)    | `500ms - 2s`          | Ollama / Cloud LLM   |
 
 ---
 

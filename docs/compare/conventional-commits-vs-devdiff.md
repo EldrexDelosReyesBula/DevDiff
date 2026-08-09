@@ -6,12 +6,12 @@ This guide compares **Conventional Commits** (manual commit message prefixes lik
 
 ## 🎯 Architectural Comparison
 
-| Comparison Dimension | Conventional Commits | DevDiff Automated AST Engine |
-|---|---|---|
-| **Human Reliance** | Requires 100% developer discipline to format every commit message | Fully automated; analyzes actual code AST modifications |
+| Comparison Dimension         | Conventional Commits                                              | DevDiff Automated AST Engine                                                       |
+| ---------------------------- | ----------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| **Human Reliance**           | Requires 100% developer discipline to format every commit message | Fully automated; analyzes actual code AST modifications                            |
 | **Breaking Change Accuracy** | Misses unflagged breaking changes if developer forgets `!` prefix | AST parser detects deleted exports, altered required parameters, & SQL table drops |
-| **Changelog Quality** | Raw concatenated commit strings | Grouped, redacted, persona-driven Keep a Changelog markdown |
-| **Release Effort** | Requires complex regex CI tools | Single command: `devdiff release` |
+| **Changelog Quality**        | Raw concatenated commit strings                                   | Grouped, redacted, persona-driven Keep a Changelog markdown                        |
+| **Release Effort**           | Requires complex regex CI tools                                   | Single command: `devdiff release`                                                  |
 
 ---
 

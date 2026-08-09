@@ -31,7 +31,9 @@ export class UniversalProjectDetector {
     }
 
     // Tier 2: Has HTML files (static site / web app)
-    const htmlFiles = allFiles.filter((f) => f.endsWith(".html") || f.endsWith(".htm"));
+    const htmlFiles = allFiles.filter(
+      (f) => f.endsWith(".html") || f.endsWith(".htm"),
+    );
     if (htmlFiles.length > 0) {
       return this.detectWebProject(workspacePath, allFiles, htmlFiles);
     }
@@ -46,7 +48,11 @@ export class UniversalProjectDetector {
     return this.detectFromExtensions(workspacePath, allFiles);
   }
 
-  private static scanFiles(dir: string, baseDir: string = dir, maxDepth = 5): string[] {
+  private static scanFiles(
+    dir: string,
+    baseDir: string = dir,
+    maxDepth = 5,
+  ): string[] {
     let files: string[] = [];
     if (maxDepth <= 0) return files;
 
@@ -80,13 +86,18 @@ export class UniversalProjectDetector {
     return files;
   }
 
-  private static detectNodeProject(root: string, allFiles: string[]): ProjectDetection {
+  private static detectNodeProject(
+    root: string,
+    allFiles: string[],
+  ): ProjectDetection {
     const extensions = this.countExtensions(allFiles);
     const languages = this.mapExtensionsToLanguages(extensions);
     const frameworks: string[] = ["Node.js"];
 
     try {
-      const pkg = JSON.parse(fs.readFileSync(path.join(root, "package.json"), "utf-8"));
+      const pkg = JSON.parse(
+        fs.readFileSync(path.join(root, "package.json"), "utf-8"),
+      );
       const deps = { ...pkg.dependencies, ...pkg.devDependencies };
 
       if (deps.react) frameworks.push("React");
@@ -105,7 +116,9 @@ export class UniversalProjectDetector {
       frameworks,
       hasPackageJson: true,
       isSingleFile: allFiles.length === 1,
-      entryPoints: allFiles.filter((f) => f.includes("index") || f.includes("main")).slice(0, 5),
+      entryPoints: allFiles
+        .filter((f) => f.includes("index") || f.includes("main"))
+        .slice(0, 5),
       totalFiles: allFiles.length,
     };
   }
@@ -113,7 +126,7 @@ export class UniversalProjectDetector {
   private static detectWebProject(
     root: string,
     allFiles: string[],
-    htmlFiles: string[]
+    htmlFiles: string[],
   ): ProjectDetection {
     const extensions = this.countExtensions(allFiles);
     const languages = this.mapExtensionsToLanguages(extensions);
@@ -123,16 +136,19 @@ export class UniversalProjectDetector {
       try {
         const content = fs.readFileSync(path.join(root, htmlFile), "utf-8");
 
-        if (content.includes("tailwindcss")) frameworks.push("Tailwind CSS (CDN)");
+        if (content.includes("tailwindcss"))
+          frameworks.push("Tailwind CSS (CDN)");
         if (content.includes("bootstrap")) frameworks.push("Bootstrap (CDN)");
         if (content.includes("vue")) frameworks.push("Vue.js (CDN)");
         if (content.includes("react")) frameworks.push("React (CDN)");
         if (content.includes("alpine")) frameworks.push("Alpine.js");
         if (content.includes("htmx")) frameworks.push("HTMX");
         if (content.includes("jquery")) frameworks.push("jQuery");
-        if (content.includes("fonts.googleapis.com")) frameworks.push("Google Fonts");
+        if (content.includes("fonts.googleapis.com"))
+          frameworks.push("Google Fonts");
         if (content.includes("manifest.json")) frameworks.push("PWA");
-        if (allFiles.some((f) => f.endsWith("sw.js"))) frameworks.push("Service Worker");
+        if (allFiles.some((f) => f.endsWith("sw.js")))
+          frameworks.push("Service Worker");
         if (content.includes("viewport")) frameworks.push("Responsive Design");
       } catch {}
     }
@@ -142,14 +158,16 @@ export class UniversalProjectDetector {
         const content = fs.readFileSync(path.join(root, jsFile), "utf-8");
         if (content.includes("indexedDB") || content.includes("IDBDatabase"))
           frameworks.push("IndexedDB");
-        if (content.includes("localStorage")) frameworks.push("localStorage API");
+        if (content.includes("localStorage"))
+          frameworks.push("localStorage API");
         if (content.includes("fetch")) frameworks.push("Fetch API");
         if (
           content.includes("SpeechRecognition") ||
           content.includes("webkitSpeechRecognition")
         )
           frameworks.push("Web Speech API");
-        if (content.includes("navigator.vibrate")) frameworks.push("Vibration API");
+        if (content.includes("navigator.vibrate"))
+          frameworks.push("Vibration API");
         if (
           content.includes("serviceWorker") ||
           content.includes("navigator.serviceWorker")
@@ -170,12 +188,19 @@ export class UniversalProjectDetector {
     };
   }
 
-  private static detectPythonProject(root: string, allFiles: string[]): ProjectDetection {
+  private static detectPythonProject(
+    root: string,
+    allFiles: string[],
+  ): ProjectDetection {
     const extensions = this.countExtensions(allFiles);
     const languages = this.mapExtensionsToLanguages(extensions);
     const frameworks: string[] = ["Python"];
 
-    if (allFiles.some((f) => f.includes("requirements.txt") || f.includes("pyproject.toml"))) {
+    if (
+      allFiles.some(
+        (f) => f.includes("requirements.txt") || f.includes("pyproject.toml"),
+      )
+    ) {
       frameworks.push("Pip / Poetry");
     }
 
@@ -191,7 +216,10 @@ export class UniversalProjectDetector {
     };
   }
 
-  private static detectFromExtensions(root: string, allFiles: string[]): ProjectDetection {
+  private static detectFromExtensions(
+    root: string,
+    allFiles: string[],
+  ): ProjectDetection {
     const extensions = this.countExtensions(allFiles);
     const languages = this.mapExtensionsToLanguages(extensions);
 
@@ -216,7 +244,9 @@ export class UniversalProjectDetector {
     return extensions;
   }
 
-  private static mapExtensionsToLanguages(extensions: Map<string, number>): LanguageCount[] {
+  private static mapExtensionsToLanguages(
+    extensions: Map<string, number>,
+  ): LanguageCount[] {
     const languageMap: Record<string, string> = {
       ".js": "javascript",
       ".mjs": "javascript",

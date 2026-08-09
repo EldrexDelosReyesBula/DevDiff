@@ -6,13 +6,13 @@ DevDiff (v1.6.0) is designed for 100% keyboard-navigable operation across all in
 
 ## 🎯 Keyboard Shortcuts & Navigation Matrix
 
-| Environment | Action | Shortcut / Keyboard Pattern | Focus Behavior |
-|---|---|---|---|
-| **VS Code Extension** | Open DevDiff Chat Panel | `Ctrl+Shift+D` / `Cmd+Shift+D` | Focuses Q&A input field |
-| **VS Code Extension** | Trigger Inline CodeLens | `Alt+F1` $\rightarrow$ Select CodeLens | Triggers `⚡ DevDiff: Explain` |
-| **VS Code Extension** | Switch Sidebar View | `Tab` / `Shift+Tab` | Logical sequential focus trap |
-| **Terminal CLI** | Interactive Selection | `Up` / `Down` Arrow keys | Highlight active persona/option |
-| **Web Documentation** | Jump to Main Content | `Tab` (at page top) | Activates "Skip to content" link |
+| Environment           | Action                  | Shortcut / Keyboard Pattern            | Focus Behavior                   |
+| --------------------- | ----------------------- | -------------------------------------- | -------------------------------- |
+| **VS Code Extension** | Open DevDiff Chat Panel | `Ctrl+Shift+D` / `Cmd+Shift+D`         | Focuses Q&A input field          |
+| **VS Code Extension** | Trigger Inline CodeLens | `Alt+F1` $\rightarrow$ Select CodeLens | Triggers `⚡ DevDiff: Explain`   |
+| **VS Code Extension** | Switch Sidebar View     | `Tab` / `Shift+Tab`                    | Logical sequential focus trap    |
+| **Terminal CLI**      | Interactive Selection   | `Up` / `Down` Arrow keys               | Highlight active persona/option  |
+| **Web Documentation** | Jump to Main Content    | `Tab` (at page top)                    | Activates "Skip to content" link |
 
 ---
 

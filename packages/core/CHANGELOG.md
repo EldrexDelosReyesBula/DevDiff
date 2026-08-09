@@ -24,6 +24,7 @@
 - AST trimmer token reduction improved to 85%.
 
 ### Updated Dependencies
+
 - `@eldrex/personas@1.6.0`
 - `@eldrex/plugin-sdk@1.6.0`
 

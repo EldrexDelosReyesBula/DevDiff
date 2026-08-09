@@ -8,11 +8,11 @@ DevDiff analyzes abstract syntax trees (ASTs) across git commits to detect break
 
 DevDiff evaluates git diffs against strict AST rules:
 
-| AST Modification Detected | SemVer Impact | Version Bump Type |
-|---|---|---|
-| Deleted export, modified required parameter, type break | **BREAKING CHANGE** | `MAJOR` (`1.5.0` $\rightarrow$ `2.0.0`) |
+| AST Modification Detected                                    | SemVer Impact        | Version Bump Type                       |
+| ------------------------------------------------------------ | -------------------- | --------------------------------------- |
+| Deleted export, modified required parameter, type break      | **BREAKING CHANGE**  | `MAJOR` (`1.5.0` $\rightarrow$ `2.0.0`) |
 | New exported function, new optional parameter, new interface | **FEATURE ADDITION** | `MINOR` (`1.5.0` $\rightarrow$ `1.6.0`) |
-| Internal bug fix, docstring edit, performance tweak | **PATCH / FIX** | `PATCH` (`1.5.0` $\rightarrow$ `1.5.1`) |
+| Internal bug fix, docstring edit, performance tweak          | **PATCH / FIX**      | `PATCH` (`1.5.0` $\rightarrow$ `1.5.1`) |
 
 ---
 
@@ -26,6 +26,7 @@ devdiff version check
 ```
 
 Output:
+
 ```
 🔍 Analyzing AST modifications...
 ✨ Detected: 2 new features added, 0 breaking changes.

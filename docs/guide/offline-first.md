@@ -12,7 +12,7 @@ flowchart TD
     Engine --> MemoryIndex[.devdiff/memory/codebase-index.json]
     Engine --> LocalAI[Local AI: Ollama / WebGPU / ONNX]
     LocalAI --> Output[Sanitized Local Output & Changelogs]
-    
+
     style Engine fill:#bbf,stroke:#333,stroke-width:2px
     style LocalAI fill:#9f9,stroke:#333,stroke-width:2px
 ```

@@ -14,6 +14,7 @@
 - Fixed diff annotation rendering for binary file changes.
 
 ### Updated Dependencies
+
 - `@eldrex/core@1.6.0`
 - `@eldrex/gateway@1.6.0`
 

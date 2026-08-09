@@ -1,44 +1,44 @@
 {
-    "name":  "create-devdiff-app",
-    "version":  "1.6.0",
-    "description":  "Scaffold a DevDiff-powered changelog dashboard or CI integration",
-    "type":  "module",
-    "bin":  {
-                "create-devdiff-app":  "dist/index.js"
-            },
-    "scripts": {
-        "build": "tsup src/index.ts --format esm --dts --clean",
-        "test": "echo \"No tests for scaffolding tool\""
-    },
-    "publishConfig": {
-        "access": "public",
-        "registry": "https://registry.npmjs.org"
-    },
-    "files": [
-        "dist"
-    ],
-    "keywords":  [
-                     "devdiff",
-                     "changelog",
-                     "ai",
-                     "scaffold",
-                     "template"
-                 ],
-    "license":  "MIT",
-    "dependencies":  {
-                         "picocolors":  "^1.1.1"
-                     },
-    "engines": {
-        "node": ">=20.0.0"
-    },
-    "devDependencies": {
-        "tsup": "^8.0.0",
-        "typescript": "^5.5.0"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/EldrexDelosReyesBula/devdiff.git",
-        "directory": "packages/create-devdiff-app"
-    },
-    "author": "Eldrex Delos Reyes Bula <eldrexdelosreyesbula@gmail.com>"
+  "name": "create-devdiff-app",
+  "version": "1.6.0",
+  "description": "Scaffold a DevDiff-powered changelog dashboard or CI integration",
+  "type": "module",
+  "bin": {
+    "create-devdiff-app": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --clean",
+    "test": "echo \"No tests for scaffolding tool\""
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "devdiff",
+    "changelog",
+    "ai",
+    "scaffold",
+    "template"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "picocolors": "^1.1.1"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "typescript": "^5.5.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/EldrexDelosReyesBula/devdiff.git",
+    "directory": "packages/create-devdiff-app"
+  },
+  "author": "Eldrex Delos Reyes Bula <eldrexdelosreyesbula@gmail.com>"
 }

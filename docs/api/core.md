@@ -14,7 +14,7 @@ import {
   RedactionEngineV2,
   NetworkGuard,
   AccuracyGuard,
-  SemverDetector
+  SemverDetector,
 } from "@eldrex/core";
 ```
 
@@ -31,7 +31,7 @@ const result = await generateChangelog({
   diffText: rawGitDiff,
   persona: "developer",
   format: "markdown",
-  redactSecrets: true
+  redactSecrets: true,
 });
 console.log(result.formattedOutput);
 ```

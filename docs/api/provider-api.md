@@ -25,7 +25,7 @@ export interface AIProvider {
       maxTokens?: number;
       systemPrompt?: string;
       customHeaders?: Record<string, string>;
-    }
+    },
   ): Promise<AIExplanationResult>;
 }
 

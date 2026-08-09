@@ -135,7 +135,10 @@ async function executeCommand(fullPath: string, args: any[]) {
     }
     case "ask": {
       const { askCommand } = await import("./commands/ask");
-      const question = typeof args[0] === "string" ? args[0] : (args[0] && args[0].question) || "";
+      const question =
+        typeof args[0] === "string"
+          ? args[0]
+          : (args[0] && args[0].question) || "";
       return askCommand(question, args[1] || {});
     }
     case "skill": {

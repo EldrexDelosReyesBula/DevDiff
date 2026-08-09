@@ -4,7 +4,8 @@ export const SecurityGatePlugin: DevDiffPlugin = {
   id: "devdiff-plugin-security-gate",
   name: "Security Gate Enforcer",
   version: "1.0.0",
-  description: "Enforces strict security checks on diffs to prevent unencrypted keys or dangerous imports.",
+  description:
+    "Enforces strict security checks on diffs to prevent unencrypted keys or dangerous imports.",
   author: {
     name: "DevDiff Core Team",
     url: "https://github.com/EldrexDelosReyesBula/DevDiff",
@@ -20,7 +21,9 @@ export const SecurityGatePlugin: DevDiffPlugin = {
       const privateKeyRegex = /-----BEGIN PRIVATE KEY-----/;
       for (const file of diff.files) {
         if (file.content && privateKeyRegex.test(file.content)) {
-          throw new Error(`[Security Gate] Blocked diff containing unencrypted Private Key in ${file.newPath}`);
+          throw new Error(
+            `[Security Gate] Blocked diff containing unencrypted Private Key in ${file.newPath}`,
+          );
         }
       }
       return diff;
