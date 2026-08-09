@@ -1,13 +1,5 @@
-# Transformers.js Provider
+# Transformers.js Setup Guide
 
-Run model inference completely inside Node.js or the browser using ONNX Runtime.
+This guide is maintained under our single canonical AI Providers documentation suite.
 
-## Usage
-
-Set the provider URL to `transformers://` prefix followed by the Hugging Face model identifier:
-
-```json
-{
-  "url": "transformers://Xenova/LaMini-Flan-T5-78M"
-}
-```
+👉 **[View the Official Transformers.js Setup Guide](/ai-providers/transformers-js-setup)**

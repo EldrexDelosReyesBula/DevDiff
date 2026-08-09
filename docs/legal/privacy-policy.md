@@ -1,7 +1,7 @@
 # Privacy Policy
 
-**Document Version:** v1.5.0  
-**Last Updated:** August 7, 2026  
+**Document Version:** v1.6.0  
+**Last Updated:** August 8, 2026  
 **Effective Date:** June 28, 2026  
 **Jurisdiction:** Global
 

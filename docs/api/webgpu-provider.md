@@ -1,29 +1,25 @@
-# WebGPU Provider API Reference
+# WebGPU & WebLLM Provider API Reference
 
-The `WebGPUProvider` implements local model inference accelerated by WebGPU.
+The `WebLLMProvider` in `@eldrex/core` manages hardware-accelerated local AI model inference using WebGPU shaders and MLC quantized model weights.
 
-## Import
+---
 
-```typescript
-import { WebGPUProvider } from "@eldrex/core";
-```
-
-## Constructor
+## 📦 Import Syntax
 
 ```typescript
-const provider = new WebGPUProvider();
+import { WebLLMProvider, MLCModelConfig } from "@eldrex/core";
 ```
 
-## Methods
+---
 
-### `initialize(config?: { model, quantization }): Promise<void>`
+## 🛠️ Class Specifications
 
-Requests WebGPU adapters and devices, compile shaders, and load model weights into GPU memory buffers.
+```typescript
+const provider = new WebLLMProvider({
+  model: "Llama-3.2-3B-Instruct-q4f16_1-MLC",
+  vramCapMb: 2560
+});
 
-### `generate(prompt: string): Promise<AsyncGenerator<string>>`
-
-Executes WebGPU compute passes and streams detokenized text results.
-
-### `generateExplanation(diffText: string, modelName: string): Promise<AIExplanationResult>`
-
-Generates a structured changelog explanation based on a raw diff.
+await provider.initializeEngine();
+const result = await provider.generateExplanation(diffText, "Llama-3.2-3B");
+```

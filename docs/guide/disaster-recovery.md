@@ -1,21 +1,50 @@
-# Disaster Recovery
+# Disaster Recovery & Workspace Rollbacks
 
-During active vibe-coding sessions, mistakes happen or remote APIs go down. DevDiff provides a local disaster recovery mechanism using pre-AI checkpoints.
+DevDiff provides an automated local **Disaster Recovery Engine** to protect developer codebases against broken AI refactoring, corrupt AST states, or unapproved multi-file edits.
 
-## Pre-AI Checkpoints
+---
 
-Every time an AI command is executed, a snapshot is saved:
+## 🎯 How Checkpoints Work
 
-```bash
-💾 Checkpoint: ckpt-1719000300-def456
+DevDiff automatically records a snapshot fingerprint before executing any AI-assisted operation:
+
+```
+💾 Created Pre-AI Checkpoint: ckpt-1719000300-def456
 ```
 
-## Restoring Checkpoints
+Snapshots reside locally inside `.devdiff/memory/snapshots/` and are strictly private to your local workstation.
 
-If an AI-assisted session corrupts files or introduces undesired changes, restore your workspace using the recover CLI command:
+---
+
+## 🚀 Recovery Steps
+
+### Step 1: List Available Checkpoints
 
 ```bash
-npx devdiff recover --checkpoint ckpt-1719000300-def456
+devdiff recover list
 ```
 
-This restores all files back to their exact pre-AI state.
+Output:
+```
+Available Workspace Checkpoints:
+  ID: ckpt-1719000300-def456  Time: 2026-08-08 22:10:00  Files: 5
+  ID: ckpt-1719000120-abc123  Time: 2026-08-08 22:05:00  Files: 2
+```
+
+### Step 2: Restore a Specific Checkpoint
+
+```bash
+# Revert workspace to pre-AI state
+devdiff recover --checkpoint ckpt-1719000300-def456
+```
+
+---
+
+## 🧹 Clearing Old Checkpoints
+
+To free local disk space, clear historical recovery snapshots:
+
+```bash
+# Delete recovery snapshots older than 24 hours
+devdiff recover clean --older-than 24h
+```

@@ -1,16 +1,37 @@
-# WebGPU Local Inference
+# WebGPU & Local In-Process Inference Guide
 
-DevDiff v1.0.2 supports WebGPU-accelerated local model inference. This allows running lightweight models (e.g. Llama 3.2 3B, Gemma 2 2B) directly on your local GPU with zero installation and zero cloud costs.
+DevDiff supports running open-source LLMs locally using hardware GPU acceleration via **WebGPU** (WebLLM) and in-process CPU execution via **ONNX / Transformers.js**.
 
-## Hardware Requirements
+---
 
-- **GPU**: A WebGPU-compatible GPU (e.g., Apple M-series chips, NVIDIA RTX GPUs, AMD Radeon GPUs).
-- **Driver support**: Modern WebGPU backend support.
+## 🎯 Supported In-Process Engines
 
-## Fallback Chain
+### 1. WebGPU / WebLLM Engine
+Runs quantized MLC model weights directly inside browser webview shaders or Electron environments using host GPU hardware acceleration (Apple Silicon Metal, NVIDIA CUDA, AMD ROCm, Intel Arc).
 
-If WebGPU is unavailable, DevDiff automatically falls back to:
+- **Performance**: Up to **110 tokens/sec** on Apple M2/M3 GPUs.
+- **Privacy**: 100% on-device, zero network traffic.
 
-1. **WebAssembly (WASM)**
-2. **Native CPU**
-3. **Local Ollama instance** (with download instructions)
+### 2. Transformers.js / ONNX Engine
+Runs ONNX quantized models (`Qwen1.5-0.5B`, `Phi-3-Mini`) inside Node.js worker threads without external background processes.
+
+---
+
+## ⚙️ Configuration Setup
+
+Configure WebGPU or Transformers.js in `.devdiff/config.json`:
+
+```json
+{
+  "ai": {
+    "defaultProvider": "webllm-local",
+    "providers": [
+      {
+        "name": "webllm-local",
+        "url": "webllm://Llama-3.2-1B-Instruct-q4f16_1-MLC",
+        "priority": 1
+      }
+    ]
+  }
+}
+```

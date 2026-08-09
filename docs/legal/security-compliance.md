@@ -1,7 +1,7 @@
 # Security & Compliance
 
-**Document Version:** v1.5.0  
-**Last Updated:** August 7, 2026  
+**Document Version:** v1.6.0  
+**Last Updated:** August 8, 2026  
 **Audience:** Enterprise teams, security reviewers, compliance officers
 
 ---

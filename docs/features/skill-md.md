@@ -1,53 +1,39 @@
-# SKILL.md — AI Precision & Knowledge Base
-SKILL.md is a declarative knowledge base file that teaches DevDiff's AI engine how to understand, analyze, and explain your specific codebase structure, terminology, patterns, and anti-patterns.
+# SKILL.md — Declarative Knowledge Base & AI Alignment
+
+`SKILL.md` is a declarative knowledge base specification that teaches DevDiff's AI engine how to understand, analyze, and explain your project's specific architecture, coding standards, terminology, and anti-patterns.
 
 ---
 
-## 🎯 Architecture
+## 🎯 The 10 Knowledge Base Sections
 
-```text
-.devdiff/SKILL.md (Project Knowledge Base)
-├── 1. Project Identity: Purpose & technology stack
-├── 2. Architecture: Directory topology & module responsibilities
-├── 3. Naming Conventions: Files, classes, interfaces, & branches
-├── 4. Business Domain: Terminology & domain rules
-├── 5. Patterns: Common refactoring & change patterns
-├── 6. Anti-Patterns: What the AI must NEVER suggest
-├── 7. Compliance Requirements: Active regulatory standards
-├── 8. Output Preferences: Changelog & security review styles
-├── 9. Team Context: Ownership & review approvals
-└── 10. Historical Context: Major changes & tech debt
+A complete `SKILL.md` file (stored in `.devdiff/SKILL.md` or `.agents/skills/`) contains 10 structured knowledge sections:
+
+```markdown
+---
+name: project-knowledge-base
+description: Standardized project rules and architectural standards.
+---
+
+# 1. Project Identity: Mission & technology stack
+# 2. Architecture: Directory topology & module boundaries
+# 3. Naming Conventions: Class, function, interface, & branch standards
+# 4. Business Domain: Domain vocabulary & business logic rules
+# 5. Patterns: Recommended design & refactoring patterns
+# 6. Anti-Patterns: Code practices the AI must NEVER introduce
+# 7. Compliance Requirements: Active regulatory standards (GDPR, SOC 2)
+# 8. Output Preferences: Format preferences for changelogs & reviews
+# 9. Team Context: Ownership boundaries & review requirements
+# 10. Historical Context: Major refactorings & architectural technical debt
 ```
 
 ---
 
-## 🚀 CLI Commands
+## 🚀 CLI Skill Commands
 
 ```bash
-# Auto-generate SKILL.md by scanning project topology, package manifests, and Git history
+# Auto-generate SKILL.md by scanning project topology and Git history
 devdiff skill generate
 
 # Validate SKILL.md coverage across all 10 knowledge sections
 devdiff skill validate
-```
-
----
-
-## 📊 Coverage Validation Output (`devdiff skill validate`)
-
-```text
-[lucide:file-text] DevDiff SKILL.md Coverage & Validation:
-──────────────────────────────────────────────
-  • Project Identity:    ✅
-  • Architecture:        ✅
-  • Naming Conventions:  ✅
-  • Business Domain:     ✅
-  • Patterns:            ✅
-  • Anti-Patterns:       ✅
-  • Compliance:          ✅
-  • Output Preferences:  ✅
-  • Team Context:        ✅
-  • Historical Context:  ✅
-
-📊 Total Knowledge Base Coverage: 100%
 ```

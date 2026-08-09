@@ -1,22 +1,43 @@
-# Development Guide
+# Local Development & Setup Guide
 
-Step-by-step setup to develop DevDiff workspace packages.
+This guide walks through setting up your local workstation for contributing to DevDiff.
 
-## Monorepo Layout
+---
 
-DevDiff uses `pnpm` workspace to link packages under `/packages/`.
+## ⚙️ Prerequisites
+
+- **Node.js**: `>= 20.0.0`
+- **pnpm**: `^9.0.0`
+- **Git**: `^2.40.0`
+
+---
+
+## 🚀 Quick Setup Instructions
+
+### 1. Clone & Install Dependencies
 
 ```bash
-# Clone the repository
-git clone https://github.com/EldrexDelosReyesBula/devdiff.git
-cd devdiff
-
-# Install dependencies
+git clone https://github.com/EldrexDelosReyesBula/DevDiff.git
+cd DevDiff
 pnpm install
+```
 
-# Run build tasks
-pnpm run build
+### 2. Build All Packages
 
-# Run unit tests
-pnpm run test
+```bash
+pnpm build
+```
+
+### 3. Run Development Watch Mode
+
+```bash
+pnpm dev
+```
+
+### 4. Test Local CLI Linking
+
+```bash
+cd packages/cli
+npm link
+devdiff --help
 ```

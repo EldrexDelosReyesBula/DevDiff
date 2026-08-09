@@ -1,6 +1,15 @@
 import * as vscode from "vscode";
-import { DevDiffEngine } from "@eldrex/core";
+import { DevDiffEngine, ConversationalQA } from "@eldrex/core";
 import { ExtensionSecurityGuard } from "./security/extension-guard";
+import { IDEGuardian } from "./performance/ide-guardian";
+import { ChangelogExplorer } from "./ui/changelog-explorer";
+import { ChatPanel } from "./ui/chat-panel";
+import { SecurityPanel } from "./ui/security-panel";
+import { SettingsPanel } from "./ui/settings-panel";
+import { ChangelogCodeLensProvider } from "./ui/gutter-annotations";
+
+import { OnboardingBanner } from "./onboarding/onboarding-banner";
+import { OnboardingGuide } from "./onboarding/guide-opener";
 
 let engine: DevDiffEngine;
 let statusBar: vscode.StatusBarItem;
@@ -18,13 +27,29 @@ interface DetectedModel {
 
 export async function activate(context: vscode.ExtensionContext) {
   outputChannel = vscode.window.createOutputChannel("DevDiff");
-  outputChannel.appendLine("DevDiff VS Code Extension v2.0 starting...");
+  outputChannel.appendLine("DevDiff VS Code Extension v1.6.0 starting...");
+
+  // Register virtual document provider and commands for getting started guide
+  OnboardingGuide.register(context);
+
+  // Show personalized onboarding guide on first install
+  OnboardingGuide.showIfFirstTime(context).catch((err) => {
+    outputChannel.appendLine(`Onboarding guide notice: ${err}`);
+  });
+
+  // Show zero-friction onboarding banner based on AI detection
+  OnboardingBanner.show(context).catch((err) => {
+    outputChannel.appendLine(`Onboarding banner notice: ${err}`);
+  });
 
   const config = vscode.workspace.getConfiguration("devdiff");
   const autoStart = config.get("autoStart", true);
 
   const workspacePath =
     vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || process.cwd();
+
+  // Track editor typing/activity for health checks
+  vscode.workspace.onDidChangeTextDocument(() => IDEGuardian.trackActivity());
 
   // Validate workspace safety
   const validation = ExtensionSecurityGuard.validateWorkspace(workspacePath);
@@ -47,12 +72,56 @@ export async function activate(context: vscode.ExtensionContext) {
     return;
   }
 
+  // ── REGISTER SIDEBAR PANELS (IDE-NATIVE) ──
+  const changelogExplorer = new ChangelogExplorer(context, engine);
+  vscode.window.registerTreeDataProvider("devdiff-changelog", changelogExplorer);
+
+  const chatPanel = new ChatPanel(context.extensionUri, engine);
+  vscode.window.registerWebviewViewProvider(ChatPanel.viewType, chatPanel);
+
+  const securityPanel = new SecurityPanel(context.extensionUri, engine);
+  vscode.window.registerWebviewViewProvider(SecurityPanel.viewType, securityPanel);
+
+  const settingsPanel = new SettingsPanel(context.extensionUri);
+  vscode.window.registerWebviewViewProvider(SettingsPanel.viewType, settingsPanel);
+
+  // ── REGISTER CODELENS / GUTTER ANNOTATIONS ──
+  context.subscriptions.push(
+    vscode.languages.registerCodeLensProvider(
+      { scheme: "file" },
+      new ChangelogCodeLensProvider()
+    )
+  );
+
+  // ── REGISTER @devdiff CHAT PARTICIPANT ──
+  if ((vscode as any).lm && (vscode as any).lm.registerChatParticipant) {
+    try {
+      const qa = new ConversationalQA(workspacePath);
+      const participant = (vscode as any).lm.registerChatParticipant("devdiff.chat", async (request: any, chatContext: any, stream: any) => {
+        const prompt = request.prompt.toLowerCase();
+        if (prompt.includes("changelog") || prompt.includes("what changed")) {
+          const changelog = await IDEGuardian.runTask("generateChangelog", () => engine.analyze({ since: "24h" }));
+          stream.markdown(typeof changelog === "string" ? changelog : changelog.summary || JSON.stringify(changelog));
+        } else if (prompt.includes("security") || prompt.includes("scan")) {
+          const report = await IDEGuardian.runTask("securityScan", () => engine.securityScan({ since: "1 week" }));
+          stream.markdown(JSON.stringify(report, null, 2));
+        } else {
+          const answer = await IDEGuardian.runTask("askQA", () => qa.ask(request.prompt));
+          stream.markdown(answer.answer);
+        }
+      });
+      context.subscriptions.push(participant);
+    } catch {
+      outputChannel.appendLine("ℹ️ Chat participant registration bypassed (API not supported in host version)");
+    }
+  }
+
   // Status Bar setup
   statusBar = vscode.window.createStatusBarItem(
     vscode.StatusBarAlignment.Right,
     100,
   );
-  statusBar.text = "$(pulse) DevDiff";
+  statusBar.text = "$(symbol-misc) DevDiff";
   statusBar.tooltip = "DevDiff Active — Click for options";
   statusBar.command = "devdiff.showMenu";
   statusBar.show();
@@ -117,6 +186,14 @@ export async function activate(context: vscode.ExtensionContext) {
 
     vscode.commands.registerCommand("devdiff.askAI", async () => {
       await askDevDiff();
+    }),
+
+    vscode.commands.registerCommand("devdiff.study.start", async () => {
+      vscode.window.showInformationMessage("📖 DevDiff Study Buddy Mode Activated! Type @devdiff in chat or select code to explain.");
+    }),
+
+    vscode.commands.registerCommand("devdiff.study.explain", async () => {
+      await explainSelection();
     }),
 
     vscode.commands.registerCommand("devdiff.explainChanges", async () => {
@@ -534,6 +611,7 @@ function renderErrorHtml(error: any): string {
 
 export function deactivate() {
   if (autoGenerateTimeout) clearTimeout(autoGenerateTimeout);
+  IDEGuardian.dispose();
   outputChannel?.appendLine("DevDiff extension deactivated");
   outputChannel?.dispose();
 }

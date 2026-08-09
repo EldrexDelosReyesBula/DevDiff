@@ -1,23 +1,45 @@
-# Performance Tuning & Low-End Device Optimization
+# Performance Tuning & Workstation Optimization
 
-DevDiff includes a hardware-aware **Low-End Device Optimizer** (`LowEndOptimizer`) that adapts memory consumption, concurrency, and worker thread pools based on hardware profile.
-
----
-
-## ⚡ Performance Profiles by Hardware Tier
-
-| Parameter | Low Tier (<= 4GB RAM, <= 2 cores) | Medium Tier (8GB RAM, 4 cores) | High Tier (>= 16GB RAM, >= 8 cores) |
-| :--- | :--- | :--- | :--- |
-| **Max Heap Cap** | 128 MB | 256 MB | 512 MB |
-| **Max Files / Run** | 100 files | 500 files | 5,000 files |
-| **Concurrency** | Sequential (1 chunk) | 2 concurrent chunks | 4 concurrent chunks |
-| **Worker Threads** | 1 worker | 2 workers | 4 workers |
-| **AI Model Tier** | Smallest available | Balanced | Best available |
-| **Power Throttling** | Pauses on battery | Active | Active |
-| **Thermal Protection** | Pauses when hot | Pauses when hot | Full speed |
+DevDiff is optimized to run efficiently alongside resource-heavy IDEs, Docker containers, and local compilers. This guide details techniques for tuning execution speed, memory footprint, and token budgeting on your development workstation.
 
 ---
 
-## 🛡️ Dynamic Battery & Thermal Management
+## ⚡ Performance Optimization Checklist
 
-DevDiff detects battery discharging status and CPU thermal state (`normal`, `warm`, `hot`, `critical`) to prevent thermal throttling or draining laptop batteries during long background operations.
+### 1. Enable Fast-Path Memory Queries
+DevDiff builds a persistent codebase index (`.devdiff/memory/codebase-index.json`). Querying persistent memory avoids re-indexing unchanged source files, reducing response latency from 4.5s down to **< 50ms**.
+
+```bash
+# Initialize memory index once per workspace
+devdiff memory init
+```
+
+### 2. Configure `.devdiffignore` File Filters
+Exclude heavy build output, lockfiles, and generated assets from AST processing:
+
+```gitignore
+# Exclude vendor & build output
+dist/
+build/
+node_modules/
+*.log
+package-lock.json
+pnpm-lock.yaml
+```
+
+### 3. Tune AI Model Selection
+- Use lightweight models (`ollama://llama3.2:3b` or `openai://gpt-4o-mini`) for routine pre-commit checks.
+- Reserve larger models (`anthropic://claude-3-5-sonnet` or `gemini://gemini-1.5-pro`) for major release merges.
+
+### 4. Configure `IDEGuardian` Memory Ceiling
+In VS Code, adjust background worker thread memory settings in `.devdiff/config.json`:
+
+```json
+{
+  "performance": {
+    "memoryCapMb": 256,
+    "idleDetectionSeconds": 5,
+    "taskTimeoutSeconds": 120
+  }
+}
+```

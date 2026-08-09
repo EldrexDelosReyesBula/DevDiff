@@ -1,26 +1,58 @@
-# Offline-First & Local-First Design
+# Offline-First Architecture & Air-Gapped Workflows
 
-DevDiff is designed from the ground up to respect developer privacy and work reliably in offline environments (such as flights, remote areas, or secured company intranets).
+DevDiff is designed from the ground up as an **Offline-First Developer Tool**. All core capabilities — diff explanations, AST dependency graphs, persistent codebase memory, changelog generation, and security compliance scans — execute 100% locally on your workstation without requiring active internet connectivity.
 
-## Local Execution Guarantees
+---
 
-1. **No External Telemetry**: DevDiff does not send telemetry, usage statistics, or crash reports to any external servers.
-2. **Local AI Providers**: By using WebGPU, WebAssembly, or a local Ollama instance, all LLM inference happens entirely on your local machine.
-3. **No Cloud Requirement**: DevDiff operates with zero costs and zero dependencies on cloud APIs.
+## 🎯 Offline Execution Architecture
 
-## Config Configuration
-
-To enforce local-first mode, ensure `localOnly` is enabled in your configuration:
-
-```js
-export default {
-  ai: {
-    routing: {
-      strategy: "priority",
-      localOnly: true,
-    },
-  },
-};
+```mermaid
+flowchart TD
+    LocalRepo[Local Workspace / Git Repository] --> Engine[DevDiff Core Engine]
+    Engine --> MemoryIndex[.devdiff/memory/codebase-index.json]
+    Engine --> LocalAI[Local AI: Ollama / WebGPU / ONNX]
+    LocalAI --> Output[Sanitized Local Output & Changelogs]
+    
+    style Engine fill:#bbf,stroke:#333,stroke-width:2px
+    style LocalAI fill:#9f9,stroke:#333,stroke-width:2px
 ```
 
-If a cloud provider is used in `localOnly` mode, the `PrivacyEnforcer` will automatically block the request or fallback to local inference.
+---
+
+## 🚀 Setting Up an Air-Gapped Workspace
+
+### 1. Download Local Model Weights Once
+
+On a connected machine, pull your preferred model:
+
+```bash
+ollama pull llama3.2:3b
+```
+
+### 2. Configure `.devdiff/config.json` for 100% Offline Execution
+
+```json
+{
+  "network": {
+    "offlineOnly": true
+  },
+  "ai": {
+    "defaultProvider": "ollama-local",
+    "providers": [
+      {
+        "name": "ollama-local",
+        "url": "ollama://llama3.2:3b",
+        "baseUrl": "http://localhost:11434"
+      }
+    ]
+  }
+}
+```
+
+### 3. Verify Offline Enforcement
+
+Run DevDiff commands with network interfaces disabled or `STRICT_OFFLINE=1`:
+
+```bash
+STRICT_OFFLINE=1 devdiff generate
+```

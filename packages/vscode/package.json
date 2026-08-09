@@ -1,168 +1,213 @@
 {
-  "name": "devdiff",
-  "displayName": "DevDiff",
-  "description": "Privacy-first, BYOAI inline changelog intelligence for VS Code",
-  "version": "1.5.0",
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org"
-  },
-  "publisher": "ebula",
-  "icon": "asset/devdiff.png",
-  "engines": {
-    "vscode": "^1.85.0"
-  },
-  "categories": [
-    "Other",
-    "Formatters"
-  ],
-  "activationEvents": [
-    "onStartupFinished"
-  ],
-  "main": "./dist/extension.js",
-  "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
-    "compile": "tsup",
-    "watch": "tsup --watch",
-    "vscode:prepublish": "npm run compile"
-  },
-  "devDependencies": {
-    "@eldrex/core": "workspace:*",
-    "@types/vscode": "^1.85.0",
-    "tsup": "^8.0.0",
-    "typescript": "^5.5.0"
-  },
-  "contributes": {
-    "commands": [
-      {
-        "command": "devdiff.showChangelog",
-        "title": "DevDiff: Show Changelog"
-      },
-      {
-        "command": "devdiff.explainChanges",
-        "title": "DevDiff: Explain Staged Changes"
-      },
-      {
-        "command": "devdiff.toggleWatch",
-        "title": "DevDiff: Toggle Auto-Watch"
-      },
-      {
-        "command": "devdiff.showOutput",
-        "title": "DevDiff: Show Output Panel"
-      },
-      {
-        "command": "devdiff.generateChangelog",
-        "title": "DevDiff: Generate Changelog"
-      },
-      {
-        "command": "devdiff.generateDiagram",
-        "title": "DevDiff: Generate Diagram"
-      },
-      {
-        "command": "devdiff.securityScan",
-        "title": "DevDiff: Security Scan"
-      },
-      {
-        "command": "devdiff.explainSelection",
-        "title": "DevDiff: Explain Selected Code"
-      },
-      {
-        "command": "devdiff.askAI",
-        "title": "DevDiff: Ask DevDiff (natural language)"
-      }
+    "name":  "devdiff",
+    "displayName":  "DevDiff",
+    "description":  "Privacy-first, BYOAI inline changelog intelligence for VS Code",
+    "version":  "1.6.0",
+    "publishConfig":  {
+                          "registry":  "https://registry.npmjs.org"
+                      },
+    "publisher":  "ebula",
+    "icon":  "asset/devdiff.png",
+    "engines":  {
+                    "vscode":  "^1.85.0"
+                },
+    "categories": [
+        "AI",
+        "Other"
     ],
-    "keybindings": [
-      {
-        "command": "devdiff.generateChangelog",
-        "key": "ctrl+shift+g",
-        "mac": "cmd+shift+g",
-        "when": "editorTextFocus"
-      },
-      {
-        "command": "devdiff.generateDiagram",
-        "key": "ctrl+shift+d",
-        "mac": "cmd+shift+d",
-        "when": "editorTextFocus"
-      },
-      {
-        "command": "devdiff.securityScan",
-        "key": "ctrl+shift+x",
-        "mac": "cmd+shift+x",
-        "when": "editorTextFocus"
-      },
-      {
-        "command": "devdiff.explainSelection",
-        "key": "ctrl+shift+e",
-        "mac": "cmd+shift+e",
-        "when": "editorTextFocus"
-      },
-      {
-        "command": "devdiff.askAI",
-        "key": "ctrl+shift+a",
-        "mac": "cmd+shift+a",
-        "when": "editorTextFocus"
-      }
+    "activationEvents": [
+        "onStartupFinished"
     ],
-    "configuration": {
-      "title": "DevDiff",
-      "properties": {
-        "devdiff.autoStart": {
-          "type": "boolean",
-          "default": true,
-          "description": "Auto-start DevDiff monitoring session when VS Code opens"
-        },
-        "devdiff.autoGenerate": {
-          "type": "boolean",
-          "default": false,
-          "description": "Auto-generate explanations when changes are staged"
-        },
-        "devdiff.persona": {
-          "type": "string",
-          "default": "developer",
-          "enum": [
-            "developer",
-            "ceo",
-            "educator",
-            "pm",
-            "compliance"
-          ],
-          "description": "AI persona for explanations"
-        },
-        "devdiff.showGutterAnnotations": {
-          "type": "boolean",
-          "default": true,
-          "description": "Show inline annotations in the editor gutter"
-        },
-        "devdiff.security": {
-          "type": "object",
-          "description": "Security settings for the DevDiff extension",
-          "default": {},
-          "properties": {
-            "restrictFileAccess": {
-              "type": "boolean",
-              "default": true,
-              "description": "Only access files within the current workspace boundary"
-            },
-            "maxFileSize": {
-              "type": "number",
-              "default": 10485760,
-              "description": "Maximum file size to process in bytes (default: 10MB)"
-            },
-            "blockExternalScripts": {
-              "type": "boolean",
-              "default": true,
-              "description": "Block execution of any external or dynamically loaded scripts"
-            }
-          }
-        }
-      }
-    }
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/EldrexDelosReyesBula/devdiff.git",
-    "directory": "packages/vscode"
-  },
-  "author": "Eldrex Delos Reyes Bula <eldrexdelosreyesbula@gmail.com>",
-  "license": "MIT"
+    "main":  "./dist/extension.js",
+    "scripts":  {
+                    "build":  "tsup",
+                    "dev":  "tsup --watch",
+                    "compile":  "tsup",
+                    "watch":  "tsup --watch",
+                    "vscode:prepublish":  "npm run compile"
+                },
+    "devDependencies":  {
+                            "@eldrex/core":  "workspace:*",
+                            "@types/vscode":  "^1.85.0",
+                            "tsup":  "^8.0.0",
+                            "typescript":  "^5.5.0"
+                        },
+    "contributes":  {
+                        "viewsContainers":  {
+                                                "activitybar":  [
+                                                                    {
+                                                                        "id":  "devdiff-sidebar",
+                                                                        "title":  "DevDiff",
+                                                                        "icon":  "$(symbol-misc)"
+                                                                    }
+                                                                ]
+                                            },
+                        "views":  {
+                                      "devdiff-sidebar":  [
+                                                              {
+                                                                  "id":  "devdiff-changelog",
+                                                                  "name":  "Changelog Explorer"
+                                                              },
+                                                              {
+                                                                  "id":  "devdiff-chat",
+                                                                  "name":  "Q\u0026A Chat Panel",
+                                                                  "type":  "webview"
+                                                              },
+                                                              {
+                                                                  "id":  "devdiff-security",
+                                                                  "name":  "Security \u0026 Compliance",
+                                                                  "type":  "webview"
+                                                              },
+                                                              {
+                                                                  "id":  "devdiff-settings",
+                                                                  "name":  "Settings",
+                                                                  "type":  "webview"
+                                                              }
+                                                          ]
+                                  },
+                        "chatParticipants":  [
+                                                 {
+                                                     "id":  "devdiff.chat",
+                                                     "name":  "devdiff",
+                                                     "description":  "DevDiff natural language changelog intelligence \u0026 codebase Q\u0026A assistant",
+                                                     "isDefault":  false
+                                                 }
+                                             ],
+                        "commands":  [
+                                         {
+                                             "command":  "devdiff.showChangelog",
+                                             "title":  "DevDiff: Show Changelog"
+                                         },
+                                         {
+                                             "command":  "devdiff.explainChanges",
+                                             "title":  "DevDiff: Explain Staged Changes"
+                                         },
+                                         {
+                                             "command":  "devdiff.toggleWatch",
+                                             "title":  "DevDiff: Toggle Auto-Watch"
+                                         },
+                                         {
+                                             "command":  "devdiff.showOutput",
+                                             "title":  "DevDiff: Show Output Panel"
+                                         },
+                                         {
+                                             "command":  "devdiff.generateChangelog",
+                                             "title":  "DevDiff: Generate Changelog"
+                                         },
+                                         {
+                                             "command":  "devdiff.generateDiagram",
+                                             "title":  "DevDiff: Generate Diagram"
+                                         },
+                                         {
+                                             "command":  "devdiff.securityScan",
+                                             "title":  "DevDiff: Security Scan"
+                                         },
+                                         {
+                                             "command":  "devdiff.explainSelection",
+                                             "title":  "DevDiff: Explain Selected Code"
+                                         },
+                                         {
+                                             "command":  "devdiff.askAI",
+                                             "title":  "DevDiff: Ask DevDiff (natural language)"
+                                         }
+                                     ],
+                        "keybindings":  [
+                                            {
+                                                "command":  "devdiff.generateChangelog",
+                                                "key":  "ctrl+shift+g",
+                                                "mac":  "cmd+shift+g",
+                                                "when":  "editorTextFocus"
+                                            },
+                                            {
+                                                "command":  "devdiff.generateDiagram",
+                                                "key":  "ctrl+shift+d",
+                                                "mac":  "cmd+shift+d",
+                                                "when":  "editorTextFocus"
+                                            },
+                                            {
+                                                "command":  "devdiff.securityScan",
+                                                "key":  "ctrl+shift+x",
+                                                "mac":  "cmd+shift+x",
+                                                "when":  "editorTextFocus"
+                                            },
+                                            {
+                                                "command":  "devdiff.explainSelection",
+                                                "key":  "ctrl+shift+e",
+                                                "mac":  "cmd+shift+e",
+                                                "when":  "editorTextFocus"
+                                            },
+                                            {
+                                                "command":  "devdiff.askAI",
+                                                "key":  "ctrl+shift+a",
+                                                "mac":  "cmd+shift+a",
+                                                "when":  "editorTextFocus"
+                                            }
+                                        ],
+                        "configuration":  {
+                                              "title":  "DevDiff",
+                                              "properties":  {
+                                                                 "devdiff.autoStart":  {
+                                                                                           "type":  "boolean",
+                                                                                           "default":  true,
+                                                                                           "description":  "Auto-start DevDiff monitoring session when VS Code opens"
+                                                                                       },
+                                                                 "devdiff.autoGenerate":  {
+                                                                                              "type":  "boolean",
+                                                                                              "default":  false,
+                                                                                              "description":  "Auto-generate explanations when changes are staged"
+                                                                                          },
+                                                                 "devdiff.persona":  {
+                                                                                         "type":  "string",
+                                                                                         "default":  "developer",
+                                                                                         "enum": [
+                                                                                             "developer",
+                                                                                             "ceo",
+                                                                                             "educator",
+                                                                                             "pm",
+                                                                                             "compliance",
+                                                                                             "robot",
+                                                                                             "data-analyst",
+                                                                                             "journalist"
+                                                                                         ],
+                                                                                         "description": "AI persona for explanations"
+                                                                                     },
+                                                                 "devdiff.showGutterAnnotations":  {
+                                                                                                       "type":  "boolean",
+                                                                                                       "default":  true,
+                                                                                                       "description":  "Show inline annotations in the editor gutter"
+                                                                                                   },
+                                                                 "devdiff.security":  {
+                                                                                          "type":  "object",
+                                                                                          "description":  "Security settings for the DevDiff extension",
+                                                                                          "default":  {
+
+                                                                                                      },
+                                                                                          "properties":  {
+                                                                                                             "restrictFileAccess":  {
+                                                                                                                                        "type":  "boolean",
+                                                                                                                                        "default":  true,
+                                                                                                                                        "description":  "Only access files within the current workspace boundary"
+                                                                                                                                    },
+                                                                                                             "maxFileSize":  {
+                                                                                                                                 "type":  "number",
+                                                                                                                                 "default":  10485760,
+                                                                                                                                 "description":  "Maximum file size to process in bytes (default: 10MB)"
+                                                                                                                             },
+                                                                                                             "blockExternalScripts":  {
+                                                                                                                                          "type":  "boolean",
+                                                                                                                                          "default":  true,
+                                                                                                                                          "description":  "Block execution of any external or dynamically loaded scripts"
+                                                                                                                                      }
+                                                                                                         }
+                                                                                      }
+                                                             }
+                                          }
+                    },
+    "repository":  {
+                       "type":  "git",
+                       "url":  "https://github.com/EldrexDelosReyesBula/devdiff.git",
+                       "directory":  "packages/vscode"
+                   },
+    "author":  "Eldrex Delos Reyes Bula \u003celdrexdelosreyesbula@gmail.com\u003e",
+    "license":  "MIT"
 }

@@ -1,49 +1,39 @@
-# Troubleshooting
+# DevDiff Troubleshooting Portal
 
-## Quick Diagnostic
+## 🩺 Quick Diagnostic Command
 
 ```bash
 devdiff doctor
 ```
 
-This checks everything and tells you what's wrong.
+Running `devdiff doctor` checks local Git status, active AI providers, network connectivity, secret scanner rules, and persistent memory health, reporting immediate resolution steps.
 
 ---
 
-## Common Errors by Symptom
+## 🛠️ Common Errors by Symptom
 
-### "No changes detected"
+### 1. "No changes detected"
 
-**Problem:** DevDiff says there's nothing to analyze.
+**Problem:** DevDiff reports zero staged changes to analyze.
 
 **Solutions:**
-
-1. Did you stage your changes?
+1. Stage your modified files:
    ```bash
    git add .
    devdiff generate
    ```
-2. Did you commit without staging new changes?
+2. If working in a new branch or testing committed history, pass the `--since` flag:
    ```bash
-   # Make a change first
-   echo "// test" >> anyfile.js
-   git add anyfile.js
-   devdiff generate
-   ```
-3. Is this a fresh repo with only one commit?
-   ```bash
-   # DevDiff compares staged changes to last commit
-   # Make a change, stage it, then run devdiff generate
+   devdiff generate --since "1 day ago"
    ```
 
 ---
 
-### "Not a git repository"
+### 2. "Not a git repository"
 
-**Problem:** You're not in a folder with `.git`.
+**Problem:** Current working directory does not contain a `.git` folder.
 
 **Solutions:**
-
 ```bash
 git init
 git add .
@@ -54,62 +44,38 @@ devdiff generate
 
 ---
 
-### "Unknown option --persona"
+### 3. "Unknown option --persona"
 
-**Problem:** The persona flag isn't recognized.
-
-**Solutions:**
-
+**Syntax check:**
 ```bash
-# Use the correct syntax:
-devdiff generate --persona developer    # ✅
-devdiff generate -p ceo                 # ✅ (short form)
-
-# NOT:
-devdiff generate --persona              # ❌ (missing value)
-devdiff generate persona developer      # ❌ (wrong order)
+devdiff generate --persona developer    # ✅ Valid
+devdiff generate -p ceo                 # ✅ Valid (short form)
 ```
 
-**Valid personas:** `developer`, `ceo`, `educator`, `robot`, `data-analyst`, `journalist`, `pm`, `compliance`
+**Valid Personas (v1.6.0):** `developer`, `ceo`, `educator`, `robot`, `data-analyst`, `journalist`, `pm`, `compliance`
 
 ---
 
-### AI errors (Ollama, OpenAI, etc.)
+### 4. Memory Index Not Updating
 
-See dedicated guides:
-
-- [Ollama Errors](./ollama-errors)
-- [Network Errors](./network-errors)
-
----
-
-### "Vague or inaccurate explanations"
-
-**Problem:** DevDiff says things like "refactored code" or mentions files/functions that don't exist.
+**Problem:** `devdiff ask` returns outdated file context.
 
 **Solutions:**
+```bash
+# Force full codebase rescan
+devdiff memory rescan --full
 
-1. Generate project context — grounds the AI in your codebase:
-   ```bash
-   devdiff context generate
-   ```
-2. Add domain-specific notes to `.devdiff/SKILL.md`:
-   ```bash
-   devdiff skill generate
-   devdiff skill validate
-   ```
-3. For just-the-facts output with no interpretation:
-   ```bash
-   devdiff generate --persona robot
-   ```
-4. For large diffs, consider breaking into smaller commits for more precise explanations.
-
-→ [Full guide: Project Context](../features/project-context)
+# Check memory index status
+devdiff memory status
+```
 
 ---
 
-## Platform-Specific Issues
+## 📖 Specialized Troubleshooting Guides
 
-- [Windows Issues](./windows-issues)
-- [macOS Issues](./macos-issues)
-- [Linux Issues](./linux-issues)
+- 🪟 [Windows-Specific Issues](./windows-issues) — PowerShell execution policy, line endings, firewall ports, WSL2.
+- 🍏 [macOS Issues](./macos-issues) — Keychain permissions, Homebrew Ollama service, Apple Silicon WebGPU acceleration.
+- 🐧 [Linux Issues](./linux-issues) — Systemd services, user permissions, headless server configuration.
+- 🦙 [Ollama Errors](./ollama-errors) — Local model pulling, memory limits, daemon connection issues.
+- 🌐 [Network Errors](./network-errors) — API key configuration, proxy setups, offline-first fallback.
+- 📖 [DevDiff Dictionary](/guide/dictionary) — Full dictionary of commands, flags, tools, settings, and ports.

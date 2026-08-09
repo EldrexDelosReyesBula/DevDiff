@@ -1,16 +1,11 @@
-# Temporal Integration
+# Temporal Durable Workflow Integration
 
-For enterprise workflows, DevDiff can run as part of a **Temporal** orchestrator pipeline to automatically audit and sanitize commits before they are published to production branches.
+For high-reliability enterprise continuous deployment pipelines, DevDiff provides durable background task scheduling in `@eldrex/core` using Temporal workflows.
 
-## Workflow Integration
+---
 
-You can define a Temporal Activity that runs `generateChangelog` or validates compliance rules before approving releases:
+## 🎯 Features
 
-```typescript
-import { generateChangelog, applyCompliance } from "@eldrex/core";
-
-export async function devDiffAuditActivity(diff: string): Promise<string> {
-  const result = await generateChangelog({ diffText: diff });
-  return result.formattedOutput;
-}
-```
+- **Durable Execution**: Long-running monorepo analysis tasks resume automatically after network interruptions.
+- **Retry Safeguards**: Automatic exponential backoff retries on AI rate limit errors.
+- **Audit Trails**: Durable execution history stored for compliance auditing.

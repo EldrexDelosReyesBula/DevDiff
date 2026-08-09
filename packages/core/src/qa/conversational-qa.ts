@@ -3,7 +3,7 @@ import { AIRouter } from "../ai/router";
 import { loadConfig } from "../config/loader";
 import { DEFAULTS } from "../config/defaults";
 
-export interface ConversationTurn {
+export interface QATurn {
   question: string;
   answer: string;
   context: ConversationContext;
@@ -29,7 +29,7 @@ export interface QAAnswer {
 
 export class ConversationalQA {
   private memory: PersistentMemory;
-  private conversation: ConversationTurn[] = [];
+  private conversation: QATurn[] = [];
   private context: ConversationContext = {
     currentTopic: null,
     referencedFiles: [],
@@ -48,6 +48,11 @@ export class ConversationalQA {
    */
   async ask(question: string): Promise<QAAnswer> {
     const startTime = performance.now();
+
+    // Ensure memory is loaded from disk before querying
+    if (!this.memory.isInitialized()) {
+      await this.memory.initialize();
+    }
 
     // Resolve references from conversation context
     const resolvedQuestion = this.resolveContext(question);
@@ -78,6 +83,7 @@ export class ConversationalQA {
     this.remember(question, answer);
     return answer;
   }
+
 
   /**
    * Resolve pronouns and references from conversation context

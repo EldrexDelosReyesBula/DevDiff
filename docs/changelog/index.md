@@ -1,15 +1,15 @@
-# Changelog
+# DevDiff Official Release Changelog
 
-See the full, versioned changelog at **[/versioning/changelog](../versioning/changelog)**.
+The full, versioned release history for DevDiff is maintained at **[Release Changelog](/versioning/changelog)**.
 
 ---
 
-All notable changes are documented there, including:
+## 🎯 Recent Major Releases
 
-- [v1.0.6 — Windows & Command Argument Hardening](../versioning/changelog#1-0-6-2026-07-06-windows-command-argument-hardening) _(latest)_
-- [v1.0.5 — CLI Registry & Security Hardening](../versioning/changelog#1-0-5-2026-07-06-cli-registry-security-hardening)
-- [v1.0.4 — Maintenance Release](../versioning/changelog#1-0-4-2026-07-04-maintenance-release)
-- [v1.0.3 — Hardening Release](../versioning/changelog#1-0-3-2026-07-04-hardening-release)
-- [v1.0.2 — Sentinel Release](../versioning/changelog#1-0-2-2026-06-28-sentinel-release)
-- [v1.0.1 — Stability Release](../versioning/changelog#1-0-1-2026-06-20-stability-release)
-- [v1.0.0 — Initial Release](../versioning/changelog#1-0-0-2026-06-15-initial-release)
+- **[v1.6.0 — IDE-Native Architecture & Hardening](/versioning/changelog#1-6-0-2026-08-08-ide-native-reliability-hardening)** _(Latest Release — August 8, 2026)_
+  - 4 Sidebar Views in VS Code, `@devdiff` Chat Participant, sub-50ms MCP query tools, zero `file:///` local path documentation overhaul, and DepthIndex removal.
+- **[v1.5.0 — Persistent Codebase Memory & Continuous Chat](/versioning/changelog#1-5-0-2026-08-07-persistent-codebase-memory-continuous-chat)**
+  - Persistent memory index (`.devdiff/memory/codebase-index.json`), sub-50ms index queries, continuous multi-turn chat, and `devdiff ask`.
+- **[v1.0.6 — Windows & Command Argument Hardening](/versioning/changelog#1-0-6-2026-07-06-windows-command-argument-hardening)**
+- **[v1.0.5 — CLI Registry & Security Hardening](/versioning/changelog#1-0-5-2026-07-06-cli-registry-security-hardening)**
+- **[v1.0.0 — Initial Release](/versioning/changelog#1-0-0-2026-06-15-initial-release)**

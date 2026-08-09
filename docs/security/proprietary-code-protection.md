@@ -1,90 +1,58 @@
-# Proprietary Code Protection
+# Proprietary Code Protection & Intellectual Property Safeguards
 
-## How DevDiff Protects Your Intellectual Property
+For enterprise teams, commercial software vendors, and healthcare/financial institutions, protecting proprietary source code and preventing accidental IP disclosure is mandatory. DevDiff includes built-in **Proprietary Code Safeguards** to prevent unauthorized indexing, external transmission, or accidental leakage of sensitive codebase files.
 
-DevDiff is designed for proprietary, closed-source codebases. Your code
-is your competitive advantage. Here's how we protect it.
+---
 
-### 1. Local-First Architecture
+## 🎯 Code Isolation Architecture
 
-By default, DevDiff uses local AI models (Ollama). Your source code
-**never leaves your machine**. Not even metadata.
-
-### 2. Redaction Before Any External Call
-
-If you configure a cloud AI provider, DevDiff redacts:
-
-- API keys and tokens
-- Connection strings
-- Private keys
-- Passwords and credentials
-- Internal URLs and IPs
-- PII (emails, phone numbers, SSNs)
-
-The redaction happens **before** data is sent to any external service.
-
-### 3. Configurable Data Classification
-
-```javascript
-// .devdiff.config.js
-export default {
-  privacy: {
-    // Block specific file patterns from EVER being sent externally
-    blockExternal: [
-      "**/proprietary/**",
-      "**/internal/**",
-      "**/*.secret.*",
-      "**/keys/**",
-    ],
-
-    // Redact these patterns from AI prompts
-    customRedactions: [
-      { pattern: "ACME_CORP_SECRET_\\w+", replacement: "[REDACTED:Internal]" },
-      { pattern: "\\d{3}-\\d{2}-\\d{4}", replacement: "[REDACTED:SSN]" },
-    ],
-  },
-};
+```mermaid
+flowchart TD
+    Files[Source Files & Monorepo] --> IgnoreFilter[.devdiffignore Filter]
+    IgnoreFilter -->|Excluded Files| Excluded[BLOCKED: Excluded from Memory & LLM Context]
+    IgnoreFilter -->|Allowed Code| AST[AST Structural Indexing]
+    AST --> Redact[RedactionEngineV2 Masking]
+    Redact --> LocalEngine[DevDiff Local Engine]
+    
+    style Excluded fill:#f99,stroke:#333,stroke-width:2px
+    style LocalEngine fill:#9f9,stroke:#333,stroke-width:2px
 ```
 
-### 4. Audit Trail
+---
 
-Every external call is logged:
+## 🛡️ Key Protection Features
 
-```bash
-devdiff audit network
+### 1. `.devdiffignore` Exclusion Rules
+DevDiff respects `.gitignore` automatically and adds support for `.devdiffignore`. Any file or pattern specified in `.devdiffignore` is strictly excluded from AST indexing, memory generation, and LLM context:
+
+```gitignore
+# Exclude proprietary core algorithms
+packages/core/src/crypto/proprietary-cipher.ts
+
+# Exclude sensitive customer data fixtures
+tests/fixtures/customer-records/
+
+# Exclude internal environment files & certs
+*.env
+*.pem
+certs/
 ```
 
-```
-2026-07-05 14:23:01 | api.openai.com | 234 tokens sent | All secrets redacted | ✅
-2026-07-05 14:23:01 | No source code sent externally | ✅
-```
+### 2. AST Structural Abstraction Mode
+For extreme privacy environments, DevDiff supports **AST Abstraction Mode**. Instead of sending raw code snippets, DevDiff abstracts code into high-level AST structural signatures before LLM analysis:
 
-### 5. Air-Gapped Support
+```typescript
+// Original Proprietary Code:
+function computeProprietaryAlpha(weights: number[]): number {
+  return weights.reduce((acc, w) => acc * 1.414 + w, 0);
+}
 
-DevDiff works fully offline:
-
-```bash
-# Zero network calls — everything local
-devdiff generate --local-only
-
-# Verify no network activity
-devdiff monitor
-# (Press Ctrl+C after confirming 0 external requests)
+// AST Abstracted Representation sent to LLM:
+function computeProprietaryAlpha(param_1: number[]): number {
+  // [AST ABSTRACTED LOGIC: Array transformation]
+}
 ```
 
-### 6. Verification
-
-You can verify all of this yourself:
-
-```bash
-# See every network call DevDiff makes
-devdiff monitor
-
-# See what data would be sent to AI
-devdiff generate --dry-run --verbose
-
-# Inspect the source code
-git clone https://github.com/eldrex/devdiff
-grep -r "fetch\|axios\|http.request" packages/core/src/
-# You'll find: localhost Ollama calls, your configured providers, and nothing else
-```
+### 3. Enterprise IP Leakage Prevention
+- **No Remote Repositories**: DevDiff never creates or pushes git commits, tags, or remote references without explicit developer authorization.
+- **Local Index Storage**: All memory indexes reside inside `.devdiff/memory/`, keeping proprietary knowledge locked inside the local repository directory.

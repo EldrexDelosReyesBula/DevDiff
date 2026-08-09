@@ -1,15 +1,5 @@
-# DeepSeek Provider
+# DeepSeek AI Setup Guide
 
-DeepSeek provides efficient chat and coding models.
+This guide is maintained under our single canonical AI Providers documentation suite.
 
-## Configuration
-
-Set the provider URL prefix to `deepseek://`:
-
-```json
-{
-  "name": "deepseek-coder",
-  "url": "deepseek://deepseek-coder",
-  "apiKey": "deepseek-key-..."
-}
-```
+👉 **[View the Official DeepSeek AI Setup Guide](/ai-providers/deepseek-setup)**

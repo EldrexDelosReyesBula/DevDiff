@@ -8,7 +8,17 @@
     "strict": true,
     "skipLibCheck": true,
     "declaration": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "paths": {
+      "@eldrex/plugin-sdk": ["./packages/plugin-sdk/src/index.ts"],
+      "@eldrex/core": ["./packages/core/src/index.ts"],
+      "@eldrex/personas": ["./packages/personas/src/index.ts"],
+      "@eldrex/gateway": ["./packages/gateway/src/index.ts"],
+      "@eldrex/connectors": ["./packages/connectors/src/registry.ts"],
+      "@eldrex/mcp": ["./packages/mcp/src/server-v2.ts"],
+      "@eldrex/vite": ["./packages/vite-plugin/src/index.ts"],
+      "@eldrex/antigravity": ["./packages/antigravity/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "dist"]
 }

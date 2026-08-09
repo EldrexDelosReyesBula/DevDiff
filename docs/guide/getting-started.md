@@ -28,7 +28,7 @@ Verify the installation:
 
 ```bash
 devdiff --version
-# DevDiff CLI  v1.0.6
+# DevDiff CLI  v1.6.0
 ```
 
 ---

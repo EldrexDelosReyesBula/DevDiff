@@ -1,29 +1,37 @@
-# Compliance API Reference
+# Compliance API Reference (`@eldrex/core`)
 
-Utilities for applying and verifying compliance configurations.
+The Compliance API provides functions for applying, validating, and deep-merging regulatory security rules (GDPR, CCPA, HIPAA, SOC 2, ISO 27001).
 
-## Import
+---
+
+## 📦 Import Syntax
 
 ```typescript
 import {
   COMPLIANCE_FRAMEWORKS,
   applyCompliance,
-  deepMerge,
+  verifyComplianceRules,
+  deepMerge
 } from "@eldrex/core";
 ```
 
-## Functions
+---
+
+## 🛠️ Function Specifications
 
 ### `applyCompliance(frameworkId: string, config: DevDiffConfig): Promise<DevDiffConfig>`
 
-Merges the specific framework configurations into the config object and returns it.
+Applies predefined regulatory rules to a DevDiff configuration object.
 
-### `deepMerge(target: any, source: any): any`
+```typescript
+const updatedConfig = await applyCompliance("GDPR", currentConfig);
+```
 
-Recursively merges nested objects.
+### `verifyComplianceRules(diffContent: string, framework: string): ComplianceCheckResult`
 
-## Constants
+Scans diff content for regulatory compliance violations.
 
-### `COMPLIANCE_FRAMEWORKS`
-
-A map of supported compliance frameworks (GDPR, CCPA, HIPAA, etc.) with their jurisdiction info and default configurations.
+```typescript
+const report = verifyComplianceRules(stagedDiff, "SOC2");
+console.log("Compliance Status:", report.passed);
+```

@@ -1,78 +1,73 @@
-# Network Guard & Outbound Restrictions
+# Network Guard & Offline Mode
 
-DevDiff enforces a strict **zero-telemetry, zero-analytics, and zero-leakage** policy. To ensure that no data is transmitted without your consent, DevDiff includes a built-in **Network Guard**.
+DevDiff is designed with a **100% Offline-First Architecture**. By default, DevDiff requires zero internet connectivity to index codebase memory, analyze AST diffs, generate changelogs, or run security scans.
 
----
-
-## What It Does
-
-The Network Guard intercepts all outbound network calls from the DevDiff core engine before they are fired:
-
-1. **Telemetry & Analytics Blocklist**: Domain-level hard blocking of all major analytics services (Mixpanel, Sentry, Datadog, Amplitude, posthog, etc.).
-2. **Explicit Allowed List**: Restricts outgoing traffic strictly to:
-   - Local hosts (e.g., `localhost` or `127.0.0.1` for local Ollama).
-   - Your explicitly configured AI provider endpoints (e.g. OpenAI/Anthropic/Gemini).
-   - The npm registry (only if version check is enabled).
-   - User-defined webhooks.
-3. **Auditing**: Every request and interception is logged synchronously to `.devdiff/audit/network.log` for audit trails.
+When cloud-hosted AI models (OpenAI, Anthropic, Gemini) are explicitly configured, DevDiff's **Network Guard** (`NetworkGuardV2`) enforces strict host allowlists, zero-telemetry outbound filtering, and local proxy control.
 
 ---
 
-## Real-Time Monitoring
+## 🎯 Architecture & Outbound Flow
 
-You can inspect the network requests made by DevDiff in real-time by running:
+```mermaid
+flowchart TD
+    A[DevDiff Engine] --> B{Network Request Triggered?}
+    B -->|Offline Mode / Ollama| C[Process Locally on Workstation]
+    B -->|Cloud Provider Enabled| D[NetworkGuardV2 Interceptor]
+    D --> E{Host in Allowlist?}
+    E -->|No| F[BLOCK: Unauthorized Outbound Connection]
+    E -->|Yes| G[Redact Secrets & Sanitize Payload]
+    G --> H[Dispatch via Secure TLS 1.3 Proxy]
+    
+    style C fill:#9f9,stroke:#333,stroke-width:2px
+    style F fill:#f99,stroke:#333,stroke-width:2px
+    style H fill:#bbf,stroke:#333,stroke-width:2px
+```
+
+---
+
+## 🛡️ Core Security Capabilities
+
+### 1. 100% Offline Mode (Default)
+- When paired with local Ollama models (`llama3.2`, `codellama`, `deepseek-coder`, `qwen2.5-coder`) or WebGPU, DevDiff runs **100% offline**.
+- Network interfaces remain dormant; no external DNS lookups or HTTP requests are issued.
+
+### 2. Strict Host Allowlist Enforcement
+When cloud providers are enabled, `NetworkGuardV2` restricts outbound connections exclusively to verified AI endpoint domains:
+
+- `api.openai.com` (OpenAI API)
+- `api.anthropic.com` (Anthropic API)
+- `generativelanguage.googleapis.com` (Google Gemini API)
+
+Any attempt to open connections to unrecognized domains or IP addresses is blocked with a security exception.
+
+### 3. Zero Telemetry & Tracking
+- **No Analytics**: DevDiff collects **0** usage telemetry, analytics, tracking pings, or user metrics.
+- **No Licensing Beacons**: Version verification and memory indexing execute locally without calling home.
+
+### 4. Custom Enterprise Proxy Support
+For enterprise corporate networks requiring outbound HTTP/HTTPS proxying, DevDiff respects standard proxy environment variables:
 
 ```bash
-devdiff monitor
-```
-
-### Example Monitor Output
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│  DEVDIFF NETWORK MONITOR — Press Ctrl+C to stop              │
-│                                                             │
-│  [12:34:56] HTTP GET registry.npmjs.org
-│             → ALLOWED (CONFIGURED)
-│
-│  [12:35:12] HTTP POST localhost:11434/api/generate
-│             → ALLOWED (LOCAL)
-│
-│  [12:35:44] HTTP POST api.mixpanel.com/track
-│             → ATTEMPT BLOCKED (BLOCKED-TELEMETRY)
-│             Domain api.mixpanel.com is blacklisted (telemetry/analytics)
+export HTTP_PROXY="http://proxy.internal.company.com:8080"
+export HTTPS_PROXY="http://proxy.internal.company.com:8080"
+export NO_PROXY="localhost,127.0.0.1"
 ```
 
 ---
 
-## Blocked Domains List
+## ⚙️ Configuration in `.devdiff/config.json`
 
-The following telemetry domains are always blocked:
-
-- `api.mixpanel.com`
-- `api.amplitude.com`
-- `sentry.io`
-- `logrocket.com`
-- `datadoghq.com`
-- `newrelic.com`
-- `google-analytics.com`
-- `analytics.google.com`
-- `segment.io`
-- `segment.com`
-- `heap.io`
-- `posthog.com`
-- `hotjar.com`
-- `fullstory.com`
-- `clarity.ms`
-- `googletagmanager.com`
-- _And many other advertising and tracker networks._
-
----
-
-## Privacy Disclosure
-
-To see a complete disclosure of DevDiff filesystem, shell, network, and AI practices, run:
-
-```bash
-devdiff disclose
+```json
+{
+  "network": {
+    "offlineOnly": true,
+    "allowlist": [
+      "api.openai.com",
+      "api.anthropic.com",
+      "generativelanguage.googleapis.com"
+    ],
+    "strictSSL": true,
+    "logOutboundRequests": true
+  }
+}
 ```

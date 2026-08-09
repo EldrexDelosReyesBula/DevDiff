@@ -1,73 +1,43 @@
-# MVP Mode (Most Valuable Deferral)
+# MVP Mode (Most Valuable Deferral) (v1.6.0)
 
-Large code changes (1000+ files, vibe coding sessions) can exceed AI context windows or take a long time to analyze. DevDiff provides **MVP Mode** (Most Valuable Deferral) for a reliable, non-blocking workflow.
+During high-velocity development sessions or large monorepo refactoring (1,000+ changed files), processing raw diffs through AI models immediately can exceed context windows or consume significant system resources.
 
----
-
-## How It Works
-
-1. **Auto-Detection**: DevDiff checks the token size and file count of your diff before calling the AI.
-2. **Deferral**: If the diff size exceeds the threshold (default: 50,000 characters or 30 files), DevDiff automatically defers AI changelog generation.
-3. **Template Summary**: DevDiff prints an immediate template summary of stats (files changed, additions, deletions, affected directories, and the largest change).
-4. **Local MVP Queue**: The raw diff and metadata are saved locally to `.devdiff/mvp/<id>.json`.
-5. **Background / Manual Processing**: You can process these saved changes later when system resources are free or via a CLI run.
+DevDiff provides **MVP Mode** (Most Valuable Deferral) — a non-blocking queueing system that saves large diffs locally and processes them asynchronously when system resources are free.
 
 ---
 
-## CLI Commands
+## 🎯 MVP Deferral Flow
 
-### Status
-
-Check the queue status of deferred changelogs:
-
-```bash
-devdiff mvp status
+```mermaid
+flowchart TD
+    Diff[Workspace Git Diff] --> Threshold{Exceeds Threshold? >50k chars / >30 files}
+    
+    Threshold -->|No| DirectAI[Immediate AI Analysis]
+    
+    Threshold -->|Yes| Defer[Defer to Local MVP Queue .devdiff/mvp/]
+    Defer --> Summary[Print Instant Local Statistics Summary]
+    
+    Summary --> AsyncProcess[Process Queue via Background CLI / Manual Command]
+    AsyncProcess --> FinalChangelog[Final Generated Changelog]
+    
+    style Defer fill:#f99,stroke:#333,stroke-width:2px
+    style AsyncProcess fill:#9f9,stroke:#333,stroke-width:2px
 ```
 
-### Process
+---
 
-Process the oldest queued changelog or a specific ID:
+## ⚙️ CLI Commands
 
 ```bash
+# View queue status of deferred changelogs
+devdiff mvp status
+
 # Process next queued entry
 devdiff mvp process
 
-# Process a specific entry
-devdiff mvp process --id mvp-20260701-001
-```
-
-### Process All
-
-Process all queued entries:
-
-```bash
+# Process all queued entries
 devdiff mvp process-all
-```
 
-### Clear
-
-Remove processed entries or clear all entries:
-
-```bash
-# Clear processed and failed entries
+# Clear processed entries
 devdiff mvp clear
-
-# Clear all entries (including queued ones)
-devdiff mvp clear --all
-```
-
----
-
-## Configuration
-
-You can customize the threshold limits in your configuration:
-
-```javascript
-// .devdiff.config.js
-export default {
-  mvp: {
-    charThreshold: 50000, // Trigger MVP mode when diff character count exceeds this limit
-    fileThreshold: 30, // Trigger MVP mode when number of changed files exceeds this limit
-  },
-};
 ```

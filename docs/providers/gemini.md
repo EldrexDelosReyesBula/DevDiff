@@ -1,15 +1,5 @@
-# Google Gemini Provider
+# Google Gemini Setup Guide
 
-Use Google Gemini models for deep, long-context code changelog analysis.
+This guide is maintained under our single canonical AI Providers documentation suite.
 
-## Configuration
-
-Set the provider URL prefix to `gemini://`:
-
-```json
-{
-  "name": "gemini-cloud",
-  "url": "gemini://gemini-1.5-pro",
-  "apiKey": "gemini-key-..."
-}
-```
+👉 **[View the Official Google Gemini Setup Guide](/ai-providers/gemini-setup)**

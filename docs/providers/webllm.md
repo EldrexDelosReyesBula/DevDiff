@@ -1,13 +1,5 @@
-# WebLLM Provider
+# WebGPU Setup Guide
 
-Run client-side LLMs inside browser environments using WebGPU acceleration.
+This guide is maintained under our single canonical AI Providers documentation suite.
 
-## Configuration
-
-Set the URL prefix to `webllm://`:
-
-```json
-{
-  "url": "webllm://Llama-3-8B-Instruct-q4f32_1"
-}
-```
+👉 **[View the Official WebGPU Setup Guide](/ai-providers/webgpu-setup)**

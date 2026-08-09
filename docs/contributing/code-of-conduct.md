@@ -1,10 +1,21 @@
-# Code of Conduct
+# Contributor Code of Conduct
 
-We are committed to providing a welcoming, inclusive, and harassment-free community for everyone.
+## Our Pledge
 
-## Rules of Engagement
+We as contributors and maintainers pledge to make participation in the DevDiff open-source project a harassment-free experience for everyone, regardless of age, body size, disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.
 
-- Respect diverse viewpoints and experiences.
-- Use welcoming and inclusive language.
-- Gracefully accept constructive criticism.
-- Focus on what is best for the community.
+---
+
+## Our Standards
+
+Examples of behavior that contributes to creating a positive environment:
+- Demonstrating empathy and kindness toward other people
+- Being respectful of differing opinions, viewpoints, and experiences
+- Giving and gracefully accepting constructive feedback
+- Accepting responsibility and apologizing to those affected by our mistakes
+
+Examples of unacceptable behavior:
+- The use of sexualized language or imagery
+- Trolling, insulting or derogatory comments, and personal or political attacks
+- Public or private harassment
+- Publishing others' private information, such as a physical or email address, without explicit permission

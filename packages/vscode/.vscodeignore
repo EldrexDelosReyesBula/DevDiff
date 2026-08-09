@@ -1,11 +1,38 @@
-.vscode/**
-.turbo/**
-src/**
-node_modules/**
-**/*.map
+# TypeScript sources (built to dist/ by tsup)
+src/
 **/*.ts
-!dist/extension.js
+!dist/**/*.d.ts
+
+# Test files
+**/*.test.ts
+**/*.spec.ts
+tests/
+__tests__/
+
+# Development configs
 tsconfig.json
 tsup.config.ts
-.gitignore
-.npmrc
+.eslintrc*
+.prettierrc*
+biome.json
+
+# Node modules (not needed in VSIX; bundled by tsup)
+node_modules/
+
+# Build artifacts not part of the extension
+*.map
+*.tsbuildinfo
+
+# Documentation and repo files
+docs/
+*.md
+!README.md
+CHANGELOG.md
+CONTRIBUTING.md
+LICENSE
+
+# CI and tooling
+.github/
+.vscode/
+.devdiff/
+coverage/

@@ -1,24 +1,16 @@
-# Vite Plugin
+# Vite Application Integration
 
-Automatically run changelog generation as part of your Vite build pipeline using `@eldrex/vite`.
+Integrate DevDiff change tracking into your Vite web applications using `@eldrex/vite-plugin`. See [Vite Plugin Guide](./vite-plugin) for full configuration details.
 
-## Setup
+---
 
-1. Install:
-   ```bash
-   pnpm add -D @eldrex/vite
-   ```
-2. Import in `vite.config.ts`:
-   ```typescript
-   import { defineConfig } from "vite";
-   import devDiffPlugin from "@eldrex/vite";
+## Quick Setup
 
-   export default defineConfig({
-     plugins: [
-       devDiffPlugin({
-         enabled: true,
-         output: "CHANGELOG.md",
-       }),
-     ],
-   });
-   ```
+```typescript
+import { defineConfig } from "vite";
+import devdiff from "@eldrex/vite-plugin";
+
+export default defineConfig({
+  plugins: [devdiff()],
+});
+```

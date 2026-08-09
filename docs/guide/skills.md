@@ -1,43 +1,38 @@
-# Getting Started with SKILL.md Knowledge Base
+# DevDiff Agent Skills & `SKILL.md` Integration
 
-SKILL.md provides ground-truth context for DevDiff's AI router, ensuring explanations match your team's exact architectural patterns and naming conventions.
+DevDiff integrates with IDE agent skills (`SKILL.md`) to provide persistent domain instructions, architectural patterns, and project rules to AI agents (Cursor, Windsurf, Claude, Gemini, `@devdiff`).
 
 ---
 
-## ⚡ Quick Start
+## 🎯 What is a DevDiff Skill?
 
-### 1. Auto-Generate SKILL.md
+A DevDiff skill is a folder containing a structured `SKILL.md` file (YAML frontmatter + markdown body) located in `.agents/skills/<skill-name>/SKILL.md` or global `~/.gemini/config/skills/`.
 
-Run `devdiff skill generate` in your workspace root:
+```markdown
+---
+name: devdiff-changelog-guidelines
+description: Enforces team-specific changelog formatting rules and breaking change standards.
+---
 
-```bash
-devdiff skill generate
+# Team Changelog Guidelines
+- All breaking changes must be highlighted in bold red.
+- Reference Jira ticket IDs in square brackets (e.g. [PROJ-123]).
 ```
 
-This scans your workspace topology, `package.json`, `README.md`, and Git commit history to populate `.devdiff/SKILL.md`.
-
 ---
 
-## 2. Validate Knowledge Coverage
+## 🚀 CLI Skill Commands
 
-Check your knowledge coverage score:
+### 1. Initialize a New Skill in Workspace
 
 ```bash
+# Create a new skill template
+devdiff skill init --name my-custom-skill
+```
+
+### 2. Validate Skill Rules
+
+```bash
+# Validate all SKILL.md files in workspace
 devdiff skill validate
 ```
-
----
-
-## 3. Core Knowledge Sections
-
-A complete SKILL.md file covers 10 knowledge areas:
-1. **Project Identity**: High-level purpose and core tech stack
-2. **Architecture**: Directory topology & key modules
-3. **Naming Conventions**: Files, functions, types, and git branches
-4. **Business Domain**: Domain-specific glossary and business rules
-5. **Patterns**: Frequent change patterns and refactoring expectations
-6. **Anti-Patterns**: Explicit list of practices the AI must avoid
-7. **Compliance Requirements**: Active standards (GDPR, PCI-DSS, SOC 2)
-8. **Output Preferences**: Tailored changelog and review formatting
-9. **Team Context**: Module ownership and approval requirements
-10. **Historical Context**: Recent major architecture migrations

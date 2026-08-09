@@ -1,9 +1,15 @@
 /**
- * DevDiff MCP Server v2.0
+ * DevDiff MCP Server v2.0 — Agent-First Q&A Edition (v1.5.0)
  *
  * Exposes DevDiff as a first-class AI agent tool.
  * Any MCP-compatible agent (Claude, Gemini, Copilot, Cursor, Continue.dev)
  * can call these tools with natural language.
+ *
+ * v1.5.0 adds Agent-First Q&A:
+ * — DevDiff indexes the codebase ONCE (persistent memory)
+ * — IDE agents query the index via MCP (devdiff_query_*)
+ * — IDE agents use their OWN tokens to synthesize answers
+ * — DevDiff provides KNOWLEDGE (10-50ms). IDE agent provides INTELLIGENCE.
  */
 
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
@@ -15,22 +21,33 @@ import {
   ListPromptsRequestSchema,
   GetPromptRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
-import { DevDiffEngine } from "@eldrex/core";
+import { DevDiffEngine, PersistentMemory } from "@eldrex/core";
+import { CODEBASE_QUERY_TOOLS } from "./tools/codebase-query-tools.js";
 import * as http from "http";
 import * as url from "url";
+
+// Shared persistent memory instance — initialized once on server start
+let _memory: PersistentMemory | null = null;
+async function getMemory(): Promise<PersistentMemory> {
+  if (!_memory) {
+    _memory = new PersistentMemory(process.cwd());
+    await _memory.initialize();
+  }
+  return _memory;
+}
 
 const server = new Server(
   {
     name: "devdiff-agent",
-    version: "1.0.6",
+    version: "1.5.0",
     description:
-      "Privacy-first changelog intelligence — accessible via natural language",
+      "Privacy-first changelog intelligence + Agent-First codebase Q&A — accessible via natural language",
   },
   {
     capabilities: {
       tools: {},
       resources: {},
-      prompts: {}, // Pre-built prompt templates
+      prompts: {},
     },
   },
 );
@@ -189,6 +206,8 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
         properties: {},
       },
     },
+    // ── Agent-First Q&A Tools (v1.5.0) ──
+    ...CODEBASE_QUERY_TOOLS,
   ],
 }));
 
@@ -420,6 +439,84 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       return {
         content: [{ type: "text", text: formatStatus(status) }],
       };
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // AGENT-FIRST Q&A HANDLERS (v1.5.0)
+    // These query the persistent codebase index — sub-50ms each.
+    // The IDE agent synthesizes the final answer from this data.
+    // ════════════════════════════════════════════════════════════
+
+    case "devdiff_query_entity": {
+      const mem = await getMemory();
+      const result = mem.queryEntity(
+        (args as any).name,
+        { includeHistory: (args as any).include_history !== false, includeDependencies: (args as any).include_dependencies !== false }
+      );
+      return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+    }
+
+    case "devdiff_query_changes": {
+      const mem = await getMemory();
+      const result = mem.queryChanges(
+        (args as any).since || "7d",
+        (args as any).filter || "all",
+        (args as any).module
+      );
+      return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+    }
+
+    case "devdiff_query_dependencies": {
+      const mem = await getMemory();
+      const result = mem.queryDependencies(
+        (args as any).name,
+        (args as any).direction || "both",
+        (args as any).max_depth || 2
+      );
+      return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+    }
+
+    case "devdiff_query_architecture": {
+      const mem = await getMemory();
+      const result = mem.queryArchitecture(
+        (args as any).module,
+        (args as any).include_diagram || false
+      );
+      return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+    }
+
+    case "devdiff_query_search": {
+      const mem = await getMemory();
+      const result = mem.querySearch(
+        (args as any).query,
+        (args as any).type || "all",
+        (args as any).limit || 10
+      );
+      return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+    }
+
+    case "devdiff_query_compliance": {
+      const mem = await getMemory();
+      const result = mem.queryCompliance(
+        (args as any).framework || "all",
+        (args as any).severity || "medium"
+      );
+      return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+    }
+
+    case "devdiff_query_stats": {
+      const mem = await getMemory();
+      const result = mem.queryStats((args as any).include_trends || false);
+      return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+    }
+
+    case "devdiff_query_timeline": {
+      const mem = await getMemory();
+      const result = mem.queryTimeline(
+        (args as any).name,
+        (args as any).since || "30d"
+      );
+      return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
     }
 
     default:

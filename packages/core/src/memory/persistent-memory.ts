@@ -122,6 +122,240 @@ export class PersistentMemory {
     console.log(`[lucide:check-circle] Memory initialized: ${this.currentIndex!.files.toLocaleString()} files indexed`);
   }
 
+  /** Check whether memory has been loaded from disk */
+  isInitialized(): boolean {
+    return this.initialized;
+  }
+
+  /**
+   * Query the in-memory index — called by ConversationalQA.
+   * Delegates to answerFromIndex fast-path first, then snapshot/entity search.
+   */
+  async ask(question: string): Promise<{ answer: string; confidence: number; sources: string[]; followUps: string[] } | null> {
+    if (!this.initialized || !this.currentIndex) return null;
+
+    // Try the rich private fast-path first (handles many patterns)
+    const fastAnswer = this.answerFromIndex(this.resolveContext(question));
+    if (fastAnswer) {
+      return {
+        answer: fastAnswer.answer,
+        confidence: fastAnswer.confidence,
+        sources: fastAnswer.entities ?? [],
+        followUps: fastAnswer.followUps ?? ["Show me the code", "What depends on it?", "When was it last changed?"],
+      };
+    }
+
+    const q = question.toLowerCase();
+    const idx = this.currentIndex;
+
+    // Snapshot-based "what changed recently?"
+    if (/changed recently|recent changes|what changed|latest changes/i.test(q)) {
+      const result = this.queryChanges("7d");
+      const recent = this.snapshots.slice(-3).reverse();
+      const lines = recent.map((s, i) => {
+        const d = new Date(s.timestamp).toLocaleString();
+        return `  ${i === 0 ? "Latest" : `${i + 1} scans ago`} (${d}): ${s.files} files @ \`${s.gitHash.slice(0, 7)}\``;
+      });
+      const changedCount = (result as any).changedEntities?.length ?? 0;
+      return {
+        answer: `**Recent codebase changes (last 7 days):**\n${lines.join("\n")}\n\n${changedCount} entities changed. Total indexed: ${idx.files} files.`,
+        confidence: 0.95,
+        sources: [],
+        followUps: ["Show me modified files", "What functions changed?", "What depends on it?"],
+      };
+    }
+
+    // Entity lookup
+    const entityMatch = q.match(/(?:what (?:does|is)|show me|find|about)\s+['"\u201c]?(\w[\w-]*)['"\u201d]?/i);
+    if (entityMatch) {
+      const res = this.queryEntity(entityMatch[1]);
+      if (res && (res as any).found) {
+        const e = res as any;
+        return {
+          answer: `**${e.name}** — ${e.purpose}\nFile: \`${e.file}\` (line ${e.line})\nFirst seen: ${new Date(e.firstSeen).toLocaleDateString()}`,
+          confidence: 0.9,
+          sources: [e.file],
+          followUps: [`What depends on ${e.name}?`, "Show me the code", "When was it last changed?"],
+        };
+      }
+    }
+
+    // Architecture
+    if (/architecture|modules|structure|overview/i.test(q)) {
+      const res = this.queryArchitecture() as any;
+      return {
+        answer: `Project has ${idx.files} indexed files across ${res.modules?.length ?? 0} modules:\n${(res.modules ?? []).slice(0, 10).map((m: string) => `  • ${m}`).join("\n")}`,
+        confidence: 0.85,
+        sources: (res.modules ?? []).slice(0, 5),
+        followUps: ["Show dependencies", "Which module changed most?"],
+      };
+    }
+
+    return null;
+  }
+
+  // ─────────────────────────────────────────────────────────────
+  // MCP QUERY METHODS — called directly by IDE agent MCP tools
+  // Each returns structured data; the IDE agent synthesizes the answer
+  // ─────────────────────────────────────────────────────────────
+
+  queryEntity(name: string, options: { includeHistory?: boolean; includeDependencies?: boolean } = {}) {
+    if (!this.currentIndex) return null;
+    const lower = name.toLowerCase();
+    const all = [
+      ...Object.values(this.currentIndex.entities.functions),
+      ...Object.values(this.currentIndex.entities.classes),
+      ...Object.values(this.currentIndex.entities.components),
+      ...Object.values(this.currentIndex.entities.routes),
+    ];
+    const entity = all.find((e) => e.name.toLowerCase() === lower || e.name.toLowerCase().includes(lower));
+    if (!entity) return { found: false, name, suggestions: all.slice(0, 5).map((e) => e.name) };
+    const result: Record<string, unknown> = {
+      found: true,
+      name: entity.name,
+      file: entity.file,
+      line: entity.line,
+      purpose: entity.currentPurpose,
+      firstSeen: entity.firstSeen,
+      lastModified: entity.lastModified,
+    };
+    if (options.includeHistory !== false) result.history = entity.changeHistory;
+    if (options.includeDependencies !== false) result.dependencies = this.findDependencies(entity.name);
+    return result;
+  }
+
+  queryChanges(since: string, filter: string = "all", module?: string) {
+    if (!this.currentIndex) return { error: "Index not initialized" };
+    const sinceMs = this.parseSince(since);
+    const all = [
+      ...Object.values(this.currentIndex.entities.functions),
+      ...Object.values(this.currentIndex.entities.classes),
+      ...Object.values(this.currentIndex.entities.components),
+    ];
+    const changed = all
+      .filter((e) => {
+        if (module && !e.file.includes(module)) return false;
+        return e.changeHistory.some((c) => {
+          const ts = new Date(c.timestamp).getTime();
+          if (ts < sinceMs) return false;
+          return filter === "all" || c.type === filter;
+        });
+      })
+      .map((e) => ({
+        name: e.name,
+        file: e.file,
+        changes: e.changeHistory.filter((c) => new Date(c.timestamp).getTime() >= sinceMs),
+      }));
+    return { since, filter, module: module ?? "all", changedEntities: changed, totalIndexed: this.currentIndex.files };
+  }
+
+  queryDependencies(name: string, direction: "upstream" | "downstream" | "both" = "both", maxDepth: number = 2) {
+    if (!this.currentIndex) return { error: "Index not initialized" };
+    const deps = this.findDependencies(name);
+    const depMap = this.currentIndex.dependencies ?? {};
+    const downstream = Object.entries(depMap).filter(([, v]) => v.includes(name)).map(([k]) => k);
+    return { name, upstream: direction !== "downstream" ? deps : [], downstream: direction !== "upstream" ? downstream : [], maxDepth };
+  }
+
+  queryArchitecture(module?: string, includeDiagram: boolean = false) {
+    if (!this.currentIndex) return { error: "Index not initialized" };
+    const arch = this.currentIndex.architecture;
+    const modules = module ? arch.modules.filter((m) => m.includes(module)) : arch.modules;
+    const rels = module ? arch.relationships.filter((r) => r.from.includes(module) || r.to.includes(module)) : arch.relationships;
+    let diagram: string | undefined;
+    if (includeDiagram) {
+      diagram = `graph TD\n${rels.slice(0, 20).map((r) => `  ${r.from.replace(/[^a-zA-Z0-9]/g, "_")} -->|${r.type}| ${r.to.replace(/[^a-zA-Z0-9]/g, "_")}`).join("\n")}`;
+    }
+    return { modules, relationships: rels, totalFiles: this.currentIndex.files, diagram };
+  }
+
+  querySearch(query: string, type: "entity" | "file" | "all" = "all", limit: number = 10) {
+    if (!this.currentIndex) return { error: "Index not initialized" };
+    const q = query.toLowerCase();
+    const results: Array<{ type: string; name: string; file: string; line?: number }> = [];
+    if (type !== "file") {
+      const all = [
+        ...Object.values(this.currentIndex.entities.functions).map((e) => ({ type: "function", ...e })),
+        ...Object.values(this.currentIndex.entities.classes).map((e) => ({ type: "class", ...e })),
+        ...Object.values(this.currentIndex.entities.components).map((e) => ({ type: "component", ...e })),
+      ];
+      all
+        .filter((e) => e.name.toLowerCase().includes(q) || e.file.toLowerCase().includes(q))
+        .slice(0, limit)
+        .forEach((e) => results.push({ type: e.type, name: e.name, file: e.file, line: e.line }));
+    }
+    return { query, type, results: results.slice(0, limit), total: results.length };
+  }
+
+  queryCompliance(framework: string = "all", severity: string = "medium") {
+    if (!this.currentIndex) return { error: "Index not initialized" };
+    const risks: Array<{ severity: string; issue: string; file: string; framework: string }> = [];
+    const all = [...Object.values(this.currentIndex.entities.functions), ...Object.values(this.currentIndex.entities.classes)];
+    const patterns: Array<{ regex: RegExp; issue: string; severity: string; framework: string }> = [
+      { regex: /log.*ip|ip.*log/i, issue: "IP address may be logged without anonymization", severity: "high", framework: "gdpr" },
+      { regex: /password.*log|log.*password/i, issue: "Possible plaintext password in logs", severity: "critical", framework: "all" },
+      { regex: /secret.*console|console.*secret/i, issue: "Secret/key exposure in console output", severity: "critical", framework: "all" },
+      { regex: /pii|personaldata|personal_data/i, issue: "PII handling detected — ensure GDPR compliance", severity: "medium", framework: "gdpr" },
+      { regex: /hipaa|phi/i, issue: "PHI/HIPAA-sensitive code detected", severity: "high", framework: "hipaa" },
+    ];
+    all.forEach((e) => {
+      patterns.forEach((p) => {
+        if ((framework === "all" || p.framework === framework || p.framework === "all") && p.regex.test(e.name + e.file)) {
+          risks.push({ severity: p.severity, issue: p.issue, file: e.file, framework: p.framework });
+        }
+      });
+    });
+    const severityOrder: Record<string, number> = { critical: 4, high: 3, medium: 2, low: 1 };
+    const minLevel = severityOrder[severity] ?? 2;
+    return { framework, severity, findings: risks.filter((r) => (severityOrder[r.severity] ?? 0) >= minLevel), totalScanned: all.length };
+  }
+
+  queryStats(includeTrends: boolean = false) {
+    if (!this.currentIndex) return { error: "Index not initialized" };
+    const idx = this.currentIndex;
+    const stats = {
+      files: idx.files,
+      lines: idx.lines,
+      functions: Object.keys(idx.entities.functions).length,
+      classes: Object.keys(idx.entities.classes).length,
+      components: Object.keys(idx.entities.components).length,
+      routes: Object.keys(idx.entities.routes).length,
+      modules: idx.architecture.modules.length,
+      lastScan: idx.timestamp,
+      gitHash: idx.gitHash,
+      snapshots: this.snapshots.length,
+    };
+    if (includeTrends && this.snapshots.length > 1) {
+      const prev = this.snapshots[this.snapshots.length - 2];
+      return { ...stats, trends: { filesDelta: idx.files - prev.files, linesDelta: idx.lines - prev.lines, since: prev.timestamp } };
+    }
+    return stats;
+  }
+
+  queryTimeline(name: string, since: string = "30d") {
+    if (!this.currentIndex) return { error: "Index not initialized" };
+    const sinceMs = this.parseSince(since);
+    const all = [...Object.values(this.currentIndex.entities.functions), ...Object.values(this.currentIndex.entities.classes), ...Object.values(this.currentIndex.entities.components)];
+    const entity = all.find((e) => e.name.toLowerCase().includes(name.toLowerCase()));
+    if (!entity) return { name, found: false, since };
+    const history = entity.changeHistory.filter((c) => new Date(c.timestamp).getTime() >= sinceMs);
+    return { name: entity.name, file: entity.file, since, events: history.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()), total: history.length };
+  }
+
+  /** Parse a since string ("today", "7d", "1 week", "2026-07-01") into a ms timestamp */
+  private parseSince(since: string): number {
+    const now = Date.now();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(since)) return new Date(since).getTime();
+    if (/^today$/i.test(since)) return new Date(new Date().toDateString()).getTime();
+    if (/^yesterday$/i.test(since)) return now - 86400000;
+    const m = since.match(/^(\d+)\s*(d|day|h|hour|w|week|m|month)/i);
+    if (!m) return now - 7 * 86400000;
+    const n = parseInt(m[1]);
+    const unit = m[2].toLowerCase()[0];
+    const mult: Record<string, number> = { d: 86400000, h: 3600000, w: 604800000, m: 2592000000 };
+    return now - n * (mult[unit] ?? 86400000);
+  }
+
   /**
    * Full scan — runs ONCE, or on explicit re-scan
    */
@@ -177,58 +411,8 @@ export class PersistentMemory {
     console.log(`   [lucide:check-circle] Incremental update complete in ${elapsed}ms`);
   }
 
-  /**
-   * Answer a question from memory — sub-50ms index query, or AI fallback
-   */
-  async ask(question: string): Promise<MemoryAnswer> {
-    if (!this.currentIndex) {
-      return {
-        answer: "Memory not initialized. Run: devdiff memory init",
-        confidence: 0,
-        fromCache: false,
-      };
-    }
+  // (public ask() is defined above — this old implementation merged into it)
 
-    const startTime = performance.now();
-    const resolvedQuestion = this.resolveContext(question);
-    const answer = this.answerFromIndex(resolvedQuestion);
-
-    if (answer) {
-      const elapsed = performance.now() - startTime;
-
-      this.conversationHistory.push({
-        question,
-        answer: answer.answer,
-        timestamp: Date.now(),
-        entities: answer.entities || [],
-      });
-      this.saveConversation();
-
-      return {
-        ...answer,
-        responseTime: elapsed,
-        fromCache: true,
-        lastScanTime: this.currentIndex.timestamp,
-      };
-    }
-
-    const aiAnswer = await this.answerWithAI(resolvedQuestion);
-    const elapsed = performance.now() - startTime;
-
-    this.conversationHistory.push({
-      question,
-      answer: aiAnswer.answer,
-      timestamp: Date.now(),
-      entities: aiAnswer.entities || [],
-    });
-    this.saveConversation();
-
-    return {
-      ...aiAnswer,
-      responseTime: elapsed,
-      lastScanTime: this.currentIndex.timestamp,
-    };
-  }
 
   /**
    * Answer from index — sub-50ms fast path for change history, entity tracking, dependencies, and dates

@@ -85,7 +85,7 @@ Date:   Mon Jul 6 12:44:11 2026
 ## 📦 File-Level Impact
 
 ### 🛠️ Modified
-- **[packages/core/src/schema.ts](file:///packages/core/src/schema.ts)**
+- **`packages/core/src/schema.ts`**
   - Added new `metadata` type definitions.
   - Hardened string bounds checking on user input fields.
 

@@ -1,15 +1,5 @@
-# Groq Provider
+# Groq LPU Setup Guide
 
-Groq provides ultra-fast inference for open source models like Llama 3.
+This guide is maintained under our single canonical AI Providers documentation suite.
 
-## Configuration
-
-Set the provider URL prefix to `groq://`:
-
-```json
-{
-  "name": "groq-fast",
-  "url": "groq://llama3-70b-8192",
-  "apiKey": "groq-key-..."
-}
-```
+👉 **[View the Official Groq LPU Setup Guide](/ai-providers/groq-setup)**

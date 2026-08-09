@@ -1,30 +1,37 @@
-# Multi-Agent Orchestrator API Reference
+# Swarm Orchestrator & OpenClaw API Reference
 
-The `MultiAgentOrchestrator` class coordinates multiple specialized local AI agents to build consensus and generate final changelog reports.
+The `SwarmOrchestrator` and OpenClaw Connector (`@eldrex/integrations/openclaw`) handle multi-agent swarm analysis, parallel AI evaluations, and consensus resolution.
 
-## Import
+---
 
-```typescript
-import { MultiAgentOrchestrator } from "@eldrex/core";
-```
-
-## Constructor
+## 📦 Import Syntax
 
 ```typescript
-const orchestrator = new MultiAgentOrchestrator();
+import { SwarmOrchestrator, AgentConsensusEngine } from "@eldrex/core";
+import { OpenClawDevDiffConnector } from "@eldrex/integrations/openclaw";
 ```
 
-## Methods
+---
 
-### `initialize(): Promise<void>`
+## 🛠️ Class Specifications
 
-Initializes the agent swarm mapping with default agents (Architect, Security Auditor, Performance Engineer, Documentation Writer).
+### `SwarmOrchestrator`
 
-### `analyze(diff: ProcessedDiff): Promise<CollaborativeAnalysis>`
+```typescript
+const orchestrator = new SwarmOrchestrator({
+  agents: ["developer", "compliance", "security"],
+  consensusThreshold: 0.8
+});
 
-Runs the parallel multi-phase analysis:
+const consensusResult = await orchestrator.executeSwarmAnalysis(diffPayload);
+```
 
-1. **Independent analysis**: Agents generate initial findings.
-2. **Inter-agent discussion**: Agents review each other's outputs.
-3. **Consensus building**: Computes consensus scores and status.
-4. **Final synthesis**: Compiles a final report.
+### `OpenClawDevDiffConnector`
+
+```typescript
+const connector = new OpenClawDevDiffConnector({
+  workspacePath: process.cwd()
+});
+
+const entityMemory = await connector.queryEntity("AuthService");
+```

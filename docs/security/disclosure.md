@@ -1,100 +1,48 @@
-# Security Disclosure
+# Responsible Vulnerability Disclosure Policy
 
-## Reporting a Vulnerability
+At DevDiff, the security and privacy of our users and their codebases are our top priority. We appreciate the contributions of security researchers, ethical hackers, and the open-source community in helping us maintain the highest standards of software security.
 
-If you discover a security vulnerability in DevDiff, please report it responsibly. **Do not open a public GitHub issue for security vulnerabilities.**
+If you discover a security vulnerability in DevDiff CLI, VS Code extension (`@eldrex/vscode`), MCP server (`@eldrex/mcp`), core engine (`@eldrex/core`), or documentation site, we encourage you to report it to us promptly.
 
 ---
 
-## How to Report
+## 🎯 Reporting Guidelines
 
-**Email:** [eldrexdelosreyesbula@gmail.com](mailto:eldrexdelosreyesbula@gmail.com)
+To ensure responsible handling of potential security issues, please follow these guidelines:
 
-**GitHub Security Advisories:** [Report via GitHub](https://github.com/EldrexDelosReyesBula/devdiff/security/advisories/new)
+1. **Private Reporting First**: Do not disclose vulnerabilities publicly (e.g. in GitHub Issues, Discord, or X/Twitter) until we have investigated and resolved the issue.
+2. **Detailed Steps to Reproduce**: Provide clear proof-of-concept (PoC) code, step-by-step instructions, command lines, or environment configurations required to reproduce the flaw.
+3. **Avoid Destructive Testing**: Do not perform actions that could disrupt live user environments or compromise user data.
 
-Please include:
+---
 
-- Description of the vulnerability
+## 📧 How to Submit a Vulnerability Report
+
+Send your security advisory directly to our dedicated security team:
+
+- **Email**: `security@devdiff.org` (or `eldrexdelosreyesbula@gmail.com`)
+- **PGP Encryption Key**: Available upon request or via `https://devdiff.vercel.app/security/pgp-key.asc`
+
+### Report Format Checklist:
+- Component affected (`@eldrex/vscode`, `@eldrex/mcp`, `@eldrex/core`, CLI)
+- Type of vulnerability (e.g. Path Traversal, Prompt Injection, Secret Leakage, RPC Flaw)
 - Steps to reproduce
-- Potential impact
-- Your name/handle (for credit in the advisory)
+- Potential impact assessment
+- Suggested remediation or patch (if available)
 
 ---
 
-## Response Timeline
+## ⏱️ Response Timeline & SLA
 
-| Stage              | Timeframe                                |
-| ------------------ | ---------------------------------------- |
-| Acknowledgment     | Within 48 hours                          |
-| Initial assessment | Within 5 business days                   |
-| Fix development    | Within 30 days (critical: within 7 days) |
-| Public disclosure  | After fix is released                    |
+We are committed to responding to security reports swiftly:
 
----
-
-## Scope
-
-### In Scope
-
-- `@eldrex/core` — Core library
-- `@eldrex/cli` — CLI tool
-- `@eldrex/vscode` — VS Code extension
-- `devdiff.vercel.app` — Documentation website
-- Data classification engine bypass
-
-### Out of Scope
-
-- Vulnerabilities in third-party dependencies (report to the upstream project)
-- Issues requiring physical access to the machine
-- Social engineering attacks
-- Known issues already listed in GitHub Issues
+- **Initial Acknowledgment**: Within 24 hours of receipt.
+- **Triage & Risk Assessment**: Within 72 hours.
+- **Remediation Patch Released**: High/Critical vulnerabilities patched within 7 business days.
+- **Public Disclosure**: Coordinated after the security patch is published.
 
 ---
 
-## Responsible Disclosure Policy
+## 🏆 Hall of Fame & Recognition
 
-We follow coordinated disclosure:
-
-1. You report the vulnerability privately
-2. We investigate and develop a fix
-3. We release the fix
-4. We credit you in the security advisory
-5. You may publish your findings after the fix is released
-
-We will not take legal action against security researchers who follow this policy.
-
----
-
-## Security Architecture Notes
-
-DevDiff's attack surface is intentionally minimal:
-
-**Network exposure:**
-
-- CLI: No listening ports (only outbound to AI providers)
-- MCP server: Optional, localhost-only by default
-- VS Code extension: No network exposure beyond what the CLI does
-
-**Shell execution:**
-
-- DevDiff only executes: `git diff --cached`, `git log`, `git status`
-- No arbitrary code execution from diff content
-
-**File system:**
-
-- DevDiff reads: `.devdiff.config.js`, `.devdiffignore`, `.git/`
-- DevDiff writes: `.devdiff/` directory only
-
-**Data classification:**
-
-- Runs before any cloud API call
-- Regex-based (not AI-based) for deterministic behavior
-- Fails closed by default (if classifier errors, the request is blocked)
-
----
-
-## Hall of Fame
-
-Security researchers who have responsibly disclosed vulnerabilities:
-
-_No vulnerabilities reported yet. Be the first!_
+Security researchers who responsibly report valid vulnerabilities will be recognized in our **Security Hall of Fame** in our release notes and repository `SECURITY.md`.

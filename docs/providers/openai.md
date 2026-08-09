@@ -1,15 +1,5 @@
-# OpenAI Provider
+# OpenAI Setup Guide
 
-Use OpenAI's official API models (e.g. GPT-4o, GPT-4o Mini) for code changelog generation.
+This guide is maintained under our single canonical AI Providers documentation suite.
 
-## Configuration
-
-Set the provider URL prefix to `openai://` and supply your API key:
-
-```json
-{
-  "name": "openai-cloud",
-  "url": "openai://gpt-4o-mini",
-  "apiKey": "sk-proj-..."
-}
-```
+👉 **[View the Official OpenAI Setup Guide](/ai-providers/openai-setup)**

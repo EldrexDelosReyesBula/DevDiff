@@ -204,8 +204,17 @@ export { NATURAL_CHANGELOG_PROMPT } from "./ai/prompts/natural-prompt";
 export { UniversalProjectDetector, ProjectDetection, LanguageCount } from "./detection/universal-detector";
 
 // Conversational Q&A Engine Exports
-export { ConversationalQA, ConversationContext, QAAnswer } from "./qa/conversational-qa";
+export { ConversationalQA, ConversationContext, QAAnswer, QATurn } from "./qa/conversational-qa";
 
+// Onboarding & Zero-Friction AI Detection Exports
+export { AIDetector } from "./onboarding/ai-detector";
+export type { AIDetectionResult, AIPath, Action as AIAction } from "./onboarding/ai-detector";
 
+// Plugin Ecosystem Security Scanner Exports
+export { PluginSecurityScanner } from "./plugins/security-scanner";
+export type { PluginScanResult, SecurityFinding, SecurityWarning, PluginRecommendation } from "./plugins/security-scanner";
 
+// Study Buddy Mode Exports
+export { StudyEngine } from "./study/study-engine";
+export type { LearningPath, LearningStep, CodebaseTour, CodebaseTourSection, StudyQuiz, QuizQuestion } from "./study/study-engine";
 

@@ -1,44 +1,40 @@
-# Getting Started with Automated Versioning & Release
+# Automated Versioning & AST Breaking Change Detection
 
-This guide explains how to use DevDiff's **Automated Versioning Engine** to bump package versions and maintain CHANGELOG.md files based on code deltas.
-
----
-
-## ⚡ Quick Start
-
-### Step 1: Preview Version Bump Plan
-
-Run `devdiff version bump --dry-run` to inspect detected change reasons and planned version bump:
-
-```bash
-devdiff version bump --dry-run
-```
+DevDiff analyzes abstract syntax trees (ASTs) across git commits to detect breaking API changes, function signature modifications, and added features, automatically determining semantic versioning (SemVer) increments.
 
 ---
 
-### Step 2: Execute Release
+## 🎯 SemVer Detection Rules
 
-Execute a one-command release with `devdiff release`:
+DevDiff evaluates git diffs against strict AST rules:
+
+| AST Modification Detected | SemVer Impact | Version Bump Type |
+|---|---|---|
+| Deleted export, modified required parameter, type break | **BREAKING CHANGE** | `MAJOR` (`1.5.0` $\rightarrow$ `2.0.0`) |
+| New exported function, new optional parameter, new interface | **FEATURE ADDITION** | `MINOR` (`1.5.0` $\rightarrow$ `1.6.0`) |
+| Internal bug fix, docstring edit, performance tweak | **PATCH / FIX** | `PATCH` (`1.5.0` $\rightarrow$ `1.5.1`) |
+
+---
+
+## 🚀 CLI Versioning Commands
+
+### 1. Evaluate Recommended Version Bump Type
 
 ```bash
-devdiff release
+# Auto-detect version bump requirement based on AST diff
+devdiff version check
 ```
 
-*Output:*
-```text
-[lucide:box] Current version: v1.5.0
-[lucide:clipboard-list] DevDiff Version Bump Plan:
-──────────────────────────────────────────────
-   Type: MINOR
-   From: v1.5.0
-   To:   v1.6.0
+Output:
+```
+🔍 Analyzing AST modifications...
+✨ Detected: 2 new features added, 0 breaking changes.
+💡 Recommended Version Increment: MINOR (1.5.0 -> 1.6.0)
+```
 
-[lucide:arrow-up-circle] Bumping version to v1.6.0...
-   [lucide:check] package.json updated
-[lucide:file-text] Generating CHANGELOG.md...
-   [lucide:check] CHANGELOG.md updated
-   [lucide:check] Tag v1.6.0 created
-   [lucide:check] Pushed to remote repository
+### 2. Auto-Bump Version across Package Files
 
-[lucide:check-circle] Release complete! v1.6.0 ready.
+```bash
+# Automatically bump package.json and workspace versions
+devdiff version bump --type auto
 ```

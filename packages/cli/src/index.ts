@@ -268,7 +268,10 @@ function registerCommands(
   }
 }
 
+import { registerStudyCommand } from "./commands/study";
+
 registerCommands(COMMAND_REGISTRY, program);
+registerStudyCommand(program);
 
 // ── Completions Command ──
 program

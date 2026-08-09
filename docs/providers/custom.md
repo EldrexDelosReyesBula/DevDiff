@@ -1,13 +1,5 @@
-# Custom Provider
+# Custom Provider Setup Guide
 
-You can define custom API endpoints by setting the URL prefix to `custom://` or mapping endpoint endpoints in configuration.
+This guide is maintained under our single canonical AI Providers documentation suite.
 
-## Configuration
-
-```json
-{
-  "name": "my-custom-endpoint",
-  "url": "custom://my-model",
-  "endpoint": "https://api.myllm.com/v1"
-}
-```
+👉 **[View the Official Custom Provider Setup Guide](/ai-providers/custom-provider)**

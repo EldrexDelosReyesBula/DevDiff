@@ -1,80 +1,69 @@
-# VS Code Extension
+# VS Code Extension (`@eldrex/vscode` v1.6.0)
 
-The official DevDiff VS Code Extension brings privacy-first, BYOAI changelog intelligence directly into your editor environment.
-
-<p align="center">
-  <a href="https://marketplace.visualstudio.com/items?itemName=ebula.devdiff" target="_blank" rel="noopener noreferrer">
-    <img src="https://img.shields.io/badge/VS_Code_Marketplace-Download-blue?style=for-the-badge&logo=visual-studio-code" alt="Download on VS Code Marketplace">
-  </a>
-  <a href="https://open-vsx.org/extension/ebula/devdiff" target="_blank" rel="noopener noreferrer">
-    <img src="https://img.shields.io/badge/Open_VSX_Registry-Download-orange?style=for-the-badge&logo=eclipse" alt="Download on Open VSX">
-  </a>
-</p>
+The DevDiff VS Code extension ([`@eldrex/vscode`](https://github.com/EldrexDelosReyesBula/DevDiff/tree/main/packages/vscode)) brings 100% IDE-native codebase intelligence directly inside Visual Studio Code. All features execute locally on developer workstations without switching tabs or opening web browser dashboards.
 
 ---
 
-## ⚡ Key Features
+## 🎯 Extension Architecture
 
-- **Status Bar Integration:** One-click staged changes explanation.
-- **Sidebar Webview:** Interactive dashboard showing active files, change stats, and explanations.
-- **Inline Diffs:** Explanations integrated directly into file views.
-- **Quick Explain:** Explain staged changes without leaving VS Code.
-
----
-
-## 📦 Installation & Setup
-
-You can install DevDiff in VS Code in two different ways depending on your security policy:
-
-### Option A: VS Code & Open VSX Marketplace (Recommended)
-
-1. Open VS Code or VSCodium on your workstation.
-2. Open the Extensions View (`Ctrl+Shift+X` or `Cmd+Shift+X`).
-3. Search for **`ebula.devdiff`** or click one of the direct registry links:
-   - 👉 [DevDiff on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=ebula.devdiff)
-   - 👉 [DevDiff on the Open VSX Registry](https://open-vsx.org/extension/ebula/devdiff)
-4. Click **Install**.
-
-### Option B: Local VSIX Bundle (Offline / Air-gapped Environments)
-
-For secure enterprise workstations that lack external internet access:
-
-1. Download the latest packaged `.vsix` file from the [GitHub Releases](https://github.com/EldrexDelosReyesBula/devdiff/releases) page.
-2. In VS Code, open the Extensions View.
-3. Click the `...` menu in the top-right corner of the Extensions panel.
-4. Select **Install from VSIX...** and select the downloaded package.
-
----
-
-## ⚡ Main Capabilities
-
-| Feature                         | Description                                                                            | Benefit                                   |
-| :------------------------------ | :------------------------------------------------------------------------------------- | :---------------------------------------- |
-| **Active Changes Sidebar**      | Integrated view summarizing modified files, lines changed, and complexity markers.     | High-level context before commits.        |
-| **Status Bar Actions**          | Trigger staged changes explanations with a single status bar click.                    | Frictionless workflow.                    |
-| **Inline Explanation Previews** | Displays the generated changelog text inline or inside a separate side-by-side editor. | Fast commit message generation.           |
-| **Local Swarm Consensuses**     | Orchestrates a local agent swarm and shows consensus analysis for staged files.        | Deep architectural and security insights. |
-
----
-
-## ⚙️ Configuration & Trust Settings
-
-The extension automatically inherits settings from your repository-level `.devdiff.config.js` (or `.devdiff.config.json`) configuration file.
-
-### Overriding Settings in VS Code
-
-You can customize the extension via your `settings.json`:
-
-```json
-{
-  "devdiff.provider": "ollama",
-  "devdiff.model": "llama3.2:3b",
-  "devdiff.enableSwarm": true,
-  "devdiff.localOnly": true
-}
+```mermaid
+flowchart TD
+    VSCode[VS Code Workspace] --> Extension[@eldrex/vscode Extension Host]
+    
+    subgraph Panels [4 Dedicated Sidebar Views]
+      P1[1. Changelog Explorer]
+      P2[2. Q&A Chat Panel]
+      P3[3. Security & Compliance]
+      P4[4. Settings & Personas]
+    end
+    
+    subgraph Safeguard [IDEGuardian Performance Enforcer]
+      Worker[Worker Thread Execution]
+      RAMCap[256MB Memory Ceiling]
+      IdleDetect[5s Typing Idle Detection]
+    end
+    
+    Extension --> Panels
+    Extension --> Safeguard
+    Extension --> ChatParticipant[@devdiff Chat Participant]
+    
+    style Extension fill:#bbf,stroke:#333,stroke-width:2px
+    style Safeguard fill:#9f9,stroke:#333,stroke-width:2px
 ```
 
-### 🔒 Enterprise Trust Profile
+---
 
-- **Zero Remote Connections**: When `localOnly` is enabled, all execution loops happen on localhost via your local inference provider (WebGPU/Ollama).
-- **Auto-Redaction**: Before compiling any prompt context, credentials and API keys are automatically scanned and redacted locally.
+## 🖥️ The 4 Sidebar Views
+
+1. **Changelog Explorer**: Inspect staged changes, preview changelogs, select active personas, and render inline Mermaid architecture diagrams.
+2. **Q&A Chat Panel**: Interactive sidebar chat to ask codebase questions against `.devdiff/memory/codebase-index.json`.
+3. **Security & Compliance Panel**: Run one-click vulnerability scans and check code against 10 regulatory compliance frameworks (GDPR, HIPAA, SOC 2, etc.).
+4. **Settings Panel**: Configure active AI models, rate limits, secret redaction parameters, and inline annotations.
+
+---
+
+## 💬 `@devdiff` Native Chat Participant (`vscode.lm`)
+
+Type `@devdiff` directly in VS Code Chat:
+
+```
+@devdiff what changed in the auth module today?
+@devdiff run security scan for staged changes
+@devdiff explain the architecture of persistent memory
+```
+
+---
+
+## ⚡ CodeLens & Gutter Annotations
+
+- **Inline CodeLens Triggers**: `⚡ DevDiff: Explain Changes` CodeLens links appear above modified functions in active text editors.
+- **Status Bar Integration**: Real-time indicator showing active AI model, memory status, and provider status.
+
+---
+
+## 🛡️ `IDEGuardian` Protection
+
+- **Worker Thread Isolation**: Heavy processing tasks run in dedicated worker threads so VS Code never freezes.
+- **256MB RAM Cap**: Automatic heap monitoring prevents extension memory bloat.
+- **5s Typing Idle Tracking**: Scans automatically pause when active keyboard typing is detected.
+- **120s Timeout Protection**: Tasks time out safely after 120 seconds.

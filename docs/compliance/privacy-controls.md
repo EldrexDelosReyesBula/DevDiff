@@ -1,29 +1,51 @@
-# Privacy Controls
+# Enterprise Privacy Controls & File Exclusion Rules
 
-DevDiff is designed to be privacy-first. You retain complete control over how your code is processed.
+DevDiff provides enterprise security teams with granular controls to enforce privacy policies, restrict network access, and exclude sensitive files or directories from AI analysis.
 
 ---
 
-## 🔒 Configuration Controls
+## 🔒 Enforcement Controls
 
-### Disable Network Access Completely
+### 1. Apply Preset Regulatory Compliance Rules
 
-To restrict DevDiff to local offline processing only, enforce a local compliance model:
+Enforce predefined regulatory constraints across a repository using the CLI:
 
 ```bash
-# Force local-only operation by applying a compliance rule
+# Apply strict GDPR compliance rules (forces local model usage & network lockdown)
 devdiff compliance apply GDPR
+
+# Apply SOC 2 compliance rules
+devdiff compliance apply SOC2
 ```
 
-This updates your `.devdiff.config.js` to block external network requests.
+---
 
-### Exclude Sensitive Files
+## ⚙️ Workspace File Exclusion (`.devdiffignore`)
 
-Define patterns in your config to ensure sensitive files are never analyzed:
+DevDiff respects standard `.gitignore` rules and workspace `.devdiffignore` files to ensure proprietary keys, certificates, and private directories are never processed:
 
-```javascript
-// .devdiff.config.js
-export default {
-  exclude: ["**/certs/**", "**/*.pem", "**/*.key", "config/secrets.json"],
-};
+```gitignore
+# .devdiffignore
+**/certs/**
+**/*.pem
+**/*.key
+**/*.pfx
+config/secrets.json
+.env*
+```
+
+---
+
+## 🛡️ Enforce Network Lockdown via Config
+
+In `.devdiff/config.json`:
+
+```json
+{
+  "security": {
+    "networkLockdown": true,
+    "redactionStrictness": "high",
+    "blockUnencryptedSockets": true
+  }
+}
 ```

@@ -231,7 +231,7 @@ export class DevDiffEngine {
 
   async securityScan(options: {
     since: string;
-    threshold: string;
+    threshold?: string;
   }): Promise<any> {
     try {
       const diffText = await this.getDiffForSince(options.since);
@@ -269,7 +269,7 @@ Only report findings that are actually present in the diff.`;
       );
 
       const vulnerabilities: any[] = [];
-      const thresholdScore = getSeverityScore(options.threshold);
+      const thresholdScore = getSeverityScore(options.threshold || "0.8");
 
       for (const f of explanation.files || []) {
         const regex =

@@ -1,9 +1,28 @@
-# Linear Integration
+# Linear Issue Integration
 
-Connect commits to Linear issues and automatically write summaries back.
+Automatically match Linear issue keys (e.g. `ENG-402`) in git commits and link them to DevDiff changelog summaries using `@eldrex/plugin-sdk`.
 
-## Setup
+---
 
-1. Enable Linear Webhook parser on the DevDiff Gateway.
-2. Direct commits containing Linear ticket labels (e.g. `[PROJ-123]`) through the gateway.
-3. The gateway will query the issue title and automatically update the ticket with the code change summary.
+## 🚀 Setup via Plugin SDK
+
+```typescript
+import { DevDiffPlugin, ParsedDiff } from "@eldrex/plugin-sdk";
+
+export const LinearLinkerPlugin: DevDiffPlugin = {
+  id: "linear-linker",
+  name: "Linear Issue Linker",
+  version: "1.0.0",
+  description: "Extracts Linear issue keys from diffs.",
+  author: { name: "DevDiff Team" },
+  devdiffVersion: ">=1.5.0",
+
+  hooks: {
+    async beforeAnalysis(diff: ParsedDiff) {
+      const linearRegex = /[A-Z]{2,6}-\d+/g;
+      // Scans diff content for Linear issue keys
+      return diff;
+    },
+  },
+};
+```

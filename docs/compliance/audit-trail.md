@@ -1,37 +1,71 @@
-# Compliance Audit Trail
+# Compliance Audit Trail & Local Logging Engine
 
-DevDiff records comprehensive audit trails of all system operations, allowing security officers to review exactly what commands were run and what data left the workstation.
+DevDiff (v1.6.0) includes a local **Audit Logging Engine** that maintains transparent, tamper-evident audit logs of all AI model invocations, shell executions, and network socket connections on the local developer workstation.
 
 ---
 
-## 📊 Viewing the Audit Log
+## 🎯 Audit Architecture & Local Storage
 
-### AI Providers Audit Trail
+```mermaid
+flowchart TD
+    Operation[DevDiff Operation / AI Model Call] --> AuditEngine[Audit Engine packages/core/src/security]
+    
+    AuditEngine --> Redact[Redact Secrets via RedactionEngineV2]
+    Redact --> FileLog[.devdiff/audit/log-YYYY-MM-DD.json]
+    
+    FileLog --> CLI[devdiff audit CLI Viewer]
+    
+    style AuditEngine fill:#bbf,stroke:#333,stroke-width:2px
+    style FileLog fill:#9f9,stroke:#333,stroke-width:2px
+```
 
-Every time an AI model is called, DevDiff caches a record detailing:
+---
 
-- The timestamp of the call.
-- The provider type and model tier.
-- A summary of the generated output.
+## 📊 Audit Log Structure & Fields
 
-To display these logs, run:
+Every audit entry logged locally to `.devdiff/audit/` contains non-sensitive metadata:
+
+```json
+{
+  "timestamp": "2026-08-08T22:15:00.000Z",
+  "operation": "generate_changelog",
+  "provider": "ollama-local",
+  "model": "llama3.2:3b",
+  "tokens": { "prompt": 1240, "completion": 310 },
+  "durationMs": 420,
+  "redactedKeysCount": 2,
+  "status": "success"
+}
+```
+
+---
+
+## 🚀 CLI Audit Commands
+
+### 1. View AI Call Audit Log
 
 ```bash
+# View recent AI invocation logs
 devdiff audit
 ```
 
-### Shell Operation Audit
-
-DevDiff tracks local terminal command execution (like Git queries) to ensure transparent operations:
+### 2. View Shell & Subprocess Executions
 
 ```bash
+# View local git & shell commands executed by DevDiff
 devdiff audit shell
 ```
 
-### Network Access Audit
-
-View all mapped ports, active binds, and target API endpoints used by DevDiff packages:
+### 3. View Network Connections & Socket Binds
 
 ```bash
+# View outbound HTTP/HTTPS requests & local socket bindings
 devdiff audit network
+```
+
+### 4. Export Audit Report for SOC 2 / HIPAA Reviewers
+
+```bash
+# Export formatted audit trail to JSON or CSV
+devdiff audit export --format json --output audit-report-2026.json
 ```

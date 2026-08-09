@@ -1,23 +1,23 @@
-# Universal Language & Project Detection
+# Universal Language & Project Detection (v1.6.0)
 
-DevDiff **v1.5.0** introduces **Universal Project Detection** (`UniversalProjectDetector`). DevDiff can analyze any text-based repository, script, or workspace regardless of whether it uses `package.json`, frameworks, or standard directory conventions.
+DevDiff **v1.6.0** includes **Universal Project Detection** (`UniversalProjectDetector`). DevDiff can analyze any software repository, script folder, or workspace regardless of whether it uses `package.json`, build systems, or standard directory conventions.
 
 ---
 
-## 🎯 Supported Project Topologies
+## 🎯 Multi-Tier Project Topology Matrix
 
-| Tier | Project Topology | Example Stack | DevDiff Action |
+| Tier | Project Topology | Example Tech Stack | DevDiff Action & AST Capabilities |
 | :--- | :--- | :--- | :--- |
-| **Tier 1** | Node.js / Monorepos | React, Vue, Next.js, Vite | Full AST & package manifest detection |
-| **Tier 2** | Static Web & PWAs | HTML5, Vanilla JS, CSS, CDN libraries | Detects CDN scripts, PWAs, Web APIs, and Service Workers |
-| **Tier 3** | Python Workspaces | Django, Flask, FastAPI, Scripts | Scans `.py` files, `requirements.txt`, and AST functions |
-| **Tier 4** | Generic / Custom Languages | Go, Rust, C++, Ruby, PHP, Shell, SQL, Custom DSLs | Language-aware extension mapping and raw diff analysis |
+| **Tier 1** | Node.js & Monorepos | React, Vue, Next.js, Vite, TypeScript | Full AST parsing, export extraction, & package manifest detection |
+| **Tier 2** | Static Web & PWAs | HTML5, Vanilla JS, CSS3, Web APIs | Detects CDN scripts, Service Workers, DOM handlers, & PWA manifests |
+| **Tier 3** | Python Workspaces | Django, Flask, FastAPI, Scripts | Scans `.py` files, `requirements.txt`, `pyproject.toml`, & AST functions |
+| **Tier 4** | Multilingual Systems | Go, Rust, C++, Java, C#, Ruby, PHP, SQL, Shell | Extension mapping, AST scope trimming, & raw diff analysis |
 
 ---
 
-## ⚡ Key Guarantees
+## ⚡ Key Architectural Guarantees
 
-- ✅ **No `package.json` required**: Works out-of-the-box on vanilla HTML/CSS/JS projects.
-- ✅ **Single-file support**: Analyzes single `.html` or `.py` files without configuration.
-- ✅ **60+ Languages**: Pre-mapped file extension registry for all popular programming languages.
-- ✅ **Binary Skipping**: Automatically skips binary files (`.png`, `.exe`, `.pdf`) gracefully.
+- ✅ **No `package.json` required**: Operates out-of-the-box on single-file scripts or vanilla HTML/CSS/JS projects.
+- ✅ **60+ Languages Supported**: Pre-mapped file extension registry covering all popular programming languages.
+- ✅ **Automatic Binary Filtering**: Gracefully skips binary assets (`.png`, `.jpg`, `.pdf`, `.wasm`, `.exe`).
+- ✅ **Monorepo Auto-Partitioning**: Automatically chunks multi-package diffs to fit model context bounds.

@@ -1,6 +1,6 @@
 {
     "name":  "@eldrex/antigravity",
-    "version":  "1.5.0",
+    "version":  "1.6.0",
     "description":  "Antigravity IDE Extension for DevDiff",
     "type":  "module",
     "main":  "./dist/index.js",

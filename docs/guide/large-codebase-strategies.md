@@ -1,44 +1,51 @@
-# Large Codebase Strategies
+# Monorepo & Large Codebase Strategies
 
-Working in massive codebases or monorepos requires customized configurations to maintain speed and efficiency.
+When operating on monorepos or repositories containing 5,000+ source files, processing diffs without strategy can trigger LLM context window overflows, memory bloat, or slow response times.
+
+DevDiff includes built-in strategies for scaling efficiently across large repositories: **Progressive Directory Partitioning**, **AST Scope Trimming**, and **Selective Package Scope Filters**.
 
 ---
 
-## 📦 Optimization Strategies
+## 🎯 Scaling Architecture
 
-### 1. Configure Exclude Paths
-
-Always exclude large build directories, dependencies, asset folders, and auto-generated code blocks from the analysis window:
-
-```javascript
-// .devdiff.config.js
-export default {
-  exclude: [
-    "**/node_modules/**",
-    "**/dist/**",
-    "**/build/**",
-    "**/*.min.js",
-    "package-lock.json",
-    "pnpm-lock.yaml",
-  ],
-};
+```mermaid
+flowchart TD
+    Monorepo[5,000+ File Monorepo] --> Filter{Package Scope Filter Specified?}
+    Filter -->|Yes: --package packages/core| TargetPkg[Process Target Package Only]
+    Filter -->|No| Chunker[Progressive Directory Chunker]
+    
+    Chunker --> Part1[Chunk 1: packages/core]
+    Chunker --> Part2[Chunk 2: packages/cli]
+    Chunker --> Part3[Chunk 3: packages/vscode]
+    
+    Part1 --> AST[AST Trimmer & Redactor]
+    Part2 --> AST
+    Part3 --> AST
+    
+    AST --> Summary[Synthesize Hierarchical Monorepo Summary]
+    
+    style Chunker fill:#bbf,stroke:#333,stroke-width:2px
+    style Summary fill:#9f9,stroke:#333,stroke-width:2px
 ```
 
-### 2. Limit Change Scopes with Minimal Depth
+---
 
-For fast execution, instruct DevDiff to focus only on file status and structure without analyzing deep line diff details:
+## ⚙️ Monorepo Best Practices
+
+### 1. Target Specific Package Scopes
+
+Use the `--path` or `--package` flags to restrict analysis to specific sub-packages:
 
 ```bash
-# Analyze minimal depth for rapid overview
-devdiff generate --depth minimal
+# Analyze changes exclusively in packages/core
+devdiff generate --path packages/core
+
+# Analyze changes in VS Code extension package
+devdiff generate --path packages/vscode
 ```
 
-### 3. Stage Changes Incrementally
+### 2. Leverage Progressive Directory Chunking
+DevDiff automatically partitions diffs larger than 100KB into directory chunks, summarizing each package independently before assembling the final changelog.
 
-Instead of staging and analyzing thousands of files at once, commit/stage in logical increments (e.g. per package or directory):
-
-```bash
-git add packages/core/
-devdiff generate
-git commit -m "refactor: optimize core module logic"
-```
+### 3. Maintain Workspace `.devdiffignore` Rules
+Prevent monorepo lockfiles (`pnpm-lock.yaml`, `yarn.lock`, `bun.lockb`) from inflating diff sizes.

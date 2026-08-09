@@ -1,63 +1,88 @@
-# IDE-Native Workflows & Integration (v1.5.0)
+# IDE-Native Workflows & Integration (v1.6.0)
 
 DevDiff is **100% IDE-Native**. Rather than forcing developers into external web browsers or separate playground websites, all DevDiff workflows (diff explanation, persistent codebase memory, Q&A, automated versioning, SKILL.md management, and commit guards) run directly inside your IDE environment.
 
 ---
 
-## 🎯 IDE-Native Principles
+## 🎯 IDE-Native Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                 DEVDIFF IDE-NATIVE WORKFLOWS                │
+│                 DEVDIFF v1.6.0 IDE-NATIVE WORKFLOWS         │
 │                                                             │
-│  VS CODE EXTENSION (@eldrex/vscode)                         │
-│  • Inline diff explanations in source editor                │
-│  • Dedicated DevDiff side panel & chat view                 │
-│  • One-click release & version bump triggers                │
+│  SURFACE 1: VS Code Extension (Primary Interface)           │
+│  • Sidebar: Changelog Explorer                              │
+│  • Sidebar: Q&A Chat Panel                                  │
+│  • Sidebar: Security & Compliance                           │
+│  • Sidebar: Settings & Configuration                        │
+│  • Chat: @devdiff natural language chat participant         │
+│  • Inline: CodeLens & Gutter annotations                    │
+│  • Status Bar: AI model indicator & quick pick              │
 │                                                             │
-│  MCP SERVER PROTOCOL (@eldrex/mcp)                          │
-│  • Native Model Context Protocol (MCP) server integration   │
-│  • Seamless connection with Cursor, Windsurf, & VS Code AI  │
+│  SURFACE 2: MCP Server (@eldrex/mcp v1.6.0)                 │
+│  • 8 sub-50ms codebase query tools for Copilot/Claude/Gemini │
+│  • DevDiff provides KNOWLEDGE. IDE agent provides INTELLIGENCE│
 │                                                             │
-│  INTEGRATED TERMINAL & CLI                                  │
-│  • Fast sub-50ms CLI memory queries: devdiff ask "..."      │
-│  • Zero browser context switches                            │
+│  SURFACE 3: Integrated Terminal & CLI                       │
+│  • Fast CLI memory queries: devdiff ask "..."               │
+│  • Scriptable CI/CD automation                              │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 💻 1. VS Code Extension (`@eldrex/vscode`)
+## 💻 1. VS Code Extension — 4 Sidebar Views
 
-The VS Code extension provides zero-friction IDE integration:
+The VS Code extension provides a comprehensive IDE experience:
 
-- **Inline Diff Lens**: Hover over modified files in the Source Control view to view natural developer explanations.
-- **Side Panel Chat**: Ask questions about your codebase memory directly from the VS Code sidebar.
-- **Command Palette Integration**: Run `DevDiff: Explain Diff`, `DevDiff: Ask Memory`, `DevDiff: Bump Version`, and `DevDiff: Release`.
+1. **Changelog Explorer**: Inspect staged changes, generate changelogs, and view Mermaid architecture diagrams.
+2. **Q&A Chat Panel**: Interactive sidebar chat powered by `ConversationalQA` and persistent memory.
+3. **Security & Compliance**: One-click vulnerability and compliance framework scan.
+4. **Settings Panel**: Configure active personas, inline annotations, and MCP rate limits.
+
+### 🛡️ IDEGuardian Performance Guard
+- **Worker Isolation**: Operations execute safely in worker threads without freezing the editor.
+- **256MB Memory Ceiling**: Automatic memory monitoring.
+- **5s Typing Idle Detection**: Background scans pause automatically when you are actively typing.
+- **120s Timeout Guard**: Heavy tasks time out safely instead of locking up VS Code.
 
 ---
 
-## 🔌 2. MCP Server Protocol (`@eldrex/mcp`)
+## 💬 2. `@devdiff` Chat Participant (`vscode.lm`)
 
-DevDiff includes a built-in **MCP Server** (`@eldrex/mcp`) that exposes DevDiff memory, AST indexes, compliance rules, and changelog generators to AI assistants like Cursor, Windsurf, and Claude Desktop.
+Type `@devdiff` directly in VS Code Chat:
 
-```bash
-# Start the MCP server inside your IDE workspace
-devdiff mcp start
+```
+@devdiff what changed in the auth module today?
+@devdiff run security scan for staged changes
+@devdiff explain the architecture of persistent memory
 ```
 
 ---
 
-## 🚀 3. Integrated Terminal Workflows
+## 🔌 3. MCP Server Protocol (`@eldrex/mcp`)
 
-All DevDiff commands execute directly in your IDE's integrated terminal:
+DevDiff v1.6.0 exposes **8 sub-50ms query tools** via MCP:
+- `devdiff_query_entity`: Entity history & dependencies
+- `devdiff_query_changes`: Time-range change scans
+- `devdiff_query_dependencies`: Upstream & downstream graph
+- `devdiff_query_architecture`: Module relationships & Mermaid graph
+- `devdiff_query_search`: Codebase entity search
+- `devdiff_query_compliance`: GDPR/HIPAA/SOC2 scan
+- `devdiff_query_stats`: Codebase statistics & trends
+- `devdiff_query_timeline`: Chronological change timeline
+
+---
+
+## 🚀 4. Integrated Terminal Workflows
 
 ```bash
 # Ask your codebase memory directly in the terminal
-devdiff ask "What does CountifyStorage do?"
+devdiff ask "What changed recently?"
 
-# Auto-bump version based on AST diffs
-devdiff version bump --type auto
+# Memory management
+devdiff memory init
+devdiff memory status
 
 # Generate natural developer changelogs
 devdiff generate

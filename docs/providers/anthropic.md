@@ -1,15 +1,5 @@
-# Anthropic Provider
+# Anthropic Setup Guide
 
-Use Anthropic's Claude models (e.g. Claude 3.5 Sonnet) for code intelligence.
+This guide is maintained under our single canonical AI Providers documentation suite.
 
-## Configuration
-
-Set the provider URL prefix to `anthropic://`:
-
-```json
-{
-  "name": "anthropic-cloud",
-  "url": "anthropic://claude-3-5-sonnet-20240620",
-  "apiKey": "anthropic-key-..."
-}
-```
+👉 **[View the Official Anthropic Setup Guide](/ai-providers/anthropic-setup)**

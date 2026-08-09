@@ -1,5 +1,30 @@
 # @eldrex/vite
 
+## 1.6.0
+
+### Major Changes
+
+- **HMR Changelog Overlay v2**: Rebuilt the Hot Module Replacement changelog overlay with improved dismissal behavior, persona-aware rendering, and Mermaid diagram support inline in the overlay.
+- **Build-Time Security Scan**: Vite plugin now optionally runs a `devdiff security-scan` pass during build, emitting warnings for detected credential leaks before the bundle is produced.
+- **Provider Configuration in Vite Config**: Added `provider`, `model`, and `persona` options to plugin configuration — no longer requires a separate `.devdiff.config.js` when using the Vite plugin directly.
+- Added `publishConfig.access: "public"` for npm scoped package publishing.
+
+### Minor Changes
+
+- Plugin now emits a VitePress-compatible structured log during documentation builds.
+- Added `dryRun` option — skips AI generation but still parses and reports diff statistics.
+- Changelog output is now written to `dist/CHANGELOG.md` during production builds when `writeToDist: true` is set.
+
+### Patch Changes
+
+- Fixed HMR overlay not dismissing correctly after changelog generation completion.
+- Fixed `vite.config.ts` type inference — plugin options are now fully typed.
+
+### Updated Dependencies
+- `@eldrex/core@1.6.0`
+
+---
+
 ## 1.0.4
 
 ### Patch Changes

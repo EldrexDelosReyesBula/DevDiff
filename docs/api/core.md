@@ -1,23 +1,57 @@
-# Core Library API
+# Core Library API Reference (`@eldrex/core` v1.6.0)
 
-The `@eldrex/core` library can be imported programmatically inside Node.js applications.
+The `@eldrex/core` package contains DevDiff's core engine, including AST parsing, persistent codebase memory indexing, credential redaction, network firewalls, and AI provider routing.
 
-## API Reference
+---
 
-### `generateChangelog(options)`
-
-Generates a formatted explanation based on staged changes or git diff.
+## 📦 Import Syntax
 
 ```typescript
-import { generateChangelog } from "@eldrex/core";
+import {
+  generateChangelog,
+  loadConfig,
+  CodebaseMemoryEngine,
+  RedactionEngineV2,
+  NetworkGuard,
+  AccuracyGuard,
+  SemverDetector
+} from "@eldrex/core";
+```
 
+---
+
+## 🛠️ Main Function & Class Specifications
+
+### `generateChangelog(options: ChangelogOptions): Promise<ChangelogResult>`
+
+Generates an AST-analyzed, redacted, persona-driven changelog output.
+
+```typescript
 const result = await generateChangelog({
-  diffText: "...",
-  depth: "standard",
+  diffText: rawGitDiff,
+  persona: "developer",
+  format: "markdown",
+  redactSecrets: true
 });
 console.log(result.formattedOutput);
 ```
 
-### `loadConfig(path)`
+### `CodebaseMemoryEngine`
 
-Loads and validates the project configuration.
+Manages persistent workspace indexing and sub-50ms index queries.
+
+```typescript
+const memory = new CodebaseMemoryEngine({ workspacePath: process.cwd() });
+await memory.initializeIndex();
+
+// Sub-50ms entity memory query
+const entityData = await memory.queryEntity("AuthService");
+```
+
+### `RedactionEngineV2`
+
+Scans and masks credentials, API keys, and private certificates before LLM transmission.
+
+```typescript
+const sanitizedPayload = RedactionEngineV2.redactSecrets(diffContent);
+```

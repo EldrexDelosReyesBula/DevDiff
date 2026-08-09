@@ -1,161 +1,48 @@
-# Security Overview
+# DevDiff Security Architecture & Overview
 
-DevDiff is designed from the ground up with a privacy-first, security-conscious architecture. This document explains the security model.
+DevDiff is engineered from the ground up as a **privacy-first, local-first, zero-telemetry developer tool**. As AI assistants integrate deeper into local software engineering workflows, protecting developer workstations, source code IP, and environment credentials is vital.
 
----
-
-## Core Security Principles
-
-1. **Zero Trust by Default** — No data leaves your machine unless you explicitly configure a cloud provider
-2. **Data Classification Engine** — Automatically detects and blocks secrets/PII before cloud transmission
-3. **No Telemetry** — DevDiff collects no usage data, no analytics, no crash reports
-4. **Offline Capable** — With Ollama, DevDiff works with zero network access
-5. **Open Source** — All code is publicly auditable at [GitHub](https://github.com/EldrexDelosReyesBula/devdiff)
+This overview outlines DevDiff's comprehensive security architecture, defense-in-depth design, and core security modules.
 
 ---
 
-## Data Flow
+## 🎯 Defense-in-Depth Architecture
 
-### Local AI (Ollama)
-
-```
-Your code change
-      │
-      ▼
-  git diff (staged)
-      │
-      ▼
-DevDiff CLI
-      │  (no network call)
-      ▼
-Ollama (local process)
-      │  (no network call)
-      ▼
-AI model on your CPU/GPU
-      │
-      ▼
-Changelog output
-```
-
-**Nothing leaves your machine.** ✅
-
-### Cloud AI (OpenAI, Anthropic)
-
-```
-Your code change
-      │
-      ▼
-  git diff (staged)
-      │
-      ▼
-DevDiff Data Classification Engine
-      │  (strips secrets, PII, sensitive patterns)
-      ▼
-Redacted diff sent to cloud API
-      │  (HTTPS encrypted)
-      ▼
-Cloud AI model (OpenAI / Anthropic)
-      │
-      ▼
-Changelog returned
-      │
-      ▼
-DevDiff CLI output
-```
-
-**Diff is sent to cloud provider.** ⚠️ See [Privacy Policy](/privacy-policy) and the provider's privacy policy.
-
----
-
-## Data Classification Engine
-
-The data classification engine runs before any cloud API call and automatically redacts:
-
-| Pattern         | Example                           | Action                                 |
-| --------------- | --------------------------------- | -------------------------------------- |
-| API Keys        | `sk-abc123...`                    | Replaced with `[REDACTED_API_KEY]`     |
-| Passwords       | `password = "secret"`             | Replaced with `[REDACTED_PASSWORD]`    |
-| AWS credentials | `AKIA...`                         | Replaced with `[REDACTED_AWS_KEY]`     |
-| Private keys    | `-----BEGIN RSA PRIVATE KEY-----` | Replaced with `[REDACTED_PRIVATE_KEY]` |
-| Email addresses | `user@example.com`                | Configurable — redact or allow         |
-| IP addresses    | `192.168.1.1`                     | Configurable — redact or allow         |
-| JWT tokens      | `eyJ...`                          | Replaced with `[REDACTED_JWT]`         |
-
-**Configure the classifier:**
-
-```javascript
-// .devdiff.config.js
-export default {
-  security: {
-    classifier: {
-      enabled: true, // Always enabled for cloud providers
-      failOpen: false, // If classifier errors, block the request
-      customPatterns: [
-        {
-          name: "internal-token",
-          pattern: /TOKEN_[A-Z0-9]{32}/,
-          replacement: "[REDACTED_INTERNAL_TOKEN]",
-        },
-      ],
-    },
-  },
-};
+```mermaid
+flowchart TD
+    SubGraph1[IDE / VS Code / MCP Client] -->|Query Payload| L1[1. MCP Hardening Layer]
+    L1 -->|Rate Limited & RPC Schema Validated| L2[2. Injection Guard V2]
+    L2 -->|Path Bounded & Prompt Sanitized| L3[3. Redaction Engine V2]
+    L3 -->|Secrets Masked| L4[4. Network Guard V2]
+    L4 -->|Offline-First / Allowlist Enforcement| Core[DevDiff Core Engine & Memory Index]
+    
+    style L1 fill:#eef,stroke:#333,stroke-width:2px
+    style L2 fill:#dde,stroke:#333,stroke-width:2px
+    style L3 fill:#ccd,stroke:#333,stroke-width:2px
+    style L4 fill:#bbc,stroke:#333,stroke-width:2px
+    style Core fill:#9f9,stroke:#333,stroke-width:2px
 ```
 
 ---
 
-## Git Hook Security
+## 🛡️ Core Security Modules & Safeguards
 
-When you run `devdiff init`, it installs a pre-commit hook. This hook:
-
-- ✅ Only reads staged changes
-- ✅ Does not modify your working directory
-- ✅ Does not push, pull, or make any git writes
-- ✅ Can be disabled with `devdiff init --no-hooks`
-
----
-
-## Shell Command Safety
-
-DevDiff runs only two types of shell commands:
-
-1. `git diff --cached` — reads staged changes
-2. `git log` — reads commit history
-
-DevDiff never runs arbitrary shell commands from your diff content. There is no code execution of analyzed content.
+| Security Module | Function & Purpose | Primary Guide |
+|---|---|---|
+| **Secret Redaction Engine (`RedactionEngineV2`)** | Automatic scanning and masking of API keys, JWT tokens, DB URIs, and RSA keys prior to LLM/MCP dispatch. | [Redaction Engine](./redaction-engine) |
+| **Injection Guard (`InjectionGuardV2`)** | Defense against prompt injection, command injection, path traversal, SQLi, and XSS. | [Injection Prevention](./injection-prevention) |
+| **Unicode Sanitizer (`PromptSanitizer`)** | Automated filtering of hidden Unicode Tag Blocks (`U+E0000..U+E007F`), zero-width spaces, and BIDI overrides. | [Unicode Sanitization](./unicode-sanitization) |
+| **Network Guard (`NetworkGuardV2`)** | 100% offline default mode, strict host allowlists, and zero telemetry enforcement. | [Network Guard](./network-guard) |
+| **MCP Hardening (`@eldrex/mcp`)** | Read-only tool scoping, rate limiting (30 queries/min), and workspace jail enforcement for IDE AI agents. | [MCP Hardening](./mcp-hardening) |
+| **Agent Safety Boundaries** | Formal operating rules, read-only guarantees, and human-in-the-loop triggers for AI agents. | [Agent Instructions](./agent-instructions) |
+| **Proprietary Code Safeguards** | AST structural abstraction and `.devdiffignore` file exclusion boundaries. | [Proprietary Code Protection](./proprietary-code-protection) |
+| **10 Compliance Frameworks** | Automated scanning against GDPR, HIPAA, SOC 2, ISO 27001, FedRAMP, PCI-DSS, NIST 800-53, CCPA, OWASP, and CIS. | [Compliance](./compliance) |
 
 ---
 
-## Vibe-Coding Guardian
+## 🔒 The 4 Guarantees of DevDiff Security
 
-The `devdiff vibe` feature creates checkpoints before destructive operations. See [Vibe-Coding Mode](/guide/vibe-coding) for details.
-
----
-
-## Audit Log
-
-Every AI provider call is logged locally:
-
-```bash
-# View audit log
-devdiff audit
-
-# Log location
-cat .devdiff/audit.jsonl
-```
-
-Each entry records: timestamp, provider used, persona, tokens consumed, and whether classification was triggered.
-
----
-
-## Responsible Disclosure
-
-Found a security vulnerability? See [Security Disclosure](/security/disclosure).
-
----
-
-## Related
-
-- [Privacy Guarantees](/security/privacy)
-- [Compliance Frameworks](/security/compliance)
-- [Security Disclosure](/security/disclosure)
+1. **Your Code Stays Local**: Memory indexes (`.devdiff/memory/codebase-index.json`) and AST graphs run 100% locally on your workstation.
+2. **Zero Telemetry**: No tracking pings, usage metrics, or analytics beacons.
+3. **No Automatic Code Execution**: DevDiff tools return structured knowledge and never execute unapproved shell operations.
+4. **Instant Transparency**: All indexes and logs are stored in plain, audit-ready text/JSON files inside your local repository.

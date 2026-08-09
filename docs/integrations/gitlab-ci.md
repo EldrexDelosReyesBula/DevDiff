@@ -1,10 +1,10 @@
-# GitLab CI
+# GitLab CI Integration
 
-Generate changelogs automatically inside GitLab runners on commit pushes.
+Generate automated changelogs and compliance reports inside GitLab CI/CD runners on commit pushes.
 
-## Setup
+---
 
-Add the job step inside `.gitlab-ci.yml`:
+## 🚀 `.gitlab-ci.yml` Setup
 
 ```yaml
 stages:
@@ -13,8 +13,10 @@ stages:
 devdiff:
   stage: post-build
   image: node:20
+  variables:
+    OPENAI_API_KEY: $OPENAI_API_KEY
   script:
-    - npx @eldrex/cli generate --output CHANGELOG.md
+    - npx -y @eldrex/cli generate --output CHANGELOG.md --persona developer
   only:
     - main
 ```

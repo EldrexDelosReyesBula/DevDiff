@@ -1,38 +1,49 @@
-# Natural Changelogs Engine
+# Natural Changelogs Engine (v1.6.0)
 
-DevDiff's **Natural Changelog Generator** (`NaturalChangelogGenerator`) enforces developer-owned language, stripping out robotic AI-sounding hedging, disclaimers, and passive observations.
+DevDiff's **Natural Changelog Generator** (`NaturalChangelogGenerator`) enforces authentic, developer-owned technical language, eliminating robotic AI-sounding hedging, disclaimers, and passive observations.
 
 ---
 
-## 🎯 Direct Developer Language vs. Hedged AI Output
+## 🎯 Direct Developer Voice vs. Hedged AI Output
 
 ```text
-BEFORE (AI-SOUNDING / HEDGED):
+BEFORE (ROBOTIC / HEDGED AI OUTPUT):
 ──────────────────────────────────────────────
-"This change appears to add a new authentication function.
-It seems to validate user credentials against the database.
-This could potentially improve security."
+"This commit appears to modify the login handler.
+It seems to update user validation against the database.
+This change might potentially resolve security concerns."
 
-AFTER (DEVELOPER LANGUAGE):
+AFTER (DEVDIFF NATURAL DEVELOPER VOICE):
 ──────────────────────────────────────────────
 ### Added
-- User authentication with bcrypt password hashing (`auth/login.ts`, `auth/session.ts`)
-- Session management with Redis store (`auth/session.ts`)
-- Request authentication middleware (`auth/middleware.ts`)
+- Bcrypt password hashing for user login (`auth/login.ts`, `auth/session.ts`)
+- Redis session store integration (`auth/session.ts`)
 
-### Changed
-- Protected routes now require authentication (`api/routes.ts`)
+### Fixed
+- Prevent SQL injection vulnerability by parameterizing user queries (`auth/db.ts`)
 ```
 
 ---
 
-## 🛡️ Banned AI Phrases
+## 🛡️ Banned AI Hedging Phrases
 
-DevDiff automatically strips hedging phrases from generated summaries:
-- `appears to`
-- `seems to`
-- `could potentially`
-- `might be`
-- `it looks like`
-- `in my analysis`
-- `AI-generated summary`
+DevDiff automatically strips hedging phrases from generated summaries before output is returned:
+
+| Category | Banned Hedging Phrases |
+|---|---|
+| **Speculative Words** | `appears to`, `seems to`, `could potentially`, `might be`, `it looks like` |
+| **Meta AI Filler** | `in my analysis`, `as an AI`, `AI-generated summary`, `here is what changed` |
+| **Passive Framing** | `the developer added`, `this file was updated to` |
+
+---
+
+## 📋 Keep a Changelog Standard Formatting
+
+All natural changelogs conform strictly to the [Keep a Changelog](https://keepachangelog.com) standard, organizing entries into clean, scannable categories:
+
+- `Added`: New features and exported functions
+- `Changed`: Modifications to existing functionality
+- `Deprecated`: Soon-to-be removed features
+- `Removed`: Deleted exports and removed dependencies
+- `Fixed`: Bug fixes and patch resolutions
+- `Security`: Vulnerability patches and security hardening

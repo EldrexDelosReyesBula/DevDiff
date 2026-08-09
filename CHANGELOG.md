@@ -2,59 +2,137 @@
 
 All notable changes to DevDiff are documented here.
 
-## [1.5.0] — 2026-08-07 · Persistent Codebase Memory & Universal Intelligence
+---
 
-The **v1.5.0** major release introduces persistent codebase memory, automated semantic versioning, universal project detection, SKILL.md knowledge base validation, developer sovereignty controls, natural changelogs, hardware-aware optimization, and 24/7 background operation scheduling.
+## [1.6.0] — 2026-08-08 🚀 Production Readiness, Study Buddy & Zero-Friction Onboarding
 
-### 🧠 Persistent Codebase Memory Engine
-- **One-Time Full Scan**: Scans codebase once and saves indexed snapshot (`.devdiff/memory/codebase-index.json`).
-- **Sub-50ms Index Queries**: Instant index-based lookup for time-range diffs, entity change histories, creation dates, purpose summaries, and dependencies.
-- **Incremental Updates**: Detects Git commit changes and updates only modified files incrementally in milliseconds.
-- **Continuous Conversation Context**: Resolves pronouns (`it`, `this`, `that`) automatically across multi-turn session chat history (`.devdiff/memory/conversation-history.json`).
-- **Historical Snapshot Comparisons**: Saves historical repository snapshots over time (`.devdiff/memory/snapshot-history.json`).
-- **Commands**: `devdiff memory init`, `devdiff memory status`, `devdiff memory rescan`, `devdiff memory clear-conversation`, `devdiff memory clear-all`, `devdiff ask "<question>"`.
+The **v1.6.0** release delivers full production deployment readiness: VS Code 4-panel sidebar, `@devdiff` native chat participant, Study Buddy Mode (`devdiff study`), Zero-Friction AI Detection (`AIDetector`), Native Virtual Editor Getting Started Guide, Plugin Security Scanner (`PluginSecurityScanner`), `IDEGuardian` worker isolation, complete package manifest hardening for npm publishing, expanded AI provider suite (Groq, Gemini, DeepSeek, Transformers.js), and the DevDiff Reference Dictionary.
 
-### 📦 Automated Semantic Versioning & Release
-- **Automated SemVer Detection**: Analyzes git diffs, export removals, function signature changes, SQL drops, and commit messages to calculate `MAJOR`, `MINOR`, or `PATCH` version bumps.
-- **Keep a Changelog Formatting**: Groups change entries into `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`, and `Security`.
-- **One-Command Release**: `devdiff release` bumps version, updates CHANGELOG.md, creates git tag, and pushes to remote in a single command.
-- **Commands**: `devdiff version bump --type auto`, `devdiff release`.
+### 🎓 DevDiff Study Buddy Mode (`devdiff study`)
+- **Interactive Codebase Study Buddy**: Interactive senior developer AI assistant for students, beginners, and developers exploring new projects.
+- **Line-by-Line Educational Explanations**: Provides Overview, Line-by-Line breakdown with "Why?" rationale, Key Concepts Learned, Try It Yourself experiments, and Related Concepts.
+- **`study-buddy` Persona**: Warm, encouraging educational persona (9th built-in persona).
+- **5 CLI Commands**: `devdiff study start`, `devdiff study tour`, `devdiff study learn <topic>`, `devdiff study ask "<question>"`, `devdiff study quiz <topic>`.
+- **VS Code Triggers**: `devdiff.study.start` and `devdiff.study.explain` integration.
 
-### 🔍 Universal Language & Project Detection
-- **Universal Project Detector**: Analyzes single-file HTML/CSS/JS or Python scripts, static web apps, PWAs, Python projects, and generic repositories without requiring `package.json`.
-- **Framework & Web API Scanning**: Detects CDN frameworks (Tailwind, Bootstrap, Vue, React, Alpine, HTMX, jQuery, Google Fonts) and Web APIs (`IndexedDB`, `localStorage`, `fetch`, `Web Speech`, `Vibration`).
-- **60+ Language Extensions**: Mapped extension parser for all popular programming languages.
+### ⚡ Zero-Friction AI Detection & Guidance (`AIDetector`)
+- **Multi-Path Auto-Detection**: Priority evaluation of 3 AI paths:
+  1. Ollama (Local) — detects running models on `http://localhost:11434`.
+  2. IDE Agent — detects VS Code / Cursor environment for `@devdiff` chat with 0 setup.
+  3. Cloud AI — detects environment API keys (`OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `GEMINI_API_KEY`, `GROQ_API_KEY`, `DEEPSEEK_API_KEY`).
+- **OS-Tailored Instructions**: Returns platform-specific setup commands for Windows (`win32`), macOS (`darwin`), and Linux.
 
-### 🧠 SKILL.md Knowledge Base System
-- **Project Knowledge Base**: Auto-generates `.devdiff/SKILL.md` covering 10 domain knowledge sections (Project Identity, Architecture, Naming Conventions, Business Domain, Patterns, Anti-Patterns, Compliance, Output Preferences, Team Context, Historical Context).
-- **Commands**: `devdiff skill generate`, `devdiff skill validate`.
+### 📖 Native Virtual Editor Getting Started Guide
+- **Virtual Markdown Provider**: `devdiff://onboarding/DEVDIFF_GETTING_STARTED.md` opens a native Virtual Markdown tab on first install.
+- **Personalized Quick Start**: Generates getting started steps customized to live `AIDetector` results.
+- **Command Palette Action**: `DevDiff: Show Getting Started Guide` (`devdiff.showGettingStarted`).
 
-### 🔐 Developer Sovereignty & Cloud Guard
-- **Explicit Cloud Opt-In (`CloudGuard`)**: Environment API keys (`OPENAI_API_KEY`, etc.) are detected but **NEVER** called automatically without explicit setup via `devdiff auth add`.
-- **Flexible Engine Exclusions (`FlexibleIgnore`)**: Engine operational files are filtered dynamically; `.devdiffignore` is fully developer-controlled and never modified automatically.
-- **Natural Developer Changelogs (`NaturalChangelogGenerator`)**: Sanitizes AI-sounding hedging terms (`appears to`, `seems to`, `could potentially`) into factual past-tense developer language.
-- **Git Commit Guard (`CommitGuard`)**: Generated files are never auto-staged or committed without explicit developer commands.
+### 🛡️ Plugin Ecosystem Security Scanner (`PluginSecurityScanner`)
+- **7-Pass Static Security Auditing**:
+  1. Network Destinations (flags raw GitHub, ngrok, serveo, localtunnel, pastes, raw IPs, `.ru`/`.cn`/`.su` TLDs).
+  2. Shell Command Execution (flags `child_process`, `execSync`, `spawn`, `exec`, `SHELL`).
+  3. External Filesystem Access (flags access outside workspace boundary).
+  4. Obfuscation Detection (flags `eval`, `atob`, `btoa`, `Function`, `fromCharCode`, hex/unicode escapes, un-reviewable minified code).
+  5. Telemetry & Exfiltration Patterns (`telemetry`, `analytics`, `track`, `collect`, `beacon`, `sendBeacon`).
+  6. Publisher Identity Signatures (flags unsigned plugins).
+  7. Undeclared Permission Analysis (compares declared manifest permissions vs actual code usage).
 
-### ⚡ Low-End Device Optimizer & 24/7 Scheduler
-- **Hardware-Aware Memory Caps**: Automatically applies RAM caps (128MB Low, 256MB Medium, 512MB High) and single-worker concurrency limits on low-spec hardware.
-- **Battery & Thermal Throttling Guard**: Pauses background tasks during high thermal states or battery discharge.
-- **24/7 Background Scheduler**: Pre-configured background operational tasks for morning standup digests and weekly security audits (`devdiff schedule list`).
+### 📖 DevDiff Reference Dictionary (`docs/guide/dictionary.md`)
+- Single-page reference manual for:
+  - 16 CLI Commands
+  - 10 VS Code Commands + `@devdiff` Chat Participant
+  - 6 MCP Tools
+  - 11 Configuration Settings
+  - 7 Environment Variables
+  - 9 Personas (`developer`, `ceo`, `educator`, `robot`, `data-analyst`, `journalist`, `pm`, `compliance`, `study-buddy`)
+  - Default Network Ports (`11434` Ollama, `3000` Gateway)
+
+### 🖥️ VS Code Extension — 4-Panel Sidebar Architecture
+- **Changelog Explorer**: Inspect staged diff summaries, preview markdown changelogs, and render Mermaid architecture diagrams directly inside VS Code.
+- **Q&A Chat Panel (`@devdiff`)**: Registered as a VS Code native chat participant — use `@devdiff` directly in VS Code Chat view in <50ms.
+- **Security & Compliance Panel**: One-click vulnerability scanning against 10 regulatory frameworks (GDPR, SOC 2, HIPAA, FedRAMP, ISO 27001).
+- **Settings & Personas Panel**: Configure AI model, active persona, secret redaction rules, and memory caps from a dedicated webview.
+- Added `devdiff.model`, `devdiff.memoryCapMb`, `devdiff.idleDetectionSeconds` settings.
+- Fixed extension `categories`: `["AI", "Other"]`.
+
+### 🛡️ IDEGuardian Worker Isolation
+- All AI inference and memory operations execute inside isolated Node.js worker threads.
+- Hard 256MB memory ceiling enforced per worker with automatic cleanup on completion.
+- 5-second typing activity idle detection pauses background tasks during active coding sessions.
+
+### 📦 Package Publishing Readiness
+- Added `"access": "public"` to `publishConfig` across all scoped `@eldrex/*` packages (`core`, `cli`, `mcp`, `plugin-sdk`, `gateway`, `vite`, `personas`, `connectors`).
+- Fixed `create-devdiff-app`: added `publishConfig`, `files: ["dist"]`, `author`, `repository`, bumped `engines` from `>=18` to `>=20`.
+- Added TypeScript monorepo path mappings for all 12 packages in root `tsconfig.json`.
 
 ---
 
-## [1.0.6] — 2026-07-06 · Windows & Command Argument Hardening
+## [1.5.1] — 2026-08-08
 
-The **Windows & Command Argument Hardening** release resolves critical command execution, argument parsing, option ordering, and environment performance behaviors:
-
-- **Commander Argument Parsing**: Filtered out Command class instances from execution argument arrays, preventing CLI parameter mismatches.
-- **Option Flag Standardization**: Re-ordered option flags so short options are parsed before long options consistently (e.g. `-p, --persona`).
-- **Windows Process Performance**: Tuned test threshold bounds to accommodate child process spawning time on Windows file structures.
-- **Port Reuse Handlers**: Verified playground listen fallback routines handling port collisions natively.
+### Changed
+- Updated `.devdiff.config.js`
+- Updated `package.json`
+- Updated `index.ts`
+- Updated `persistent-memory.ts`
+- Updated `conversational-qa.ts`
+- Updated `server-v2.ts`
+- Updated `codebase-query-tools.ts`
 
 ---
 
-This project follows [Semantic Versioning](https://semver.org). Every released version is **immutable** — once published, a version works exactly the same forever. Updates are always opt-in. See the [Version Policy](https://github.com/EldrexDelosReyesBula/devdiff/blob/main/docs/versioning/policy.md).
+## [1.5.0] — 2026-08-07 🧠 Persistent Codebase Memory & Universal Intelligence
 
-## [1.0.5] — 2026-07-06 · CLI Registry & Security Hardening
+- Persistent Codebase Memory Engine (`.devdiff/memory/codebase-index.json`).
+- Sub-50ms index queries and continuous conversation context (`.devdiff/memory/conversation-history.json`).
+- Automated Semantic Versioning & Release (`devdiff release`).
+- Universal Project Detector (60+ language extensions, CDN frameworks, Web APIs).
+- SKILL.md Knowledge Base System (`devdiff skill generate`).
+- Developer Sovereignty (`CloudGuard`, `FlexibleIgnore`, `NaturalChangelogGenerator`).
+- Hardware-Aware Memory Caps & 24/7 Background Scheduler.
 
-The **CLI Registry & Security Hardening** release introduces production-ready resilience, unified command validation, robust local playground fallback, autocomplete schemas, and visual documentation maps.
+---
+
+## [1.0.6] — 2026-07-06 🪟 Windows & Command Argument Hardening
+
+- Fixed Commander argument parsing and option flag ordering.
+- Tuned Windows process performance test threshold bounds.
+
+---
+
+## [1.0.5] — 2026-07-06 🔒 CLI Registry & Security Hardening
+
+- Unified command validation, playground fallback routing, autocomplete schemas.
+
+---
+
+## [1.0.4] — 2026-07-01 🎨 Unified Design System
+
+- Unified Design System across CLI output and VS Code extension UI.
+
+---
+
+## [1.0.3] — 2026-06-30 🔗 Integrations Release
+
+- Standardized CI/CD Actions templates and webhook streaming connectors.
+
+---
+
+## [1.0.2] — 2026-06-28 🛡️ Sentinel Release
+
+- Enterprise-grade security hardening with `PrivacyEnforcer` and 10 compliance frameworks.
+
+---
+
+## [1.0.1] — 2026-06-20 🔧 Stability Release
+
+- AST trimmer improvements, bug fixes, and AI provider expansion.
+
+---
+
+## [1.0.0] — 2026-06-15 🚀 Initial Release
+
+- First public release of DevDiff core engine, CLI, VS Code extension, Vite plugin, and gateway.
+
+---
+
+This project follows [Semantic Versioning](https://semver.org). Every released version is **immutable** — once published, it works exactly the same forever. See the [Version Policy](https://devdiff.vercel.app/versioning/policy).
