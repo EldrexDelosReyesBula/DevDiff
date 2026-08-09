@@ -1,4 +1,4 @@
-const { execSync } = require("child_process");
+import { execSync } from "child_process";
 
 // Run turbo build for docs and packages
 console.log("Running turbo build...");

@@ -77,9 +77,24 @@ export class PersistentMemory {
 
   constructor(workspacePath: string = process.cwd()) {
     this.workspacePath = workspacePath;
-    this.indexPath = path.join(workspacePath, ".devdiff", "memory", "codebase-index.json");
-    this.historyPath = path.join(workspacePath, ".devdiff", "memory", "snapshot-history.json");
-    this.conversationPath = path.join(workspacePath, ".devdiff", "memory", "conversation-history.json");
+    this.indexPath = path.join(
+      workspacePath,
+      ".devdiff",
+      "memory",
+      "codebase-index.json",
+    );
+    this.historyPath = path.join(
+      workspacePath,
+      ".devdiff",
+      "memory",
+      "snapshot-history.json",
+    );
+    this.conversationPath = path.join(
+      workspacePath,
+      ".devdiff",
+      "memory",
+      "conversation-history.json",
+    );
   }
 
   /**
@@ -90,7 +105,9 @@ export class PersistentMemory {
 
     if (fs.existsSync(this.indexPath)) {
       try {
-        this.currentIndex = JSON.parse(fs.readFileSync(this.indexPath, "utf-8"));
+        this.currentIndex = JSON.parse(
+          fs.readFileSync(this.indexPath, "utf-8"),
+        );
         this.snapshots = fs.existsSync(this.historyPath)
           ? JSON.parse(fs.readFileSync(this.historyPath, "utf-8"))
           : [];
@@ -98,28 +115,39 @@ export class PersistentMemory {
           ? JSON.parse(fs.readFileSync(this.conversationPath, "utf-8"))
           : [];
 
-        const age = Date.now() - new Date(this.currentIndex!.timestamp).getTime();
+        const age =
+          Date.now() - new Date(this.currentIndex!.timestamp).getTime();
         const hoursSinceLastScan = Math.round(age / 3600000);
 
-        console.log(`[lucide:database] Memory loaded: ${this.currentIndex!.files.toLocaleString()} files indexed`);
+        console.log(
+          `[lucide:database] Memory loaded: ${this.currentIndex!.files.toLocaleString()} files indexed`,
+        );
         console.log(`   Last scan: ${hoursSinceLastScan} hours ago`);
-        console.log(`   Snapshots: ${this.snapshots.length} historical snapshots`);
+        console.log(
+          `   Snapshots: ${this.snapshots.length} historical snapshots`,
+        );
 
         await this.incrementalUpdate();
         this.initialized = true;
         return;
       } catch (err) {
-        console.log(`[lucide:alert-triangle] Index file corrupted, performing fresh full scan...`);
+        console.log(
+          `[lucide:alert-triangle] Index file corrupted, performing fresh full scan...`,
+        );
       }
     }
 
     console.log(`[lucide:search] Initializing codebase memory index...`);
-    console.log("   Scanning files, indexing AST entities, and building dependency graph.");
+    console.log(
+      "   Scanning files, indexing AST entities, and building dependency graph.",
+    );
 
     await this.fullScan();
     this.initialized = true;
 
-    console.log(`[lucide:check-circle] Memory initialized: ${this.currentIndex!.files.toLocaleString()} files indexed`);
+    console.log(
+      `[lucide:check-circle] Memory initialized: ${this.currentIndex!.files.toLocaleString()} files indexed`,
+    );
   }
 
   /** Check whether memory has been loaded from disk */
@@ -131,7 +159,12 @@ export class PersistentMemory {
    * Query the in-memory index — called by ConversationalQA.
    * Delegates to answerFromIndex fast-path first, then snapshot/entity search.
    */
-  async ask(question: string): Promise<{ answer: string; confidence: number; sources: string[]; followUps: string[] } | null> {
+  async ask(question: string): Promise<{
+    answer: string;
+    confidence: number;
+    sources: string[];
+    followUps: string[];
+  } | null> {
     if (!this.initialized || !this.currentIndex) return null;
 
     // Try the rich private fast-path first (handles many patterns)
@@ -141,7 +174,11 @@ export class PersistentMemory {
         answer: fastAnswer.answer,
         confidence: fastAnswer.confidence,
         sources: fastAnswer.entities ?? [],
-        followUps: fastAnswer.followUps ?? ["Show me the code", "What depends on it?", "When was it last changed?"],
+        followUps: fastAnswer.followUps ?? [
+          "Show me the code",
+          "What depends on it?",
+          "When was it last changed?",
+        ],
       };
     }
 
@@ -149,7 +186,9 @@ export class PersistentMemory {
     const idx = this.currentIndex;
 
     // Snapshot-based "what changed recently?"
-    if (/changed recently|recent changes|what changed|latest changes/i.test(q)) {
+    if (
+      /changed recently|recent changes|what changed|latest changes/i.test(q)
+    ) {
       const result = this.queryChanges("7d");
       const recent = this.snapshots.slice(-3).reverse();
       const lines = recent.map((s, i) => {
@@ -161,12 +200,18 @@ export class PersistentMemory {
         answer: `**Recent codebase changes (last 7 days):**\n${lines.join("\n")}\n\n${changedCount} entities changed. Total indexed: ${idx.files} files.`,
         confidence: 0.95,
         sources: [],
-        followUps: ["Show me modified files", "What functions changed?", "What depends on it?"],
+        followUps: [
+          "Show me modified files",
+          "What functions changed?",
+          "What depends on it?",
+        ],
       };
     }
 
     // Entity lookup
-    const entityMatch = q.match(/(?:what (?:does|is)|show me|find|about)\s+['"\u201c]?(\w[\w-]*)['"\u201d]?/i);
+    const entityMatch = q.match(
+      /(?:what (?:does|is)|show me|find|about)\s+['"\u201c]?(\w[\w-]*)['"\u201d]?/i,
+    );
     if (entityMatch) {
       const res = this.queryEntity(entityMatch[1]);
       if (res && (res as any).found) {
@@ -175,7 +220,11 @@ export class PersistentMemory {
           answer: `**${e.name}** — ${e.purpose}\nFile: \`${e.file}\` (line ${e.line})\nFirst seen: ${new Date(e.firstSeen).toLocaleDateString()}`,
           confidence: 0.9,
           sources: [e.file],
-          followUps: [`What depends on ${e.name}?`, "Show me the code", "When was it last changed?"],
+          followUps: [
+            `What depends on ${e.name}?`,
+            "Show me the code",
+            "When was it last changed?",
+          ],
         };
       }
     }
@@ -184,7 +233,12 @@ export class PersistentMemory {
     if (/architecture|modules|structure|overview/i.test(q)) {
       const res = this.queryArchitecture() as any;
       return {
-        answer: `Project has ${idx.files} indexed files across ${res.modules?.length ?? 0} modules:\n${(res.modules ?? []).slice(0, 10).map((m: string) => `  • ${m}`).join("\n")}`,
+        answer: `Project has ${idx.files} indexed files across ${res.modules?.length ?? 0} modules:\n${(
+          res.modules ?? []
+        )
+          .slice(0, 10)
+          .map((m: string) => `  • ${m}`)
+          .join("\n")}`,
         confidence: 0.85,
         sources: (res.modules ?? []).slice(0, 5),
         followUps: ["Show dependencies", "Which module changed most?"],
@@ -199,7 +253,10 @@ export class PersistentMemory {
   // Each returns structured data; the IDE agent synthesizes the answer
   // ─────────────────────────────────────────────────────────────
 
-  queryEntity(name: string, options: { includeHistory?: boolean; includeDependencies?: boolean } = {}) {
+  queryEntity(
+    name: string,
+    options: { includeHistory?: boolean; includeDependencies?: boolean } = {},
+  ) {
     if (!this.currentIndex) return null;
     const lower = name.toLowerCase();
     const all = [
@@ -208,8 +265,16 @@ export class PersistentMemory {
       ...Object.values(this.currentIndex.entities.components),
       ...Object.values(this.currentIndex.entities.routes),
     ];
-    const entity = all.find((e) => e.name.toLowerCase() === lower || e.name.toLowerCase().includes(lower));
-    if (!entity) return { found: false, name, suggestions: all.slice(0, 5).map((e) => e.name) };
+    const entity = all.find(
+      (e) =>
+        e.name.toLowerCase() === lower || e.name.toLowerCase().includes(lower),
+    );
+    if (!entity)
+      return {
+        found: false,
+        name,
+        suggestions: all.slice(0, 5).map((e) => e.name),
+      };
     const result: Record<string, unknown> = {
       found: true,
       name: entity.name,
@@ -220,7 +285,8 @@ export class PersistentMemory {
       lastModified: entity.lastModified,
     };
     if (options.includeHistory !== false) result.history = entity.changeHistory;
-    if (options.includeDependencies !== false) result.dependencies = this.findDependencies(entity.name);
+    if (options.includeDependencies !== false)
+      result.dependencies = this.findDependencies(entity.name);
     return result;
   }
 
@@ -244,70 +310,200 @@ export class PersistentMemory {
       .map((e) => ({
         name: e.name,
         file: e.file,
-        changes: e.changeHistory.filter((c) => new Date(c.timestamp).getTime() >= sinceMs),
+        changes: e.changeHistory.filter(
+          (c) => new Date(c.timestamp).getTime() >= sinceMs,
+        ),
       }));
-    return { since, filter, module: module ?? "all", changedEntities: changed, totalIndexed: this.currentIndex.files };
+    return {
+      since,
+      filter,
+      module: module ?? "all",
+      changedEntities: changed,
+      totalIndexed: this.currentIndex.files,
+    };
   }
 
-  queryDependencies(name: string, direction: "upstream" | "downstream" | "both" = "both", maxDepth: number = 2) {
+  queryDependencies(
+    name: string,
+    direction: "upstream" | "downstream" | "both" = "both",
+    maxDepth: number = 2,
+  ) {
     if (!this.currentIndex) return { error: "Index not initialized" };
     const deps = this.findDependencies(name);
     const depMap = this.currentIndex.dependencies ?? {};
-    const downstream = Object.entries(depMap).filter(([, v]) => v.includes(name)).map(([k]) => k);
-    return { name, upstream: direction !== "downstream" ? deps : [], downstream: direction !== "upstream" ? downstream : [], maxDepth };
+    const downstream = Object.entries(depMap)
+      .filter(([, v]) => v.includes(name))
+      .map(([k]) => k);
+    return {
+      name,
+      upstream: direction !== "downstream" ? deps : [],
+      downstream: direction !== "upstream" ? downstream : [],
+      maxDepth,
+    };
   }
 
   queryArchitecture(module?: string, includeDiagram: boolean = false) {
     if (!this.currentIndex) return { error: "Index not initialized" };
     const arch = this.currentIndex.architecture;
-    const modules = module ? arch.modules.filter((m) => m.includes(module)) : arch.modules;
-    const rels = module ? arch.relationships.filter((r) => r.from.includes(module) || r.to.includes(module)) : arch.relationships;
+    const modules = module
+      ? arch.modules.filter((m) => m.includes(module))
+      : arch.modules;
+    const rels = module
+      ? arch.relationships.filter(
+          (r) => r.from.includes(module) || r.to.includes(module),
+        )
+      : arch.relationships;
     let diagram: string | undefined;
     if (includeDiagram) {
-      diagram = `graph TD\n${rels.slice(0, 20).map((r) => `  ${r.from.replace(/[^a-zA-Z0-9]/g, "_")} -->|${r.type}| ${r.to.replace(/[^a-zA-Z0-9]/g, "_")}`).join("\n")}`;
+      diagram = `graph TD\n${rels
+        .slice(0, 20)
+        .map(
+          (r) =>
+            `  ${r.from.replace(/[^a-zA-Z0-9]/g, "_")} -->|${r.type}| ${r.to.replace(/[^a-zA-Z0-9]/g, "_")}`,
+        )
+        .join("\n")}`;
     }
-    return { modules, relationships: rels, totalFiles: this.currentIndex.files, diagram };
+    return {
+      modules,
+      relationships: rels,
+      totalFiles: this.currentIndex.files,
+      diagram,
+    };
   }
 
-  querySearch(query: string, type: "entity" | "file" | "all" = "all", limit: number = 10) {
+  querySearch(
+    query: string,
+    type: "entity" | "file" | "all" = "all",
+    limit: number = 10,
+  ) {
     if (!this.currentIndex) return { error: "Index not initialized" };
     const q = query.toLowerCase();
-    const results: Array<{ type: string; name: string; file: string; line?: number }> = [];
+    const results: Array<{
+      type: string;
+      name: string;
+      file: string;
+      line?: number;
+    }> = [];
     if (type !== "file") {
       const all = [
-        ...Object.values(this.currentIndex.entities.functions).map((e) => ({ type: "function", ...e })),
-        ...Object.values(this.currentIndex.entities.classes).map((e) => ({ type: "class", ...e })),
-        ...Object.values(this.currentIndex.entities.components).map((e) => ({ type: "component", ...e })),
+        ...Object.values(this.currentIndex.entities.functions).map((e) => ({
+          type: "function",
+          ...e,
+        })),
+        ...Object.values(this.currentIndex.entities.classes).map((e) => ({
+          type: "class",
+          ...e,
+        })),
+        ...Object.values(this.currentIndex.entities.components).map((e) => ({
+          type: "component",
+          ...e,
+        })),
       ];
       all
-        .filter((e) => e.name.toLowerCase().includes(q) || e.file.toLowerCase().includes(q))
+        .filter(
+          (e) =>
+            e.name.toLowerCase().includes(q) ||
+            e.file.toLowerCase().includes(q),
+        )
         .slice(0, limit)
-        .forEach((e) => results.push({ type: e.type, name: e.name, file: e.file, line: e.line }));
+        .forEach((e) =>
+          results.push({
+            type: e.type,
+            name: e.name,
+            file: e.file,
+            line: e.line,
+          }),
+        );
     }
-    return { query, type, results: results.slice(0, limit), total: results.length };
+    return {
+      query,
+      type,
+      results: results.slice(0, limit),
+      total: results.length,
+    };
   }
 
   queryCompliance(framework: string = "all", severity: string = "medium") {
     if (!this.currentIndex) return { error: "Index not initialized" };
-    const risks: Array<{ severity: string; issue: string; file: string; framework: string }> = [];
-    const all = [...Object.values(this.currentIndex.entities.functions), ...Object.values(this.currentIndex.entities.classes)];
-    const patterns: Array<{ regex: RegExp; issue: string; severity: string; framework: string }> = [
-      { regex: /log.*ip|ip.*log/i, issue: "IP address may be logged without anonymization", severity: "high", framework: "gdpr" },
-      { regex: /password.*log|log.*password/i, issue: "Possible plaintext password in logs", severity: "critical", framework: "all" },
-      { regex: /secret.*console|console.*secret/i, issue: "Secret/key exposure in console output", severity: "critical", framework: "all" },
-      { regex: /pii|personaldata|personal_data/i, issue: "PII handling detected — ensure GDPR compliance", severity: "medium", framework: "gdpr" },
-      { regex: /hipaa|phi/i, issue: "PHI/HIPAA-sensitive code detected", severity: "high", framework: "hipaa" },
+    const risks: Array<{
+      severity: string;
+      issue: string;
+      file: string;
+      framework: string;
+    }> = [];
+    const all = [
+      ...Object.values(this.currentIndex.entities.functions),
+      ...Object.values(this.currentIndex.entities.classes),
+    ];
+    const patterns: Array<{
+      regex: RegExp;
+      issue: string;
+      severity: string;
+      framework: string;
+    }> = [
+      {
+        regex: /log.*ip|ip.*log/i,
+        issue: "IP address may be logged without anonymization",
+        severity: "high",
+        framework: "gdpr",
+      },
+      {
+        regex: /password.*log|log.*password/i,
+        issue: "Possible plaintext password in logs",
+        severity: "critical",
+        framework: "all",
+      },
+      {
+        regex: /secret.*console|console.*secret/i,
+        issue: "Secret/key exposure in console output",
+        severity: "critical",
+        framework: "all",
+      },
+      {
+        regex: /pii|personaldata|personal_data/i,
+        issue: "PII handling detected — ensure GDPR compliance",
+        severity: "medium",
+        framework: "gdpr",
+      },
+      {
+        regex: /hipaa|phi/i,
+        issue: "PHI/HIPAA-sensitive code detected",
+        severity: "high",
+        framework: "hipaa",
+      },
     ];
     all.forEach((e) => {
       patterns.forEach((p) => {
-        if ((framework === "all" || p.framework === framework || p.framework === "all") && p.regex.test(e.name + e.file)) {
-          risks.push({ severity: p.severity, issue: p.issue, file: e.file, framework: p.framework });
+        if (
+          (framework === "all" ||
+            p.framework === framework ||
+            p.framework === "all") &&
+          p.regex.test(e.name + e.file)
+        ) {
+          risks.push({
+            severity: p.severity,
+            issue: p.issue,
+            file: e.file,
+            framework: p.framework,
+          });
         }
       });
     });
-    const severityOrder: Record<string, number> = { critical: 4, high: 3, medium: 2, low: 1 };
+    const severityOrder: Record<string, number> = {
+      critical: 4,
+      high: 3,
+      medium: 2,
+      low: 1,
+    };
     const minLevel = severityOrder[severity] ?? 2;
-    return { framework, severity, findings: risks.filter((r) => (severityOrder[r.severity] ?? 0) >= minLevel), totalScanned: all.length };
+    return {
+      framework,
+      severity,
+      findings: risks.filter(
+        (r) => (severityOrder[r.severity] ?? 0) >= minLevel,
+      ),
+      totalScanned: all.length,
+    };
   }
 
   queryStats(includeTrends: boolean = false) {
@@ -327,7 +523,14 @@ export class PersistentMemory {
     };
     if (includeTrends && this.snapshots.length > 1) {
       const prev = this.snapshots[this.snapshots.length - 2];
-      return { ...stats, trends: { filesDelta: idx.files - prev.files, linesDelta: idx.lines - prev.lines, since: prev.timestamp } };
+      return {
+        ...stats,
+        trends: {
+          filesDelta: idx.files - prev.files,
+          linesDelta: idx.lines - prev.lines,
+          since: prev.timestamp,
+        },
+      };
     }
     return stats;
   }
@@ -335,24 +538,47 @@ export class PersistentMemory {
   queryTimeline(name: string, since: string = "30d") {
     if (!this.currentIndex) return { error: "Index not initialized" };
     const sinceMs = this.parseSince(since);
-    const all = [...Object.values(this.currentIndex.entities.functions), ...Object.values(this.currentIndex.entities.classes), ...Object.values(this.currentIndex.entities.components)];
-    const entity = all.find((e) => e.name.toLowerCase().includes(name.toLowerCase()));
+    const all = [
+      ...Object.values(this.currentIndex.entities.functions),
+      ...Object.values(this.currentIndex.entities.classes),
+      ...Object.values(this.currentIndex.entities.components),
+    ];
+    const entity = all.find((e) =>
+      e.name.toLowerCase().includes(name.toLowerCase()),
+    );
     if (!entity) return { name, found: false, since };
-    const history = entity.changeHistory.filter((c) => new Date(c.timestamp).getTime() >= sinceMs);
-    return { name: entity.name, file: entity.file, since, events: history.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()), total: history.length };
+    const history = entity.changeHistory.filter(
+      (c) => new Date(c.timestamp).getTime() >= sinceMs,
+    );
+    return {
+      name: entity.name,
+      file: entity.file,
+      since,
+      events: history.sort(
+        (a, b) =>
+          new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
+      ),
+      total: history.length,
+    };
   }
 
   /** Parse a since string ("today", "7d", "1 week", "2026-07-01") into a ms timestamp */
   private parseSince(since: string): number {
     const now = Date.now();
     if (/^\d{4}-\d{2}-\d{2}$/.test(since)) return new Date(since).getTime();
-    if (/^today$/i.test(since)) return new Date(new Date().toDateString()).getTime();
+    if (/^today$/i.test(since))
+      return new Date(new Date().toDateString()).getTime();
     if (/^yesterday$/i.test(since)) return now - 86400000;
     const m = since.match(/^(\d+)\s*(d|day|h|hour|w|week|m|month)/i);
     if (!m) return now - 7 * 86400000;
     const n = parseInt(m[1]);
     const unit = m[2].toLowerCase()[0];
-    const mult: Record<string, number> = { d: 86400000, h: 3600000, w: 604800000, m: 2592000000 };
+    const mult: Record<string, number> = {
+      d: 86400000,
+      h: 3600000,
+      w: 604800000,
+      m: 2592000000,
+    };
     return now - n * (mult[unit] ?? 86400000);
   }
 
@@ -382,11 +608,15 @@ export class PersistentMemory {
     const currentHash = this.getCurrentGitHash();
 
     if (lastHash === currentHash && currentHash !== "unknown") {
-      console.log(`   [lucide:check-circle] Index is up to date — no changes since last scan`);
+      console.log(
+        `   [lucide:check-circle] Index is up to date — no changes since last scan`,
+      );
       return;
     }
 
-    console.log(`[lucide:refresh-cw] Incremental update: scanning changed files...`);
+    console.log(
+      `[lucide:refresh-cw] Incremental update: scanning changed files...`,
+    );
 
     const changedFiles = this.getChangedFiles(lastHash, currentHash);
 
@@ -408,11 +638,12 @@ export class PersistentMemory {
     this.save();
 
     const elapsed = Date.now() - startTime;
-    console.log(`   [lucide:check-circle] Incremental update complete in ${elapsed}ms`);
+    console.log(
+      `   [lucide:check-circle] Incremental update complete in ${elapsed}ms`,
+    );
   }
 
   // (public ask() is defined above — this old implementation merged into it)
-
 
   /**
    * Answer from index — sub-50ms fast path for change history, entity tracking, dependencies, and dates
@@ -421,7 +652,11 @@ export class PersistentMemory {
     const q = question.toLowerCase();
 
     // ── "What changed since yesterday / today?" ──
-    if (/what changed since|what changed yesterday|what changed today|recent changes/i.test(q)) {
+    if (
+      /what changed since|what changed yesterday|what changed today|recent changes/i.test(
+        q,
+      )
+    ) {
       const since = this.parseTimeReference(q);
       const changes = this.getChangesSince(since);
 
@@ -439,9 +674,12 @@ export class PersistentMemory {
     }
 
     // ── "What does it depend on?" / "What depends on X?" ──
-    const depOnMatch = q.match(/what (?:does|is) ['"]?([\w\.\/\-]+)['"]? depend on|what depends on ['"]?([\w\.\/\-]+)['"]?/i);
+    const depOnMatch = q.match(
+      /what (?:does|is) ['"]?([\w\.\/\-]+)['"]? depend on|what depends on ['"]?([\w\.\/\-]+)['"]?/i,
+    );
     if (depOnMatch || /depend on|dependencies/i.test(q)) {
-      const targetName = depOnMatch?.[1] || depOnMatch?.[2] || this.getLastMentionedEntity();
+      const targetName =
+        depOnMatch?.[1] || depOnMatch?.[2] || this.getLastMentionedEntity();
       if (targetName) {
         const deps = this.findDependencies(targetName);
         return {
@@ -477,12 +715,15 @@ export class PersistentMemory {
     }
 
     // ── "When was X added / created / introduced?" ──
-    const whenAdded = q.match(/when was ['"]?([\w\.\/\-]+)['"]? (?:added|created|introduced)/i);
+    const whenAdded = q.match(
+      /when was ['"]?([\w\.\/\-]+)['"]? (?:added|created|introduced)/i,
+    );
     if (whenAdded) {
       const entity = this.findEntity(whenAdded[1]);
       if (entity) {
         return {
-          answer: `${entity.name} was added on ${entity.firstSeen.slice(0, 10)} ` +
+          answer:
+            `${entity.name} was added on ${entity.firstSeen.slice(0, 10)} ` +
             `and last modified on ${entity.lastModified.slice(0, 10)}. ` +
             `It has been changed ${entity.changeHistory.length} time(s).`,
           confidence: 0.95,
@@ -498,7 +739,9 @@ export class PersistentMemory {
       const entity = this.findEntity(whatDoes[1]);
       if (entity) {
         return {
-          answer: entity.currentPurpose || `**${entity.name}** in \`${entity.file}\` (line ${entity.line})`,
+          answer:
+            entity.currentPurpose ||
+            `**${entity.name}** in \`${entity.file}\` (line ${entity.line})`,
           confidence: entity.currentPurpose ? 0.9 : 0.7,
           fromCache: true,
           entities: [entity.name],
@@ -512,7 +755,9 @@ export class PersistentMemory {
     }
 
     // ── "What was the project like in March / 2026-06?" ──
-    const historicalMatch = q.match(/what was .+ like in (\w+ \d{4}|\d{4}-\d{2})/i);
+    const historicalMatch = q.match(
+      /what was .+ like in (\w+ \d{4}|\d{4}-\d{2})/i,
+    );
     if (historicalMatch) {
       const targetDate = this.parseDate(historicalMatch[1]);
       const snapshot = this.findClosestSnapshot(targetDate);
@@ -522,7 +767,8 @@ export class PersistentMemory {
         const classCount = Object.keys(snapshot.entities.classes).length;
 
         return {
-          answer: `As of ${snapshot.timestamp.slice(0, 10)}, the project had ` +
+          answer:
+            `As of ${snapshot.timestamp.slice(0, 10)}, the project had ` +
             `${snapshot.files.toLocaleString()} files across ` +
             `${funcCount} functions and ` +
             `${classCount} classes.`,
@@ -568,7 +814,9 @@ export class PersistentMemory {
     return null;
   }
 
-  private getChangesSince(since: Date): Array<{ entity: string; change: ChangeRecord }> {
+  private getChangesSince(
+    since: Date,
+  ): Array<{ entity: string; change: ChangeRecord }> {
     const changes: Array<{ entity: string; change: ChangeRecord }> = [];
     if (!this.currentIndex) return changes;
 
@@ -590,11 +838,15 @@ export class PersistentMemory {
     }
 
     return changes.sort(
-      (a, b) => new Date(b.change.timestamp).getTime() - new Date(a.change.timestamp).getTime()
+      (a, b) =>
+        new Date(b.change.timestamp).getTime() -
+        new Date(a.change.timestamp).getTime(),
     );
   }
 
-  private formatChangeSummary(changes: Array<{ entity: string; change: ChangeRecord }>): string {
+  private formatChangeSummary(
+    changes: Array<{ entity: string; change: ChangeRecord }>,
+  ): string {
     if (changes.length === 0) return "No changes recorded in this period.";
 
     const byType = {
@@ -608,17 +860,23 @@ export class PersistentMemory {
 
     if (byType.modified.length > 0) {
       lines.push(`Modified (${byType.modified.length}):`);
-      byType.modified.slice(0, 5).forEach((c) => lines.push(`  • ${c.entity} — ${c.change.summary}`));
+      byType.modified
+        .slice(0, 5)
+        .forEach((c) => lines.push(`  • ${c.entity} — ${c.change.summary}`));
     }
 
     if (byType.added.length > 0) {
       lines.push(`Added (${byType.added.length}):`);
-      byType.added.slice(0, 5).forEach((c) => lines.push(`  • ${c.entity} — ${c.change.summary}`));
+      byType.added
+        .slice(0, 5)
+        .forEach((c) => lines.push(`  • ${c.entity} — ${c.change.summary}`));
     }
 
     if (byType.refactored.length > 0) {
       lines.push(`Refactored (${byType.refactored.length}):`);
-      byType.refactored.slice(0, 5).forEach((c) => lines.push(`  • ${c.entity} — ${c.change.summary}`));
+      byType.refactored
+        .slice(0, 5)
+        .forEach((c) => lines.push(`  • ${c.entity} — ${c.change.summary}`));
     }
 
     return lines.join("\n");
@@ -647,7 +905,10 @@ export class PersistentMemory {
     if (!this.currentIndex) return result;
 
     for (const [key, deps] of Object.entries(this.currentIndex.dependencies)) {
-      if (key.toLowerCase().includes(targetName.toLowerCase()) || deps.some((d) => d.toLowerCase().includes(targetName.toLowerCase()))) {
+      if (
+        key.toLowerCase().includes(targetName.toLowerCase()) ||
+        deps.some((d) => d.toLowerCase().includes(targetName.toLowerCase()))
+      ) {
         result.push(key);
       }
     }
@@ -670,10 +931,14 @@ export class PersistentMemory {
     if (this.snapshots.length === 0) return null;
 
     let closest = this.snapshots[0];
-    let closestDiff = Math.abs(new Date(closest.timestamp).getTime() - date.getTime());
+    let closestDiff = Math.abs(
+      new Date(closest.timestamp).getTime() - date.getTime(),
+    );
 
     for (const snapshot of this.snapshots) {
-      const diff = Math.abs(new Date(snapshot.timestamp).getTime() - date.getTime());
+      const diff = Math.abs(
+        new Date(snapshot.timestamp).getTime() - date.getTime(),
+      );
       if (diff < closestDiff) {
         closest = snapshot;
         closestDiff = diff;
@@ -711,17 +976,28 @@ export class PersistentMemory {
       index.classes[search] ||
       index.components[search] ||
       index.routes[search] ||
-      Object.values(index.functions).find((e) => e.name.toLowerCase() === search) ||
-      Object.values(index.classes).find((e) => e.name.toLowerCase() === search) ||
-      Object.values(index.components).find((e) => e.name.toLowerCase() === search) ||
-      Object.values(index.routes).find((e) => e.name.toLowerCase() === search) ||
+      Object.values(index.functions).find(
+        (e) => e.name.toLowerCase() === search,
+      ) ||
+      Object.values(index.classes).find(
+        (e) => e.name.toLowerCase() === search,
+      ) ||
+      Object.values(index.components).find(
+        (e) => e.name.toLowerCase() === search,
+      ) ||
+      Object.values(index.routes).find(
+        (e) => e.name.toLowerCase() === search,
+      ) ||
       null
     );
   }
 
   private getCurrentGitHash(): string {
     try {
-      return execSync("git rev-parse HEAD", { cwd: this.workspacePath, encoding: "utf-8" }).trim();
+      return execSync("git rev-parse HEAD", {
+        cwd: this.workspacePath,
+        encoding: "utf-8",
+      }).trim();
     } catch {
       return "unknown";
     }
@@ -730,7 +1006,10 @@ export class PersistentMemory {
   private getChangedFiles(from: string, to: string): string[] {
     try {
       if (from === "unknown" || to === "unknown") return [];
-      const output = execSync(`git diff --name-only ${from} ${to}`, { cwd: this.workspacePath, encoding: "utf-8" });
+      const output = execSync(`git diff --name-only ${from} ${to}`, {
+        cwd: this.workspacePath,
+        encoding: "utf-8",
+      });
       return output.trim().split("\n").filter(Boolean);
     } catch {
       return [];
@@ -741,14 +1020,20 @@ export class PersistentMemory {
     const dir = path.dirname(this.indexPath);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 
-    fs.writeFileSync(this.indexPath, JSON.stringify(this.currentIndex, null, 2));
+    fs.writeFileSync(
+      this.indexPath,
+      JSON.stringify(this.currentIndex, null, 2),
+    );
     fs.writeFileSync(this.historyPath, JSON.stringify(this.snapshots, null, 2));
   }
 
   private saveConversation(): void {
     const dir = path.dirname(this.conversationPath);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(this.conversationPath, JSON.stringify(this.conversationHistory, null, 2));
+    fs.writeFileSync(
+      this.conversationPath,
+      JSON.stringify(this.conversationHistory, null, 2),
+    );
   }
 
   private async buildSnapshot(): Promise<CodebaseSnapshot> {
@@ -781,7 +1066,7 @@ export class PersistentMemory {
           classes,
           components,
           routes,
-          dependencies
+          dependencies,
         );
       } catch {}
     }
@@ -798,7 +1083,10 @@ export class PersistentMemory {
         routes,
       },
       architecture: {
-        modules: Array.from(new Set(files.map((f) => f.split("/")[0]))).slice(0, 15),
+        modules: Array.from(new Set(files.map((f) => f.split("/")[0]))).slice(
+          0,
+          15,
+        ),
         relationships: [],
       },
       dependencies,
@@ -817,7 +1105,7 @@ export class PersistentMemory {
     classes: Record<string, EntityInfo>,
     components: Record<string, EntityInfo>,
     routes: Record<string, EntityInfo>,
-    dependencies: DependencyMap
+    dependencies: DependencyMap,
   ): void {
     const fileImports: string[] = [];
 
@@ -831,7 +1119,9 @@ export class PersistentMemory {
       }
 
       // Functions: function foo(), const foo = () =>
-      const funcMatch = line.match(/(?:async\s+)?function\s+([A-Za-z0-9_]+)|const\s+([A-Za-z0-9_]+)\s*=\s*(?:async\s*)?\(/);
+      const funcMatch = line.match(
+        /(?:async\s+)?function\s+([A-Za-z0-9_]+)|const\s+([A-Za-z0-9_]+)\s*=\s*(?:async\s*)?\(/,
+      );
       if (funcMatch) {
         const name = funcMatch[1] || funcMatch[2];
         if (name && !functions[name.toLowerCase()]) {
@@ -881,8 +1171,15 @@ export class PersistentMemory {
       }
 
       // UI Components (React/Vue/TSX)
-      const compMatch = line.match(/(?:function|const)\s+([A-Z][A-Za-z0-9_]+)\s*=/);
-      if (compMatch && (file.endsWith(".tsx") || file.endsWith(".jsx") || file.endsWith(".vue"))) {
+      const compMatch = line.match(
+        /(?:function|const)\s+([A-Z][A-Za-z0-9_]+)\s*=/,
+      );
+      if (
+        compMatch &&
+        (file.endsWith(".tsx") ||
+          file.endsWith(".jsx") ||
+          file.endsWith(".vue"))
+      ) {
         const name = compMatch[1];
         if (name && !components[name.toLowerCase()]) {
           components[name.toLowerCase()] = {
@@ -906,7 +1203,9 @@ export class PersistentMemory {
       }
 
       // Routes: app.get('/path'), router.post('/path')
-      const routeMatch = line.match(/(?:app|router|fastify)\.(get|post|put|delete|patch)\(['"]([^'"]+)['"]/);
+      const routeMatch = line.match(
+        /(?:app|router|fastify)\.(get|post|put|delete|patch)\(['"]([^'"]+)['"]/,
+      );
       if (routeMatch) {
         const routeName = `${routeMatch[1].toUpperCase()} ${routeMatch[2]}`;
         const key = routeName.toLowerCase();
@@ -964,7 +1263,11 @@ export class PersistentMemory {
             traverse(res);
           }
         } else if (entry.isFile()) {
-          if (/\.(ts|js|tsx|jsx|json|md|py|go|rs|java|c|cpp|ps1|sh)$/.test(entry.name)) {
+          if (
+            /\.(ts|js|tsx|jsx|json|md|py|go|rs|java|c|cpp|ps1|sh)$/.test(
+              entry.name,
+            )
+          ) {
             results.push(path.relative(root, res).replace(/\\/g, "/"));
           }
         }
@@ -996,7 +1299,7 @@ export class PersistentMemory {
         this.currentIndex.entities.classes,
         this.currentIndex.entities.components,
         this.currentIndex.entities.routes,
-        this.currentIndex.dependencies
+        this.currentIndex.dependencies,
       );
     } catch {}
   }
@@ -1013,8 +1316,12 @@ export class PersistentMemory {
       const contextSummary =
         `Indexed codebase context (${this.currentIndex?.files} files, ${this.currentIndex?.lines} lines):\n` +
         `Modules: ${this.currentIndex?.architecture.modules.join(", ")}\n` +
-        `Functions: ${Object.keys(this.currentIndex?.entities.functions || {}).slice(0, 30).join(", ")}\n` +
-        `Classes: ${Object.keys(this.currentIndex?.entities.classes || {}).slice(0, 30).join(", ")}`;
+        `Functions: ${Object.keys(this.currentIndex?.entities.functions || {})
+          .slice(0, 30)
+          .join(", ")}\n` +
+        `Classes: ${Object.keys(this.currentIndex?.entities.classes || {})
+          .slice(0, 30)
+          .join(", ")}`;
 
       const prompt = `${contextSummary}\n\nQuestion: ${question}`;
       const result = await provider.generateExplanation(prompt, "auto");
@@ -1023,12 +1330,19 @@ export class PersistentMemory {
         answer: result.summary,
         confidence: 0.9,
         fromCache: false,
-        followUps: ["Show me the history", "Show dependencies", "Run full rescan"],
+        followUps: [
+          "Show me the history",
+          "Show dependencies",
+          "Run full rescan",
+        ],
       };
     } catch (err: any) {
       // Deep structural index search when AI provider is unconfigured
       const matches: string[] = [];
-      const terms = question.toLowerCase().split(/\s+/).filter((t) => t.length > 2);
+      const terms = question
+        .toLowerCase()
+        .split(/\s+/)
+        .filter((t) => t.length > 2);
       const matchedEntities: string[] = [];
 
       if (this.currentIndex) {
@@ -1041,9 +1355,17 @@ export class PersistentMemory {
 
         for (const cat of categories) {
           for (const [name, entity] of Object.entries(cat)) {
-            if (terms.some((term) => name.includes(term) || entity.file.toLowerCase().includes(term))) {
+            if (
+              terms.some(
+                (term) =>
+                  name.includes(term) ||
+                  entity.file.toLowerCase().includes(term),
+              )
+            ) {
               matchedEntities.push(entity.name);
-              matches.push(`• **${entity.name}** in \`${entity.file}\` (line ${entity.line}): ${entity.currentPurpose}`);
+              matches.push(
+                `• **${entity.name}** in \`${entity.file}\` (line ${entity.line}): ${entity.currentPurpose}`,
+              );
             }
           }
         }
@@ -1051,7 +1373,9 @@ export class PersistentMemory {
 
       if (matches.length > 0) {
         return {
-          answer: `**Codebase Index Analysis for "${question}":**\n\n` + matches.slice(0, 8).join("\n"),
+          answer:
+            `**Codebase Index Analysis for "${question}":**\n\n` +
+            matches.slice(0, 8).join("\n"),
           confidence: 0.85,
           fromCache: true,
           entities: matchedEntities.slice(0, 5),

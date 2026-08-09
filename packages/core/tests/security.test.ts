@@ -19,6 +19,7 @@ describe("ShellSandbox and SecurityAudit Tests", () => {
   );
 
   beforeEach(async () => {
+    delete process.env.DEVDIFF_AUDIT_KEY;
     process.env.DEVDIFF_LEGACY_AUDIT_PATH = logPath;
     process.env.DEVDIFF_AUDIT_PATH = encPath;
     // Clear log files before each test
@@ -35,6 +36,7 @@ describe("ShellSandbox and SecurityAudit Tests", () => {
   });
 
   afterEach(async () => {
+    delete process.env.DEVDIFF_AUDIT_KEY;
     delete process.env.DEVDIFF_LEGACY_AUDIT_PATH;
     delete process.env.DEVDIFF_AUDIT_PATH;
     // Clean up log files
