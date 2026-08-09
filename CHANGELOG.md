@@ -2,6 +2,14 @@
 
 All notable changes to DevDiff are documented here.
 
+## [1.6.1] — 2026-08-09 🛠️ Monorepo Hardening & Type Exports
+
+### Fixed & Improved
+- **Type Declaration Exports**: Re-exported `FileChangeInfo` from `@eldrex/core` (`packages/core/src/index.ts`) for clean TypeScript type resolution.
+- **Monorepo Typechecking**: Removed `rootDir: "./src"` constraint from package `tsconfig.json` files to support cross-package monorepo typechecking.
+- **Vercel ESM Compatibility**: Converted `scripts/build-docs.js` to ES module syntax (`import { execSync } from "child_process"`).
+- **Code Style Hardening**: Workspace-wide Prettier formatting for 100% clean CI lint validation.
+
 ---
 
 ## [1.6.0] — 2026-08-08 🚀 Production Readiness, Study Buddy & Zero-Friction Onboarding
