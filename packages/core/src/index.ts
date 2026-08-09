@@ -204,6 +204,7 @@ export {
   VersionBump,
   VersionBumpReason,
   ParsedDiff,
+  FileChangeInfo,
 } from "./versioning/semver-detector";
 export {
   ChangelogGenerator,
