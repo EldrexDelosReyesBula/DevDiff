@@ -1,0 +1,21 @@
+{
+  "name": "@eldrex/plugin-study-buddy",
+  "version": "1.0.0",
+  "description": "DevDiff Study Buddy plugin — explains ANY code in ANY language across 5 progressive levels",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@eldrex/plugin-sdk": "workspace:*"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.6"
+  }
+}

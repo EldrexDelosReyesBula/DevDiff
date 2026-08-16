@@ -31,10 +31,13 @@ export interface FileChangeInfo {
   additions?: number;
   deletions?: number;
   isBreaking?: boolean;
+  diffSnippet?: string;
 }
 
 export interface ParsedDiff {
   files: FileChangeInfo[];
+  totalAdditions?: number;
+  totalDeletions?: number;
 }
 
 export class SemverDetector {

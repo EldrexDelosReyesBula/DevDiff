@@ -406,6 +406,46 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
   },
   // ── SECURITY COMMANDS ──
   {
+    name: "security",
+    aliases: ["dynamic-security"],
+    description: "Behavioral learning profile and adaptive threat rules engine",
+    examples: [
+      "devdiff security profile",
+      "devdiff security check",
+      "devdiff security rules",
+      "devdiff security feedback rule-123 --true-positive",
+      "devdiff security feed --enable",
+    ],
+    subcommands: [
+      {
+        name: "profile",
+        description: "View 7-day behavioral learning profile",
+        category: "security",
+      },
+      {
+        name: "check",
+        description: "Run real-time anomaly check against baseline",
+        category: "security",
+      },
+      {
+        name: "rules",
+        description: "View active adaptive security rules & accuracy",
+        category: "security",
+      },
+      {
+        name: "feedback",
+        description: "Report true/false positive feedback on a rule",
+        category: "security",
+      },
+      {
+        name: "feed",
+        description: "Manage threat intelligence feed integration",
+        category: "security",
+      },
+    ],
+    category: "security",
+  },
+  {
     name: "audit",
     description: "View security and privacy audit logs",
     examples: [
@@ -754,6 +794,64 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
       { flags: "--fix", description: "Auto-fix common issues" },
       { flags: "--json", description: "Machine-readable output" },
       { flags: "--verbose", description: "Show detailed diagnostics" },
+    ],
+    category: "utility",
+  },
+  {
+    name: "agent",
+    aliases: ["agents", "swarm"],
+    description: "DevDiff Agent Orchestration & OpenClaw Supervisor Platform",
+    examples: [
+      'devdiff agent swarm "Review auth module changes"',
+      "devdiff agent deploy --agents architect,security",
+      "devdiff agent ask architect --prompt 'Explain rate limiter architecture'",
+      "devdiff agent status",
+      "devdiff agent dashboard",
+    ],
+    subcommands: [
+      { name: "swarm", description: "Deploy full multi-agent swarm", category: "core" },
+      { name: "deploy", description: "Deploy specific agents", category: "core" },
+      { name: "ask", description: "Ask specific agent role", category: "core" },
+      { name: "parallel", description: "Run parallel agent subtasks", category: "core" },
+      { name: "status", description: "Display agent squad status", category: "core" },
+      { name: "dashboard", description: "Render Agent Swarm Dashboard", category: "core" },
+      { name: "converse", description: "Trigger inter-agent bus conversation", category: "core" },
+    ],
+    category: "core",
+  },
+  {
+    name: "prompt",
+    aliases: ["export-prompt"],
+    description: "Universal AI prompt exporter for ChatGPT, Claude, Gemini, Copilot",
+    examples: [
+      "devdiff prompt export --target chatgpt --copy",
+      "devdiff prompt export --target claude --output prompt.md",
+      "devdiff prompt export --persona ceo --format markdown",
+    ],
+    subcommands: [
+      {
+        name: "export",
+        description: "Export self-contained, copy-paste ready prompt for any AI",
+        category: "utility",
+      },
+    ],
+    category: "utility",
+  },
+  {
+    name: "import",
+    aliases: ["import-changelog"],
+    description: "Import AI response back into CHANGELOG.md with quality validation",
+    examples: [
+      "devdiff import changelog response.md",
+      "devdiff import changelog --paste --prepend",
+      "devdiff import changelog response.md --output docs/release-notes.md",
+    ],
+    subcommands: [
+      {
+        name: "changelog",
+        description: "Import AI generated changelog from file or clipboard",
+        category: "utility",
+      },
     ],
     category: "utility",
   },

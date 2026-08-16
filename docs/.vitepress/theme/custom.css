@@ -1,0 +1,94 @@
+/* DevDiff Custom VitePress Hero & Theme Styling */
+
+:root {
+  --vp-c-brand-1: #6366f1;
+  --vp-c-brand-2: #818cf8;
+  --vp-c-brand-3: #4f46e5;
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: linear-gradient(135deg, #c084fc 0%, #6366f1 50%, #3b82f6 100%);
+}
+
+/* ── Hero Container Styling ── */
+.VPHero {
+  position: relative;
+  overflow: hidden;
+}
+
+.VPHero::before {
+  content: "";
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 1200px;
+  height: 500px;
+  background: radial-gradient(
+    circle at 50% 30%,
+    rgba(99, 102, 241, 0.22) 0%,
+    rgba(168, 85, 247, 0.12) 35%,
+    rgba(59, 130, 246, 0.05) 55%,
+    transparent 75%
+  );
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(40px);
+}
+
+/* ── Hero Name Typography Gradient ── */
+.VPHero .name {
+  background: linear-gradient(135deg, #e879f9 0%, #818cf8 40%, #38bdf8 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.VPHero .text {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* ── Hero Image Backdrop Aura ── */
+.VPHero .image-container {
+  position: relative;
+}
+
+.VPHero .image-bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(
+    circle,
+    rgba(168, 85, 247, 0.35) 0%,
+    rgba(99, 102, 241, 0.25) 50%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  filter: blur(30px);
+  pointer-events: none;
+}
+
+.VPHero .image-src {
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 20px 30px rgba(99, 102, 241, 0.25));
+}
+
+/* ── Feature Cards Glassmorphism & Hover Lift ── */
+.VPFeature {
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: rgba(255, 255, 255, 0.02) !important;
+  backdrop-filter: blur(12px);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease !important;
+}
+
+.VPFeature:hover {
+  transform: translateY(-4px);
+  border-color: rgba(99, 102, 241, 0.3) !important;
+  box-shadow: 0 12px 30px -10px rgba(99, 102, 241, 0.15) !important;
+}

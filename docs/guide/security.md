@@ -40,9 +40,11 @@ Before sending data to the AI model, any matched secrets are immediately swapped
 
 ---
 
-## 4. Gateway Authorization & Rate Limiting
+---
 
-When deploying the central DevDiff Gateway service across a team:
+## 5. Dynamic Security & Anomaly Detection
 
-- **Bearer Token Authorization:** Secure endpoints require valid authorization header checks to accept watchers or webhooks.
-- **Token Bucket Rate Limiting:** Enforces request quotas per incoming IP or webhook source to protect the server from Denial of Service (DoS) attacks and prevent API token exhaustion.
+DevDiff v1.7.0 introduces the **Dynamic Security Engine** (`BehavioralEngine` & `AdaptiveRuleEngine`), which builds a 7-day baseline profile of your project's network connections, filesystem access, AI token usage, plugin activity, and commit patterns. 
+
+It detects real-time anomalies (such as sudden traffic spikes or unrecognised domains) and dynamically updates security rules based on threat intelligence feeds and developer feedback. Run `devdiff security check` to inspect active anomaly reports.
+

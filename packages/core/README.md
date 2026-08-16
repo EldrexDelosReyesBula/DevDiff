@@ -2,6 +2,8 @@
 
 ## Core engine for DevDiff — intelligent, privacy-first changelog generation
 
+> **🔒 Built for Privacy** — DevDiff tracks zero telemetry, logs no data, and makes no external calls except directly to your configured AI provider. [Verify yourself →](https://devdiff.vercel.app/security/disclosure)
+
 [![npm version](https://img.shields.io/npm/v/@eldrex/core)](https://npmjs.com/package/@eldrex/core)
 [![Socket Score](https://img.shields.io/badge/Socket-75-blue)](https://socket.dev/npm/package/@eldrex/core)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
@@ -9,6 +11,24 @@
 ## Overview
 
 `@eldrex/core` is the engine that powers DevDiff. It parses git diffs, analyzes code changes, and generates human-readable changelogs using AI that runs entirely on your machine.
+
+---
+
+## ⭐ Love DevDiff?
+
+If DevDiff saves you time, **leave a review** — it helps other developers find us.
+
+<p align="center">
+  <a href="https://marketplace.visualstudio.com/items?itemName=eldrex.devdiff&ssr=false#review-details">
+    <img src="https://img.shields.io/badge/VS%20Code-Review%20on%20Marketplace-6366f1?style=for-the-badge&logo=visualstudiocode" alt="Review on VS Code Marketplace">
+  </a>
+  &nbsp;&nbsp;
+  <a href="https://open-vsx.org/extension/eldrex/devdiff/reviews">
+    <img src="https://img.shields.io/badge/Open%20VSX-Review%20Extension-6366f1?style=for-the-badge" alt="Review on Open VSX">
+  </a>
+</p>
+
+---
 
 ## Installation
 
@@ -28,6 +48,14 @@ const result = await generateChangelog({
 
 console.log(result.formattedOutput);
 ```
+
+## Key Features (v1.7.0)
+
+- **🧠 Unified Knowledge Architecture**: Single source of truth loading (`SKILL.md` → `.devdiff/context.md` → `autoGenerate`).
+- **🛡️ Multi-Stage Hallucination Guard**: `HallucinationGuard` verifying output against diffs, naming conventions, anti-pattern rules, and AI hedging language.
+- **🗂️ Memory Control & Timeline Manager**: Browser-history-like control over codebase memory (`MemoryManager`), date range deletions, dry-run previews, active range scoping, and storage deduplication.
+- **📅 Time-Aware Generator**: Resolves human time expressions (`today`, `yesterday`, `this-week`, `date-range`, `since-initial`, `between-commits`) to exact git revision ranges.
+- **🔒 Complete Trust & Transparency**: `NetworkGuardV2` with 100+ domain blocklist across 5 categories, `PluginAuditor`, and `DisclosureReport` (`devdiff disclose`).
 
 ## API Reference
 
@@ -92,6 +120,28 @@ Every sensitive operation is logged:
 ```bash
 npx devdiff audit --package @eldrex/core
 ```
+
+---
+
+## 💬 Feedback & Community
+
+<p align="center">
+  <a href="https://github.com/EldrexDelosReyesBula/devdiff/discussions">
+    <img src="https://img.shields.io/badge/Discussions-Ask%20%2F%20Suggest-6366f1?style=for-the-badge&logo=github" alt="GitHub Discussions">
+  </a>
+  &nbsp;&nbsp;
+  <a href="https://github.com/EldrexDelosReyesBula/devdiff/issues/new?template=feature_request.md">
+    <img src="https://img.shields.io/badge/Feature-Request%20a%20Feature-22c55e?style=for-the-badge&logo=github" alt="Feature Request">
+  </a>
+  &nbsp;&nbsp;
+  <a href="https://github.com/EldrexDelosReyesBula/devdiff/issues/new?template=bug_report.md">
+    <img src="https://img.shields.io/badge/Bug-Report%20an%20Issue-ef4444?style=for-the-badge&logo=github" alt="Report Bug">
+  </a>
+</p>
+
+<p align="center">
+  <sub>Enjoying DevDiff? <a href="https://marketplace.visualstudio.com/items?itemName=eldrex.devdiff&ssr=false#review-details">Leave a review</a> — it takes 30 seconds and helps more than you know.</sub>
+</p>
 
 ## License
 

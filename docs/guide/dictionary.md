@@ -1,4 +1,4 @@
-# DevDiff v1.6.0 Reference Dictionary
+# DevDiff v1.7.0 Reference Dictionary
 
 The complete, authoritative dictionary for DevDiff commands, settings, tools, environment variables, personas, and default ports.
 

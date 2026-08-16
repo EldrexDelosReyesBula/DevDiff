@@ -4,16 +4,25 @@ DevDiff is your interactive codebase study buddy. Designed for students, beginne
 
 ---
 
-## 🎯 Core Features
+## 🎓 Standalone Plugin (`@eldrex/plugin-study-buddy`)
 
-### 1. Educational Line-by-Line Explanations
+Study Buddy operates as a standalone DevDiff plugin (`@eldrex/plugin-study-buddy`) supporting code explanations in **ANY language** across 5 progressive levels:
 
-When you select code and ask DevDiff to explain, Study Buddy Mode provides:
+- **Beginner**: Line-by-line plain English analogies.
+- **Student**: Core CS fundamentals, patterns, and data structures.
+- **Developer**: Technical API usage and code execution flow.
+- **Senior**: Concurrency, memory allocation, and edge cases.
+- **Architect**: Coupling, module boundaries, and maintainability.
 
-- **Overview & Purpose**: Plain-English explanation of what the function or module accomplishes.
-- **Line-by-Line Breakdown**: Detailed explanations with rationale for design decisions ("Why?").
-- **Key Concepts Learned**: Essential computer science concepts (e.g. Salting, Hashing, Recursion, Promises).
-- **Try It Yourself**: Safe, hands-on code experiments to deepen understanding.
+### Specialized Language Explainers
+- **CSS / SCSS**: Selectors (`.class`, `#id`, `@media`) and property explanations (`display: flex/grid`, `padding`, `margin`, `z-index`) in plain English.
+- **JavaScript / TypeScript**: Async/await, promises, closures.
+- **Python**: PEP 484 type hints, list comprehensions.
+- **HTML**: DOM structures, semantic HTML5.
+- **Rust**: Ownership, borrowing, lifetimes.
+- **Go**: Goroutines, channels, CSP concurrency.
+- **Universal Fallback**: Automatic structural analysis for ANY programming language.
+
 
 ---
 

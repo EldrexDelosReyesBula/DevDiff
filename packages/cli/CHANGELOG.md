@@ -1,5 +1,13 @@
 # @eldrex/cli
 
+## 1.7.0
+
+### Minor Changes
+
+- **`devdiff agent` command group**: `swarm`, `deploy`, `ask`, `parallel`, `converse`, `status`, `dashboard` — deploys multi-agent swarms and OpenClaw Supervisor v2 orchestration.
+- **`devdiff prompt export` & `devdiff import changelog`**: Exports tailored prompts for ChatGPT, Claude, Gemini, Copilot and imports clean AI responses into `CHANGELOG.md`.
+- **`devdiff security` command group**: `profile`, `check`, `rules`, `feedback`, `feed` — manages 7-day dynamic security baselines, anomaly checks, and threat intel feeds.
+
 ## 1.6.0
 
 ### Major Changes

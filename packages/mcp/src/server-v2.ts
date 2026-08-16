@@ -23,6 +23,7 @@ import {
 } from "@modelcontextprotocol/sdk/types.js";
 import { DevDiffEngine, PersistentMemory } from "@eldrex/core";
 import { CODEBASE_QUERY_TOOLS } from "./tools/codebase-query-tools.js";
+import { devdiff_read_skill } from "./tools/skill-tool.js";
 import * as http from "http";
 import * as url from "url";
 
@@ -206,6 +207,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
         properties: {},
       },
     },
+    devdiff_read_skill,
     // ── Agent-First Q&A Tools (v1.5.0) ──
     ...CODEBASE_QUERY_TOOLS,
   ],
@@ -439,6 +441,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       return {
         content: [{ type: "text", text: formatStatus(status) }],
       };
+    }
+
+    case "devdiff_read_skill": {
+      return await devdiff_read_skill.handler(args as any);
     }
 
     // ════════════════════════════════════════════════════════════

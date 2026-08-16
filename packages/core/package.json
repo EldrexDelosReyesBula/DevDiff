@@ -1,6 +1,6 @@
 {
   "name": "@eldrex/core",
-  "version": "1.6.1",
+  "version": "1.7.0",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org"
@@ -56,6 +56,84 @@
     "local-first",
     "byoai"
   ],
-  "author": "Eldrex Delos Reyes Bula \u003celdrexdelosreyesbula@gmail.com\u003e",
-  "license": "MIT"
+  "author": "Eldrex Delos Reyes Bula <eldrexdelosreyesbula@gmail.com>",
+  "license": "MIT",
+  "devdiff": {
+    "packageType": "engine",
+    "capabilities": [
+      "diff-parsing",
+      "ai-routing",
+      "changelog-generation",
+      "security-scanning",
+      "compliance-checking",
+      "code-explanation",
+      "diagram-generation",
+      "project-context",
+      "codebase-indexing",
+      "q-a-system"
+    ],
+    "exports": {
+      "main": "./src/index.ts",
+      "classes": [
+        "DevDiffEngine",
+        "DiffParser",
+        "AIRouter",
+        "ChangelogGenerator",
+        "SecurityScanner",
+        "ComplianceChecker",
+        "CodeExplainer",
+        "MermaidEngineV2",
+        "ProjectContextScanner",
+        "ConversationalQA",
+        "ProgressiveExplainer",
+        "DependencyMapper",
+        "OnboardingGenerator",
+        "PackageDiscovery"
+      ],
+      "functions": [
+        "generateChangelog",
+        "scanForSecrets",
+        "applyCompliance",
+        "explainCode",
+        "generateDiagram",
+        "loadContext",
+        "askQuestion"
+      ],
+      "types": [
+        "ParsedDiff",
+        "SecurityAuditResult",
+        "ComplianceReport",
+        "CodeExplanation",
+        "MermaidResult",
+        "ProjectContext",
+        "ProgressiveExplanation",
+        "DependencyDiagram",
+        "OnboardingGuide"
+      ]
+    },
+    "dependencies": {
+      "required": ["diff", "zod", "cosmiconfig"],
+      "optional": ["ollama", "openai", "@anthropic-ai/sdk"]
+    },
+    "agentContext": {
+      "purpose": "Core engine that powers all DevDiff functionality. Provides diff parsing, AI routing, changelog generation, security scanning, compliance checking, progressive code explanation, visual dependency mapping, and onboarding guide generation.",
+      "whenToUse": "When you need to analyze git changes, generate changelogs, scan for security issues, check compliance, explain code at progressive levels, map file dependencies, or generate codebase onboarding guides.",
+      "keyConcepts": [
+        "Works with git repositories",
+        "Uses AI providers (local or cloud)",
+        "Privacy-first by default",
+        "All processing is local"
+      ],
+      "commonPatterns": [
+        "Initialize engine → analyze changes → get changelog",
+        "Initialize engine → scan security → get report",
+        "Initialize engine → explain code → get progressive explanation"
+      ],
+      "quickStart": {
+        "install": "npm install @eldrex/core",
+        "import": "import { generateChangelog, DevDiffEngine, ProgressiveExplainer } from '@eldrex/core';",
+        "basicUsage": "const result = await generateChangelog({ diffText: '...', dryRun: false });"
+      }
+    }
+  }
 }

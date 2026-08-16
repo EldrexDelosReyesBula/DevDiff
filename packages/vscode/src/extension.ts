@@ -7,6 +7,10 @@ import { ChatPanel } from "./ui/chat-panel";
 import { SecurityPanel } from "./ui/security-panel";
 import { SettingsPanel } from "./ui/settings-panel";
 import { ChangelogCodeLensProvider } from "./ui/gutter-annotations";
+import { CleanSidebar } from "./panels/clean-sidebar";
+import { SidebarView } from "./views/sidebar-view";
+import { ZeroImpactPerformance } from "./performance/zero-impact";
+import { registerFeedbackCommands } from "./commands/feedback";
 
 import { OnboardingBanner } from "./onboarding/onboarding-banner";
 import { OnboardingGuide } from "./onboarding/guide-opener";
@@ -27,7 +31,32 @@ interface DetectedModel {
 
 export async function activate(context: vscode.ExtensionContext) {
   outputChannel = vscode.window.createOutputChannel("DevDiff");
-  outputChannel.appendLine("DevDiff VS Code Extension v1.6.0 starting...");
+  outputChannel.appendLine("DevDiff VS Code Extension v1.7.0 starting...");
+
+  // Register clean sidebar panel layout and new SidebarView Provider
+  CleanSidebar.register(context);
+  context.subscriptions.push(
+    vscode.window.registerWebviewViewProvider(
+      SidebarView.viewType,
+      new SidebarView(),
+    ),
+  );
+
+  // Register zero-impact lazy commands
+  ZeroImpactPerformance.registerLazyCommands(context);
+
+  // Register full editor tab chat window command
+  context.subscriptions.push(
+    vscode.commands.registerCommand("devdiff.openFullChat", async () => {
+      const { FullChatWindow } = await import("./chat/full-chat-window");
+      await FullChatWindow.open(context);
+    }),
+  );
+
+  // Register feedback and review commands
+  registerFeedbackCommands(context);
+
+
 
   // Register virtual document provider and commands for getting started guide
   OnboardingGuide.register(context);

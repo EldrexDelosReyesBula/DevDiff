@@ -18,11 +18,36 @@ npm install -g @eldrex/cli
 
 ## CLI Commands
 
-- `devdiff init` — Set up the configuration and install local Git hook triggers.
-- `devdiff generate` — Perform manual diff parsing and prompt generation.
-- `devdiff watch` — Monitor repository indexes for staged diff changes in real-time.
-- `devdiff report` — Start the local dashboard interface.
-- `devdiff audit` — Show the local AI execution history and security logs.
+### Generation & Analysis
+- `devdiff init` — Set up configuration and local Git hooks.
+- `devdiff generate` — Generate changelogs (`--since today|yesterday|this-week|2026-08-01`, `--commit`, `--from..--to`).
+- `devdiff watch` — Monitor repository diffs in real-time.
+- `devdiff report` — Launch local dashboard interface.
+- `devdiff audit` — View execution history and security logs.
+
+### 🗂️ Memory Timeline Management (`devdiff memory`)
+- `devdiff memory list` — List memory snapshots (`--from`, `--to`, `--category`).
+- `devdiff memory delete` — Delete snapshots in range (`--dry-run` available).
+- `devdiff memory use` — Scope active context (`--from`, `--to`, `--all`).
+- `devdiff memory categorize` — Assign snapshot labels (`--label production|experimentation`).
+- `devdiff memory categories` — List snapshot categories with date bounds.
+- `devdiff memory optimize` — Deduplicate snapshots and compact storage.
+- `devdiff memory status` — View overall memory storage status.
+
+### 📡 Network Transparency Suite (`devdiff network`)
+- `devdiff network watch` — Real-time network monitor.
+- `devdiff network history` — View network logs (`--since`, `--plugin`, `--domain`).
+- `devdiff network block` — Block domain or category (`--category telemetry|analytics`).
+- `devdiff network unblock` — Unblock domain.
+- `devdiff network allow` / `disallow` — Manage allowlist.
+- `devdiff network blocked` / `allowed` — List network policies.
+- `devdiff network export` — Export report (`--format json|markdown`).
+- `devdiff network audit` — Run network security audit.
+
+### 🔌 Plugin Transparency & Disclosure
+- `devdiff plugin audit <name>` — Compare declared vs actual plugin behavior.
+- `devdiff disclose` — Generate full disclosure transparency report.
+
 
 ## 🔒 Security & Privacy
 

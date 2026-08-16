@@ -283,4 +283,12 @@ export class PluginManager {
       }
     }
   }
+
+  getPlugin(id: string): DevDiffPlugin | undefined {
+    return this.plugins.find((p) => p.id === id);
+  }
+
+  getPlugins(): DevDiffPlugin[] {
+    return [...this.plugins];
+  }
 }

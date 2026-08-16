@@ -1,4 +1,4 @@
-# Version Policy & Strict SemVer Enforcement (v1.6.0)
+# Version Policy & Strict SemVer Enforcement (v1.7.0)
 
 ## The Immutable Version Guarantee
 
@@ -8,9 +8,9 @@ DevDiff follows a strict immutability contract: once a version is published to n
 
 ---
 
-## 📐 Strict SemVer 2.0.0 Enforcement Policy (v1.6.0+)
+## 📐 Strict SemVer 2.0.0 Enforcement Policy (v1.7.0+)
 
-Starting with **v1.6.0** and for all future releases, DevDiff strictly adheres to the [Semantic Versioning 2.0.0 Specification](https://semver.org):
+Starting with **v1.7.0** and for all future releases, DevDiff strictly adheres to the [Semantic Versioning 2.0.0 Specification](https://semver.org):
 
 $$\text{Version Format: } \mathbf{\text{MAJOR}}.\mathbf{\text{MINOR}}.\mathbf{\text{PATCH}}$$
 

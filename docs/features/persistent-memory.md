@@ -25,14 +25,23 @@ devdiff memory init
 # View persistent memory status, indexed file counts, and entity statistics
 devdiff memory status
 
-# Force a full codebase re-scan
-devdiff memory rescan
+# List snapshots in a date range or category (v1.7.0)
+devdiff memory list --from 08-01 --to 08-15 --category production
 
-# Clear continuous chat conversation history (retains codebase index)
-devdiff memory clear-conversation
+# Delete memory snapshots for a specific time range (v1.7.0)
+devdiff memory delete --from 03-01 --to 03-15 --dry-run
 
-# Delete all persistent memory indices and historical snapshots
-devdiff memory clear-all
+# Restrict active context to a specific period (v1.7.0)
+devdiff memory use --from 04-01 --to 04-30
+devdiff memory use --all
+
+# Categorize snapshot time ranges with labels (v1.7.0)
+devdiff memory categorize --from 03-01 --to 03-15 --label "experimentation"
+devdiff memory categories
+
+# Storage optimization and deduplication (v1.7.0)
+devdiff memory optimize
+
 ```
 
 ### 2. Instant Memory Queries (`devdiff ask`)

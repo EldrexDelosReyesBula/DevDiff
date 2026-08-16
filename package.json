@@ -1,6 +1,6 @@
 {
   "name": "devdiff-monorepo",
-  "version": "1.6.1",
+  "version": "1.7.0",
   "private": true,
   "description": "Privacy-first, BYOAI changelog intelligence for developers",
   "scripts": {
@@ -22,7 +22,8 @@
     "prettier": "^3.3.0",
     "turbo": "^2.0.0",
     "typescript": "^5.5.0",
-    "vitepress": "^1.3.0"
+    "vitepress": "^1.3.0",
+    "vitepress-plugin-depthindex": "^1.5.1"
   },
   "packageManager": "pnpm@9.0.0",
   "pnpm": {

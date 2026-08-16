@@ -1,5 +1,14 @@
 # devdiff (VS Code Extension)
 
+## 1.7.0
+
+### Minor Changes
+
+- **Full Editor Tab Chat Window (`FullChatWindow`)**: Opens DevDiff Chat in a full editor tab (`vscode.ViewColumn.Active`) with state retention (`retainContextWhenHidden: true`).
+- **Persistent Chat History (`ChatHistory`)**: Multi-thread conversation persistence stored in VS Code `globalState`, thread search filtering, clear, and Markdown export (`devdiff.openFullChat`).
+- **Native VS Code UI/UX Overhaul**: 100% `--vscode-*` CSS variable usage (`NativeTheme`), 4px grid spacing system (`Spacing`), clean CTA sidebar (`SidebarView`), WCAG 2.1 AA accessibility (`Accessibility`), calm status bar progress notifications (`CalmNotifications`), and zero-impact lazy loading (`ZeroImpactPerformance`).
+- **Plugin Consent Webview Modal (`PluginConsentModal`)**: Interactive webview consent dialog rendering visual dependency graph nodes, transitive vulnerability findings, and permission review details.
+
 ## 1.6.0
 
 ### Major Changes

@@ -21,28 +21,28 @@ hero:
 features:
   - icon: 🔒
     title: Privacy First
-    details: "Runs 100% locally. Your code never leaves your machine. No telemetry. No cloud required."
+    details: "Runs locally. Code stays on device with on-device LLMs (Ollama/WebGPU). No telemetry."
   - icon: 🤖
     title: Bring Your Own AI
-    details: "Use Ollama, OpenAI, Anthropic, or WebGPU. You control the AI, not us."
+    details: "Use Ollama, OpenAI, Anthropic, or WebGPU. Full control over AI models and endpoints."
   - icon: 📝
     title: Intelligent Changelogs
-    details: "AI explains what changed and why. Not just line diffs — human-readable summaries."
+    details: "Generates clear, human-readable explanations of code changes beyond simple diffs."
   - icon: 🎭
     title: 8 Personas
-    details: "Developer, CEO, Educator, Robot, Analyst, Journalist, PM, Compliance. Same changes, different perspective."
+    details: "Developer, CEO, Educator, Robot, Analyst, Journalist, PM, Compliance perspectives."
   - icon: 📊
     title: Mermaid Diagrams
-    details: "Architecture changes, dependency graphs, git timelines. Auto-generated from your diffs."
+    details: "Architecture changes, dependency graphs, git timelines auto-generated from diffs."
   - icon: 🛡️
-    title: Vibe Coding Guardian
-    details: "Auto-checkpoints before every AI call. Zero data loss guarantee. Works even when AI fails."
+    title: Workspace Safety
+    details: "Auto-checkpoints before AI operations to safeguard local workspace changes."
   - icon: 🌍
     title: 10 Compliance Frameworks
     details: "GDPR, HIPAA, SOC 2, FedRAMP, ISO 27001, and more. One command: `devdiff compliance apply`."
   - icon: 🆓
     title: Free & Open Source
-    details: "MIT licensed. No paid tiers. No usage limits. Community-funded. Forever."
+    details: "MIT licensed. Open-source codebase with no usage limits or paid tiers."
 ---
 
 ## Quick Start

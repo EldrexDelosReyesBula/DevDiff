@@ -26,6 +26,10 @@ import { playgroundCommand } from "./commands/playground";
 import { contextCommand } from "./commands/context";
 import { discloseCommand } from "./commands/disclose";
 import { monitorCommand } from "./commands/monitor";
+import { securityCommand } from "./commands/security";
+import { agentCommand } from "./commands/agent";
+import { promptCommand } from "./commands/prompt";
+import { importCommand } from "./commands/import";
 import { mvpCommand } from "./commands/mvp";
 import {
   authAddCommand,
@@ -98,6 +102,14 @@ async function executeCommand(fullPath: string, args: any[]) {
       return complianceCommand(sub as any, args[0]);
     case "audit":
       return auditCommand(sub, args[0]);
+    case "security":
+      return securityCommand(sub, args[0]);
+    case "agent":
+      return agentCommand(sub, args[0], args[1] || {});
+    case "prompt":
+      return promptCommand(sub, args[0]);
+    case "import":
+      return importCommand(sub, args[0], args[1]);
     case "context":
       return contextCommand(sub as any);
     case "playground":

@@ -42,10 +42,11 @@ When cloud providers are enabled, `NetworkGuardV2` restricts outbound connection
 
 Any attempt to open connections to unrecognized domains or IP addresses is blocked with a security exception.
 
-### 3. Zero Telemetry & Tracking
+### 3. Zero Telemetry & 100+ Domain Category Blocklist
 
-- **No Analytics**: DevDiff collects **0** usage telemetry, analytics, tracking pings, or user metrics.
-- **No Licensing Beacons**: Version verification and memory indexing execute locally without calling home.
+- **Built-in Category Blocking**: `NetworkGuardV2` automatically blocks 100+ known tracking domains across 5 categories: `telemetry` (Mixpanel, Segment, Amplitude), `analytics` (Google Analytics, Tag Manager), `errorTracking` (Sentry, LogRocket, Rollbar), `advertising` (DoubleClick, LinkedIn Ads), and `cdn_unknown`.
+- **Auditing & Control**: Inspect network history via `devdiff network history`, watch connections in real time via `devdiff network watch`, and verify system disclosure with `devdiff disclose`.
+
 
 ### 4. Custom Enterprise Proxy Support
 

@@ -41,5 +41,41 @@
     "directory": "packages/connectors"
   },
   "author": "Eldrex Delos Reyes Bula <eldrexdelosreyesbula@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devdiff": {
+    "packageType": "connector",
+    "capabilities": [
+      "messaging-connectors",
+      "webhook-dispatch",
+      "slack-integration",
+      "discord-integration"
+    ],
+    "exports": {
+      "main": "./src/registry.ts",
+      "classes": ["ConnectorRegistry", "SlackConnector", "DiscordConnector"],
+      "functions": ["getConnector", "dispatchNotification"],
+      "types": ["ConnectorConfig", "NotificationPayload"]
+    },
+    "dependencies": {
+      "required": [],
+      "optional": ["@slack/web-api", "discord.js"]
+    },
+    "agentContext": {
+      "purpose": "Messaging connectors registry for DevDiff. Provides pre-built dispatchers for Slack, Discord, Microsoft Teams, and custom webhooks.",
+      "whenToUse": "When you need to send generated changelogs or security alerts to external communication channels.",
+      "keyConcepts": [
+        "Pluggable connector interface",
+        "Supports webhooks and native APIs",
+        "Configurable notification channels"
+      ],
+      "commonPatterns": [
+        "Get connector → format payload → dispatch notification"
+      ],
+      "quickStart": {
+        "install": "npm install @eldrex/connectors",
+        "import": "import { getConnector } from '@eldrex/connectors';",
+        "basicUsage": "const slack = getConnector('slack'); await slack.send(payload);"
+      }
+    }
+  }
 }

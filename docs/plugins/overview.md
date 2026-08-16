@@ -62,3 +62,10 @@ DevDiff includes 4 production-ready, fully working plugin implementations inside
 - 🎫 [Jira Issue Linker Plugin](./official-examples#2--jira-issue-auto-linker-plugin) (`examples/plugins/jira-linker/index.ts`)
 - 💰 [Cost & Token Tracker Plugin](./official-examples#3--llm-token--cost-tracker-plugin) (`examples/plugins/cost-tracker/index.ts`)
 - 🛡️ [Security Gate Enforcer Plugin](./official-examples#4--security-gate-enforcer-plugin) (`examples/plugins/security-gate/index.ts`)
+
+---
+
+## 🔒 Security & Supply Chain Protection
+
+For details on how DevDiff scans transitive dependencies, detects obfuscated code, and reviews permissions before plugin installation, visit the [Plugin Security & Supply Chain Protection Documentation](./security.md).
+

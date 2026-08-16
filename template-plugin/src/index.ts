@@ -5,7 +5,16 @@
  * Copy this, rename, and build your own.
  */
 
-import { DevDiffPlugin, PluginContext } from "@eldrex/plugin-sdk";
+import {
+  DevDiffPlugin,
+  PluginContext,
+  ParsedDiff,
+  ProjectContext,
+  ChangelogResult,
+  DevDiffError,
+  GitCommit,
+  AIResult,
+} from "@eldrex/plugin-sdk";
 
 export const plugin: DevDiffPlugin = {
   id: "my-devdiff-plugin",
@@ -40,29 +49,29 @@ export const plugin: DevDiffPlugin = {
   // ── Hooks ──
 
   hooks: {
-    async beforeAnalysis(diff, context) {
+    async beforeAnalysis(diff: ParsedDiff, context: ProjectContext) {
       // Modify or validate the diff before AI sees it
       // Example: Add custom metadata
       return diff;
     },
 
-    async afterAnalysis(changelog) {
+    async afterAnalysis(changelog: ChangelogResult) {
       // Post-process the changelog
       // Example: Send to external system
       return changelog;
     },
 
-    async onError(error) {
+    async onError(error: DevDiffError) {
       // Custom error handling
       // Example: Send to monitoring service
     },
 
-    async onCommit(commit) {
+    async onCommit(commit: GitCommit) {
       // React to new commits
       // Example: Trigger CI pipeline
     },
 
-    async onAIComplete(result) {
+    async onAIComplete(result: AIResult) {
       // Track AI usage
       // Example: Log token consumption
     },
@@ -74,7 +83,7 @@ export const plugin: DevDiffPlugin = {
     {
       name: "my-plugin-status",
       description: "Show plugin status",
-      handler: async (args) => {
+      handler: async (args: Record<string, any>) => {
         console.log("Plugin is running!");
       },
     },

@@ -324,6 +324,55 @@ devdiff config --reset      # Reset to defaults
 
 ---
 
+## v1.7.0 Memory Timeline Commands (`devdiff memory`)
+
+```bash
+devdiff memory list                               # List memory snapshots
+devdiff memory list --from 08-01 --to 08-15       # Filter by date range
+devdiff memory delete --from 03-01 --to 03-15    # Delete range
+devdiff memory delete --from 03-01 --to 03-15 --dry-run # Dry run preview
+devdiff memory use --from 04-01 --to 04-30        # Scope active memory
+devdiff memory use --all                         # Reset active memory filter
+devdiff memory categorize --from 03-01 --to 03-15 --label "experimentation"
+devdiff memory categories                         # List snapshot categories
+devdiff memory optimize                           # Deduplicate and compact
+devdiff memory status                             # Display memory status
+```
+
+---
+
+## v1.7.0 Network & Transparency Commands (`devdiff network`, `devdiff disclose`)
+
+```bash
+devdiff network watch                             # Real-time network monitor
+devdiff network history                           # History of network connections
+devdiff network history --plugin @eldrex/plugin-slack
+devdiff network block api.mixpanel.com            # Block specific domain
+devdiff network block --category telemetry        # Block category
+devdiff network unblock api.example.com           # Unblock domain
+devdiff network allow hooks.slack.com             # Add to allowlist
+devdiff network disallow hooks.slack.com          # Remove from allowlist
+devdiff network blocked                           # List blocked policies
+devdiff network allowed                           # List allowed policies
+devdiff network export --format markdown          # Export network audit report
+devdiff network audit                             # Run network security audit
+devdiff plugin audit @eldrex/plugin-slack         # Audit declared vs actual behavior
+devdiff disclose                                  # Generate full disclosure report
+```
+
+---
+
+## v1.7.0 Study Buddy Commands (`devdiff study`)
+
+```bash
+devdiff study explain                             # Explain code at developer level
+devdiff study explain --level beginner           # Explain code at beginner level
+devdiff study ask "How does Flexbox work here?"   # Ask learning question
+```
+
+
+---
+
 ## Exit Codes
 
 | Code | Meaning                      |

@@ -35,5 +35,44 @@
     "sdk"
   ],
   "author": "Eldrex Delos Reyes Bula \u003celdrexdelosreyesbula@gmail.com\u003e",
-  "license": "MIT"
+  "license": "MIT",
+  "devdiff": {
+    "packageType": "plugin-sdk",
+    "capabilities": [
+      "plugin-lifecycle",
+      "hook-system",
+      "custom-commands",
+      "permission-management"
+    ],
+    "exports": {
+      "main": "./src/index.ts",
+      "classes": ["PluginBase", "PluginContext", "PluginStorage", "PluginLogger"],
+      "functions": ["definePlugin", "createPlugin", "registerHook"],
+      "types": ["DevDiffPlugin", "PluginConfig", "HookHandler", "CommandDefinition"]
+    },
+    "dependencies": {
+      "required": [],
+      "optional": []
+    },
+    "agentContext": {
+      "purpose": "SDK for building DevDiff plugins. Provides lifecycle hooks, storage APIs, and permission management for extending DevDiff.",
+      "whenToUse": "When building a plugin that adds new AI providers, output formats, notification channels, or CLI commands to DevDiff.",
+      "keyConcepts": [
+        "Plugins extend DevDiff without modifying core",
+        "Lifecycle hooks for every stage",
+        "Permission system for security",
+        "Publishable to npm"
+      ],
+      "commonPatterns": [
+        "Define plugin → implement hooks → register commands → publish",
+        "Hook into beforeAnalysis → modify diff → return enhanced diff",
+        "Hook into afterAnalysis → send notification → log to external service"
+      ],
+      "quickStart": {
+        "install": "npm install @eldrex/plugin-sdk",
+        "import": "import { definePlugin } from '@eldrex/plugin-sdk';",
+        "basicUsage": "export default definePlugin({ name: 'my-plugin', version: '1.0.0' });"
+      }
+    }
+  }
 }

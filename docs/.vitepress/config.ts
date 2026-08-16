@@ -1,4 +1,5 @@
 import { withMermaid } from "vitepress-plugin-mermaid";
+import DepthIndex from "vitepress-plugin-depthindex";
 
 export default withMermaid({
   title: "DevDiff",
@@ -104,9 +105,8 @@ export default withMermaid({
       { text: "Enterprise", link: "/enterprise/compliance-frameworks" },
       { text: "Troubleshooting", link: "/troubleshooting/" },
       { text: "API", link: "/api/core" },
-      { text: "Blog", link: "/blog/2026-07-05-5000-downloads" },
       {
-        text: "v1.6.0",
+        text: "v1.7.0",
         items: [
           { text: "Changelog", link: "/versioning/changelog" },
           { text: "Version Policy", link: "/versioning/policy" },
@@ -136,15 +136,37 @@ export default withMermaid({
         ],
       },
       {
-        text: "Features (v1.6.0)",
+        text: "Features (v1.7.0)",
         collapsed: false,
         items: [
           {
-            text: "IDE-Native Architecture (v1.6.0)",
+            text: "Agent Orchestration Platform (v1.7.0)",
+            link: "/features/agent-orchestration",
+          },
+          {
+            text: "Universal AI Prompt Export (v1.7.0)",
+            link: "/features/prompt-export",
+          },
+          {
+            text: "Dynamic Security Engine (v1.7.0)",
+            link: "/security/dynamic-security",
+          },
+          {
+            text: "Trust & Transparency (v1.7.0)",
+            link: "/security/network-guard",
+          },
+          {
+            text: "Memory Timeline Control (v1.7.0)",
+            link: "/features/persistent-memory",
+          },
+          {
+            text: "Universal Study Buddy Plugin (v1.7.0)",
+            link: "/features/study-mode",
+          },
+          {
+            text: "IDE-Native Architecture",
             link: "/features/ide-integration",
           },
-          { text: "Study Buddy Mode (v1.6.0)", link: "/features/study-mode" },
-          { text: "Persistent Memory", link: "/features/persistent-memory" },
           { text: "Conversational Q&A", link: "/features/conversational-qa" },
           {
             text: "Automated Versioning",
@@ -349,5 +371,8 @@ export default withMermaid({
         "https://github.com/EldrexDelosReyesBula/devdiff/edit/main/docs/:path",
       text: "Edit this page on GitHub",
     },
+  },
+  vite: {
+    plugins: [DepthIndex()],
   },
 });

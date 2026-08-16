@@ -1,5 +1,14 @@
 # @eldrex/core
 
+## 1.7.0
+
+### Minor Changes
+
+- **AgentRegistry & OpenClawSupervisorV2**: Multi-agent squad orchestration (`architect`, `security`, `performance`, `docs`, `qa`), fallback task routing, parallel swarm consensus building, and `.devdiff/agents/openclaw/supervisor.yaml` task graph decomposition.
+- **PromptGenerator & ImportEngine**: Universal AI prompt exporter for ChatGPT, Claude, Gemini, Copilot, and clipboard-based response importer with completeness and quality validation.
+- **BehavioralEngine & AdaptiveRuleEngine**: Dynamic security baseline engine with threat feed synchronization and auto-disabling rule learning.
+- **DependencyScanner & ObfuscationDetector**: Supply chain protection with live OSV API & npm query integration, native binary detection, and 8-indicator threat scoring.
+
 ## 1.6.0
 
 ### Major Changes
