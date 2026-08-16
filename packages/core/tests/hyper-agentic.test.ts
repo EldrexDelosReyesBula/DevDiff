@@ -71,11 +71,15 @@ describe("DevDiff v1.7.0 — Agent Orchestration Platform & OpenClaw Supervisor 
     it("decomposes objectives into subtask execution graphs", () => {
       const supervisor = new OpenClawSupervisorV2(rootDir);
 
-      const securityGraph = supervisor.decomposeTask("Run security vulnerability audit");
+      const securityGraph = supervisor.decomposeTask(
+        "Run security vulnerability audit",
+      );
       expect(securityGraph.taskId).toBe("security_audit");
       expect(securityGraph.parallelSubtasks.length).toBeGreaterThan(0);
 
-      const changelogGraph = supervisor.decomposeTask("Generate changelog for release");
+      const changelogGraph = supervisor.decomposeTask(
+        "Generate changelog for release",
+      );
       expect(changelogGraph.taskId).toBe("changelog_generation");
     });
 
@@ -89,7 +93,9 @@ describe("DevDiff v1.7.0 — Agent Orchestration Platform & OpenClaw Supervisor 
       expect(orchestration.success).toBe(true);
       expect(orchestration.taskId).toBe("security_audit");
       expect(orchestration.validation.approved).toBe(true);
-      expect(["auto_approved", "human_review_requested"]).toContain(orchestration.validation.action);
+      expect(["auto_approved", "human_review_requested"]).toContain(
+        orchestration.validation.action,
+      );
     });
   });
 });

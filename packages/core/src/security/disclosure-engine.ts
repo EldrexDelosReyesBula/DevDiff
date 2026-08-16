@@ -35,7 +35,11 @@ export interface DisclosureReportData {
     allowedDomains: string[];
     blockedDomains: string[];
   };
-  pluginActivity: Array<{ plugin: string; connectionsCount: number; targetDomains: string[] }>;
+  pluginActivity: Array<{
+    plugin: string;
+    connectionsCount: number;
+    targetDomains: string[];
+  }>;
   filesystemAccess: {
     reads: string[];
     writes: string[];
@@ -61,7 +65,7 @@ export class PluginAuditor {
    */
   static async auditPlugin(
     pluginName: string,
-    workspacePath: string = process.cwd()
+    workspacePath: string = process.cwd(),
   ): Promise<PluginAuditResult> {
     const pluginManager = new PluginManager(workspacePath);
     const plugin = pluginManager.getPlugin(pluginName) as any;
@@ -72,24 +76,36 @@ export class PluginAuditor {
     const declaredAi: string[] = plugin?.permissions?.aiPrompts || [];
 
     const logs = NetworkGuardV2.getAuditLogs(workspacePath).filter(
-      (l) => l.plugin === pluginName
+      (l) => l.plugin === pluginName,
     );
 
-    const actualNetworkMap = new Map<string, { count: number; allowed: boolean }>();
+    const actualNetworkMap = new Map<
+      string,
+      { count: number; allowed: boolean }
+    >();
     for (const log of logs) {
-      const existing = actualNetworkMap.get(log.domain) || { count: 0, allowed: log.allowed };
+      const existing = actualNetworkMap.get(log.domain) || {
+        count: 0,
+        allowed: log.allowed,
+      };
       existing.count++;
       actualNetworkMap.set(log.domain, existing);
     }
 
-    const actualNetwork = Array.from(actualNetworkMap.entries()).map(([domain, info]) => ({
-      domain,
-      ...info,
-    }));
+    const actualNetwork = Array.from(actualNetworkMap.entries()).map(
+      ([domain, info]) => ({
+        domain,
+        ...info,
+      }),
+    );
 
     const issues: string[] = [];
     for (const item of actualNetwork) {
-      if (!declaredNetwork.some((d) => item.domain === d || item.domain.endsWith("." + d))) {
+      if (
+        !declaredNetwork.some(
+          (d) => item.domain === d || item.domain.endsWith("." + d),
+        )
+      ) {
         issues.push(`Accessed undeclared domain: ${item.domain}`);
       }
     }
@@ -119,7 +135,9 @@ export class DisclosureReport {
   /**
    * Generate complete full disclosure report
    */
-  static async generate(workspacePath: string = process.cwd()): Promise<DisclosureReportData> {
+  static async generate(
+    workspacePath: string = process.cwd(),
+  ): Promise<DisclosureReportData> {
     const logs = NetworkGuardV2.getAuditLogs(workspacePath);
 
     const allowedLogs = logs.filter((l) => l.allowed);
@@ -136,11 +154,13 @@ export class DisclosureReport {
       }
     }
 
-    const pluginActivity = Array.from(pluginMap.entries()).map(([plugin, domains]) => ({
-      plugin,
-      connectionsCount: logs.filter((l) => l.plugin === plugin).length,
-      targetDomains: Array.from(domains),
-    }));
+    const pluginActivity = Array.from(pluginMap.entries()).map(
+      ([plugin, domains]) => ({
+        plugin,
+        connectionsCount: logs.filter((l) => l.plugin === plugin).length,
+        targetDomains: Array.from(domains),
+      }),
+    );
 
     return {
       generatedAt: new Date().toISOString(),
@@ -159,7 +179,11 @@ export class DisclosureReport {
       filesystemAccess: {
         reads: [".git/", "Source code files", "package.json", "SKILL.md"],
         writes: [".devdiff/", "CHANGELOG.md"],
-        neverAccessed: ["Files outside workspace", "System files", "Personal documents"],
+        neverAccessed: [
+          "Files outside workspace",
+          "System files",
+          "Personal documents",
+        ],
       },
       shellExecution: {
         executed: ["git diff", "git log", "git show", "git status"],
@@ -167,8 +191,15 @@ export class DisclosureReport {
       },
       aiProcessing: {
         providers: ["Ollama (local)", "OpenAI (cloud)", "IDE Agent"],
-        dataSent: ["Git diffs (secrets redacted)", "Project context (SKILL.md)"],
-        dataNeverSent: ["Full source code", "Environment variables", "API keys"],
+        dataSent: [
+          "Git diffs (secrets redacted)",
+          "Project context (SKILL.md)",
+        ],
+        dataNeverSent: [
+          "Full source code",
+          "Environment variables",
+          "API keys",
+        ],
       },
       privacyGuarantees: [
         "Zero telemetry — no analytics connections",

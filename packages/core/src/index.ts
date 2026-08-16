@@ -267,17 +267,35 @@ export type {
 export { MermaidEngineV2 } from "./outputs/mermaid/engine-v2";
 export type { MermaidResult, DiagramType } from "./outputs/mermaid/engine-v2";
 export { ContextAwareExplainer } from "./explain/context-aware-explainer";
-export type { CodeExplanation, CodeReferences } from "./explain/context-aware-explainer";
+export type {
+  CodeExplanation,
+  CodeReferences,
+} from "./explain/context-aware-explainer";
 export { SecurityAuditEngineV2 } from "./security/audit-engine-v2";
-export type { SecurityAuditResult, AuditOptions, SecurityFinding as SecurityAuditFinding } from "./security/audit-engine-v2";
+export type {
+  SecurityAuditResult,
+  AuditOptions,
+  SecurityFinding as SecurityAuditFinding,
+} from "./security/audit-engine-v2";
 
 // DevDiff v1.7.0 Progressive Intelligence & Architecture Awareness Exports
 export { ProgressiveExplainer } from "./explain/progressive-explainer";
-export type { ProgressiveExplanation, ExplanationLevel, ExplanationSection } from "./explain/progressive-explainer";
+export type {
+  ProgressiveExplanation,
+  ExplanationLevel,
+  ExplanationSection,
+} from "./explain/progressive-explainer";
 export { DependencyMapper } from "./explain/dependency-mapper";
-export type { DependencyDiagram, DependencyNode } from "./explain/dependency-mapper";
+export type {
+  DependencyDiagram,
+  DependencyNode,
+} from "./explain/dependency-mapper";
 export { OnboardingGenerator } from "./onboarding/onboarding-generator";
-export type { OnboardingGuide, Section as OnboardingSection, CodebaseIndex } from "./onboarding/onboarding-generator";
+export type {
+  OnboardingGuide,
+  Section as OnboardingSection,
+  CodebaseIndex,
+} from "./onboarding/onboarding-generator";
 
 // DevDiff v1.7.0 Agentic Platform Exports
 export { PackageDiscovery } from "./agentic/package-manifest";
@@ -286,10 +304,19 @@ export type { AgenticPackageManifest } from "./agentic/package-manifest";
 // DevDiff v1.7.0 Output Quality & Generation Reliability Exports
 export { CompletenessValidator } from "./output/completeness-validator";
 export type { ValidationResult } from "./output/completeness-validator";
-export { OptimizedPrompts, TOKEN_BUDGETS } from "./ai/prompts/optimized-prompts";
+export {
+  OptimizedPrompts,
+  TOKEN_BUDGETS,
+} from "./ai/prompts/optimized-prompts";
 export { OutputQualityGate } from "./output/quality-gate";
-export type { QualityGateOptions, QualityGateResult } from "./output/quality-gate";
-export { NeverPushIncomplete, IncompleteOutputError } from "./git/never-push-incomplete";
+export type {
+  QualityGateOptions,
+  QualityGateResult,
+} from "./output/quality-gate";
+export {
+  NeverPushIncomplete,
+  IncompleteOutputError,
+} from "./git/never-push-incomplete";
 
 // DevDiff v1.7.0 SKILL.md Universal Agent Standard Exports
 export { SkillLoader } from "./skill/skill-loader";
@@ -304,7 +331,10 @@ export type {
 
 // DevDiff v1.7.0 Context, SKILL.md & Memory Unification Exports
 export { UnifiedContext } from "./context/unified-context";
-export type { UnifiedKnowledge, ProjectKnowledge } from "./context/unified-context";
+export type {
+  UnifiedKnowledge,
+  ProjectKnowledge,
+} from "./context/unified-context";
 export { ContextMemorySync } from "./memory/context-sync";
 export type { SyncResult, SyncChange } from "./memory/context-sync";
 export { HallucinationGuard } from "./verify/hallucination-guard";
@@ -327,9 +357,16 @@ export type { TimeReference } from "./generators/time-aware-generator";
 
 // DevDiff v1.7.0 Trust & Transparency Platform Exports
 export { NetworkGuardV2, NetworkConfig } from "./security/network-guard-v2";
-export type { ConnectionDecision, NetworkLogEntry as NetworkLogEntryV2, NetworkConfigData } from "./security/network-guard-v2";
+export type {
+  ConnectionDecision,
+  NetworkLogEntry as NetworkLogEntryV2,
+  NetworkConfigData,
+} from "./security/network-guard-v2";
 export { PluginAuditor, DisclosureReport } from "./security/disclosure-engine";
-export type { PluginAuditResult, DisclosureReportData } from "./security/disclosure-engine";
+export type {
+  PluginAuditResult,
+  DisclosureReportData,
+} from "./security/disclosure-engine";
 
 // DevDiff v1.7.0 Supply Chain & Plugin Security Exports
 export { DependencyScanner } from "./plugins/dependency-scanner";
@@ -399,16 +436,3 @@ export type {
   SupervisorConfig,
   TaskDecomposition,
 } from "./agents/openclaw-supervisor";
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -18,7 +18,9 @@ describe("DevDiff v1.7.0 — Progressive Explainer", () => {
         }
       }
     `;
-    expect(ProgressiveExplainer.autoDetectLevel(complexSecurityCode)).toBe("architect");
+    expect(ProgressiveExplainer.autoDetectLevel(complexSecurityCode)).toBe(
+      "architect",
+    );
   });
 
   it("generates progressive explanations with correct level sections", async () => {
@@ -32,7 +34,9 @@ describe("DevDiff v1.7.0 — Progressive Explainer", () => {
     });
 
     expect(beginnerResult.level).toBe("beginner");
-    expect(beginnerResult.sections.some((s) => s.title === "Line-by-Line Breakdown")).toBe(true);
+    expect(
+      beginnerResult.sections.some((s) => s.title === "Line-by-Line Breakdown"),
+    ).toBe(true);
     expect(beginnerResult.suggestedNextLevel).toBe("student");
 
     const architectResult = await ProgressiveExplainer.explain({
@@ -43,8 +47,16 @@ describe("DevDiff v1.7.0 — Progressive Explainer", () => {
     });
 
     expect(architectResult.level).toBe("architect");
-    expect(architectResult.sections.some((s) => s.title === "Strategic Recommendations")).toBe(true);
-    expect(architectResult.sections.some((s) => s.title === "Performance & Memory Analysis")).toBe(true);
+    expect(
+      architectResult.sections.some(
+        (s) => s.title === "Strategic Recommendations",
+      ),
+    ).toBe(true);
+    expect(
+      architectResult.sections.some(
+        (s) => s.title === "Performance & Memory Analysis",
+      ),
+    ).toBe(true);
   });
 });
 

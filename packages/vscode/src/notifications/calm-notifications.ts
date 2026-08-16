@@ -15,11 +15,13 @@ export class CalmNotifications {
     action?: { title: string; command: string },
   ): void {
     if (action) {
-      vscode.window.showInformationMessage(message, action.title).then((choice) => {
-        if (choice === action.title) {
-          vscode.commands.executeCommand(action.command);
-        }
-      });
+      vscode.window
+        .showInformationMessage(message, action.title)
+        .then((choice) => {
+          if (choice === action.title) {
+            vscode.commands.executeCommand(action.command);
+          }
+        });
     } else {
       const statusBar = vscode.window.createStatusBarItem(
         vscode.StatusBarAlignment.Right,

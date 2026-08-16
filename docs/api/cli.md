@@ -370,7 +370,6 @@ devdiff study explain --level beginner           # Explain code at beginner leve
 devdiff study ask "How does Flexbox work here?"   # Ask learning question
 ```
 
-
 ---
 
 ## Exit Codes

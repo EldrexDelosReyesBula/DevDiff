@@ -28,6 +28,7 @@ The **DevDiff Agent Orchestration Platform** (introduced in DevDiff v1.7.0) esta
 The `OpenClawSupervisorV2` orchestrates specialized agent squads according to project configuration in `.devdiff/agents/openclaw/supervisor.yaml`:
 
 ### 1. Specialized Agent Roles
+
 - 🏗️ **Architect**: `architecture_analysis`, `design_pattern_detection`, `refactoring_identification`, `dependency_mapping`.
 - 🔒 **Security**: `vulnerability_scanning`, `secret_detection`, `cve_matching`, `compliance_verification`.
 - ⚡ **Performance**: `complexity_analysis`, `memory_profiling`, `bundle_impact`, `query_optimization`.
@@ -35,12 +36,15 @@ The `OpenClawSupervisorV2` orchestrates specialized agent squads according to pr
 - 💬 **Q&A**: `code_explanation`, `architecture_questions`, `historical_context`.
 
 ### 2. Task Graph Decomposition
+
 The supervisor automatically decomposes user objectives into parallel and sequential subtasks:
+
 - **`changelog_generation`**: Parallel diff & context scanning ➔ Sequential architecture, security, and performance analysis ➔ Final documentation synthesis & quality review.
 - **`security_audit`**: Parallel secret, dependency, and injection scans ➔ Sequential code pattern & compliance checks ➔ Final report generation.
 - **`answer_question`**: Parallel memory & index lookups ➔ Sequential Q&A synthesis.
 
 ### 3. Automated Validation Gates
+
 - **Auto-Approve Threshold**: $\ge 85\%$ confidence.
 - **Human Review Threshold**: $70\% - 84\%$ confidence.
 - **Auto-Retry Threshold**: $< 50\%$ confidence.

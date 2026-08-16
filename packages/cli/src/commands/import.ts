@@ -46,16 +46,27 @@ export async function importCommand(
   }
 
   console.log(pc.yellow("Usage:"));
-  console.log("  devdiff import changelog <response.md>  " + pc.gray("Import from response file"));
-  console.log("  devdiff import changelog --paste        " + pc.gray("Import from clipboard"));
-  console.log("  devdiff import changelog --prepend      " + pc.gray("Prepend to existing CHANGELOG.md"));
+  console.log(
+    "  devdiff import changelog <response.md>  " +
+      pc.gray("Import from response file"),
+  );
+  console.log(
+    "  devdiff import changelog --paste        " +
+      pc.gray("Import from clipboard"),
+  );
+  console.log(
+    "  devdiff import changelog --prepend      " +
+      pc.gray("Prepend to existing CHANGELOG.md"),
+  );
 }
 
 function printResult(result: any): void {
   if (result.success) {
     console.log(pc.green("✅ Changelog imported successfully!"));
     console.log(`   Saved to: ${pc.bold(result.outputPath)}`);
-    console.log(`   Lines: ${result.lines} | Characters: ${result.characters}\n`);
+    console.log(
+      `   Lines: ${result.lines} | Characters: ${result.characters}\n`,
+    );
     console.log(pc.bold("Preview:"));
     console.log(pc.gray(result.preview));
   } else {

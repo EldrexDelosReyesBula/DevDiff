@@ -809,20 +809,45 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
       "devdiff agent dashboard",
     ],
     subcommands: [
-      { name: "swarm", description: "Deploy full multi-agent swarm", category: "core" },
-      { name: "deploy", description: "Deploy specific agents", category: "core" },
+      {
+        name: "swarm",
+        description: "Deploy full multi-agent swarm",
+        category: "core",
+      },
+      {
+        name: "deploy",
+        description: "Deploy specific agents",
+        category: "core",
+      },
       { name: "ask", description: "Ask specific agent role", category: "core" },
-      { name: "parallel", description: "Run parallel agent subtasks", category: "core" },
-      { name: "status", description: "Display agent squad status", category: "core" },
-      { name: "dashboard", description: "Render Agent Swarm Dashboard", category: "core" },
-      { name: "converse", description: "Trigger inter-agent bus conversation", category: "core" },
+      {
+        name: "parallel",
+        description: "Run parallel agent subtasks",
+        category: "core",
+      },
+      {
+        name: "status",
+        description: "Display agent squad status",
+        category: "core",
+      },
+      {
+        name: "dashboard",
+        description: "Render Agent Swarm Dashboard",
+        category: "core",
+      },
+      {
+        name: "converse",
+        description: "Trigger inter-agent bus conversation",
+        category: "core",
+      },
     ],
     category: "core",
   },
   {
     name: "prompt",
     aliases: ["export-prompt"],
-    description: "Universal AI prompt exporter for ChatGPT, Claude, Gemini, Copilot",
+    description:
+      "Universal AI prompt exporter for ChatGPT, Claude, Gemini, Copilot",
     examples: [
       "devdiff prompt export --target chatgpt --copy",
       "devdiff prompt export --target claude --output prompt.md",
@@ -831,7 +856,8 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
     subcommands: [
       {
         name: "export",
-        description: "Export self-contained, copy-paste ready prompt for any AI",
+        description:
+          "Export self-contained, copy-paste ready prompt for any AI",
         category: "utility",
       },
     ],
@@ -840,7 +866,8 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
   {
     name: "import",
     aliases: ["import-changelog"],
-    description: "Import AI response back into CHANGELOG.md with quality validation",
+    description:
+      "Import AI response back into CHANGELOG.md with quality validation",
     examples: [
       "devdiff import changelog response.md",
       "devdiff import changelog --paste --prepend",

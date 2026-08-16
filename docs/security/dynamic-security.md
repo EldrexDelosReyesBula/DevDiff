@@ -41,6 +41,7 @@ flowchart LR
 ```
 
 ### 1. Baselines Tracked
+
 - **Network**: Avg daily connections, domain count, data sent (MB), common domains, and peak access hours.
 - **Filesystem**: Daily files read/written, common paths, average read file size.
 - **AI Usage**: Daily LLM calls, tokens per call, common personas, preferred provider, and latency.
@@ -48,7 +49,9 @@ flowchart LR
 - **Development**: Commits per day, files per commit, peak commit hours, and daily changelog generations.
 
 ### 2. Anomaly Detection
+
 Comparing current activity snapshots against established baselines triggers anomaly alerts when:
+
 - **Network Traffic Spikes**: Daily connections exceed $3\times$ baseline.
 - **New Domain Connections**: Contacting unrecognised domains.
 - **Filesystem Anomaly**: Reading paths outside standard workspace directories.
@@ -77,6 +80,7 @@ if (!result.allowed) {
 ```
 
 ### Feedback Loop & Self-Tuning
+
 - **False Positive Auto-Disabling**: If a rule receives 5 false positive reports (`reportFalsePositive()`), it is automatically disabled to eliminate workflow disruption.
 - **True Positive Reinforcement**: Reporting true positives (`reportTruePositive()`) increases rule confidence ratings (`low` ➔ `medium` ➔ `high`).
 

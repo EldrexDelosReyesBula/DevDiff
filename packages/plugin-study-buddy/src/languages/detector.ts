@@ -35,7 +35,11 @@ export class LanguageDetector {
     }
 
     // Snippet content heuristics
-    if (/import\s+React|export\s+default\s+function|const\s+\w+\s*=\s*\(\)\s*=>/i.test(code)) {
+    if (
+      /import\s+React|export\s+default\s+function|const\s+\w+\s*=\s*\(\)\s*=>/i.test(
+        code,
+      )
+    ) {
       return "typescript";
     }
     if (/def\s+\w+\s*\(|import\s+os|from\s+\w+\s+import/i.test(code)) {

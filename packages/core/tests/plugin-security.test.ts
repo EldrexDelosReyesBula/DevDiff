@@ -7,9 +7,11 @@ import {
 import * as path from "path";
 
 describe("DevDiff v1.7.0 — Plugin Security & Supply Chain Protection", () => {
-  const rootDir = process.cwd().endsWith("packages\\core") || process.cwd().endsWith("packages/core")
-    ? path.resolve(process.cwd(), "../..")
-    : process.cwd();
+  const rootDir =
+    process.cwd().endsWith("packages\\core") ||
+    process.cwd().endsWith("packages/core")
+      ? path.resolve(process.cwd(), "../..")
+      : process.cwd();
 
   describe("DependencyScanner", () => {
     it("scans plugin dependency tree and detects direct/transitive dependencies", async () => {
@@ -45,7 +47,9 @@ describe("DevDiff v1.7.0 — Plugin Security & Supply Chain Protection", () => {
       `;
       const analysis = ObfuscationDetector.analyze(dangerousCode);
       expect(analysis.score).toBeGreaterThanOrEqual(40);
-      expect(analysis.indicators.some((i) => i.type === "dynamic-code-execution")).toBe(true);
+      expect(
+        analysis.indicators.some((i) => i.type === "dynamic-code-execution"),
+      ).toBe(true);
     });
   });
 
@@ -58,7 +62,9 @@ describe("DevDiff v1.7.0 — Plugin Security & Supply Chain Protection", () => {
       const review = PermissionReviewer.review(["network"], code);
       expect(review.permissions.length).toBe(1);
       expect(review.undeclared.length).toBeGreaterThan(0);
-      expect(review.undeclared.some((u) => u.includes("filesystem"))).toBe(true);
+      expect(review.undeclared.some((u) => u.includes("filesystem"))).toBe(
+        true,
+      );
     });
   });
 });

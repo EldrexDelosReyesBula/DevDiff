@@ -55,9 +55,13 @@ describe("DevDiff v1.7.0 — Dynamic Security Engine", () => {
       const report = BehavioralEngine.detectAnomalies(spikeSnapshot, profile);
       expect(report.totalAnomalies).toBeGreaterThan(0);
       expect(report.requiresAttention).toBe(true);
-      expect(report.anomalies.some((a) => a.type === "unusual-traffic-volume")).toBe(true);
+      expect(
+        report.anomalies.some((a) => a.type === "unusual-traffic-volume"),
+      ).toBe(true);
       expect(report.anomalies.some((a) => a.type === "new-domain")).toBe(true);
-      expect(report.anomalies.some((a) => a.type === "unusual-ai-usage")).toBe(true);
+      expect(report.anomalies.some((a) => a.type === "unusual-ai-usage")).toBe(
+        true,
+      );
     });
   });
 

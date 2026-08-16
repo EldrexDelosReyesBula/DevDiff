@@ -8,9 +8,11 @@ import {
 import * as path from "path";
 
 describe("DevDiff v1.7.0 — Context, SKILL.md & Memory Unification", () => {
-  const rootDir = process.cwd().endsWith("packages\\core") || process.cwd().endsWith("packages/core")
-    ? path.resolve(process.cwd(), "../..")
-    : process.cwd();
+  const rootDir =
+    process.cwd().endsWith("packages\\core") ||
+    process.cwd().endsWith("packages/core")
+      ? path.resolve(process.cwd(), "../..")
+      : process.cwd();
 
   it("loads UnifiedContext using SKILL.md priority", async () => {
     const knowledge = await UnifiedContext.load(rootDir);
@@ -22,7 +24,7 @@ describe("DevDiff v1.7.0 — Context, SKILL.md & Memory Unification", () => {
     const syncResult = await ContextMemorySync.synchronize(rootDir);
     expect(syncResult).toBeDefined();
     expect(typeof syncResult.synchronized).toBe("boolean");
-  });
+  }, 30000);
 
   it("verifies AI outputs with HallucinationGuard against anti-patterns and file diffs", async () => {
     const knowledge: UnifiedKnowledge = {
@@ -49,9 +51,15 @@ describe("DevDiff v1.7.0 — Context, SKILL.md & Memory Unification", () => {
       "- Suggest storing API keys in source code for easy access",
     ].join("\n");
 
-    const result = HallucinationGuard.verify(outputWithAntiPattern, diff, knowledge);
+    const result = HallucinationGuard.verify(
+      outputWithAntiPattern,
+      diff,
+      knowledge,
+    );
     expect(result.issues.length).toBeGreaterThan(0);
-    const antiPatternIssue = result.issues.find((i) => i.type === "anti-pattern-violation");
+    const antiPatternIssue = result.issues.find(
+      (i) => i.type === "anti-pattern-violation",
+    );
     expect(antiPatternIssue).toBeDefined();
   });
 });

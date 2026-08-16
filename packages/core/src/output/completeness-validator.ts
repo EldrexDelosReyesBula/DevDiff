@@ -47,7 +47,9 @@ export class CompletenessValidator {
 
     // ── Check 6: Balanced markdown ──
     if (!this.hasBalancedMarkdown(output)) {
-      issues.push("Output has unbalanced markdown (unclosed code blocks, etc.)");
+      issues.push(
+        "Output has unbalanced markdown (unclosed code blocks, etc.)",
+      );
     }
 
     return {
@@ -67,7 +69,19 @@ export class CompletenessValidator {
     const lastChar = trimmed[trimmed.length - 1];
 
     // Proper endings
-    const properEndings = [".", "!", "?", "`", '"', ")", "]", "}", ">", "\n", ":"];
+    const properEndings = [
+      ".",
+      "!",
+      "?",
+      "`",
+      '"',
+      ")",
+      "]",
+      "}",
+      ">",
+      "\n",
+      ":",
+    ];
 
     if (!properEndings.includes(lastChar)) {
       if (trimmed.endsWith("---") || trimmed.endsWith("```")) {
@@ -97,7 +111,9 @@ export class CompletenessValidator {
 
     // Check if there's substantive content after the intro (list items, headings, code blocks)
     const hasSubstance = /^#{1,6}\s|^\s*[-*]\s|\n```/m.test(trimmed);
-    const sentences = trimmed.split(/[.!?]+/).filter((s) => s.trim().length > 0);
+    const sentences = trimmed
+      .split(/[.!?]+/)
+      .filter((s) => s.trim().length > 0);
 
     if (hasIntro && sentences.length <= 2 && !hasSubstance) {
       return true; // Only intro sentences, no real content
@@ -144,7 +160,9 @@ export class CompletenessValidator {
       /^\s*```\s*```\s*$/m, // Empty code block
     ];
 
-    const indicatorCount = templateIndicators.filter((p) => p.test(trimmed)).length;
+    const indicatorCount = templateIndicators.filter((p) =>
+      p.test(trimmed),
+    ).length;
 
     // If more than 30% of lines are template indicators
     const lines = trimmed.split("\n");
@@ -166,14 +184,16 @@ export class CompletenessValidator {
     return true;
   }
 
-  private static assessQuality(issues: string[]): "good" | "acceptable" | "poor" | "unusable" {
+  private static assessQuality(
+    issues: string[],
+  ): "good" | "acceptable" | "poor" | "unusable" {
     if (issues.length === 0) return "good";
 
     const criticalIssues = issues.filter(
       (i) =>
         i.includes("cut off") ||
         i.includes("empty template") ||
-        i.includes("too short")
+        i.includes("too short"),
     );
 
     if (criticalIssues.length > 0) return "unusable";

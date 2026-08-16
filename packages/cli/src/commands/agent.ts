@@ -62,7 +62,8 @@ export async function agentCommand(
 
     case "ask": {
       const role = targetArg || "architect";
-      const question = options.prompt || options.question || "Explain codebase architecture";
+      const question =
+        options.prompt || options.question || "Explain codebase architecture";
 
       console.log(pc.cyan(`❓ Asking ${role} agent: "${question}"...\n`));
 

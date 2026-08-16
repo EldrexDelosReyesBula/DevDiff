@@ -1,9 +1,9 @@
 ---
 name: 💡 Feature Request
 about: Suggest an idea for DevDiff
-title: '[FEATURE] '
-labels: ['enhancement', 'triage']
-assignees: ''
+title: "[FEATURE] "
+labels: ["enhancement", "triage"]
+assignees: ""
 ---
 
 ## 💡 What Would You Like DevDiff to Do?

@@ -50,11 +50,13 @@ export class PermissionReviewer {
     }
 
     // Detect actual usage in code
-    const hasNetwork =
-      /fetch|axios|http|https|WebSocket|XMLHttpRequest/.test(sourceCode);
+    const hasNetwork = /fetch|axios|http|https|WebSocket|XMLHttpRequest/.test(
+      sourceCode,
+    );
     const hasShell = /child_process|exec|spawn/.test(sourceCode);
-    const hasFileSystem =
-      /fs\.|readFileSync|writeFileSync|promises/.test(sourceCode);
+    const hasFileSystem = /fs\.|readFileSync|writeFileSync|promises/.test(
+      sourceCode,
+    );
 
     if (hasNetwork && !declaredPermissions.includes("network")) {
       undeclared.push("Network calls detected without 'network' permission");

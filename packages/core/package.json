@@ -112,8 +112,16 @@
       ]
     },
     "dependencies": {
-      "required": ["diff", "zod", "cosmiconfig"],
-      "optional": ["ollama", "openai", "@anthropic-ai/sdk"]
+      "required": [
+        "diff",
+        "zod",
+        "cosmiconfig"
+      ],
+      "optional": [
+        "ollama",
+        "openai",
+        "@anthropic-ai/sdk"
+      ]
     },
     "agentContext": {
       "purpose": "Core engine that powers all DevDiff functionality. Provides diff parsing, AI routing, changelog generation, security scanning, compliance checking, progressive code explanation, visual dependency mapping, and onboarding guide generation.",

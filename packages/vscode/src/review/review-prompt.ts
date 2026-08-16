@@ -8,7 +8,8 @@ export class ReviewPrompt {
    * Check if we should gently ask for a review
    */
   static async maybeAsk(context: vscode.ExtensionContext): Promise<void> {
-    const count = (context.globalState.get<number>("devdiff.generationCount") || 0) + 1;
+    const count =
+      (context.globalState.get<number>("devdiff.generationCount") || 0) + 1;
     await context.globalState.update("devdiff.generationCount", count);
 
     const lastAsked = context.globalState.get<number>("devdiff.lastReviewAsk");
@@ -17,7 +18,8 @@ export class ReviewPrompt {
     if (neverAsk) return;
 
     // Cooldown check
-    if (lastAsked && Date.now() - lastAsked < this.COOLDOWN_DAYS * 86400000) return;
+    if (lastAsked && Date.now() - lastAsked < this.COOLDOWN_DAYS * 86400000)
+      return;
 
     // Milestone check
     if (!this.MILESTONES.includes(count)) return;
@@ -30,7 +32,7 @@ export class ReviewPrompt {
       { modal: false },
       { title: "⭐ Leave a Review" },
       { title: "💬 Send Feedback" },
-      { title: "✖ Dismiss" }
+      { title: "✖ Dismiss" },
     );
 
     await context.globalState.update("devdiff.lastReviewAsk", Date.now());
@@ -38,8 +40,8 @@ export class ReviewPrompt {
     if (result?.title === "⭐ Leave a Review") {
       await vscode.env.openExternal(
         vscode.Uri.parse(
-          "https://marketplace.visualstudio.com/items?itemName=eldrex.devdiff&ssr=false#review-details"
-        )
+          "https://marketplace.visualstudio.com/items?itemName=eldrex.devdiff&ssr=false#review-details",
+        ),
       );
     }
 
@@ -61,7 +63,8 @@ export class ReviewPrompt {
         }, 10000);
       };
 
-      const disposable = vscode.window.onDidChangeTextEditorSelection(resetTimer);
+      const disposable =
+        vscode.window.onDidChangeTextEditorSelection(resetTimer);
       resetTimer();
     });
   }

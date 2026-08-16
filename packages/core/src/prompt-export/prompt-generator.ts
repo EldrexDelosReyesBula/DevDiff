@@ -166,11 +166,8 @@ export class PromptGenerator {
     const parseRes = diffParser.parse(diffText);
     const files = parseRes.files.map((f) => ({
       path: f.newPath || f.oldPath || "unknown",
-      status: (f.isNew
-        ? "added"
-        : f.isDeleted
-          ? "deleted"
-          : "modified") as "added" | "modified" | "deleted" | "renamed",
+      status: (f.isNew ? "added" : f.isDeleted ? "deleted" : "modified") as
+        "added" | "modified" | "deleted" | "renamed",
       additions: f.additions || 0,
       deletions: f.deletions || 0,
       diffSnippet: f.hunks
@@ -397,9 +394,7 @@ export class PromptGenerator {
     if (format === "json") {
       requirements.push("## Output Format");
       requirements.push("");
-      requirements.push(
-        "Output ONLY valid JSON. No markdown, no explanation:",
-      );
+      requirements.push("Output ONLY valid JSON. No markdown, no explanation:");
       requirements.push("");
       requirements.push("```json");
       requirements.push("{");

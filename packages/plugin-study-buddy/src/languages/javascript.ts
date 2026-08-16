@@ -9,7 +9,10 @@ export class JavaScriptExplainer {
   }): CodeExplanation {
     const base = UniversalExplainer.explain({
       code: params.code,
-      language: params.filePath.endsWith(".ts") || params.filePath.endsWith(".tsx") ? "TypeScript" : "JavaScript",
+      language:
+        params.filePath.endsWith(".ts") || params.filePath.endsWith(".tsx")
+          ? "TypeScript"
+          : "JavaScript",
       level: params.level,
       filePath: params.filePath,
     });
@@ -17,7 +20,8 @@ export class JavaScriptExplainer {
     if (/async|await|Promise/i.test(params.code)) {
       base.sections.push({
         title: "Async & Promises",
-        content: "Uses asynchronous patterns (`async`/`await` or `Promise`) to execute non-blocking asynchronous operations.",
+        content:
+          "Uses asynchronous patterns (`async`/`await` or `Promise`) to execute non-blocking asynchronous operations.",
         importance: "important",
       });
       base.relatedConcepts.push("Event Loop", "Promises & Microtasks");

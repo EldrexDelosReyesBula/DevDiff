@@ -5,7 +5,12 @@
   --vp-c-brand-2: #818cf8;
   --vp-c-brand-3: #4f46e5;
   --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: linear-gradient(135deg, #c084fc 0%, #6366f1 50%, #3b82f6 100%);
+  --vp-home-hero-name-background: linear-gradient(
+    135deg,
+    #c084fc 0%,
+    #6366f1 50%,
+    #3b82f6 100%
+  );
 }
 
 /* ── Hero Container Styling ── */
@@ -84,7 +89,10 @@
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
   background: rgba(255, 255, 255, 0.02) !important;
   backdrop-filter: blur(12px);
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease !important;
+  transition:
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.25s ease,
+    box-shadow 0.25s ease !important;
 }
 
 .VPFeature:hover {

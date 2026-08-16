@@ -16,11 +16,16 @@ export class HTMLExplainer {
 
     base.sections.push({
       title: "DOM Structure",
-      content: "Defines semantic HTML element tags forming the Document Object Model (DOM).",
+      content:
+        "Defines semantic HTML element tags forming the Document Object Model (DOM).",
       importance: "essential",
     });
 
-    base.relatedConcepts.push("Semantic HTML5", "DOM Tree", "Accessibility (ARIA)");
+    base.relatedConcepts.push(
+      "Semantic HTML5",
+      "DOM Tree",
+      "Accessibility (ARIA)",
+    );
     return base;
   }
 }

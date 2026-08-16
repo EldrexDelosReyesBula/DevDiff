@@ -44,7 +44,9 @@ export class ObfuscationDetector {
     }
 
     // Indicator 3: Base64-encoded strings
-    const base64Patterns = (code.match(/['"`][A-Za-z0-9+/]{40,}={0,2}['"`]/g) || []).length;
+    const base64Patterns = (
+      code.match(/['"`][A-Za-z0-9+/]{40,}={0,2}['"`]/g) || []
+    ).length;
     if (base64Patterns > 3) {
       obfuscationScore += 35;
       indicators.push({
@@ -60,7 +62,8 @@ export class ObfuscationDetector {
       indicators.push({
         type: "dynamic-code-execution",
         severity: "critical",
-        detail: "Code uses eval() or Function() — can execute arbitrary strings as code",
+        detail:
+          "Code uses eval() or Function() — can execute arbitrary strings as code",
       });
     }
 
@@ -70,7 +73,8 @@ export class ObfuscationDetector {
       indicators.push({
         type: "string-decoding",
         severity: "high",
-        detail: "Code uses String.fromCharCode or atob() — decodes strings at runtime",
+        detail:
+          "Code uses String.fromCharCode or atob() — decodes strings at runtime",
       });
     }
 
@@ -129,11 +133,13 @@ export class ObfuscationDetector {
 
   private static countSingleCharVariables(code: string): number {
     const matches = code.match(/\b(?:var|let|const)\s+([a-z])\b/gi) || [];
-    return matches.filter((m) => !["i", "j", "k"].includes(m.toLowerCase())).length;
+    return matches.filter((m) => !["i", "j", "k"].includes(m.toLowerCase()))
+      .length;
   }
 
   private static countMeaningfulNames(code: string): number {
-    const matches = code.match(/\b(?:var|let|const|function)\s+([a-zA-Z_]\w{3,})\b/g) || [];
+    const matches =
+      code.match(/\b(?:var|let|const|function)\s+([a-zA-Z_]\w{3,})\b/g) || [];
     return matches.length;
   }
 

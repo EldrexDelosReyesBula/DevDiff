@@ -56,8 +56,6 @@ export async function activate(context: vscode.ExtensionContext) {
   // Register feedback and review commands
   registerFeedbackCommands(context);
 
-
-
   // Register virtual document provider and commands for getting started guide
   OnboardingGuide.register(context);
 

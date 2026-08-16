@@ -55,7 +55,8 @@ export class OpenClawSupervisorV2 {
         return {
           name: nameMatch ? nameMatch[1].trim() : "devdiff-supervisor-v2",
           version: versionMatch ? versionMatch[1].trim() : "2.0.0",
-          description: "OpenClaw Supervisor — Full agent orchestration through DevDiff",
+          description:
+            "OpenClaw Supervisor — Full agent orchestration through DevDiff",
           supervisor: {
             model: "ollama://qwen2.5-coder:14b",
             fallback: "ollama://llama3.1:8b",
@@ -86,7 +87,8 @@ export class OpenClawSupervisorV2 {
     return {
       name: "devdiff-supervisor-v2",
       version: "2.0.0",
-      description: "OpenClaw Supervisor — Full agent orchestration through DevDiff",
+      description:
+        "OpenClaw Supervisor — Full agent orchestration through DevDiff",
       supervisor: {
         model: "ollama://qwen2.5-coder:14b",
         fallback: "ollama://llama3.1:8b",

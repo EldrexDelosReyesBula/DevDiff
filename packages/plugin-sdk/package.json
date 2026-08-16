@@ -46,9 +46,23 @@
     ],
     "exports": {
       "main": "./src/index.ts",
-      "classes": ["PluginBase", "PluginContext", "PluginStorage", "PluginLogger"],
-      "functions": ["definePlugin", "createPlugin", "registerHook"],
-      "types": ["DevDiffPlugin", "PluginConfig", "HookHandler", "CommandDefinition"]
+      "classes": [
+        "PluginBase",
+        "PluginContext",
+        "PluginStorage",
+        "PluginLogger"
+      ],
+      "functions": [
+        "definePlugin",
+        "createPlugin",
+        "registerHook"
+      ],
+      "types": [
+        "DevDiffPlugin",
+        "PluginConfig",
+        "HookHandler",
+        "CommandDefinition"
+      ]
     },
     "dependencies": {
       "required": [],

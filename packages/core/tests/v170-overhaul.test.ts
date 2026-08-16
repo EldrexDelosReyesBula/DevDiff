@@ -7,7 +7,9 @@ import {
 
 describe("DevDiff v1.7.0 — Mermaid Engine v2", () => {
   it("sanitizes node IDs and reserved words safely", () => {
-    expect(MermaidEngineV2.sanitizeNodeId("src/auth-handler.ts")).toBe("src_auth_handler_ts");
+    expect(MermaidEngineV2.sanitizeNodeId("src/auth-handler.ts")).toBe(
+      "src_auth_handler_ts",
+    );
     expect(MermaidEngineV2.sanitizeNodeId("123-start")).toBe("n_123_start");
     expect(MermaidEngineV2.sanitizeNodeId("graph")).toBe("node_graph");
     expect(MermaidEngineV2.sanitizeNodeId("")).toMatch(/^node_/);
@@ -17,14 +19,22 @@ describe("DevDiff v1.7.0 — Mermaid Engine v2", () => {
     const raw = 'Title with "quotes" and \\backslashes\\';
     const sanitized = MermaidEngineV2.sanitizeLabel(raw);
     expect(sanitized).toContain('\\"quotes\\"');
-    expect(sanitized).not.toContain('\n');
+    expect(sanitized).not.toContain("\n");
   });
 
   it("generates a valid architecture diagram and fallbacks gracefully on error", () => {
     const diff = {
       files: [
-        { path: "src/auth/login.ts", status: "modified" as const, content: "import { config } from '../config';" },
-        { path: "src/config.ts", status: "added" as const, content: "export const config = {};" },
+        {
+          path: "src/auth/login.ts",
+          status: "modified" as const,
+          content: "import { config } from '../config';",
+        },
+        {
+          path: "src/config.ts",
+          status: "added" as const,
+          content: "export const config = {};",
+        },
       ],
     };
 
@@ -33,7 +43,11 @@ describe("DevDiff v1.7.0 — Mermaid Engine v2", () => {
     expect(result.diagram).toContain("graph TD");
 
     // Invalid diff fallback test
-    const fallbackResult = MermaidEngineV2.generate({ files: [] }, {}, "dependencies");
+    const fallbackResult = MermaidEngineV2.generate(
+      { files: [] },
+      {},
+      "dependencies",
+    );
     expect(fallbackResult.valid).toBe(true);
     expect(fallbackResult.diagram).toContain("Changes Summary");
   });

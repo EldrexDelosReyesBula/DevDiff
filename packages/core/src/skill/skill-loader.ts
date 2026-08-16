@@ -250,7 +250,10 @@ export class SkillLoader {
     ];
 
     for (const section of requiredSections) {
-      if (!content.includes(`## ${section}`) && !content.toLowerCase().includes(section.toLowerCase())) {
+      if (
+        !content.includes(`## ${section}`) &&
+        !content.toLowerCase().includes(section.toLowerCase())
+      ) {
         errors.push(`Missing section: \`## ${section}\``);
       }
     }
@@ -261,8 +264,12 @@ export class SkillLoader {
     };
   }
 
-  private static extractChangelogPreferences(sections: SkillSection[]): ChangelogPreferences | null {
-    const section = sections.find((s) => s.title.toLowerCase().includes("changelog"));
+  private static extractChangelogPreferences(
+    sections: SkillSection[],
+  ): ChangelogPreferences | null {
+    const section = sections.find((s) =>
+      s.title.toLowerCase().includes("changelog"),
+    );
     if (!section) return null;
 
     const preferences: ChangelogPreferences = {
@@ -271,7 +278,10 @@ export class SkillLoader {
       example: "",
     };
 
-    const allLines = [...section.content, ...section.subsections.flatMap((sub) => sub.content)];
+    const allLines = [
+      ...section.content,
+      ...section.subsections.flatMap((sub) => sub.content),
+    ];
 
     for (const line of allLines) {
       if (line.includes("MUST") || line.startsWith("-")) {
@@ -288,30 +298,53 @@ export class SkillLoader {
     return preferences;
   }
 
-  private static extractCodeReviewPreferences(sections: SkillSection[]): string[] {
-    const section = sections.find((s) => s.title.toLowerCase().includes("code review"));
+  private static extractCodeReviewPreferences(
+    sections: SkillSection[],
+  ): string[] {
+    const section = sections.find((s) =>
+      s.title.toLowerCase().includes("code review"),
+    );
     if (!section) return [];
 
-    const allLines = [...section.content, ...section.subsections.flatMap((sub) => sub.content)];
+    const allLines = [
+      ...section.content,
+      ...section.subsections.flatMap((sub) => sub.content),
+    ];
 
-    return allLines.filter((line) => line.match(/^\d+\./)).map((line) => line.trim());
+    return allLines
+      .filter((line) => line.match(/^\d+\./))
+      .map((line) => line.trim());
   }
 
   private static extractAntiPatterns(sections: SkillSection[]): string[] {
-    const section = sections.find((s) => s.title.toLowerCase().includes("anti-pattern"));
+    const section = sections.find((s) =>
+      s.title.toLowerCase().includes("anti-pattern"),
+    );
     if (!section) return [];
 
-    const allLines = [...section.content, ...section.subsections.flatMap((sub) => sub.content)];
+    const allLines = [
+      ...section.content,
+      ...section.subsections.flatMap((sub) => sub.content),
+    ];
 
-    return allLines.filter((line) => line.includes("❌")).map((line) => line.trim());
+    return allLines
+      .filter((line) => line.includes("❌"))
+      .map((line) => line.trim());
   }
 
-  private static extractNamingConventions(sections: SkillSection[]): Record<string, string> {
-    const section = sections.find((s) => s.title.toLowerCase().includes("naming"));
+  private static extractNamingConventions(
+    sections: SkillSection[],
+  ): Record<string, string> {
+    const section = sections.find((s) =>
+      s.title.toLowerCase().includes("naming"),
+    );
     if (!section) return {};
 
     const conventions: Record<string, string> = {};
-    const allLines = [...section.content, ...section.subsections.flatMap((sub) => sub.content)];
+    const allLines = [
+      ...section.content,
+      ...section.subsections.flatMap((sub) => sub.content),
+    ];
 
     for (const line of allLines) {
       const match = line.match(/\*\*(.+?)\*\*:\s*(.+)/);
@@ -323,25 +356,38 @@ export class SkillLoader {
     return conventions;
   }
 
-  private static extractArchitecture(sections: SkillSection[]): ArchitectureInfo | null {
-    const section = sections.find((s) => s.title.toLowerCase().includes("architecture"));
+  private static extractArchitecture(
+    sections: SkillSection[],
+  ): ArchitectureInfo | null {
+    const section = sections.find((s) =>
+      s.title.toLowerCase().includes("architecture"),
+    );
     if (!section) return null;
 
     return {
-      structure: section.content.filter((line) => line.startsWith("-")).map((line) => line.trim()),
+      structure: section.content
+        .filter((line) => line.startsWith("-"))
+        .map((line) => line.trim()),
       modules: section.subsections
         .filter((sub) => sub.title.toLowerCase().includes("key modules"))
         .flatMap((sub) => sub.content),
     };
   }
 
-  private static extractPermissions(sections: SkillSection[]): AgentPermissions | null {
-    const section = sections.find((s) => s.title.toLowerCase().includes("permission"));
+  private static extractPermissions(
+    sections: SkillSection[],
+  ): AgentPermissions | null {
+    const section = sections.find((s) =>
+      s.title.toLowerCase().includes("permission"),
+    );
     if (!section) return null;
 
     const allowed: string[] = [];
     const requiresPermission: string[] = [];
-    const allLines = [...section.content, ...section.subsections.flatMap((sub) => sub.content)];
+    const allLines = [
+      ...section.content,
+      ...section.subsections.flatMap((sub) => sub.content),
+    ];
 
     for (const line of allLines) {
       if (line.includes("✅")) allowed.push(line.trim());

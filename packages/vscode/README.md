@@ -25,17 +25,17 @@ Privacy-first, BYOAI (Bring Your Own AI) inline codebase intelligence and change
 
 ## 🔒 Privacy First
 
-**DevDiff never sends your code anywhere.** It runs AI locally via Ollama by default. 
+**DevDiff never sends your code anywhere.** It runs AI locally via Ollama by default.
 No telemetry. No analytics. No crash reports. [Full disclosure →](https://devdiff.vercel.app/security/disclosure)
 
 ---
 
 ## ⭐ Enjoying DevDiff?
 
-If this extension saves you time writing changelogs, please take 30 seconds to 
+If this extension saves you time writing changelogs, please take 30 seconds to
 **[leave a review on the VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=eldrex.devdiff&ssr=false#review-details)**.
 
-Reviews help other developers discover DevDiff and help us prioritize features. 
+Reviews help other developers discover DevDiff and help us prioritize features.
 Every review — even a short one — makes a difference.
 
 **[Leave a Review →](https://marketplace.visualstudio.com/items?itemName=eldrex.devdiff&ssr=false#review-details)**
@@ -50,12 +50,12 @@ DevDiff explains your Git diffs, parses abstract syntax trees (AST), and maintai
 
 ## 💬 Questions, Ideas, or Issues?
 
-| I want to... | Go here |
-|-------------|---------|
+| I want to...         | Go here                                                                                                    |
+| -------------------- | ---------------------------------------------------------------------------------------------------------- |
 | 💡 Suggest a feature | [Feature Requests](https://github.com/EldrexDelosReyesBula/devdiff/issues/new?template=feature_request.md) |
-| 🐛 Report a bug | [Bug Reports](https://github.com/EldrexDelosReyesBula/devdiff/issues/new?template=bug_report.md) |
-| 💬 Ask a question | [GitHub Discussions](https://github.com/EldrexDelosReyesBula/devdiff/discussions) |
-| 📖 Read the docs | [devdiff.vercel.app](https://devdiff.vercel.app) |
+| 🐛 Report a bug      | [Bug Reports](https://github.com/EldrexDelosReyesBula/devdiff/issues/new?template=bug_report.md)           |
+| 💬 Ask a question    | [GitHub Discussions](https://github.com/EldrexDelosReyesBula/devdiff/discussions)                          |
+| 📖 Read the docs     | [devdiff.vercel.app](https://devdiff.vercel.app)                                                           |
 
 ---
 

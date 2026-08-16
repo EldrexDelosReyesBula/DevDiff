@@ -4,7 +4,11 @@ import * as path from "path";
 import { execSync } from "child_process";
 
 export interface CodeReferences {
-  dependents?: Array<{ file: string; description: string; lineReference?: number }>;
+  dependents?: Array<{
+    file: string;
+    description: string;
+    lineReference?: number;
+  }>;
   dependencies?: Array<{ file: string; description: string }>;
   related?: Array<{ file: string; relationship: string }>;
 }
@@ -39,23 +43,38 @@ export class ContextAwareExplainer {
   }): Promise<CodeExplanation> {
     const fileContent = await this.readFile(params.filePath);
     const codeToExplain = params.selectedLines
-      ? this.extractLines(fileContent, params.selectedLines.start, params.selectedLines.end)
+      ? this.extractLines(
+          fileContent,
+          params.selectedLines.start,
+          params.selectedLines.end,
+        )
       : fileContent;
 
     const workspaceRoot = params.projectContext?.workspacePath || process.cwd();
 
     // ── Gather context from the codebase dynamically ──
     const context = {
-      filePurpose: await this.inferFilePurpose(params.filePath, params.projectContext),
+      filePurpose: await this.inferFilePurpose(
+        params.filePath,
+        params.projectContext,
+      ),
       dependents: await this.findDependents(params.filePath, workspaceRoot),
-      dependencies: await this.findDependencies(params.filePath, fileContent, workspaceRoot),
+      dependencies: await this.findDependencies(
+        params.filePath,
+        fileContent,
+        workspaceRoot,
+      ),
       relatedFiles: await this.findRelatedFiles(params.filePath),
       patterns: this.detectPatterns(fileContent),
       recentChanges: await this.getRecentChanges(params.filePath),
     };
 
     // ── Build real, syntax-analyzed explanation ──
-    const explanation = await this.buildExplanation(codeToExplain, context, params.persona);
+    const explanation = await this.buildExplanation(
+      codeToExplain,
+      context,
+      params.persona,
+    );
 
     // ── Include code references when helpful ──
     const references = this.shouldIncludeReferences(context)
@@ -89,7 +108,11 @@ export class ContextAwareExplainer {
     }
   }
 
-  private static extractLines(content: string, start: number, end: number): string {
+  private static extractLines(
+    content: string,
+    start: number,
+    end: number,
+  ): string {
     const lines = content.split("\n");
     return lines.slice(Math.max(0, start - 1), end).join("\n");
   }
@@ -97,7 +120,10 @@ export class ContextAwareExplainer {
   /**
    * Infer what a file does based on name, location, exports, and AST patterns
    */
-  private static async inferFilePurpose(filePath: string, context: ProjectContext): Promise<string> {
+  private static async inferFilePurpose(
+    filePath: string,
+    context: ProjectContext,
+  ): Promise<string> {
     const fileName = path.basename(filePath);
     const dirName = path.basename(path.dirname(filePath));
 
@@ -126,7 +152,10 @@ export class ContextAwareExplainer {
     };
 
     for (const [pattern, purpose] of Object.entries(patterns)) {
-      if (fileName.toLowerCase().includes(pattern) || dirName.toLowerCase().includes(pattern)) {
+      if (
+        fileName.toLowerCase().includes(pattern) ||
+        dirName.toLowerCase().includes(pattern)
+      ) {
         return purpose;
       }
     }
@@ -139,26 +168,36 @@ export class ContextAwareExplainer {
    */
   private static async findDependents(
     filePath: string,
-    workspaceRoot: string
+    workspaceRoot: string,
   ): Promise<Array<{ file: string; description: string; line?: number }>> {
-    const dependents: Array<{ file: string; description: string; line?: number }> = [];
+    const dependents: Array<{
+      file: string;
+      description: string;
+      line?: number;
+    }> = [];
     const baseName = path.basename(filePath, path.extname(filePath));
     if (!baseName) return dependents;
 
     try {
-      const searchTarget = baseName === "index" ? path.basename(path.dirname(filePath)) : baseName;
+      const searchTarget =
+        baseName === "index" ? path.basename(path.dirname(filePath)) : baseName;
       const allFiles = await this.scanFiles(workspaceRoot);
 
       for (const file of allFiles) {
         if (path.resolve(file) === path.resolve(filePath)) continue;
 
         const content = await this.readFile(file);
-        const relativeFile = path.relative(workspaceRoot, file).replace(/\\/g, "/");
+        const relativeFile = path
+          .relative(workspaceRoot, file)
+          .replace(/\\/g, "/");
 
         const lines = content.split("\n");
         for (let i = 0; i < lines.length; i++) {
           const line = lines[i];
-          if ((line.includes("import ") || line.includes("require(")) && line.includes(searchTarget)) {
+          if (
+            (line.includes("import ") || line.includes("require(")) &&
+            line.includes(searchTarget)
+          ) {
             dependents.push({
               file: relativeFile,
               description: `Imports module reference '${searchTarget}' at line ${i + 1}`,
@@ -182,10 +221,11 @@ export class ContextAwareExplainer {
   private static async findDependencies(
     filePath: string,
     content: string,
-    workspaceRoot: string
+    workspaceRoot: string,
   ): Promise<Array<{ file: string; description: string }>> {
     const deps: Array<{ file: string; description: string }> = [];
-    const importPattern = /(?:import\s+.*?from\s+['"]([^'"]+)['"]|require\(['"]([^'"]+)['"]\))/g;
+    const importPattern =
+      /(?:import\s+.*?from\s+['"]([^'"]+)['"]|require\(['"]([^'"]+)['"]\))/g;
 
     let match;
     while ((match = importPattern.exec(content)) !== null) {
@@ -194,7 +234,9 @@ export class ContextAwareExplainer {
 
       if (importPath.startsWith(".")) {
         const resolved = path.resolve(path.dirname(filePath), importPath);
-        const relative = path.relative(workspaceRoot, resolved).replace(/\\/g, "/");
+        const relative = path
+          .relative(workspaceRoot, resolved)
+          .replace(/\\/g, "/");
         deps.push({
           file: relative,
           description: `Internal module import (${importPath})`,
@@ -245,15 +287,21 @@ export class ContextAwareExplainer {
     const patterns: string[] = [];
 
     if (/class\s+\w+.*extends/.test(code)) patterns.push("Inheritance Pattern");
-    if (/class\s+\w+.*implements/.test(code)) patterns.push("Interface Implementation");
-    if (/static\s+\w+\s*\(/.test(code)) patterns.push("Static Utility Method Pattern");
+    if (/class\s+\w+.*implements/.test(code))
+      patterns.push("Interface Implementation");
+    if (/static\s+\w+\s*\(/.test(code))
+      patterns.push("Static Utility Method Pattern");
     if (/export\s+default/.test(code)) patterns.push("Default Export Pattern");
-    if (/export\s+const|export\s+function|export\s+class/.test(code)) patterns.push("Named Module Exports");
-    if (/\.then\(|async\s|await\s/.test(code)) patterns.push("Async/Promise Control Flow");
-    if (/try\s*\{[\s\S]*?\}\s*catch/.test(code)) patterns.push("Try/Catch Error Handling");
+    if (/export\s+const|export\s+function|export\s+class/.test(code))
+      patterns.push("Named Module Exports");
+    if (/\.then\(|async\s|await\s/.test(code))
+      patterns.push("Async/Promise Control Flow");
+    if (/try\s*\{[\s\S]*?\}\s*catch/.test(code))
+      patterns.push("Try/Catch Error Handling");
     if (/use[A-Z]\w+/.test(code)) patterns.push("React Custom Hook Pattern");
     if (/@\w+/.test(code)) patterns.push("Decorator Pattern");
-    if (/new\s+Promise/.test(code)) patterns.push("Explicit Promise Constructor");
+    if (/new\s+Promise/.test(code))
+      patterns.push("Explicit Promise Constructor");
 
     return patterns;
   }
@@ -294,26 +342,42 @@ export class ContextAwareExplainer {
   private static async buildExplanation(
     code: string,
     context: any,
-    persona?: string
-  ): Promise<{ summary: string; lineByLine?: Array<{ line: number; code: string; explanation: string }> }> {
+    persona?: string,
+  ): Promise<{
+    summary: string;
+    lineByLine?: Array<{ line: number; code: string; explanation: string }>;
+  }> {
     const lines = code.split("\n");
     const summary = `Module purpose: ${context.filePurpose}. Implements ${
-      context.patterns.length > 0 ? context.patterns.join(", ") : "standard procedural/declarative logic"
+      context.patterns.length > 0
+        ? context.patterns.join(", ")
+        : "standard procedural/declarative logic"
     }. Depends on ${context.dependencies?.length || 0} module(s).`;
 
     const lineByLine = lines.slice(0, 30).map((lineText, idx) => {
       const trimmed = lineText.trim();
       let explanation = "Statement execution.";
 
-      if (/^import\s/.test(trimmed)) explanation = "Imports dependencies into current scope.";
-      else if (/^export\s/.test(trimmed)) explanation = "Exports symbol for external callers.";
-      else if (/^class\s/.test(trimmed)) explanation = "Class declaration defining instance properties and methods.";
-      else if (/^(async\s+)?function\s|\w+\s*\([^)]*\)\s*\{/.test(trimmed)) explanation = "Function definition specifying signature and parameters.";
-      else if (/^if\s*\(/.test(trimmed)) explanation = "Conditional check evaluating runtime logical condition.";
-      else if (/^return\b/.test(trimmed)) explanation = "Returns result value to caller.";
-      else if (/^try\s*\{/.test(trimmed)) explanation = "Protects code block with error handling context.";
-      else if (/^catch\s*\(/.test(trimmed)) explanation = "Handles caught runtime exception.";
-      else if (trimmed.length === 0) explanation = "Empty line separating logical blocks.";
+      if (/^import\s/.test(trimmed))
+        explanation = "Imports dependencies into current scope.";
+      else if (/^export\s/.test(trimmed))
+        explanation = "Exports symbol for external callers.";
+      else if (/^class\s/.test(trimmed))
+        explanation =
+          "Class declaration defining instance properties and methods.";
+      else if (/^(async\s+)?function\s|\w+\s*\([^)]*\)\s*\{/.test(trimmed))
+        explanation =
+          "Function definition specifying signature and parameters.";
+      else if (/^if\s*\(/.test(trimmed))
+        explanation = "Conditional check evaluating runtime logical condition.";
+      else if (/^return\b/.test(trimmed))
+        explanation = "Returns result value to caller.";
+      else if (/^try\s*\{/.test(trimmed))
+        explanation = "Protects code block with error handling context.";
+      else if (/^catch\s*\(/.test(trimmed))
+        explanation = "Handles caught runtime exception.";
+      else if (trimmed.length === 0)
+        explanation = "Empty line separating logical blocks.";
 
       return {
         line: idx + 1,
@@ -368,11 +432,15 @@ export class ContextAwareExplainer {
     const questions: string[] = [];
 
     if (context.dependents && context.dependents.length > 0) {
-      questions.push(`What depends on ${context.dependents[0].file || "this file"}?`);
+      questions.push(
+        `What depends on ${context.dependents[0].file || "this file"}?`,
+      );
     }
 
     if (context.dependencies && context.dependencies.length > 0) {
-      questions.push(`What does this file import from ${context.dependencies[0].file || "its dependencies"}?`);
+      questions.push(
+        `What does this file import from ${context.dependencies[0].file || "its dependencies"}?`,
+      );
     }
 
     if (context.recentChanges && context.recentChanges.length > 0) {
@@ -387,7 +455,10 @@ export class ContextAwareExplainer {
     return questions;
   }
 
-  private static async scanFiles(dir: string, max: number = 200): Promise<string[]> {
+  private static async scanFiles(
+    dir: string,
+    max: number = 200,
+  ): Promise<string[]> {
     const results: string[] = [];
     const walk = async (current: string) => {
       if (results.length >= max) return;
@@ -397,7 +468,11 @@ export class ContextAwareExplainer {
           if (results.length >= max) break;
           const full = path.join(current, entry.name);
           if (entry.isDirectory()) {
-            if (!entry.name.startsWith(".") && entry.name !== "node_modules" && entry.name !== "dist") {
+            if (
+              !entry.name.startsWith(".") &&
+              entry.name !== "node_modules" &&
+              entry.name !== "dist"
+            ) {
               await walk(full);
             }
           } else if (entry.isFile() && /\.(js|ts|jsx|tsx)$/i.test(entry.name)) {

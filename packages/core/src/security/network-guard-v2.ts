@@ -41,13 +41,27 @@ export class NetworkConfig {
       }
     }
     return {
-      allowedDomains: ["api.openai.com", "api.anthropic.com", "generativelanguage.googleapis.com", "hooks.slack.com", "registry.npmjs.org"],
+      allowedDomains: [
+        "api.openai.com",
+        "api.anthropic.com",
+        "generativelanguage.googleapis.com",
+        "hooks.slack.com",
+        "registry.npmjs.org",
+      ],
       blockedDomains: [],
-      blockedCategories: ["telemetry", "analytics", "errorTracking", "advertising"],
+      blockedCategories: [
+        "telemetry",
+        "analytics",
+        "errorTracking",
+        "advertising",
+      ],
     };
   }
 
-  static save(data: NetworkConfigData, workspacePath: string = process.cwd()): void {
+  static save(
+    data: NetworkConfigData,
+    workspacePath: string = process.cwd(),
+  ): void {
     const configPath = this.getConfigPath(workspacePath);
     const dir = path.dirname(configPath);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
@@ -212,7 +226,7 @@ export class NetworkGuardV2 {
           plugin: params.plugin,
           purpose: params.purpose,
         },
-        workspacePath
+        workspacePath,
       );
       return {
         allowed: true,
@@ -238,7 +252,7 @@ export class NetworkGuardV2 {
             plugin: params.plugin,
             purpose: params.purpose,
           },
-          workspacePath
+          workspacePath,
         );
 
         return {
@@ -251,7 +265,11 @@ export class NetworkGuardV2 {
     }
 
     // ── Check 3: Domain explicitly blocked in config ──
-    if (config.blockedDomains.some((d) => domain === d || domain.endsWith("." + d))) {
+    if (
+      config.blockedDomains.some(
+        (d) => domain === d || domain.endsWith("." + d),
+      )
+    ) {
       this.logAttempt(
         {
           timestamp: new Date().toISOString(),
@@ -263,7 +281,7 @@ export class NetworkGuardV2 {
           plugin: params.plugin,
           purpose: params.purpose,
         },
-        workspacePath
+        workspacePath,
       );
 
       return {
@@ -275,7 +293,11 @@ export class NetworkGuardV2 {
     }
 
     // ── Check 4: Explicitly allowed domain in config ──
-    if (config.allowedDomains.some((d) => domain === d || domain.endsWith("." + d))) {
+    if (
+      config.allowedDomains.some(
+        (d) => domain === d || domain.endsWith("." + d),
+      )
+    ) {
       this.logAttempt(
         {
           timestamp: new Date().toISOString(),
@@ -287,7 +309,7 @@ export class NetworkGuardV2 {
           plugin: params.plugin,
           purpose: params.purpose,
         },
-        workspacePath
+        workspacePath,
       );
 
       return {
@@ -303,7 +325,11 @@ export class NetworkGuardV2 {
       const pluginObj = pluginManager.getPlugin(params.plugin);
       const declaredDomains = (pluginObj as any)?.permissions?.network || [];
 
-      if (declaredDomains.some((d: string) => domain === d || domain.endsWith("." + d))) {
+      if (
+        declaredDomains.some(
+          (d: string) => domain === d || domain.endsWith("." + d),
+        )
+      ) {
         this.logAttempt(
           {
             timestamp: new Date().toISOString(),
@@ -315,7 +341,7 @@ export class NetworkGuardV2 {
             plugin: params.plugin,
             purpose: params.purpose,
           },
-          workspacePath
+          workspacePath,
         );
 
         return {
@@ -338,7 +364,7 @@ export class NetworkGuardV2 {
         plugin: params.plugin,
         purpose: params.purpose,
       },
-      workspacePath
+      workspacePath,
     );
 
     return {
@@ -352,8 +378,16 @@ export class NetworkGuardV2 {
   /**
    * Log every connection attempt to .devdiff/audit/network.log
    */
-  private static logAttempt(entry: NetworkLogEntry, workspacePath: string): void {
-    const logPath = path.join(workspacePath, ".devdiff", "audit", "network.log");
+  private static logAttempt(
+    entry: NetworkLogEntry,
+    workspacePath: string,
+  ): void {
+    const logPath = path.join(
+      workspacePath,
+      ".devdiff",
+      "audit",
+      "network.log",
+    );
     const dir = path.dirname(logPath);
     try {
       if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
@@ -366,11 +400,21 @@ export class NetworkGuardV2 {
   /**
    * Read audit logs
    */
-  static getAuditLogs(workspacePath: string = process.cwd()): NetworkLogEntry[] {
-    const logPath = path.join(workspacePath, ".devdiff", "audit", "network.log");
+  static getAuditLogs(
+    workspacePath: string = process.cwd(),
+  ): NetworkLogEntry[] {
+    const logPath = path.join(
+      workspacePath,
+      ".devdiff",
+      "audit",
+      "network.log",
+    );
     if (!fs.existsSync(logPath)) return [];
     try {
-      const lines = fs.readFileSync(logPath, "utf-8").split("\n").filter(Boolean);
+      const lines = fs
+        .readFileSync(logPath, "utf-8")
+        .split("\n")
+        .filter(Boolean);
       return lines.map((l) => JSON.parse(l));
     } catch {
       return [];

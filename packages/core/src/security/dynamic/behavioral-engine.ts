@@ -113,9 +113,15 @@ export class BehavioralEngine {
     const history = await this.getActivityHistory(workspacePath);
 
     const networkBaseline: NetworkBaseline = {
-      avgConnectionsPerDay: this.average(history.network.map((d: any) => d.connectionsPerDay)),
-      avgDomainsContacted: this.average(history.network.map((d: any) => d.uniqueDomains)),
-      avgDataSentMB: this.average(history.network.map((d: any) => d.dataSentMB)),
+      avgConnectionsPerDay: this.average(
+        history.network.map((d: any) => d.connectionsPerDay),
+      ),
+      avgDomainsContacted: this.average(
+        history.network.map((d: any) => d.uniqueDomains),
+      ),
+      avgDataSentMB: this.average(
+        history.network.map((d: any) => d.dataSentMB),
+      ),
       commonDomains: this.frequentItems(
         history.network.flatMap((d: any) => d.domains || []),
         3,
@@ -147,7 +153,9 @@ export class BehavioralEngine {
 
     const aiBaseline: AIBaseline = {
       avgCallsPerDay: this.average(history.ai.map((d: any) => d.callsPerDay)),
-      avgTokensPerCall: this.average(history.ai.map((d: any) => d.avgTokensPerCall)),
+      avgTokensPerCall: this.average(
+        history.ai.map((d: any) => d.avgTokensPerCall),
+      ),
       commonPersonas: this.frequentItems(
         history.ai.flatMap((d: any) => d.personas || []),
         2,
@@ -287,8 +295,7 @@ export class BehavioralEngine {
         detail: `AI calls 5x above baseline (${current.ai.callsPerDay} vs ${Math.round(avgCalls)} avg)`,
         current: current.ai.callsPerDay,
         baseline: avgCalls,
-        recommendation:
-          "Check for unauthorized AI usage or runaway automation",
+        recommendation: "Check for unauthorized AI usage or runaway automation",
       });
     }
 
@@ -446,17 +453,22 @@ export class BehavioralEngine {
         entry.pluginDomains || {},
       )) {
         map[plugin] = [
-          ...new Set([...(map[plugin] || []), ...((domains as string[]) || [])]),
+          ...new Set([
+            ...(map[plugin] || []),
+            ...((domains as string[]) || []),
+          ]),
         ];
       }
     }
     return map;
   }
 
-  private static async getActivityHistory(
-    workspacePath: string,
-  ): Promise<any> {
-    const auditFile = path.join(workspacePath, ".devdiff", "security-audit.json");
+  private static async getActivityHistory(workspacePath: string): Promise<any> {
+    const auditFile = path.join(
+      workspacePath,
+      ".devdiff",
+      "security-audit.json",
+    );
     if (fs.existsSync(auditFile)) {
       try {
         const raw = fs.readFileSync(auditFile, "utf-8");
@@ -468,19 +480,44 @@ export class BehavioralEngine {
     // Default baseline structure if no prior audit history
     return {
       network: [
-        { connectionsPerDay: 12, uniqueDomains: 3, dataSentMB: 1.2, domains: ["localhost", "api.openai.com"], hour: 10 },
+        {
+          connectionsPerDay: 12,
+          uniqueDomains: 3,
+          dataSentMB: 1.2,
+          domains: ["localhost", "api.openai.com"],
+          hour: 10,
+        },
       ],
       filesystem: [
-        { filesRead: 15, pathsRead: ["src/", "package.json"], pathsWritten: ["dist/"], avgFileSizeKB: 45 },
+        {
+          filesRead: 15,
+          pathsRead: ["src/", "package.json"],
+          pathsWritten: ["dist/"],
+          avgFileSizeKB: 45,
+        },
       ],
       ai: [
-        { callsPerDay: 8, avgTokensPerCall: 1200, personas: ["developer"], providers: ["ollama"], avgResponseTimeMs: 450 },
+        {
+          callsPerDay: 8,
+          avgTokensPerCall: 1200,
+          personas: ["developer"],
+          providers: ["ollama"],
+          avgResponseTimeMs: 450,
+        },
       ],
       plugins: [
-        { activePlugins: ["@eldrex/plugin-slack"], pluginDomains: { "@eldrex/plugin-slack": ["hooks.slack.com"] } },
+        {
+          activePlugins: ["@eldrex/plugin-slack"],
+          pluginDomains: { "@eldrex/plugin-slack": ["hooks.slack.com"] },
+        },
       ],
       development: [
-        { commitsPerDay: 5, avgFilesPerCommit: 3, hour: 14, changelogsPerDay: 4 },
+        {
+          commitsPerDay: 5,
+          avgFilesPerCommit: 3,
+          hour: 14,
+          changelogsPerDay: 4,
+        },
       ],
     };
   }

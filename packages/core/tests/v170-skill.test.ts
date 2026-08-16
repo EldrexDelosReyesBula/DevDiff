@@ -4,9 +4,11 @@ import * as path from "path";
 import * as fs from "fs";
 
 describe("DevDiff v1.7.0 — SKILL.md Universal Agent Standard", () => {
-  const rootDir = process.cwd().endsWith("packages\\core") || process.cwd().endsWith("packages/core")
-    ? path.resolve(process.cwd(), "../..")
-    : process.cwd();
+  const rootDir =
+    process.cwd().endsWith("packages\\core") ||
+    process.cwd().endsWith("packages/core")
+      ? path.resolve(process.cwd(), "../..")
+      : process.cwd();
 
   it("parses SKILL.md into structured sections and preference objects", () => {
     const sampleMarkdown = [
@@ -26,9 +28,15 @@ describe("DevDiff v1.7.0 — SKILL.md Universal Agent Standard", () => {
 
     const parsed = SkillLoader.parse(sampleMarkdown);
     expect(parsed.sections.length).toBeGreaterThan(0);
-    expect(parsed.antiPatterns).toContain("1. ❌ Never suggest storing API keys in source code");
-    expect(parsed.permissions?.allowed).toContain("- ✅ Read any file in the project");
-    expect(parsed.permissions?.requiresPermission).toContain("- ⚠️ Modifying configuration files");
+    expect(parsed.antiPatterns).toContain(
+      "1. ❌ Never suggest storing API keys in source code",
+    );
+    expect(parsed.permissions?.allowed).toContain(
+      "- ✅ Read any file in the project",
+    );
+    expect(parsed.permissions?.requiresPermission).toContain(
+      "- ⚠️ Modifying configuration files",
+    );
   });
 
   it("auto-generates standard 8-section SKILL.md for a workspace", () => {

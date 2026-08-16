@@ -28,7 +28,10 @@ export class OutputQualityGate {
    * Process AI output through quality gates before accepting.
    * Rejects incomplete, low-quality, or hallucinated output.
    */
-  static async process(rawOutput: string, options: QualityGateOptions = {}): Promise<QualityGateResult> {
+  static async process(
+    rawOutput: string,
+    options: QualityGateOptions = {},
+  ): Promise<QualityGateResult> {
     // ── Gate 1: Completeness ──
     const completeness = CompletenessValidator.validate(rawOutput);
 
@@ -61,7 +64,10 @@ export class OutputQualityGate {
     // ── Gate 5: Hallucination check ──
     let hallucinationFindings: string[] | undefined = undefined;
     if (options.diff) {
-      const hallucinationCheck = this.checkHallucinations(cleaned, options.diff);
+      const hallucinationCheck = this.checkHallucinations(
+        cleaned,
+        options.diff,
+      );
 
       if (hallucinationCheck.hasHallucinations) {
         hallucinationFindings = hallucinationCheck.findings;
@@ -105,7 +111,9 @@ export class OutputQualityGate {
   /**
    * Quick content quality assessment
    */
-  public static assessContentQuality(text: string): "good" | "acceptable" | "poor" {
+  public static assessContentQuality(
+    text: string,
+  ): "good" | "acceptable" | "poor" {
     if (text.length < 30) return "poor";
 
     const sentences = text.split(/[.!?]+/).filter((s) => s.trim().length > 0);
@@ -122,11 +130,13 @@ export class OutputQualityGate {
     ];
 
     const aiPatternCount = aiPatterns.filter((p) => p.test(text)).length;
-    const avgSentenceLength = sentences.length > 0 ? text.length / sentences.length : text.length;
+    const avgSentenceLength =
+      sentences.length > 0 ? text.length / sentences.length : text.length;
 
     if (aiPatternCount >= 3) return "poor";
     if (avgSentenceLength > 200) return "acceptable"; // Very long sentences
-    if (aiPatternCount === 0 && (sentences.length >= 3 || hasListItems)) return "good";
+    if (aiPatternCount === 0 && (sentences.length >= 3 || hasListItems))
+      return "good";
 
     return "acceptable";
   }
@@ -136,7 +146,7 @@ export class OutputQualityGate {
    */
   public static checkHallucinations(
     text: string,
-    diff: ParsedDiff
+    diff: ParsedDiff,
   ): {
     hasHallucinations: boolean;
     findings: string[];
@@ -145,7 +155,8 @@ export class OutputQualityGate {
     const actualFiles = new Set((diff.files || []).map((f) => f.path));
 
     // Check for referenced files that don't exist
-    const filePattern = /`([^`]+\.(ts|js|tsx|jsx|py|go|rs|java|rb|php|cs|swift|kt|dart))`/gi;
+    const filePattern =
+      /`([^`]+\.(ts|js|tsx|jsx|py|go|rs|java|rb|php|cs|swift|kt|dart))`/gi;
     let match;
 
     while ((match = filePattern.exec(text)) !== null) {
@@ -153,7 +164,7 @@ export class OutputQualityGate {
 
       // Check if this file exists in the diff
       const exists = Array.from(actualFiles).some(
-        (f) => f.includes(referencedFile) || f.endsWith(referencedFile)
+        (f) => f.includes(referencedFile) || f.endsWith(referencedFile),
       );
 
       if (!exists) {

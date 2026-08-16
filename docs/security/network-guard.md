@@ -47,7 +47,6 @@ Any attempt to open connections to unrecognized domains or IP addresses is block
 - **Built-in Category Blocking**: `NetworkGuardV2` automatically blocks 100+ known tracking domains across 5 categories: `telemetry` (Mixpanel, Segment, Amplitude), `analytics` (Google Analytics, Tag Manager), `errorTracking` (Sentry, LogRocket, Rollbar), `advertising` (DoubleClick, LinkedIn Ads), and `cdn_unknown`.
 - **Auditing & Control**: Inspect network history via `devdiff network history`, watch connections in real time via `devdiff network watch`, and verify system disclosure with `devdiff disclose`.
 
-
 ### 4. Custom Enterprise Proxy Support
 
 For enterprise corporate networks requiring outbound HTTP/HTTPS proxying, DevDiff respects standard proxy environment variables:

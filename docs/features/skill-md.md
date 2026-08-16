@@ -12,7 +12,6 @@ In DevDiff v1.7.0, `SKILL.md` serves as the primary source of truth across all t
 
 Whenever `SKILL.md` is updated, `ContextMemorySync` automatically updates codebase persistent memory.
 
-
 A complete `SKILL.md` file (stored in `.devdiff/SKILL.md` or `.agents/skills/`) contains 10 structured knowledge sections:
 
 ```markdown

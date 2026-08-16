@@ -10,7 +10,8 @@ import {
 
 describe("DevDiff v1.7.0 — Completeness Validator", () => {
   it("detects output cut-off mid-sentence", () => {
-    const cutOffText = "The tests cover various aspects of the library, including its initializ";
+    const cutOffText =
+      "The tests cover various aspects of the library, including its initializ";
     const result = CompletenessValidator.validate(cutOffText);
 
     expect(result.complete).toBe(false);
@@ -23,7 +24,9 @@ describe("DevDiff v1.7.0 — Completeness Validator", () => {
       "The provided code snippet is a TypeScript configuration file for the tsup build tool. This configuration defines how to bundle and package a JavaScript/TypeScript project.";
     const result = CompletenessValidator.validate(introOnlyText);
 
-    expect(result.issues).toContain("Output contains only introduction, no substantive content");
+    expect(result.issues).toContain(
+      "Output contains only introduction, no substantive content",
+    );
   });
 
   it("validates complete, well-formed markdown output", () => {
@@ -46,7 +49,13 @@ describe("DevDiff v1.7.0 — Token-Optimized Prompts", () => {
       projectName: "DevDiff",
       primaryLanguage: "TypeScript",
       files: [
-        { path: "src/auth.ts", status: "modified" as const, additions: 10, deletions: 2, diffSnippet: "+ const user = auth();\n- const user = null;" },
+        {
+          path: "src/auth.ts",
+          status: "modified" as const,
+          additions: 10,
+          deletions: 2,
+          diffSnippet: "+ const user = auth();\n- const user = null;",
+        },
       ],
       totalAdditions: 10,
       totalDeletions: 2,
@@ -76,7 +85,9 @@ describe("DevDiff v1.7.0 — Output Quality Gate", () => {
 
   it("detects hallucinated file paths in output", () => {
     const text = "Updated `src/nonexistent-file.ts` with new methods.";
-    const diff = { files: [{ path: "src/auth.ts", status: "modified" as const }] };
+    const diff = {
+      files: [{ path: "src/auth.ts", status: "modified" as const }],
+    };
 
     const check = OutputQualityGate.checkHallucinations(text, diff);
     expect(check.findings.length).toBeGreaterThan(0);
@@ -88,13 +99,16 @@ describe("DevDiff v1.7.0 — Never Push Incomplete Guard", () => {
   it("blocks git operations when output is incomplete", async () => {
     const incompleteOutput = "The code initializ";
 
-    await expect(NeverPushIncomplete.guard(incompleteOutput, "push")).rejects.toThrow(
-      IncompleteOutputError
-    );
+    await expect(
+      NeverPushIncomplete.guard(incompleteOutput, "push"),
+    ).rejects.toThrow(IncompleteOutputError);
   });
 
   it("allows git operations when output is complete", async () => {
-    const completeOutput = "## Changelog\n- Added output quality gate.\n- Verified balanced markdown.";
-    await expect(NeverPushIncomplete.guard(completeOutput, "commit")).resolves.not.toThrow();
+    const completeOutput =
+      "## Changelog\n- Added output quality gate.\n- Verified balanced markdown.";
+    await expect(
+      NeverPushIncomplete.guard(completeOutput, "commit"),
+    ).resolves.not.toThrow();
   });
 });

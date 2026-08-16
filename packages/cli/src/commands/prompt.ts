@@ -42,7 +42,9 @@ export async function promptCommand(
           `powershell Set-Clipboard -Value ${JSON.stringify(generated.prompt)}`,
         );
       } else {
-        execSync(`echo ${JSON.stringify(generated.prompt)} | xclip -selection clipboard`);
+        execSync(
+          `echo ${JSON.stringify(generated.prompt)} | xclip -selection clipboard`,
+        );
       }
       console.log(pc.green("📋 Prompt copied to clipboard!"));
     } catch {

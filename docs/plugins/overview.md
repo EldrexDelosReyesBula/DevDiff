@@ -68,4 +68,3 @@ DevDiff includes 4 production-ready, fully working plugin implementations inside
 ## 🔒 Security & Supply Chain Protection
 
 For details on how DevDiff scans transitive dependencies, detects obfuscated code, and reviews permissions before plugin installation, visit the [Plugin Security & Supply Chain Protection Documentation](./security.md).
-

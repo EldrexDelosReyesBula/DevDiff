@@ -36,14 +36,16 @@ export class DependencyMapper {
       ? params.filePath
       : path.resolve(workspaceRoot, params.filePath);
 
-    const relativeTarget = path.relative(workspaceRoot, absolutePath).replace(/\\/g, "/");
+    const relativeTarget = path
+      .relative(workspaceRoot, absolutePath)
+      .replace(/\\/g, "/");
 
     const diagramNode = this.buildDependencyGraph(
       absolutePath,
       relativeTarget,
       workspaceRoot,
       depth,
-      visited
+      visited,
     );
 
     return {
@@ -62,7 +64,7 @@ export class DependencyMapper {
     workspaceRoot: string,
     maxDepth: number,
     visited: Set<string>,
-    currentDepth: number = 0
+    currentDepth: number = 0,
   ): DependencyNode {
     const type = this.classifyFile(relativePath);
 
@@ -98,7 +100,7 @@ export class DependencyMapper {
           workspaceRoot,
           maxDepth,
           visited,
-          currentDepth + 1
+          currentDepth + 1,
         );
         node.children.push(child);
       }
@@ -112,14 +114,15 @@ export class DependencyMapper {
    */
   private static parseFileDependencies(
     absolutePath: string,
-    workspaceRoot: string
+    workspaceRoot: string,
   ): Array<{ absolute?: string; relative: string }> {
     const results: Array<{ absolute?: string; relative: string }> = [];
     try {
       if (!fsSync.existsSync(absolutePath)) return results;
 
       const content = fsSync.readFileSync(absolutePath, "utf-8");
-      const importRegex = /(?:import\s+.*?from\s+['"]([^'"]+)['"]|require\(['"]([^'"]+)['"]\))/g;
+      const importRegex =
+        /(?:import\s+.*?from\s+['"]([^'"]+)['"]|require\(['"]([^'"]+)['"]\))/g;
 
       let match;
       while ((match = importRegex.exec(content)) !== null) {
@@ -132,7 +135,14 @@ export class DependencyMapper {
 
           // Resolve extensions
           if (!fsSync.existsSync(resolved)) {
-            const extensions = [".ts", ".js", ".tsx", ".jsx", "/index.ts", "/index.js"];
+            const extensions = [
+              ".ts",
+              ".js",
+              ".tsx",
+              ".jsx",
+              "/index.ts",
+              "/index.js",
+            ];
             for (const ext of extensions) {
               if (fsSync.existsSync(resolved + ext)) {
                 resolved = resolved + ext;
@@ -141,7 +151,9 @@ export class DependencyMapper {
             }
           }
 
-          const rel = path.relative(workspaceRoot, resolved).replace(/\\/g, "/");
+          const rel = path
+            .relative(workspaceRoot, resolved)
+            .replace(/\\/g, "/");
           results.push({ absolute: resolved, relative: rel });
         } else {
           results.push({ relative: importPath });
@@ -157,22 +169,33 @@ export class DependencyMapper {
   /**
    * Find files in workspace importing target relativePath
    */
-  private static findFileDependents(relativePath: string, workspaceRoot: string): string[] {
+  private static findFileDependents(
+    relativePath: string,
+    workspaceRoot: string,
+  ): string[] {
     const dependents: string[] = [];
     const baseName = path.basename(relativePath, path.extname(relativePath));
     if (!baseName) return dependents;
 
     try {
-      const searchTarget = baseName === "index" ? path.basename(path.dirname(relativePath)) : baseName;
+      const searchTarget =
+        baseName === "index"
+          ? path.basename(path.dirname(relativePath))
+          : baseName;
       const candidates = this.scanWorkspace(workspaceRoot, 50);
 
       for (const file of candidates) {
-        const relCandidate = path.relative(workspaceRoot, file).replace(/\\/g, "/");
+        const relCandidate = path
+          .relative(workspaceRoot, file)
+          .replace(/\\/g, "/");
         if (relCandidate === relativePath) continue;
 
         try {
           const content = fsSync.readFileSync(file, "utf-8");
-          if (content.includes(searchTarget) && (content.includes("import ") || content.includes("require("))) {
+          if (
+            content.includes(searchTarget) &&
+            (content.includes("import ") || content.includes("require("))
+          ) {
             dependents.push(relCandidate);
           }
         } catch {
@@ -252,7 +275,9 @@ export class DependencyMapper {
   private static summarize(root: DependencyNode): string {
     const lines: string[] = [];
 
-    lines.push(`**${root.label}** is classified as a **${root.type}** component.`);
+    lines.push(
+      `**${root.label}** is classified as a **${root.type}** component.`,
+    );
 
     const dependents = root.dependents || [];
     if (dependents.length > 0) {
@@ -285,13 +310,32 @@ export class DependencyMapper {
     const parts = normalized.split("/");
     const dirName = parts.slice(-2, -1)[0]?.toLowerCase() || "";
 
-    if (fileName.includes("index") || fileName.includes("main") || fileName.includes("app") || fileName.includes("server")) return "entry-point";
-    if (dirName.includes("service") || fileName.includes("service")) return "service";
-    if (dirName.includes("util") || dirName.includes("helper") || fileName.includes("util")) return "utility";
-    if (dirName.includes("component") || fileName.includes("component")) return "component";
+    if (
+      fileName.includes("index") ||
+      fileName.includes("main") ||
+      fileName.includes("app") ||
+      fileName.includes("server")
+    )
+      return "entry-point";
+    if (dirName.includes("service") || fileName.includes("service"))
+      return "service";
+    if (
+      dirName.includes("util") ||
+      dirName.includes("helper") ||
+      fileName.includes("util")
+    )
+      return "utility";
+    if (dirName.includes("component") || fileName.includes("component"))
+      return "component";
     if (dirName.includes("middleware")) return "middleware";
-    if (dirName.includes("model") || dirName.includes("schema") || dirName.includes("entity")) return "model";
-    if (dirName.includes("config") || fileName.includes("config")) return "config";
+    if (
+      dirName.includes("model") ||
+      dirName.includes("schema") ||
+      dirName.includes("entity")
+    )
+      return "model";
+    if (dirName.includes("config") || fileName.includes("config"))
+      return "config";
     if (fileName.includes("test") || fileName.includes("spec")) return "test";
     return "unknown";
   }
@@ -305,10 +349,15 @@ export class DependencyMapper {
   private static extractKeyFiles(root: DependencyNode): string[] {
     const keyFiles: string[] = [];
 
-    if (root.type === "entry-point" || root.type === "service") keyFiles.push(root.file);
+    if (root.type === "entry-point" || root.type === "service")
+      keyFiles.push(root.file);
 
     for (const child of root.children) {
-      if (child.type === "service" || child.type === "middleware" || child.type === "entry-point") {
+      if (
+        child.type === "service" ||
+        child.type === "middleware" ||
+        child.type === "entry-point"
+      ) {
         keyFiles.push(child.file);
       }
     }
@@ -331,7 +380,11 @@ export class DependencyMapper {
           if (results.length >= maxFiles) break;
           const full = path.join(current, entry.name);
           if (entry.isDirectory()) {
-            if (!entry.name.startsWith(".") && entry.name !== "node_modules" && entry.name !== "dist") {
+            if (
+              !entry.name.startsWith(".") &&
+              entry.name !== "node_modules" &&
+              entry.name !== "dist"
+            ) {
               walk(full);
             }
           } else if (entry.isFile() && /\.(js|ts|jsx|tsx)$/i.test(entry.name)) {

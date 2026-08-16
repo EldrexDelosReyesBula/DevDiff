@@ -8,11 +8,13 @@ export class ChangelogItem extends vscode.TreeItem {
     description: string,
     icon: string,
     command?: string,
-    children?: ChangelogItem[]
+    children?: ChangelogItem[],
   ) {
     super(
       label,
-      children ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None
+      children
+        ? vscode.TreeItemCollapsibleState.Collapsed
+        : vscode.TreeItemCollapsibleState.None,
     );
     this.description = description;
     this.iconPath = new vscode.ThemeIcon(icon);
@@ -25,10 +27,12 @@ export class ChangelogItem extends vscode.TreeItem {
 }
 
 export class ChangelogTreeProvider implements vscode.TreeDataProvider<ChangelogItem> {
-  private _onDidChangeTreeData: vscode.EventEmitter<ChangelogItem | undefined | null | void> =
-    new vscode.EventEmitter<ChangelogItem | undefined | null | void>();
-  readonly onDidChangeTreeData: vscode.Event<ChangelogItem | undefined | null | void> =
-    this._onDidChangeTreeData.event;
+  private _onDidChangeTreeData: vscode.EventEmitter<
+    ChangelogItem | undefined | null | void
+  > = new vscode.EventEmitter<ChangelogItem | undefined | null | void>();
+  readonly onDidChangeTreeData: vscode.Event<
+    ChangelogItem | undefined | null | void
+  > = this._onDidChangeTreeData.event;
 
   refresh(): void {
     this._onDidChangeTreeData.fire();
@@ -42,12 +46,28 @@ export class ChangelogTreeProvider implements vscode.TreeDataProvider<ChangelogI
     if (!element) {
       // Root — show sections
       return [
-        new ChangelogItem("Generate Changelog", "Generate from staged changes", "play", "devdiff.generateChangelog"),
-        new ChangelogItem("Recent Changelogs", "View history", "history", undefined, [
-          new ChangelogItem("Today", "3 changelogs", "calendar"),
-          new ChangelogItem("This Week", "12 changelogs", "calendar"),
-        ]),
-        new ChangelogItem("View in Editor", "Open CHANGELOG.md", "file", "devdiff.openChangelog"),
+        new ChangelogItem(
+          "Generate Changelog",
+          "Generate from staged changes",
+          "play",
+          "devdiff.generateChangelog",
+        ),
+        new ChangelogItem(
+          "Recent Changelogs",
+          "View history",
+          "history",
+          undefined,
+          [
+            new ChangelogItem("Today", "3 changelogs", "calendar"),
+            new ChangelogItem("This Week", "12 changelogs", "calendar"),
+          ],
+        ),
+        new ChangelogItem(
+          "View in Editor",
+          "Open CHANGELOG.md",
+          "file",
+          "devdiff.openChangelog",
+        ),
       ];
     }
 
@@ -63,11 +83,13 @@ export class SecurityTreeItem extends vscode.TreeItem {
     description: string,
     icon: string,
     command?: string,
-    children?: SecurityTreeItem[]
+    children?: SecurityTreeItem[],
   ) {
     super(
       label,
-      children ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None
+      children
+        ? vscode.TreeItemCollapsibleState.Collapsed
+        : vscode.TreeItemCollapsibleState.None,
     );
     this.description = description;
     this.iconPath = new vscode.ThemeIcon(icon);
@@ -80,10 +102,12 @@ export class SecurityTreeItem extends vscode.TreeItem {
 }
 
 export class SecurityTreeProvider implements vscode.TreeDataProvider<SecurityTreeItem> {
-  private _onDidChangeTreeData: vscode.EventEmitter<SecurityTreeItem | undefined | null | void> =
-    new vscode.EventEmitter<SecurityTreeItem | undefined | null | void>();
-  readonly onDidChangeTreeData: vscode.Event<SecurityTreeItem | undefined | null | void> =
-    this._onDidChangeTreeData.event;
+  private _onDidChangeTreeData: vscode.EventEmitter<
+    SecurityTreeItem | undefined | null | void
+  > = new vscode.EventEmitter<SecurityTreeItem | undefined | null | void>();
+  readonly onDidChangeTreeData: vscode.Event<
+    SecurityTreeItem | undefined | null | void
+  > = this._onDidChangeTreeData.event;
 
   refresh(): void {
     this._onDidChangeTreeData.fire();
@@ -96,12 +120,32 @@ export class SecurityTreeProvider implements vscode.TreeDataProvider<SecurityTre
   getChildren(element?: SecurityTreeItem): SecurityTreeItem[] {
     if (!element) {
       return [
-        new SecurityTreeItem("Run Workspace Audit", "Scan for secrets & vulnerabilities", "shield", "devdiff.runSecurityAudit"),
-        new SecurityTreeItem("Scan Results", "Recent findings", "warning", undefined, [
-          new SecurityTreeItem("High Severity", "0 issues detected", "pass-filled"),
-          new SecurityTreeItem("Medium Severity", "1 warning", "alert"),
-        ]),
-        new SecurityTreeItem("Security Advisories", "Check patch advisories", "lock", "devdiff.openSecurityAdvisories"),
+        new SecurityTreeItem(
+          "Run Workspace Audit",
+          "Scan for secrets & vulnerabilities",
+          "shield",
+          "devdiff.runSecurityAudit",
+        ),
+        new SecurityTreeItem(
+          "Scan Results",
+          "Recent findings",
+          "warning",
+          undefined,
+          [
+            new SecurityTreeItem(
+              "High Severity",
+              "0 issues detected",
+              "pass-filled",
+            ),
+            new SecurityTreeItem("Medium Severity", "1 warning", "alert"),
+          ],
+        ),
+        new SecurityTreeItem(
+          "Security Advisories",
+          "Check patch advisories",
+          "lock",
+          "devdiff.openSecurityAdvisories",
+        ),
       ];
     }
 
@@ -117,7 +161,7 @@ export class QAWebviewViewProvider implements vscode.WebviewViewProvider {
   public resolveWebviewView(
     webviewView: vscode.WebviewView,
     context: vscode.WebviewViewResolveContext,
-    _token: vscode.CancellationToken
+    _token: vscode.CancellationToken,
   ) {
     webviewView.webview.options = {
       enableScripts: true,
@@ -177,7 +221,7 @@ export class CleanSidebar {
     const qaView = vscode.window.registerWebviewViewProvider(
       "devdiff-qa",
       new QAWebviewViewProvider(context.extensionUri),
-      { webviewOptions: { retainContextWhenHidden: true } }
+      { webviewOptions: { retainContextWhenHidden: true } },
     );
 
     // ── Panel 3: Security ──

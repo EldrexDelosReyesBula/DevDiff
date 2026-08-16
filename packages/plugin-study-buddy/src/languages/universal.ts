@@ -72,7 +72,11 @@ export class UniversalExplainer {
     });
 
     // ── Section 2: Structure breakdown ──
-    if (structure.hasFunctions || structure.hasClasses || structure.hasImports) {
+    if (
+      structure.hasFunctions ||
+      structure.hasClasses ||
+      structure.hasImports
+    ) {
       sections.push({
         title: "Structure Breakdown",
         content: this.explainStructure(structure, params.level),
@@ -120,28 +124,40 @@ export class UniversalExplainer {
     const lines = code.split("\n");
     const patterns: string[] = [];
 
-    const hasFunctions = /function\s+\w+|def\s+\w+|fn\s+\w+|func\s+\w+|fun\s+\w+/.test(code);
+    const hasFunctions =
+      /function\s+\w+|def\s+\w+|fn\s+\w+|func\s+\w+|fun\s+\w+/.test(code);
     const hasClasses = /class\s+\w+|struct\s+\w+/.test(code);
-    const hasImports = /import\s+|require\s*\(|from\s+['"]|include\s+|#include/.test(code);
+    const hasImports =
+      /import\s+|require\s*\(|from\s+['"]|include\s+|#include/.test(code);
     const hasVariables = /const\s+\w+|let\s+\w+|var\s+\w+|:=|=\s/.test(code);
-    const hasLoops = /for\s*\(|while\s*\(|for\s+\w+\s+in|\.forEach|\.map/.test(code);
-    const hasConditionals = /if\s*\(|if\s+\w+|else|elif|switch\s*\(|match\s+/.test(code);
+    const hasLoops = /for\s*\(|while\s*\(|for\s+\w+\s+in|\.forEach|\.map/.test(
+      code,
+    );
+    const hasConditionals =
+      /if\s*\(|if\s+\w+|else|elif|switch\s*\(|match\s+/.test(code);
     const hasComments = /\/\/|#|--|<!--|\/\*/.test(code);
-    const hasAsync = /async|await|\.then\(|Promise|goroutine|channel/.test(code);
-    const hasErrorHandling = /try\s*\{|catch\s*\(|except|rescue|\.catch\(/.test(code);
+    const hasAsync = /async|await|\.then\(|Promise|goroutine|channel/.test(
+      code,
+    );
+    const hasErrorHandling = /try\s*\{|catch\s*\(|except|rescue|\.catch\(/.test(
+      code,
+    );
 
     if (hasAsync) patterns.push("Asynchronous/Concurrent Programming");
     if (hasErrorHandling) patterns.push("Error Handling");
     if (hasLoops) patterns.push("Iteration/Loops");
     if (hasConditionals) patterns.push("Conditional Logic");
-    if (hasClasses && hasFunctions) patterns.push("Object-Oriented Programming");
-    if (hasFunctions && !hasClasses) patterns.push("Functional/Procedural Programming");
+    if (hasClasses && hasFunctions)
+      patterns.push("Object-Oriented Programming");
+    if (hasFunctions && !hasClasses)
+      patterns.push("Functional/Procedural Programming");
 
     const codeLines = lines.filter(
-      (l) => l.trim() && !l.trim().startsWith("//") && !l.trim().startsWith("#")
+      (l) =>
+        l.trim() && !l.trim().startsWith("//") && !l.trim().startsWith("#"),
     ).length;
     const commentLines = lines.filter(
-      (l) => l.trim().startsWith("//") || l.trim().startsWith("#")
+      (l) => l.trim().startsWith("//") || l.trim().startsWith("#"),
     ).length;
 
     return {
@@ -158,28 +174,40 @@ export class UniversalExplainer {
       hasAsync,
       hasErrorHandling,
       patterns,
-      complexity: codeLines < 30 ? "simple" : codeLines < 100 ? "moderate" : "complex",
+      complexity:
+        codeLines < 30 ? "simple" : codeLines < 100 ? "moderate" : "complex",
     };
   }
 
-  private static explainFilePurpose(filePath: string, language: string): string {
+  private static explainFilePurpose(
+    filePath: string,
+    language: string,
+  ): string {
     const fileName = filePath.split("/").pop() || filePath;
     const dirName = filePath.split("/").slice(-2, -1)[0] || "root";
 
     return `This is a **${language}** file (\`${fileName}\`) located in the **${dirName}** module.`;
   }
 
-  private static explainStructure(structure: CodeStructure, _level: ExplanationLevel): string {
+  private static explainStructure(
+    structure: CodeStructure,
+    _level: ExplanationLevel,
+  ): string {
     const parts: string[] = [];
     parts.push(
-      `This file has **${structure.totalLines} lines** (${structure.codeLines} code, ${structure.commentLines} comments).`
+      `This file has **${structure.totalLines} lines** (${structure.codeLines} code, ${structure.commentLines} comments).`,
     );
 
-    if (structure.hasImports) parts.push("It **imports** dependencies from other modules.");
-    if (structure.hasFunctions) parts.push("It **defines functions** to organize execution logic.");
-    if (structure.hasClasses) parts.push("It **defines classes or structures** to encapsulate state.");
-    if (structure.hasAsync) parts.push("It handles **asynchronous operations**.");
-    if (structure.hasErrorHandling) parts.push("It incorporates **error handling**.");
+    if (structure.hasImports)
+      parts.push("It **imports** dependencies from other modules.");
+    if (structure.hasFunctions)
+      parts.push("It **defines functions** to organize execution logic.");
+    if (structure.hasClasses)
+      parts.push("It **defines classes or structures** to encapsulate state.");
+    if (structure.hasAsync)
+      parts.push("It handles **asynchronous operations**.");
+    if (structure.hasErrorHandling)
+      parts.push("It incorporates **error handling**.");
 
     return parts.join("\n\n");
   }
@@ -195,10 +223,18 @@ export class UniversalExplainer {
       const lineNum = i + 1;
 
       if (line.startsWith("import ") || line.startsWith("require(")) {
-        explanations.push(`**Line ${lineNum}:** Imports code from an external module.`);
+        explanations.push(
+          `**Line ${lineNum}:** Imports code from an external module.`,
+        );
       } else if (line.startsWith("//") || line.startsWith("#")) {
-        explanations.push(`**Line ${lineNum}:** A developer comment describing logic.`);
-      } else if (line.includes("function ") || line.includes("def ") || line.includes("fn ")) {
+        explanations.push(
+          `**Line ${lineNum}:** A developer comment describing logic.`,
+        );
+      } else if (
+        line.includes("function ") ||
+        line.includes("def ") ||
+        line.includes("fn ")
+      ) {
         explanations.push(`**Line ${lineNum}:** Function declaration.`);
       } else if (line.includes("if ") || line.includes("if(")) {
         explanations.push(`**Line ${lineNum}:** Conditional decision point.`);
@@ -214,13 +250,19 @@ export class UniversalExplainer {
     const concepts: string[] = [];
 
     if (/function\s+\w+|def\s+\w+|fn\s+\w+/.test(code)) {
-      concepts.push("**Functions** — Reusable blocks of code that execute specific logic.");
+      concepts.push(
+        "**Functions** — Reusable blocks of code that execute specific logic.",
+      );
     }
     if (/class\s+\w+|struct\s+\w+/.test(code)) {
-      concepts.push("**Data Modeling** — Structured state and behavior encapsulation.");
+      concepts.push(
+        "**Data Modeling** — Structured state and behavior encapsulation.",
+      );
     }
     if (/async|await|Promise/.test(code)) {
-      concepts.push("**Asynchronous Execution** — Non-blocking operation handling.");
+      concepts.push(
+        "**Asynchronous Execution** — Non-blocking operation handling.",
+      );
     }
 
     return concepts.length > 0
@@ -229,35 +271,48 @@ export class UniversalExplainer {
   }
 
   private static explainPatterns(patterns: string[]): string {
-    return patterns.map((p) => `- **${p}**: Pattern utilized in this snippet.`).join("\n");
+    return patterns
+      .map((p) => `- **${p}**: Pattern utilized in this snippet.`)
+      .join("\n");
   }
 
   private static generateSummary(
     structure: CodeStructure,
     language: string,
-    level: ExplanationLevel
+    level: ExplanationLevel,
   ): string {
     return `${language.toUpperCase()} file (${structure.totalLines} lines, ${structure.complexity} complexity) explained at ${level} level.`;
   }
 
   private static generateTakeaways(structure: CodeStructure): string[] {
     const takeaways: string[] = [];
-    if (structure.hasFunctions) takeaways.push("Functions encapsulate modular logic.");
+    if (structure.hasFunctions)
+      takeaways.push("Functions encapsulate modular logic.");
     if (structure.hasClasses) takeaways.push("Classes define domain models.");
     if (takeaways.length === 0) takeaways.push("Structured execution file.");
     return takeaways;
   }
 
-  private static suggestNextLevel(current: ExplanationLevel): ExplanationLevel | undefined {
-    const levels: ExplanationLevel[] = ["beginner", "student", "developer", "senior", "architect"];
+  private static suggestNextLevel(
+    current: ExplanationLevel,
+  ): ExplanationLevel | undefined {
+    const levels: ExplanationLevel[] = [
+      "beginner",
+      "student",
+      "developer",
+      "senior",
+      "architect",
+    ];
     const idx = levels.indexOf(current);
     return idx < levels.length - 1 ? levels[idx + 1] : undefined;
   }
 
   private static findRelatedConcepts(code: string): string[] {
     const related: string[] = [];
-    if (/function|def|fn/.test(code)) related.push("Function Scoping", "Return Types");
-    if (/async|await/.test(code)) related.push("Concurrency Models", "Event Loops");
+    if (/function|def|fn/.test(code))
+      related.push("Function Scoping", "Return Types");
+    if (/async|await/.test(code))
+      related.push("Concurrency Models", "Event Loops");
     return related;
   }
 }

@@ -318,7 +318,10 @@ export class AgentRegistry {
   static async converse(
     agentIds: string[],
     topic: string,
-  ): Promise<{ messages: Array<{ agent: string; text: string }>; consensus: string }> {
+  ): Promise<{
+    messages: Array<{ agent: string; text: string }>;
+    consensus: string;
+  }> {
     this.ensureDefaultAgentsRegistered();
     const targetAgents = agentIds
       .map((id) => this.agents.get(id))
@@ -447,8 +450,9 @@ export class AgentRegistry {
         .filter((a) => a.id !== failedAgent.id)
         .filter((a) => a.status === "active" || a.status === "idle")
         .filter((a) => this.agentCanHandle(a, task))
-        .sort((a, b) => this.scoreAgent(b, task) - this.scoreAgent(a, task))[0] ||
-      null
+        .sort(
+          (a, b) => this.scoreAgent(b, task) - this.scoreAgent(a, task),
+        )[0] || null
     );
   }
 

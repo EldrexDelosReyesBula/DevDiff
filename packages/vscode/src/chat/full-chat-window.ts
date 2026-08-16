@@ -63,8 +63,7 @@ export class FullChatWindow {
         }
 
         case "new-conversation": {
-          activeConversationId =
-            await ChatHistory.createConversation(context);
+          activeConversationId = await ChatHistory.createConversation(context);
           panel.webview.postMessage({
             command: "conversation-created",
             conversationId: activeConversationId,
@@ -121,8 +120,7 @@ export class FullChatWindow {
 
         case "clear-conversation": {
           await ChatHistory.clearConversation(activeConversationId, context);
-          activeConversationId =
-            await ChatHistory.createConversation(context);
+          activeConversationId = await ChatHistory.createConversation(context);
           panel.webview.postMessage({
             command: "conversation-created",
             conversationId: activeConversationId,

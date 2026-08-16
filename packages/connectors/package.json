@@ -52,13 +52,26 @@
     ],
     "exports": {
       "main": "./src/registry.ts",
-      "classes": ["ConnectorRegistry", "SlackConnector", "DiscordConnector"],
-      "functions": ["getConnector", "dispatchNotification"],
-      "types": ["ConnectorConfig", "NotificationPayload"]
+      "classes": [
+        "ConnectorRegistry",
+        "SlackConnector",
+        "DiscordConnector"
+      ],
+      "functions": [
+        "getConnector",
+        "dispatchNotification"
+      ],
+      "types": [
+        "ConnectorConfig",
+        "NotificationPayload"
+      ]
     },
     "dependencies": {
       "required": [],
-      "optional": ["@slack/web-api", "discord.js"]
+      "optional": [
+        "@slack/web-api",
+        "discord.js"
+      ]
     },
     "agentContext": {
       "purpose": "Messaging connectors registry for DevDiff. Provides pre-built dispatchers for Slack, Discord, Microsoft Teams, and custom webhooks.",

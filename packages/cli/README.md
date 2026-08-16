@@ -19,6 +19,7 @@ npm install -g @eldrex/cli
 ## CLI Commands
 
 ### Generation & Analysis
+
 - `devdiff init` — Set up configuration and local Git hooks.
 - `devdiff generate` — Generate changelogs (`--since today|yesterday|this-week|2026-08-01`, `--commit`, `--from..--to`).
 - `devdiff watch` — Monitor repository diffs in real-time.
@@ -26,6 +27,7 @@ npm install -g @eldrex/cli
 - `devdiff audit` — View execution history and security logs.
 
 ### 🗂️ Memory Timeline Management (`devdiff memory`)
+
 - `devdiff memory list` — List memory snapshots (`--from`, `--to`, `--category`).
 - `devdiff memory delete` — Delete snapshots in range (`--dry-run` available).
 - `devdiff memory use` — Scope active context (`--from`, `--to`, `--all`).
@@ -35,6 +37,7 @@ npm install -g @eldrex/cli
 - `devdiff memory status` — View overall memory storage status.
 
 ### 📡 Network Transparency Suite (`devdiff network`)
+
 - `devdiff network watch` — Real-time network monitor.
 - `devdiff network history` — View network logs (`--since`, `--plugin`, `--domain`).
 - `devdiff network block` — Block domain or category (`--category telemetry|analytics`).
@@ -45,9 +48,9 @@ npm install -g @eldrex/cli
 - `devdiff network audit` — Run network security audit.
 
 ### 🔌 Plugin Transparency & Disclosure
+
 - `devdiff plugin audit <name>` — Compare declared vs actual plugin behavior.
 - `devdiff disclose` — Generate full disclosure transparency report.
-
 
 ## 🔒 Security & Privacy
 

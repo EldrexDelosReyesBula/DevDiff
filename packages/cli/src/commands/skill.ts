@@ -2,8 +2,13 @@ import * as fs from "fs";
 import * as path from "path";
 import { SkillLoader } from "@eldrex/core";
 
-export async function skillGenerateCommand(options: { update?: boolean; path?: string }): Promise<void> {
-  const targetDir = options.path ? path.resolve(process.cwd(), options.path) : process.cwd();
+export async function skillGenerateCommand(options: {
+  update?: boolean;
+  path?: string;
+}): Promise<void> {
+  const targetDir = options.path
+    ? path.resolve(process.cwd(), options.path)
+    : process.cwd();
   const filePath = path.join(targetDir, "SKILL.md");
 
   console.log("🔍 Analyzing codebase for SKILL.md generation...");
@@ -17,12 +22,18 @@ export async function skillGenerateCommand(options: { update?: boolean; path?: s
   const generated = SkillLoader.generate(targetDir);
   fs.writeFileSync(filePath, generated, "utf-8");
 
-  console.log("✅ Generated SKILL.md with project capabilities and AI instructions.");
+  console.log(
+    "✅ Generated SKILL.md with project capabilities and AI instructions.",
+  );
   console.log(`📄 Saved to: ${filePath}`);
 }
 
-export async function skillValidateCommand(options: { path?: string }): Promise<void> {
-  const targetDir = options.path ? path.resolve(process.cwd(), options.path) : process.cwd();
+export async function skillValidateCommand(options: {
+  path?: string;
+}): Promise<void> {
+  const targetDir = options.path
+    ? path.resolve(process.cwd(), options.path)
+    : process.cwd();
   const skill = SkillLoader.load(targetDir);
 
   if (!skill) {
@@ -44,8 +55,13 @@ export async function skillValidateCommand(options: { path?: string }): Promise<
   }
 }
 
-export async function skillPreviewCommand(options: { agent?: string; path?: string }): Promise<void> {
-  const targetDir = options.path ? path.resolve(process.cwd(), options.path) : process.cwd();
+export async function skillPreviewCommand(options: {
+  agent?: string;
+  path?: string;
+}): Promise<void> {
+  const targetDir = options.path
+    ? path.resolve(process.cwd(), options.path)
+    : process.cwd();
   const skill = SkillLoader.load(targetDir);
 
   if (!skill) {
@@ -71,4 +87,3 @@ export async function skillCommand(
       return skillValidateCommand(options);
   }
 }
-

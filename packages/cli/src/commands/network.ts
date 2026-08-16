@@ -15,7 +15,9 @@ export async function networkWatchCommand(): Promise<void> {
 
   for (const log of recent) {
     const status = log.allowed ? "✅ ALLOWED" : "❌ BLOCKED";
-    console.log(`[${log.timestamp.slice(11, 19)}] ${status} — ${log.domain}:${log.port}`);
+    console.log(
+      `[${log.timestamp.slice(11, 19)}] ${status} — ${log.domain}:${log.port}`,
+    );
     if (log.plugin) console.log(`           Plugin: ${log.plugin}`);
     if (log.purpose) console.log(`           Purpose: ${log.purpose}`);
     console.log(`           Reason: ${log.reason}\n`);
@@ -42,13 +44,15 @@ export async function networkHistoryCommand(options: {
   console.log(`📡 Network History (${logs.length} records):\n`);
   for (const log of logs) {
     const status = log.allowed ? "ALLOW" : "BLOCK";
-    console.log(`  • [${log.timestamp.slice(0, 19)}] [${status}] ${log.domain} (${log.reason})`);
+    console.log(
+      `  • [${log.timestamp.slice(0, 19)}] [${status}] ${log.domain} (${log.reason})`,
+    );
   }
 }
 
 export async function networkBlockCommand(
   target: string,
-  options: { category?: boolean }
+  options: { category?: boolean },
 ): Promise<void> {
   const config = NetworkConfig.load(process.cwd());
 
@@ -101,8 +105,12 @@ export async function networkBlockedCommand(): Promise<void> {
   for (const d of config.blockedDomains) {
     console.log(`  • ❌ ${d}`);
   }
-  console.log(`\n🚫 Blocked Categories: ${config.blockedCategories.join(", ")}`);
-  console.log(`🔒 Total Built-in Blocked Domains: ${NetworkGuardV2.getBlockedDomainCount()}`);
+  console.log(
+    `\n🚫 Blocked Categories: ${config.blockedCategories.join(", ")}`,
+  );
+  console.log(
+    `🔒 Total Built-in Blocked Domains: ${NetworkGuardV2.getBlockedDomainCount()}`,
+  );
 }
 
 export async function networkAllowedCommand(): Promise<void> {
@@ -119,9 +127,14 @@ export async function networkExportCommand(options: {
 }): Promise<void> {
   const data = await DisclosureReport.generate(process.cwd());
   const format = options.format || "markdown";
-  const outputPath = options.output || (format === "json" ? "network-report.json" : "NETWORK_REPORT.md");
+  const outputPath =
+    options.output ||
+    (format === "json" ? "network-report.json" : "NETWORK_REPORT.md");
 
-  const content = format === "json" ? JSON.stringify(data, null, 2) : DisclosureReport.formatMarkdown(data);
+  const content =
+    format === "json"
+      ? JSON.stringify(data, null, 2)
+      : DisclosureReport.formatMarkdown(data);
   fs.writeFileSync(outputPath, content, "utf-8");
 
   console.log(`📄 Network report exported to: ${outputPath}`);
@@ -149,14 +162,18 @@ export async function pluginAuditCommand(pluginName: string): Promise<void> {
 
   console.log(`\n🔍 Plugin Audit: ${audit.pluginName} v${audit.version}`);
   console.log(`══════════════════════════════════════════════════════\n`);
-  console.log(`Verdict: ${audit.verdict === "passed" ? "✅ PASSED" : "⚠️ SUSPICIOUS"}\n`);
+  console.log(
+    `Verdict: ${audit.verdict === "passed" ? "✅ PASSED" : "⚠️ SUSPICIOUS"}\n`,
+  );
   console.log(`Declared Network Permissions:`);
   for (const d of audit.declared.network) {
     console.log(`  • 🌐 ${d}`);
   }
   console.log(`\nActual Network Activity:`);
   for (const a of audit.actual.network) {
-    console.log(`  • ${a.allowed ? "✅" : "❌"} ${a.domain} (${a.count} requests)`);
+    console.log(
+      `  • ${a.allowed ? "✅" : "❌"} ${a.domain} (${a.count} requests)`,
+    );
   }
   if (audit.issues.length > 0) {
     console.log(`\nIssues Found:`);

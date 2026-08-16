@@ -23,7 +23,7 @@ export class HallucinationGuard {
   static verify(
     output: string,
     diff: ParsedDiff,
-    knowledge: UnifiedKnowledge
+    knowledge: UnifiedKnowledge,
   ): VerificationResult {
     const issues: VerificationIssue[] = [];
 
@@ -44,7 +44,10 @@ export class HallucinationGuard {
 
     // ── Check 2: Referenced entities exist in knowledge ──
     const referencedEntities = this.extractReferencedEntities(output);
-    if (knowledge.conventions && Object.keys(knowledge.conventions).length > 0) {
+    if (
+      knowledge.conventions &&
+      Object.keys(knowledge.conventions).length > 0
+    ) {
       for (const entity of referencedEntities) {
         if (!this.entityMatchesConventions(entity, knowledge.conventions)) {
           issues.push({
@@ -65,12 +68,16 @@ export class HallucinationGuard {
           .replace(/^(never suggest|never|do not|avoid)\s+/i, "")
           .trim();
 
-        if (cleanPattern && output.toLowerCase().includes(cleanPattern.toLowerCase())) {
+        if (
+          cleanPattern &&
+          output.toLowerCase().includes(cleanPattern.toLowerCase())
+        ) {
           issues.push({
             severity: "critical",
             type: "anti-pattern-violation",
             detail: `Output suggests or references an anti-pattern: "${cleanPattern}"`,
-            suggestion: "Remove this suggestion — it violates project standards",
+            suggestion:
+              "Remove this suggestion — it violates project standards",
           });
         }
       }
@@ -82,7 +89,8 @@ export class HallucinationGuard {
       const actualGroups = this.extractChangelogGroups(output);
 
       const unexpectedGroups = actualGroups.filter(
-        (g) => !expectedGroups.some((eg) => eg.toLowerCase() === g.toLowerCase())
+        (g) =>
+          !expectedGroups.some((eg) => eg.toLowerCase() === g.toLowerCase()),
       );
 
       if (unexpectedGroups.length > 0) {
@@ -127,11 +135,16 @@ export class HallucinationGuard {
 
   private static extractReferencedFiles(output: string): string[] {
     const matches =
-      output.match(/`([^`]+\.(ts|js|tsx|jsx|py|go|rs|java|rb|php|cs|swift|kt|dart))`[gi]/g) || [];
+      output.match(
+        /`([^`]+\.(ts|js|tsx|jsx|py|go|rs|java|rb|php|cs|swift|kt|dart))`[gi]/g,
+      ) || [];
     return matches.map((m) => m.replace(/`/g, ""));
   }
 
-  private static fileExistsInDiff(file: string, actualFiles: Set<string>): boolean {
+  private static fileExistsInDiff(
+    file: string,
+    actualFiles: Set<string>,
+  ): boolean {
     for (const actual of actualFiles) {
       if (actual.endsWith(file) || actual.includes(file)) return true;
     }
@@ -139,13 +152,14 @@ export class HallucinationGuard {
   }
 
   private static extractReferencedEntities(output: string): string[] {
-    const matches = output.match(/\b([A-Z][a-zA-Z]+|[a-z]+[A-Z][a-zA-Z]*)\b/g) || [];
+    const matches =
+      output.match(/\b([A-Z][a-zA-Z]+|[a-z]+[A-Z][a-zA-Z]*)\b/g) || [];
     return [...new Set(matches)].filter((m) => m.length > 3);
   }
 
   private static entityMatchesConventions(
     entity: string,
-    conventions: Record<string, string>
+    conventions: Record<string, string>,
   ): boolean {
     for (const [key, rule] of Object.entries(conventions)) {
       const lowerRule = rule.toLowerCase();
@@ -168,7 +182,7 @@ export class HallucinationGuard {
   }
 
   private static assessQuality(
-    issues: VerificationIssue[]
+    issues: VerificationIssue[],
   ): "excellent" | "good" | "acceptable" | "poor" {
     const critical = issues.filter((i) => i.severity === "critical").length;
     const high = issues.filter((i) => i.severity === "high").length;

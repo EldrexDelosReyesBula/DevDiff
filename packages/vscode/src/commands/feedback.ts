@@ -1,6 +1,8 @@
 import * as vscode from "vscode";
 
-export function registerFeedbackCommands(context: vscode.ExtensionContext): void {
+export function registerFeedbackCommands(
+  context: vscode.ExtensionContext,
+): void {
   // ── Send Feedback / Report Issue ──
   context.subscriptions.push(
     vscode.commands.registerCommand("devdiff.sendFeedback", async () => {
@@ -8,7 +10,8 @@ export function registerFeedbackCommands(context: vscode.ExtensionContext): void
         [
           {
             label: "$(star) Leave a Review",
-            description: "Takes 30 seconds — helps other developers find DevDiff",
+            description:
+              "Takes 30 seconds — helps other developers find DevDiff",
             action: "review",
           },
           {
@@ -35,7 +38,7 @@ export function registerFeedbackCommands(context: vscode.ExtensionContext): void
         {
           placeHolder: "What would you like to do?",
           title: "DevDiff Feedback",
-        }
+        },
       );
 
       if (!choice) return;
@@ -44,52 +47,55 @@ export function registerFeedbackCommands(context: vscode.ExtensionContext): void
         case "review":
           await vscode.env.openExternal(
             vscode.Uri.parse(
-              "https://marketplace.visualstudio.com/items?itemName=eldrex.devdiff&ssr=false#review-details"
-            )
+              "https://marketplace.visualstudio.com/items?itemName=eldrex.devdiff&ssr=false#review-details",
+            ),
           );
           break;
 
         case "feature":
           await vscode.env.openExternal(
             vscode.Uri.parse(
-              "https://github.com/EldrexDelosReyesBula/devdiff/issues/new?template=feature_request.md"
-            )
+              "https://github.com/EldrexDelosReyesBula/devdiff/issues/new?template=feature_request.md",
+            ),
           );
           break;
 
         case "bug":
           await vscode.env.openExternal(
             vscode.Uri.parse(
-              "https://github.com/EldrexDelosReyesBula/devdiff/issues/new?template=bug_report.md"
-            )
+              "https://github.com/EldrexDelosReyesBula/devdiff/issues/new?template=bug_report.md",
+            ),
           );
           break;
 
         case "discussion":
           await vscode.env.openExternal(
             vscode.Uri.parse(
-              "https://github.com/EldrexDelosReyesBula/devdiff/discussions/new/choose"
-            )
+              "https://github.com/EldrexDelosReyesBula/devdiff/discussions/new/choose",
+            ),
           );
           break;
 
         case "thanks":
           await vscode.env.openExternal(
             vscode.Uri.parse(
-              "https://github.com/EldrexDelosReyesBula/devdiff/discussions/new?category=general"
-            )
+              "https://github.com/EldrexDelosReyesBula/devdiff/discussions/new?category=general",
+            ),
           );
           break;
       }
-    })
+    }),
   );
 
   // ── Periodic gentle review reminder (non-intrusive) ──
   context.subscriptions.push(
     vscode.commands.registerCommand("devdiff.maybeAskForReview", async () => {
       // Only ask after 10+ successful changelog generations
-      const generationCount = context.globalState.get<number>("devdiff.generationCount") || 0;
-      const hasAskedRecently = context.globalState.get<boolean>("devdiff.askedReviewRecently");
+      const generationCount =
+        context.globalState.get<number>("devdiff.generationCount") || 0;
+      const hasAskedRecently = context.globalState.get<boolean>(
+        "devdiff.askedReviewRecently",
+      );
 
       if (generationCount >= 10 && !hasAskedRecently) {
         // Wait 5 seconds after last generation (don't interrupt workflow)
@@ -99,23 +105,29 @@ export function registerFeedbackCommands(context: vscode.ExtensionContext): void
             { modal: false },
             "Leave Review",
             "Maybe Later",
-            "Don't Ask Again"
+            "Don't Ask Again",
           );
 
           if (result === "Leave Review") {
             await vscode.env.openExternal(
               vscode.Uri.parse(
-                "https://marketplace.visualstudio.com/items?itemName=eldrex.devdiff&ssr=false#review-details"
-              )
+                "https://marketplace.visualstudio.com/items?itemName=eldrex.devdiff&ssr=false#review-details",
+              ),
             );
-            await context.globalState.update("devdiff.askedReviewRecently", true);
+            await context.globalState.update(
+              "devdiff.askedReviewRecently",
+              true,
+            );
           }
 
           if (result === "Don't Ask Again") {
-            await context.globalState.update("devdiff.askedReviewRecently", true);
+            await context.globalState.update(
+              "devdiff.askedReviewRecently",
+              true,
+            );
           }
         }, 5000);
       }
-    })
+    }),
   );
 }

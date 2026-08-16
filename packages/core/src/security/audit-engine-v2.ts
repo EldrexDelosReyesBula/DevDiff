@@ -39,7 +39,10 @@ export class SecurityAuditEngineV2 {
   /**
    * Run security audit — handles large repos without crashing
    */
-  static async audit(workspacePath: string, options: AuditOptions = {}): Promise<SecurityAuditResult> {
+  static async audit(
+    workspacePath: string,
+    options: AuditOptions = {},
+  ): Promise<SecurityAuditResult> {
     const startTime = Date.now();
     const findings: SecurityFinding[] = [];
     const errors: string[] = [];
@@ -62,7 +65,10 @@ export class SecurityAuditEngineV2 {
 
     // ── Phase 3: Code Pattern Analysis (batched for large repos) ──
     try {
-      const codeFindings = await this.analyzeCodePatterns(workspacePath, options);
+      const codeFindings = await this.analyzeCodePatterns(
+        workspacePath,
+        options,
+      );
       findings.push(...codeFindings);
     } catch (error) {
       errors.push(`Code analysis failed: ${(error as Error).message}`);
@@ -71,7 +77,10 @@ export class SecurityAuditEngineV2 {
     // ── Phase 4: Compliance Check (if framework specified) ──
     if (options.framework) {
       try {
-        const complianceFindings = await this.checkCompliance(workspacePath, options.framework);
+        const complianceFindings = await this.checkCompliance(
+          workspacePath,
+          options.framework,
+        );
         findings.push(...complianceFindings);
       } catch (error) {
         errors.push(`Compliance check failed: ${(error as Error).message}`);
@@ -81,18 +90,26 @@ export class SecurityAuditEngineV2 {
     const elapsed = Date.now() - startTime;
 
     const filteredFindings = options.severityThreshold
-      ? findings.filter((f) => this.severityWeight(f.severity) >= this.severityWeight(options.severityThreshold!))
+      ? findings.filter(
+          (f) =>
+            this.severityWeight(f.severity) >=
+            this.severityWeight(options.severityThreshold!),
+        )
       : findings;
 
     return {
       summary: {
         totalFiles: filteredFindings.length,
-        critical: filteredFindings.filter((f) => f.severity === "critical").length,
+        critical: filteredFindings.filter((f) => f.severity === "critical")
+          .length,
         high: filteredFindings.filter((f) => f.severity === "high").length,
         medium: filteredFindings.filter((f) => f.severity === "medium").length,
         low: filteredFindings.filter((f) => f.severity === "low").length,
       },
-      findings: filteredFindings.sort((a, b) => this.severityWeight(b.severity) - this.severityWeight(a.severity)),
+      findings: filteredFindings.sort(
+        (a, b) =>
+          this.severityWeight(b.severity) - this.severityWeight(a.severity),
+      ),
       errors: errors.length > 0 ? errors : undefined,
       elapsed: `${(elapsed / 1000).toFixed(1)}s`,
       timestamp: new Date().toISOString(),
@@ -102,7 +119,10 @@ export class SecurityAuditEngineV2 {
   /**
    * Batch process files to handle large repos
    */
-  private static async analyzeCodePatterns(workspacePath: string, options: AuditOptions): Promise<SecurityFinding[]> {
+  private static async analyzeCodePatterns(
+    workspacePath: string,
+    options: AuditOptions,
+  ): Promise<SecurityFinding[]> {
     const findings: SecurityFinding[] = [];
     const files = await this.getAuditableFiles(workspacePath, options);
 
@@ -113,7 +133,7 @@ export class SecurityAuditEngineV2 {
       const batch = files.slice(i, i + batchSize);
 
       const batchFindings = await Promise.all(
-        batch.map((file) => this.analyzeSingleFile(file))
+        batch.map((file) => this.analyzeSingleFile(file)),
       );
 
       findings.push(...batchFindings.flat());
@@ -128,21 +148,42 @@ export class SecurityAuditEngineV2 {
     return findings;
   }
 
-  private static async scanSecrets(workspacePath: string, options: AuditOptions): Promise<SecurityFinding[]> {
+  private static async scanSecrets(
+    workspacePath: string,
+    options: AuditOptions,
+  ): Promise<SecurityFinding[]> {
     const findings: SecurityFinding[] = [];
     const files = await this.getAuditableFiles(workspacePath, options);
 
     const secretPatterns = [
-      { name: "AWS Key", regex: /AKIA[0-9A-Z]{16}/g, severity: "critical" as const },
-      { name: "Generic API Key", regex: /api[_-]?key\s*[:=]\s*['"][A-Za-z0-9_\-]{16,}['"]/gi, severity: "high" as const },
-      { name: "Private Key", regex: /-----BEGIN PRIVATE KEY-----/g, severity: "critical" as const },
-      { name: "Hardcoded Password", regex: /password\s*[:=]\s*['"][^'"]{8,}['"]/gi, severity: "medium" as const },
+      {
+        name: "AWS Key",
+        regex: /AKIA[0-9A-Z]{16}/g,
+        severity: "critical" as const,
+      },
+      {
+        name: "Generic API Key",
+        regex: /api[_-]?key\s*[:=]\s*['"][A-Za-z0-9_\-]{16,}['"]/gi,
+        severity: "high" as const,
+      },
+      {
+        name: "Private Key",
+        regex: /-----BEGIN PRIVATE KEY-----/g,
+        severity: "critical" as const,
+      },
+      {
+        name: "Hardcoded Password",
+        regex: /password\s*[:=]\s*['"][^'"]{8,}['"]/gi,
+        severity: "medium" as const,
+      },
     ];
 
     for (const filePath of files.slice(0, 100)) {
       try {
         const content = await fs.readFile(filePath, "utf-8");
-        const relativePath = path.relative(workspacePath, filePath).replace(/\\/g, "/");
+        const relativePath = path
+          .relative(workspacePath, filePath)
+          .replace(/\\/g, "/");
 
         for (const pattern of secretPatterns) {
           if (pattern.regex.test(content)) {
@@ -153,7 +194,8 @@ export class SecurityAuditEngineV2 {
               description: `Hardcoded credential found in ${relativePath}`,
               severity: pattern.severity,
               file: relativePath,
-              remediation: "Move secrets to environment variables or secret store",
+              remediation:
+                "Move secrets to environment variables or secret store",
             });
           }
         }
@@ -165,7 +207,9 @@ export class SecurityAuditEngineV2 {
     return findings;
   }
 
-  private static async auditDependencies(workspacePath: string): Promise<SecurityFinding[]> {
+  private static async auditDependencies(
+    workspacePath: string,
+  ): Promise<SecurityFinding[]> {
     const findings: SecurityFinding[] = [];
     const pkgPath = path.join(workspacePath, "package.json");
 
@@ -173,7 +217,10 @@ export class SecurityAuditEngineV2 {
       try {
         const content = await fs.readFile(pkgPath, "utf-8");
         const pkg = JSON.parse(content);
-        const allDeps = { ...(pkg.dependencies || {}), ...(pkg.devDependencies || {}) };
+        const allDeps = {
+          ...(pkg.dependencies || {}),
+          ...(pkg.devDependencies || {}),
+        };
 
         // Basic sanity audit check
         if (allDeps["lodash"] && allDeps["lodash"].startsWith("4.17.1")) {
@@ -181,7 +228,8 @@ export class SecurityAuditEngineV2 {
             id: `dep-${Math.random().toString(36).substring(2, 9)}`,
             ruleId: "KNOWN_VULNERABLE_DEP",
             title: "Outdated dependency: lodash",
-            description: "Lodash version has known prototype pollution vulnerabilities",
+            description:
+              "Lodash version has known prototype pollution vulnerabilities",
             severity: "medium",
             file: "package.json",
             remediation: "Upgrade lodash to >= 4.17.21",
@@ -195,7 +243,10 @@ export class SecurityAuditEngineV2 {
     return findings;
   }
 
-  private static async checkCompliance(workspacePath: string, framework: string): Promise<SecurityFinding[]> {
+  private static async checkCompliance(
+    workspacePath: string,
+    framework: string,
+  ): Promise<SecurityFinding[]> {
     return [
       {
         id: `comp-${Math.random().toString(36).substring(2, 9)}`,
@@ -208,7 +259,10 @@ export class SecurityAuditEngineV2 {
     ];
   }
 
-  private static async getAuditableFiles(workspacePath: string, options: AuditOptions): Promise<string[]> {
+  private static async getAuditableFiles(
+    workspacePath: string,
+    options: AuditOptions,
+  ): Promise<string[]> {
     const auditableFiles: string[] = [];
     const maxFiles = options.maxFiles || 1000;
 
@@ -222,7 +276,9 @@ export class SecurityAuditEngineV2 {
           if (auditableFiles.length >= maxFiles) break;
 
           const fullPath = path.join(dir, entry.name);
-          const relative = path.relative(workspacePath, fullPath).replace(/\\/g, "/");
+          const relative = path
+            .relative(workspacePath, fullPath)
+            .replace(/\\/g, "/");
 
           if (
             entry.isDirectory() &&
@@ -248,7 +304,9 @@ export class SecurityAuditEngineV2 {
     return auditableFiles;
   }
 
-  private static async analyzeSingleFile(filePath: string): Promise<SecurityFinding[]> {
+  private static async analyzeSingleFile(
+    filePath: string,
+  ): Promise<SecurityFinding[]> {
     const findings: SecurityFinding[] = [];
     try {
       const content = await fs.readFile(filePath, "utf-8");
@@ -259,10 +317,12 @@ export class SecurityAuditEngineV2 {
           id: `code-${Math.random().toString(36).substring(2, 9)}`,
           ruleId: "NO_EVAL",
           title: "Use of eval() detected",
-          description: "Evaluating arbitrary code can lead to remote code execution vulnerabilities",
+          description:
+            "Evaluating arbitrary code can lead to remote code execution vulnerabilities",
           severity: "high",
           file: filePath,
-          remediation: "Replace eval() with safe parsing or structured functions",
+          remediation:
+            "Replace eval() with safe parsing or structured functions",
         });
       }
     } catch {

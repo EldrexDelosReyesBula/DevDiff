@@ -174,7 +174,9 @@ export class AdaptiveRuleEngine {
    * Learn from false positives to improve accuracy
    */
   static reportFalsePositive(ruleId: string, context?: SecurityContext): void {
-    const rule = this.rules.find((r) => r.id === ruleId || r.threatId === ruleId);
+    const rule = this.rules.find(
+      (r) => r.id === ruleId || r.threatId === ruleId,
+    );
     if (!rule) return;
 
     rule.falsePositiveCount = (rule.falsePositiveCount || 0) + 1;
@@ -188,7 +190,9 @@ export class AdaptiveRuleEngine {
    * Report a true positive to reinforce the rule
    */
   static reportTruePositive(ruleId: string): void {
-    const rule = this.rules.find((r) => r.id === ruleId || r.threatId === ruleId);
+    const rule = this.rules.find(
+      (r) => r.id === ruleId || r.threatId === ruleId,
+    );
     if (!rule) return;
 
     rule.truePositiveCount = (rule.truePositiveCount || 0) + 1;

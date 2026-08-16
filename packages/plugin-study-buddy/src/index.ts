@@ -20,7 +20,8 @@ export const StudyBuddyPlugin: DevDiffPlugin = {
   id: "@eldrex/plugin-study-buddy",
   name: "Study Buddy",
   version: "1.0.0",
-  description: "Your patient senior dev — explains ANY code in ANY language across 5 progressive levels",
+  description:
+    "Your patient senior dev — explains ANY code in ANY language across 5 progressive levels",
   author: {
     name: "Eldrex",
     email: "dev@devdiff.dev",
@@ -30,7 +31,9 @@ export const StudyBuddyPlugin: DevDiffPlugin = {
 
   async activate(context: PluginContext) {
     const provider = StudyBuddyAIRouter.getProvider();
-    context.logger.info(`Study Buddy plugin activated using provider: ${provider.name}`);
+    context.logger.info(
+      `Study Buddy plugin activated using provider: ${provider.name}`,
+    );
   },
 
   async deactivate() {
@@ -52,7 +55,9 @@ export const StudyBuddyPlugin: DevDiffPlugin = {
           filePath,
         });
 
-        console.log(`\n🎓 [Study Buddy Explanation — ${explanation.language} (${explanation.level})]`);
+        console.log(
+          `\n🎓 [Study Buddy Explanation — ${explanation.language} (${explanation.level})]`,
+        );
         console.log(`Summary: ${explanation.summary}\n`);
         for (const section of explanation.sections) {
           console.log(`### ${section.title}\n${section.content}\n`);
@@ -78,7 +83,8 @@ export const StudyBuddyPlugin: DevDiffPlugin = {
   configSchema: {
     defaultLevel: {
       type: "string",
-      description: "Default explanation depth level (beginner, student, developer, senior, architect)",
+      description:
+        "Default explanation depth level (beginner, student, developer, senior, architect)",
       default: "developer",
     },
   },

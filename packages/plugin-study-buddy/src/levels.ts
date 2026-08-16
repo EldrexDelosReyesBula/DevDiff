@@ -1,9 +1,5 @@
 export type ExplanationLevel =
-  | "beginner"
-  | "student"
-  | "developer"
-  | "senior"
-  | "architect";
+  "beginner" | "student" | "developer" | "senior" | "architect";
 
 export interface LevelConfig {
   name: string;
@@ -22,7 +18,8 @@ export const EXPLANATION_LEVELS: Record<ExplanationLevel, LevelConfig> = {
   },
   student: {
     name: "Student",
-    description: "Focus on fundamentals, patterns, and computer science concepts",
+    description:
+      "Focus on fundamentals, patterns, and computer science concepts",
     targetAudience: "Computer Science students and bootcamp learners",
     promptModifier:
       "Focus on core CS concepts, algorithm design, data structures, and fundamental patterns.",
@@ -43,7 +40,8 @@ export const EXPLANATION_LEVELS: Record<ExplanationLevel, LevelConfig> = {
   },
   architect: {
     name: "Architect",
-    description: "System design, coupling, extensibility, and domain boundaries",
+    description:
+      "System design, coupling, extensibility, and domain boundaries",
     targetAudience: "Staff/Principal engineers and System Architects",
     promptModifier:
       "Focus on module boundaries, coupling, architectural patterns, state isolation, and long-term maintainability.",

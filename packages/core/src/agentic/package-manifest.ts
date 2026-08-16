@@ -6,7 +6,14 @@ export interface AgenticPackageManifest {
   name: string;
 
   /** What kind of package this is */
-  packageType: "engine" | "sdk" | "plugin-sdk" | "connector" | "cli" | "extension" | "template";
+  packageType:
+    | "engine"
+    | "sdk"
+    | "plugin-sdk"
+    | "connector"
+    | "cli"
+    | "extension"
+    | "template";
 
   /** What this package can do */
   capabilities: string[];
@@ -57,7 +64,10 @@ export interface AgenticPackageManifest {
     tools?: Array<{
       name: string;
       description: string;
-      parameters: Record<string, { type: string; description: string; required?: boolean }>;
+      parameters: Record<
+        string,
+        { type: string; description: string; required?: boolean }
+      >;
       returns: string;
       example: string;
     }>;
@@ -173,7 +183,11 @@ export class PackageDiscovery {
         const entries = fs.readdirSync(packagesDir, { withFileTypes: true });
         for (const entry of entries) {
           if (entry.isDirectory()) {
-            const pkgJsonPath = path.join(packagesDir, entry.name, "package.json");
+            const pkgJsonPath = path.join(
+              packagesDir,
+              entry.name,
+              "package.json",
+            );
             if (fs.existsSync(pkgJsonPath)) {
               manifestPaths.push(pkgJsonPath);
             }
@@ -194,11 +208,20 @@ export class PackageDiscovery {
     const nodeModulesEldrex = path.join(root, "node_modules", "@eldrex");
     if (fs.existsSync(nodeModulesEldrex)) {
       try {
-        const entries = fs.readdirSync(nodeModulesEldrex, { withFileTypes: true });
+        const entries = fs.readdirSync(nodeModulesEldrex, {
+          withFileTypes: true,
+        });
         for (const entry of entries) {
           if (entry.isDirectory()) {
-            const pkgJsonPath = path.join(nodeModulesEldrex, entry.name, "package.json");
-            if (fs.existsSync(pkgJsonPath) && !manifestPaths.includes(pkgJsonPath)) {
+            const pkgJsonPath = path.join(
+              nodeModulesEldrex,
+              entry.name,
+              "package.json",
+            );
+            if (
+              fs.existsSync(pkgJsonPath) &&
+              !manifestPaths.includes(pkgJsonPath)
+            ) {
               manifestPaths.push(pkgJsonPath);
             }
           }

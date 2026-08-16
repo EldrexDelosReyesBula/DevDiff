@@ -55,7 +55,7 @@ or making suggestions for this project.
     // Return requested section or full document
     if (params?.section && params.section !== "all") {
       const section = skill.sections.find((s) =>
-        s.title.toLowerCase().includes(params.section!.toLowerCase())
+        s.title.toLowerCase().includes(params.section!.toLowerCase()),
       );
 
       if (section) {

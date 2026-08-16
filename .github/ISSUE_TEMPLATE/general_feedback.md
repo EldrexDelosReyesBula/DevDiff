@@ -1,9 +1,9 @@
 ---
 name: 💬 General Feedback
 about: Share your thoughts, ideas, or just say thanks
-title: ''
-labels: ['feedback']
-assignees: ''
+title: ""
+labels: ["feedback"]
+assignees: ""
 ---
 
 ## 💬 What's on Your Mind?

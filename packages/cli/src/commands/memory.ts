@@ -1,6 +1,10 @@
 import { MemoryManager } from "@eldrex/core";
 
-export async function memoryListCommand(options: { category?: string; from?: string; to?: string }): Promise<void> {
+export async function memoryListCommand(options: {
+  category?: string;
+  from?: string;
+  to?: string;
+}): Promise<void> {
   const snapshots = await MemoryManager.listSnapshots(process.cwd(), options);
 
   if (snapshots.length === 0) {
@@ -11,12 +15,16 @@ export async function memoryListCommand(options: { category?: string; from?: str
   console.log(`📊 Memory Snapshots (${snapshots.length}):\n`);
   for (const s of snapshots) {
     console.log(
-      `  • [${s.date} ${s.time}] Git: ${s.gitHash} | Files: ${s.files} | Entities: ${s.entities} | Category: ${s.category}`
+      `  • [${s.date} ${s.time}] Git: ${s.gitHash} | Files: ${s.files} | Entities: ${s.entities} | Category: ${s.category}`,
     );
   }
 }
 
-export async function memoryDeleteCommand(options: { from: string; to: string; dryRun?: boolean }): Promise<void> {
+export async function memoryDeleteCommand(options: {
+  from: string;
+  to: string;
+  dryRun?: boolean;
+}): Promise<void> {
   const result = await MemoryManager.deleteRange({
     from: options.from,
     to: options.to,
@@ -29,16 +37,24 @@ export async function memoryDeleteCommand(options: { from: string; to: string; d
     console.log(`   Snapshots to delete: ${result.snapshotsToDelete}`);
     console.log(`   Snapshots to keep:   ${result.snapshotsToKeep}`);
     console.log(`   Date range:          ${result.dateRange}`);
-    console.log(`   Estimated space:     ~${MemoryManager.formatBytes(result.storageFreed)}`);
+    console.log(
+      `   Estimated space:     ~${MemoryManager.formatBytes(result.storageFreed)}`,
+    );
   } else {
     console.log(`🗑️ Memory Deletion Complete:`);
     console.log(`   Snapshots deleted: ${result.snapshotsToDelete}`);
     console.log(`   Snapshots remaining: ${result.snapshotsToKeep}`);
-    console.log(`   Space freed:        ~${MemoryManager.formatBytes(result.storageFreed)}`);
+    console.log(
+      `   Space freed:        ~${MemoryManager.formatBytes(result.storageFreed)}`,
+    );
   }
 }
 
-export async function memoryUseCommand(options: { from?: string; to?: string; all?: boolean }): Promise<void> {
+export async function memoryUseCommand(options: {
+  from?: string;
+  to?: string;
+  all?: boolean;
+}): Promise<void> {
   if (options.all) {
     MemoryManager.useAll(process.cwd());
     console.log("📅 Active memory range reset — using all available memory.");
@@ -60,7 +76,11 @@ export async function memoryUseCommand(options: { from?: string; to?: string; al
   console.log("⚠️ Please specify --from <date> --to <date> or --all");
 }
 
-export async function memoryCategorizeCommand(options: { from: string; to: string; label: string }): Promise<void> {
+export async function memoryCategorizeCommand(options: {
+  from: string;
+  to: string;
+  label: string;
+}): Promise<void> {
   await MemoryManager.categorize({
     from: options.from,
     to: options.to,
@@ -68,7 +88,9 @@ export async function memoryCategorizeCommand(options: { from: string; to: strin
     workspacePath: process.cwd(),
   });
 
-  console.log(`🏷️ Categorized snapshots between ${options.from} and ${options.to} as "${options.label}"`);
+  console.log(
+    `🏷️ Categorized snapshots between ${options.from} and ${options.to} as "${options.label}"`,
+  );
 }
 
 export async function memoryCategoriesCommand(): Promise<void> {
@@ -81,7 +103,9 @@ export async function memoryCategoriesCommand(): Promise<void> {
 
   console.log(`🏷️ Memory Categories:\n`);
   for (const c of categories) {
-    console.log(`  • ${c.name.padEnd(18)} (${c.count} snapshots, ${c.earliestDate} to ${c.latestDate})`);
+    console.log(
+      `  • ${c.name.padEnd(18)} (${c.count} snapshots, ${c.earliestDate} to ${c.latestDate})`,
+    );
   }
 }
 
@@ -112,7 +136,9 @@ export async function memoryStatusCommand(): Promise<void> {
   }
   console.log(`\nCategories:`);
   for (const c of categories) {
-    console.log(`  🏷️ ${c.name.padEnd(16)} — ${c.count} snapshots (${c.earliestDate} to ${c.latestDate})`);
+    console.log(
+      `  🏷️ ${c.name.padEnd(16)} — ${c.count} snapshots (${c.earliestDate} to ${c.latestDate})`,
+    );
   }
   console.log("");
 }
@@ -139,4 +165,3 @@ export async function memoryCommand(
       return memoryStatusCommand();
   }
 }
-

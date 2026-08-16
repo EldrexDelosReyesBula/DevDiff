@@ -36,7 +36,10 @@ export class ContextMemorySync {
     }
 
     // ── Check 2: Anti-patterns synchronized ──
-    if (knowledge.preferences?.antiPatterns && knowledge.preferences.antiPatterns.length > 0) {
+    if (
+      knowledge.preferences?.antiPatterns &&
+      knowledge.preferences.antiPatterns.length > 0
+    ) {
       changes.push({
         type: "anti-patterns",
         detail: `${knowledge.preferences.antiPatterns.length} anti-pattern(s) synchronized from SKILL.md`,
@@ -44,7 +47,10 @@ export class ContextMemorySync {
     }
 
     // ── Check 3: Naming conventions synchronized ──
-    if (knowledge.conventions && Object.keys(knowledge.conventions).length > 0) {
+    if (
+      knowledge.conventions &&
+      Object.keys(knowledge.conventions).length > 0
+    ) {
       changes.push({
         type: "conventions",
         detail: "Naming conventions synchronized from SKILL.md",
@@ -90,7 +96,12 @@ export class ContextMemorySync {
   }
 
   private static getLastSyncTime(workspacePath: string): number {
-    const syncFile = path.join(workspacePath, ".devdiff", "memory", ".last-sync");
+    const syncFile = path.join(
+      workspacePath,
+      ".devdiff",
+      "memory",
+      ".last-sync",
+    );
     try {
       return parseInt(fs.readFileSync(syncFile, "utf-8"), 10);
     } catch {
@@ -98,8 +109,16 @@ export class ContextMemorySync {
     }
   }
 
-  private static async setLastSyncTime(workspacePath: string, time: number): Promise<void> {
-    const syncFile = path.join(workspacePath, ".devdiff", "memory", ".last-sync");
+  private static async setLastSyncTime(
+    workspacePath: string,
+    time: number,
+  ): Promise<void> {
+    const syncFile = path.join(
+      workspacePath,
+      ".devdiff",
+      "memory",
+      ".last-sync",
+    );
     const dir = path.dirname(syncFile);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(syncFile, time.toString(), "utf-8");

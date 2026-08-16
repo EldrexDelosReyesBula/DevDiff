@@ -17,7 +17,8 @@ export class RustExplainer {
     if (/&mut\s+|&'a\s+/i.test(params.code)) {
       base.sections.push({
         title: "Ownership & Borrowing",
-        content: "Leverages Rust borrow checker semantics (`&mut` mutable references / lifetimes) for compile-time memory safety without a garbage collector.",
+        content:
+          "Leverages Rust borrow checker semantics (`&mut` mutable references / lifetimes) for compile-time memory safety without a garbage collector.",
         importance: "essential",
       });
       base.relatedConcepts.push("Ownership", "Borrowing Rules", "Lifetimes");

@@ -27,7 +27,7 @@ export class TimeAwareGenerator {
   }): Promise<GenerateResult> {
     const gitRange = this.resolveTimeReference(
       params.timeReference,
-      params.workspacePath
+      params.workspacePath,
     );
 
     let diffText = "";
@@ -62,7 +62,7 @@ export class TimeAwareGenerator {
    */
   static resolveTimeReference(
     ref: TimeReference,
-    workspacePath: string
+    workspacePath: string,
   ): string {
     switch (ref.type) {
       case "today":
@@ -114,7 +114,7 @@ export class TimeAwareGenerator {
     const midnight = new Date(
       today.getFullYear(),
       today.getMonth(),
-      today.getDate()
+      today.getDate(),
     );
 
     return `--since="${midnight.toISOString()}"`;
@@ -129,12 +129,12 @@ export class TimeAwareGenerator {
     const yesterdayStart = new Date(
       yesterday.getFullYear(),
       yesterday.getMonth(),
-      yesterday.getDate()
+      yesterday.getDate(),
     );
     const yesterdayEnd = new Date(
       yesterday.getFullYear(),
       yesterday.getMonth(),
-      yesterday.getDate() + 1
+      yesterday.getDate() + 1,
     );
 
     return `--since="${yesterdayStart.toISOString()}" --until="${yesterdayEnd.toISOString()}"`;
@@ -161,12 +161,12 @@ export class TimeAwareGenerator {
     const start = new Date(
       fromDate.getFullYear(),
       fromDate.getMonth(),
-      fromDate.getDate()
+      fromDate.getDate(),
     );
     const end = new Date(
       toDate.getFullYear(),
       toDate.getMonth(),
-      toDate.getDate() + 1
+      toDate.getDate() + 1,
     );
 
     return `--since="${start.toISOString()}" --until="${end.toISOString()}"`;

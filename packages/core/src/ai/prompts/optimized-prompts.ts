@@ -21,14 +21,22 @@ export class OptimizedPrompts {
 
     // Project context — 1 line max
     if (diff.projectName) {
-      parts.push(`Project: ${diff.projectName} (${diff.primaryLanguage || "TypeScript"})`);
+      parts.push(
+        `Project: ${diff.projectName} (${diff.primaryLanguage || "TypeScript"})`,
+      );
     }
 
-    const additions = diff.totalAdditions ?? diff.files.reduce((acc, f) => acc + (f.additions || 0), 0);
-    const deletions = diff.totalDeletions ?? diff.files.reduce((acc, f) => acc + (f.deletions || 0), 0);
+    const additions =
+      diff.totalAdditions ??
+      diff.files.reduce((acc, f) => acc + (f.additions || 0), 0);
+    const deletions =
+      diff.totalDeletions ??
+      diff.files.reduce((acc, f) => acc + (f.deletions || 0), 0);
 
     // Changes summary — 1 line
-    parts.push(`Files: ${diff.files.length} changed (+${additions} -${deletions})`);
+    parts.push(
+      `Files: ${diff.files.length} changed (+${additions} -${deletions})`,
+    );
 
     // ── The diff — the important part ──
     parts.push("");
@@ -58,7 +66,9 @@ export class OptimizedPrompts {
       };
       const status = statusMap[file.status] || "?";
 
-      lines.push(`${status} ${file.path} (+${file.additions || 0} -${file.deletions || 0})`);
+      lines.push(
+        `${status} ${file.path} (+${file.additions || 0} -${file.deletions || 0})`,
+      );
 
       if (file.diffSnippet) {
         const snippet = file.diffSnippet
@@ -91,10 +101,14 @@ export class OptimizedPrompts {
       ceo: "Generate 3 bullet points summarizing business impact. No technical details.",
       educator: "Explain changes clearly with context. Define technical terms.",
       pm: "Focus on user-facing changes and feature impact. Group by feature.",
-      compliance: "Focus on security implications, data handling, and regulatory impact.",
-      robot: "Output structured JSON with files, functions, impact scores. No prose.",
-      journalist: "Write a narrative summary suitable for a blog post or release announcement.",
-      "data-analyst": "Focus on metrics: lines changed, files affected, complexity impact.",
+      compliance:
+        "Focus on security implications, data handling, and regulatory impact.",
+      robot:
+        "Output structured JSON with files, functions, impact scores. No prose.",
+      journalist:
+        "Write a narrative summary suitable for a blog post or release announcement.",
+      "data-analyst":
+        "Focus on metrics: lines changed, files affected, complexity impact.",
     };
 
     return instructions[persona] || instructions["developer"];

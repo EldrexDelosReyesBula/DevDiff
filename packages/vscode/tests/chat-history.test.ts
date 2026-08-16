@@ -15,7 +15,8 @@ describe("DevDiff v1.7.0 — Full Chat Window & Persistent History", () => {
 
     await ChatHistory.addMessage(id, {
       role: "assistant",
-      content: "The auth module utilizes JWT authentication with rate limiting.",
+      content:
+        "The auth module utilizes JWT authentication with rate limiting.",
       timestamp: new Date().toISOString(),
     });
 
@@ -26,7 +27,10 @@ describe("DevDiff v1.7.0 — Full Chat Window & Persistent History", () => {
   });
 
   it("searches conversations by title and ID", async () => {
-    const id = await ChatHistory.createConversation(undefined, "Security Review Thread");
+    const id = await ChatHistory.createConversation(
+      undefined,
+      "Security Review Thread",
+    );
     await ChatHistory.addMessage(id, {
       role: "user",
       content: "Run vulnerability scan",
@@ -39,7 +43,10 @@ describe("DevDiff v1.7.0 — Full Chat Window & Persistent History", () => {
   });
 
   it("exports conversation thread as clean Markdown document", async () => {
-    const id = await ChatHistory.createConversation(undefined, "Changelog Export Thread");
+    const id = await ChatHistory.createConversation(
+      undefined,
+      "Changelog Export Thread",
+    );
     await ChatHistory.addMessage(id, {
       role: "user",
       content: "Generate release notes",

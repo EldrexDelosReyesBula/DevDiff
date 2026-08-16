@@ -90,7 +90,7 @@ export class MemoryManager {
       params.workspacePath,
       ".devdiff",
       "memory",
-      "snapshot-history.json"
+      "snapshot-history.json",
     );
 
     let snapshotHistory: Array<CodebaseSnapshot & { category?: string }> = [];
@@ -124,7 +124,10 @@ export class MemoryManager {
         snapshots: toDelete.map((s) => ({
           date: s.timestamp.slice(0, 10),
           files: s.files || 0,
-          entities: (s.entities?.functions ? Object.keys(s.entities.functions).length : 0) +
+          entities:
+            (s.entities?.functions
+              ? Object.keys(s.entities.functions).length
+              : 0) +
             (s.entities?.classes ? Object.keys(s.entities.classes).length : 0),
         })),
       };
@@ -156,12 +159,19 @@ export class MemoryManager {
     const toDate = this.parseDate(params.to);
 
     const config = MemoryConfig.load(params.workspacePath);
-    config.activeRange = { from: fromDate.toISOString(), to: toDate.toISOString() };
+    config.activeRange = {
+      from: fromDate.toISOString(),
+      to: toDate.toISOString(),
+    };
     MemoryConfig.save(params.workspacePath, config);
 
     return {
       activeRange: config.activeRange,
-      snapshotCount: this.countSnapshotsInRange(params.workspacePath, fromDate, toDate),
+      snapshotCount: this.countSnapshotsInRange(
+        params.workspacePath,
+        fromDate,
+        toDate,
+      ),
     };
   }
 
@@ -190,7 +200,7 @@ export class MemoryManager {
       params.workspacePath,
       ".devdiff",
       "memory",
-      "snapshot-history.json"
+      "snapshot-history.json",
     );
 
     let snapshotHistory: Array<CodebaseSnapshot & { category?: string }> = [];
@@ -211,18 +221,24 @@ export class MemoryManager {
 
     const dir = path.dirname(historyPath);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(historyPath, JSON.stringify(snapshotHistory, null, 2), "utf-8");
+    fs.writeFileSync(
+      historyPath,
+      JSON.stringify(snapshotHistory, null, 2),
+      "utf-8",
+    );
   }
 
   /**
    * List memory categories
    */
-  static async listCategories(workspacePath: string): Promise<CategorySummary[]> {
+  static async listCategories(
+    workspacePath: string,
+  ): Promise<CategorySummary[]> {
     const historyPath = path.join(
       workspacePath,
       ".devdiff",
       "memory",
-      "snapshot-history.json"
+      "snapshot-history.json",
     );
 
     let snapshotHistory: Array<CodebaseSnapshot & { category?: string }> = [];
@@ -253,8 +269,10 @@ export class MemoryManager {
       const entry = categories.get(cat)!;
       entry.count++;
 
-      if (snapshot.timestamp < entry.earliestDate) entry.earliestDate = snapshot.timestamp;
-      if (snapshot.timestamp > entry.latestDate) entry.latestDate = snapshot.timestamp;
+      if (snapshot.timestamp < entry.earliestDate)
+        entry.earliestDate = snapshot.timestamp;
+      if (snapshot.timestamp > entry.latestDate)
+        entry.latestDate = snapshot.timestamp;
     }
 
     return Array.from(categories.entries()).map(([name, info]) => ({
@@ -274,13 +292,13 @@ export class MemoryManager {
       category?: string;
       from?: string;
       to?: string;
-    }
+    },
   ): Promise<SnapshotSummary[]> {
     const historyPath = path.join(
       workspacePath,
       ".devdiff",
       "memory",
-      "snapshot-history.json"
+      "snapshot-history.json",
     );
 
     let snapshots: Array<CodebaseSnapshot & { category?: string }> = [];
@@ -312,7 +330,8 @@ export class MemoryManager {
       date: s.timestamp.slice(0, 10),
       time: s.timestamp.length >= 19 ? s.timestamp.slice(11, 19) : "00:00:00",
       files: s.files || 0,
-      entities: (s.entities?.functions ? Object.keys(s.entities.functions).length : 0) +
+      entities:
+        (s.entities?.functions ? Object.keys(s.entities.functions).length : 0) +
         (s.entities?.classes ? Object.keys(s.entities.classes).length : 0),
       category: s.category || "uncategorized",
       gitHash: s.gitHash ? s.gitHash.slice(0, 7) : "unknown",
@@ -329,7 +348,7 @@ export class MemoryManager {
       workspacePath,
       ".devdiff",
       "memory",
-      "snapshot-history.json"
+      "snapshot-history.json",
     );
 
     let snapshots: Array<CodebaseSnapshot & { category?: string }> = [];
@@ -342,7 +361,8 @@ export class MemoryManager {
     }
 
     const seenHashes = new Set<string>();
-    const deduplicatedList: Array<CodebaseSnapshot & { category?: string }> = [];
+    const deduplicatedList: Array<CodebaseSnapshot & { category?: string }> =
+      [];
     let deduplicatedCount = 0;
 
     for (const snapshot of snapshots) {
@@ -355,7 +375,11 @@ export class MemoryManager {
     }
 
     if (fs.existsSync(historyPath)) {
-      fs.writeFileSync(historyPath, JSON.stringify(deduplicatedList, null, 2), "utf-8");
+      fs.writeFileSync(
+        historyPath,
+        JSON.stringify(deduplicatedList, null, 2),
+        "utf-8",
+      );
     }
 
     const afterSize = await this.getStorageSize(workspacePath);
@@ -388,16 +412,22 @@ export class MemoryManager {
     return `${(bytes / (1024 * 1024)).toFixed(1)}MB`;
   }
 
-  private static countSnapshotsInRange(workspacePath: string, from: Date, to: Date): number {
+  private static countSnapshotsInRange(
+    workspacePath: string,
+    from: Date,
+    to: Date,
+  ): number {
     const historyPath = path.join(
       workspacePath,
       ".devdiff",
       "memory",
-      "snapshot-history.json"
+      "snapshot-history.json",
     );
     if (!fs.existsSync(historyPath)) return 0;
     try {
-      const snapshots: CodebaseSnapshot[] = JSON.parse(fs.readFileSync(historyPath, "utf-8"));
+      const snapshots: CodebaseSnapshot[] = JSON.parse(
+        fs.readFileSync(historyPath, "utf-8"),
+      );
       return snapshots.filter((s) => {
         const d = new Date(s.timestamp);
         return d >= from && d <= to;

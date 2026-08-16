@@ -54,6 +54,7 @@ devdiff study ask "How does Flexbox handle layout in this stylesheet?"
 ## 🤖 Smart AI Router (`StudyBuddyAIRouter`)
 
 Automated priority AI routing:
+
 1. **IDE Agent**: Uses active IDE environment tokens (fastest, zero setup).
 2. **Local Ollama**: Uses local Ollama instance (free, private).
 3. **Cloud AI**: Fallback to configured cloud provider API keys (OpenAI, Gemini, Anthropic).

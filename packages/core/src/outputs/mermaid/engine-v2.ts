@@ -16,7 +16,12 @@ export interface ParsedDiff {
   commits?: Array<{ hash: string; message: string; tags?: string[] }>;
 }
 
-export type DiagramType = "architecture" | "dependencies" | "timeline" | "flowchart" | { type: "architecture" | "dependencies" | "timeline" | "flowchart" };
+export type DiagramType =
+  | "architecture"
+  | "dependencies"
+  | "timeline"
+  | "flowchart"
+  | { type: "architecture" | "dependencies" | "timeline" | "flowchart" };
 
 export interface MermaidResult {
   diagram: string;
@@ -29,18 +34,34 @@ export type ProjectContext = any;
 
 export class MermaidEngineV2 {
   private static readonly RESERVED_WORDS = [
-    "graph", "subgraph", "end", "style", "classDef", "class",
-    "click", "direction", "TB", "BT", "LR", "RL", "TD"
+    "graph",
+    "subgraph",
+    "end",
+    "style",
+    "classDef",
+    "class",
+    "click",
+    "direction",
+    "TB",
+    "BT",
+    "LR",
+    "RL",
+    "TD",
   ];
 
   /**
    * Generate diagram — NEVER fails, always returns valid Mermaid
    */
-  static generate(diff: ParsedDiff, context: ProjectContext = {}, type: DiagramType = "architecture"): MermaidResult {
-    const rawType = typeof type === "string" ? type : type?.type || "architecture";
+  static generate(
+    diff: ParsedDiff,
+    context: ProjectContext = {},
+    type: DiagramType = "architecture",
+  ): MermaidResult {
+    const rawType =
+      typeof type === "string" ? type : type?.type || "architecture";
     const safeDiff: ParsedDiff = {
       files: diff?.files || [],
-      commits: diff?.commits || []
+      commits: diff?.commits || [],
     };
 
     try {
@@ -115,12 +136,18 @@ export class MermaidEngineV2 {
   /**
    * Generate architecture diagram
    */
-  private static generateArchitecture(diff: ParsedDiff, context: ProjectContext): MermaidResult {
+  private static generateArchitecture(
+    diff: ParsedDiff,
+    context: ProjectContext,
+  ): MermaidResult {
     const lines: string[] = [];
     lines.push("graph TD");
 
     // Track unique modules
-    const modules = new Map<string, { id: string; label: string; files: number; changed: boolean }>();
+    const modules = new Map<
+      string,
+      { id: string; label: string; files: number; changed: boolean }
+    >();
 
     for (const file of diff.files) {
       const moduleName = this.extractModuleName(file.path);
@@ -137,18 +164,27 @@ export class MermaidEngineV2 {
 
       const module = modules.get(moduleId)!;
       module.files++;
-      if (file.status === "modified" || file.status === "added" || file.status === "deleted") {
+      if (
+        file.status === "modified" ||
+        file.status === "added" ||
+        file.status === "deleted"
+      ) {
         module.changed = true;
       }
     }
 
     if (modules.size === 0) {
-      return this.generateFallbackDiagram(diff, new Error("No files to analyze for architecture"));
+      return this.generateFallbackDiagram(
+        diff,
+        new Error("No files to analyze for architecture"),
+      );
     }
 
     // Add nodes
     for (const [id, module] of modules) {
-      const style = module.changed ? "fill:#6366f1,color:#fff" : "fill:#e2e8f0,color:#333";
+      const style = module.changed
+        ? "fill:#6366f1,color:#fff"
+        : "fill:#e2e8f0,color:#333";
       lines.push(`    ${id}["${module.label}\n(${module.files} files)"]`);
       lines.push(`    style ${id} ${style}`);
     }
@@ -171,7 +207,10 @@ export class MermaidEngineV2 {
     const validation = this.validate(diagram);
 
     if (!validation.valid) {
-      return this.generateFallbackDiagram(diff, new Error(validation.errors.join(", ")));
+      return this.generateFallbackDiagram(
+        diff,
+        new Error(validation.errors.join(", ")),
+      );
     }
 
     return {
@@ -184,7 +223,10 @@ export class MermaidEngineV2 {
   /**
    * Generate dependency graph
    */
-  private static generateDependencies(diff: ParsedDiff, context: ProjectContext): MermaidResult {
+  private static generateDependencies(
+    diff: ParsedDiff,
+    context: ProjectContext,
+  ): MermaidResult {
     const lines: string[] = [];
     lines.push("graph LR");
 
@@ -198,7 +240,10 @@ export class MermaidEngineV2 {
     }
 
     if (changedPackages.size === 0) {
-      return this.generateFallbackDiagram(diff, new Error("No dependency changes detected"));
+      return this.generateFallbackDiagram(
+        diff,
+        new Error("No dependency changes detected"),
+      );
     }
 
     for (const pkg of changedPackages) {
@@ -216,7 +261,10 @@ export class MermaidEngineV2 {
     const validation = this.validate(diagram);
 
     if (!validation.valid) {
-      return this.generateFallbackDiagram(diff, new Error(validation.errors.join(", ")));
+      return this.generateFallbackDiagram(
+        diff,
+        new Error(validation.errors.join(", ")),
+      );
     }
 
     return {
@@ -231,7 +279,10 @@ export class MermaidEngineV2 {
    */
   private static generateTimeline(diff: ParsedDiff): MermaidResult {
     if (!diff.commits || diff.commits.length === 0) {
-      return this.generateFallbackDiagram(diff, new Error("No commits to display"));
+      return this.generateFallbackDiagram(
+        diff,
+        new Error("No commits to display"),
+      );
     }
 
     const lines: string[] = [];
@@ -289,12 +340,16 @@ export class MermaidEngineV2 {
       const typeId = this.sanitizeNodeId(`changes_${type}`);
       const color = typeColors[type as keyof typeof typeColors];
 
-      lines.push(`    ${typeId}["${type.toUpperCase()} (${files.length} files)"]`);
+      lines.push(
+        `    ${typeId}["${type.toUpperCase()} (${files.length} files)"]`,
+      );
       lines.push(`    style ${typeId} fill:${color},color:#fff`);
 
       for (const file of files.slice(0, 5)) {
         const fileId = this.sanitizeNodeId(file.path);
-        const fileName = this.sanitizeLabel(file.path.split("/").pop() || file.path);
+        const fileName = this.sanitizeLabel(
+          file.path.split("/").pop() || file.path,
+        );
         lines.push(`    ${fileId}["${fileName}"]`);
         lines.push(`    ${typeId} --> ${fileId}`);
       }
@@ -310,7 +365,10 @@ export class MermaidEngineV2 {
     const validation = this.validate(diagram);
 
     if (!validation.valid) {
-      return this.generateFallbackDiagram(diff, new Error(validation.errors.join(", ")));
+      return this.generateFallbackDiagram(
+        diff,
+        new Error(validation.errors.join(", ")),
+      );
     }
 
     return {
@@ -323,7 +381,10 @@ export class MermaidEngineV2 {
   /**
    * Fallback diagram — ALWAYS valid
    */
-  private static generateFallbackDiagram(diff: ParsedDiff, error: Error): MermaidResult {
+  private static generateFallbackDiagram(
+    diff: ParsedDiff,
+    error: Error,
+  ): MermaidResult {
     const lines: string[] = [];
     lines.push("graph TD");
     lines.push(`    title["Changes Summary"]`);
@@ -374,7 +435,10 @@ export class MermaidEngineV2 {
   /**
    * Validate Mermaid syntax before output
    */
-  private static validate(diagram: string): { valid: boolean; errors: string[] } {
+  private static validate(diagram: string): {
+    valid: boolean;
+    errors: string[];
+  } {
     const errors: string[] = [];
 
     if (!diagram || diagram.trim().length === 0) {
@@ -386,7 +450,9 @@ export class MermaidEngineV2 {
     const openBrackets = (diagram.match(/\[/g) || []).length;
     const closeBrackets = (diagram.match(/\]/g) || []).length;
     if (openBrackets !== closeBrackets) {
-      errors.push(`Unbalanced brackets: ${openBrackets} open, ${closeBrackets} close`);
+      errors.push(
+        `Unbalanced brackets: ${openBrackets} open, ${closeBrackets} close`,
+      );
     }
 
     // Check balanced quotes
@@ -399,7 +465,9 @@ export class MermaidEngineV2 {
     const openParens = (diagram.match(/\(/g) || []).length;
     const closeParens = (diagram.match(/\)/g) || []).length;
     if (openParens !== closeParens) {
-      errors.push(`Unbalanced parentheses: ${openParens} open, ${closeParens} close`);
+      errors.push(
+        `Unbalanced parentheses: ${openParens} open, ${closeParens} close`,
+      );
     }
 
     // Check for empty node definitions
@@ -445,12 +513,21 @@ export class MermaidEngineV2 {
     }
   }
 
-  private static detectModuleRelationships(diff: ParsedDiff): Array<{ from: string; to: string; type: string; count: number }> {
-    const relationships: Array<{ from: string; to: string; type: string; count: number }> = [];
+  private static detectModuleRelationships(
+    diff: ParsedDiff,
+  ): Array<{ from: string; to: string; type: string; count: number }> {
+    const relationships: Array<{
+      from: string;
+      to: string;
+      type: string;
+      count: number;
+    }> = [];
     const importPattern = /from\s+['"]([^'"]+)['"]/g;
 
     const files = diff?.files || [];
-    for (const file of files.filter((f) => f.status === "modified" || f.status === "added")) {
+    for (const file of files.filter(
+      (f) => f.status === "modified" || f.status === "added",
+    )) {
       const content = file.content || "";
       const fromModule = this.extractModuleName(file.path);
 
@@ -460,11 +537,18 @@ export class MermaidEngineV2 {
         if (importPath.startsWith(".") || importPath.startsWith("@")) {
           const toModule = this.extractModuleName(importPath);
 
-          const existing = relationships.find((r) => r.from === fromModule && r.to === toModule);
+          const existing = relationships.find(
+            (r) => r.from === fromModule && r.to === toModule,
+          );
           if (existing) {
             existing.count++;
           } else {
-            relationships.push({ from: fromModule, to: toModule, type: "imports", count: 1 });
+            relationships.push({
+              from: fromModule,
+              to: toModule,
+              type: "imports",
+              count: 1,
+            });
           }
         }
       }

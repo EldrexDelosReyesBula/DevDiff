@@ -15,6 +15,7 @@ Study Buddy operates as a standalone DevDiff plugin (`@eldrex/plugin-study-buddy
 - **Architect**: Coupling, module boundaries, and maintainability.
 
 ### Specialized Language Explainers
+
 - **CSS / SCSS**: Selectors (`.class`, `#id`, `@media`) and property explanations (`display: flex/grid`, `padding`, `margin`, `z-index`) in plain English.
 - **JavaScript / TypeScript**: Async/await, promises, closures.
 - **Python**: PEP 484 type hints, list comprehensions.
@@ -22,7 +23,6 @@ Study Buddy operates as a standalone DevDiff plugin (`@eldrex/plugin-study-buddy
 - **Rust**: Ownership, borrowing, lifetimes.
 - **Go**: Goroutines, channels, CSP concurrency.
 - **Universal Fallback**: Automatic structural analysis for ANY programming language.
-
 
 ---
 

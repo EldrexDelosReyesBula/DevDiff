@@ -28,6 +28,7 @@ The **Universal AI Prompt Export & Import Engine** (introduced in DevDiff v1.7.0
 ### 1. Prompt Assembly Engine (`PromptGenerator`)
 
 The `PromptGenerator` gathers project intelligence and builds a structured, multi-section prompt containing:
+
 1. **Instructions**: System instructions tailored to the target AI preset (`chatgpt`, `claude`, `gemini`, `copilot`) and chosen persona.
 2. **Project Context**: Architecture, primary languages, tech stack, and framework signatures detected via `loadContext`.
 3. **Project Conventions (`SKILL.md`)**: Rule sets, naming conventions, and anti-patterns extracted from `SKILL.md`.
@@ -38,7 +39,8 @@ The `PromptGenerator` gathers project intelligence and builds a structured, mult
 ### 2. Response Import Engine (`ImportEngine`)
 
 When pasting back the AI response:
-- **Preamble & Postscript Cleaning**: Automatically strips conversational headers (*"Sure, here is your changelog..."*) and footers (*"Let me know if you need anything else..."*).
+
+- **Preamble & Postscript Cleaning**: Automatically strips conversational headers (_"Sure, here is your changelog..."_) and footers (_"Let me know if you need anything else..."_).
 - **Code Block Extraction**: Extracts raw content from markdown or JSON code fences.
 - **Completeness & Quality Gates**: Validates that output is non-truncated and passes `OutputQualityGate` rules.
 - **OS Clipboard Integration**: Seamlessly reads from clipboard (`pbpaste`, `powershell Get-Clipboard`, `xclip`).

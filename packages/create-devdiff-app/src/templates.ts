@@ -10,12 +10,13 @@ export const TEMPLATES: Record<string, Template> = {
   "agentic-integration": {
     id: "agentic-integration",
     name: "Agentic Integration",
-    description: "Agent-ready integration pattern with self-documenting package manifests and zero-shot AI agent support",
+    description:
+      "Agent-ready integration pattern with self-documenting package manifests and zero-shot AI agent support",
     includes: [
       "Agentic package manifest",
       "DevDiff core integration",
       "Zero-shot agent quick start",
-      "TypeScript & test harness scaffolding"
+      "TypeScript & test harness scaffolding",
     ],
     files: {
       "package.json": JSON.stringify(
@@ -26,15 +27,15 @@ export const TEMPLATES: Record<string, Template> = {
           main: "./dist/index.js",
           scripts: {
             build: "tsup src/index.ts --format esm --dts",
-            test: "vitest run"
+            test: "vitest run",
           },
           dependencies: {
-            "@eldrex/core": "^1.7.0"
+            "@eldrex/core": "^1.7.0",
           },
           devDependencies: {
-            "tsup": "^8.0.0",
-            "typescript": "^5.5.0",
-            "vitest": "^2.0.0"
+            tsup: "^8.0.0",
+            typescript: "^5.5.0",
+            vitest: "^2.0.0",
           },
           devdiff: {
             packageType: "sdk",
@@ -43,18 +44,24 @@ export const TEMPLATES: Record<string, Template> = {
               main: "./src/index.ts",
               classes: ["MyIntegration"],
               functions: ["createIntegration"],
-              types: ["IntegrationConfig"]
+              types: ["IntegrationConfig"],
             },
             agentContext: {
               purpose: "Self-documenting DevDiff integration scaffold.",
-              whenToUse: "When building automation tools or agentic integrations on top of DevDiff.",
-              keyConcepts: ["Self-documenting manifest", "Zero-shot AI agent quickstart"],
-              commonPatterns: ["Initialize integration -> analyze diff -> output result"]
-            }
-          }
+              whenToUse:
+                "When building automation tools or agentic integrations on top of DevDiff.",
+              keyConcepts: [
+                "Self-documenting manifest",
+                "Zero-shot AI agent quickstart",
+              ],
+              commonPatterns: [
+                "Initialize integration -> analyze diff -> output result",
+              ],
+            },
+          },
         },
         null,
-        2
+        2,
       ),
       "src/index.ts": `/**
  * {{PROJECT_NAME}} Integration
@@ -97,8 +104,8 @@ const result = await integration.runAnalysis();
 console.log(result);
   \`.trim()
 };
-`
-    }
+`,
+    },
   },
   "enterprise-dashboard": {
     id: "enterprise-dashboard",

@@ -37,7 +37,13 @@ export interface CodebaseIndex {
 }
 
 export interface GitHistory {
-  commits: Array<{ hash: string; message: string; author: string; date: string; files: string[] }>;
+  commits: Array<{
+    hash: string;
+    message: string;
+    author: string;
+    date: string;
+    files: string[];
+  }>;
 }
 
 export class OnboardingGenerator {
@@ -81,7 +87,10 @@ export class OnboardingGenerator {
       }
     }
 
-    const dependencies = { ...(pkgJson.dependencies || {}), ...(pkgJson.devDependencies || {}) };
+    const dependencies = {
+      ...(pkgJson.dependencies || {}),
+      ...(pkgJson.devDependencies || {}),
+    };
     const frameworks = Object.keys(dependencies).map((dep) => ({
       name: dep,
       version: dependencies[dep],
@@ -99,7 +108,12 @@ export class OnboardingGenerator {
         const entries = await fs.readdir(dir, { withFileTypes: true });
         for (const entry of entries) {
           if (entry.isDirectory()) {
-            if (!entry.name.startsWith(".") && entry.name !== "node_modules" && entry.name !== "dist" && entry.name !== "build") {
+            if (
+              !entry.name.startsWith(".") &&
+              entry.name !== "node_modules" &&
+              entry.name !== "dist" &&
+              entry.name !== "build"
+            ) {
               totalDirs++;
               await scanStats(path.join(dir, entry.name));
             }
@@ -119,24 +133,33 @@ export class OnboardingGenerator {
     const languages = Object.entries(langStats)
       .sort((a, b) => b[1] - a[1])
       .slice(0, 5)
-      .map(([ext, count]) => ({ name: ext.replace(".", "").toUpperCase(), fileCount: count }));
+      .map(([ext, count]) => ({
+        name: ext.replace(".", "").toUpperCase(),
+        fileCount: count,
+      }));
 
     // Detect first commit date and contributor count using real git
     let firstCommit = "Unknown";
     let contributorCount = 1;
     try {
-      firstCommit = execSync('git log --reverse --pretty=format:"%ad" --date=short | head -n 1', {
-        cwd: workspacePath,
-        encoding: "utf-8",
-        stdio: ["ignore", "pipe", "ignore"],
-      }).trim() || "Unknown";
+      firstCommit =
+        execSync(
+          'git log --reverse --pretty=format:"%ad" --date=short | head -n 1',
+          {
+            cwd: workspacePath,
+            encoding: "utf-8",
+            stdio: ["ignore", "pipe", "ignore"],
+          },
+        ).trim() || "Unknown";
 
       const contributorsOutput = execSync('git log --pretty=format:"%an"', {
         cwd: workspacePath,
         encoding: "utf-8",
         stdio: ["ignore", "pipe", "ignore"],
       });
-      contributorCount = new Set(contributorsOutput.trim().split("\n").filter(Boolean)).size || 1;
+      contributorCount =
+        new Set(contributorsOutput.trim().split("\n").filter(Boolean)).size ||
+        1;
     } catch {
       // Git fallback
     }
@@ -146,12 +169,22 @@ export class OnboardingGenerator {
     const testCommands = scripts.test ? [`pnpm test`] : ["npm test"];
     const buildCommands = scripts.build ? [`pnpm build`] : ["npm run build"];
 
-    const hasAuth = Object.keys(dependencies).some((dep) => /auth|jwt|passport|session/i.test(dep));
-    const hasDb = Object.keys(dependencies).some((dep) => /prisma|drizzle|mongoose|typeorm|pg|sqlite|mysql/i.test(dep));
+    const hasAuth = Object.keys(dependencies).some((dep) =>
+      /auth|jwt|passport|session/i.test(dep),
+    );
+    const hasDb = Object.keys(dependencies).some((dep) =>
+      /prisma|drizzle|mongoose|typeorm|pg|sqlite|mysql/i.test(dep),
+    );
 
     return {
       projectName: pkgJson.name || projectName,
-      architecture: { type: pkgJson.workspaces || fsSync.existsSync(path.join(workspacePath, "packages")) ? "Monorepo Workspace" : "Single Package Architecture" },
+      architecture: {
+        type:
+          pkgJson.workspaces ||
+          fsSync.existsSync(path.join(workspacePath, "packages"))
+            ? "Monorepo Workspace"
+            : "Single Package Architecture",
+      },
       primaryLanguage: languages[0]?.name || "TypeScript/JavaScript",
       techStack: { frameworks },
       fileCount: totalFiles,
@@ -162,7 +195,11 @@ export class OnboardingGenerator {
       conventions: {
         naming: [
           { type: "files", pattern: "kebab-case", examples: ["engine-v2.ts"] },
-          { type: "classes", pattern: "PascalCase", examples: ["OnboardingGenerator"] },
+          {
+            type: "classes",
+            pattern: "PascalCase",
+            examples: ["OnboardingGenerator"],
+          },
         ],
         commitStyle: "Conventional Commits (feat, fix, docs)",
         branchStrategy: "Feature branch strategy",
@@ -174,22 +211,36 @@ export class OnboardingGenerator {
       hasAuth,
       authModule: hasAuth ? "Authentication & Security layer" : undefined,
       databaseModule: hasDb ? "Database ORM / Storage layer" : undefined,
-      deploymentDocs: fsSync.existsSync(path.join(workspacePath, "README.md")) ? "README.md" : undefined,
+      deploymentDocs: fsSync.existsSync(path.join(workspacePath, "README.md"))
+        ? "README.md"
+        : undefined,
     };
   }
 
   /**
    * Execute real git log query to gather commit history
    */
-  private static async getRecentGitHistory(workspacePath: string, limit: number): Promise<GitHistory> {
-    const commits: Array<{ hash: string; message: string; author: string; date: string; files: string[] }> = [];
+  private static async getRecentGitHistory(
+    workspacePath: string,
+    limit: number,
+  ): Promise<GitHistory> {
+    const commits: Array<{
+      hash: string;
+      message: string;
+      author: string;
+      date: string;
+      files: string[];
+    }> = [];
 
     try {
-      const output = execSync(`git log -n ${limit} --pretty=format:"%H|%s|%an|%ad" --date=short`, {
-        cwd: workspacePath,
-        encoding: "utf-8",
-        stdio: ["ignore", "pipe", "ignore"],
-      });
+      const output = execSync(
+        `git log -n ${limit} --pretty=format:"%H|%s|%an|%ad" --date=short`,
+        {
+          cwd: workspacePath,
+          encoding: "utf-8",
+          stdio: ["ignore", "pipe", "ignore"],
+        },
+      );
 
       const lines = output.trim().split("\n");
       for (const line of lines) {
@@ -198,11 +249,14 @@ export class OnboardingGenerator {
 
         let files: string[] = [];
         try {
-          const filesOutput = execSync(`git show --pretty="" --name-only ${hash}`, {
-            cwd: workspacePath,
-            encoding: "utf-8",
-            stdio: ["ignore", "pipe", "ignore"],
-          });
+          const filesOutput = execSync(
+            `git show --pretty="" --name-only ${hash}`,
+            {
+              cwd: workspacePath,
+              encoding: "utf-8",
+              stdio: ["ignore", "pipe", "ignore"],
+            },
+          );
           files = filesOutput.trim().split("\n").filter(Boolean);
         } catch {
           // ignore
@@ -226,7 +280,9 @@ export class OnboardingGenerator {
   /**
    * Dynamically build codebase index by scanning disk modules and entry points
    */
-  private static async buildCodebaseIndex(workspacePath: string): Promise<CodebaseIndex> {
+  private static async buildCodebaseIndex(
+    workspacePath: string,
+  ): Promise<CodebaseIndex> {
     const modules: CodebaseModule[] = [];
     const entryPoints: Array<{ path: string; description: string }> = [];
     const files: string[] = [];
@@ -243,12 +299,24 @@ export class OnboardingGenerator {
             const fullModPath = path.join(workspacePath, modPath);
             const modFiles = await this.scanDirFiles(fullModPath);
 
-            const relativeModFiles = modFiles.map((f) => path.relative(workspaceRootOrSelf(workspacePath), f).replace(/\\/g, "/"));
+            const relativeModFiles = modFiles.map((f) =>
+              path
+                .relative(workspaceRootOrSelf(workspacePath), f)
+                .replace(/\\/g, "/"),
+            );
             files.push(...relativeModFiles);
 
-            const indexFile = relativeModFiles.find((f) => f.endsWith("index.ts") || f.endsWith("extension.ts") || f.endsWith("index.js"));
+            const indexFile = relativeModFiles.find(
+              (f) =>
+                f.endsWith("index.ts") ||
+                f.endsWith("extension.ts") ||
+                f.endsWith("index.js"),
+            );
             if (indexFile) {
-              entryPoints.push({ path: indexFile, description: `Entry point for module ${sub.name}` });
+              entryPoints.push({
+                path: indexFile,
+                description: `Entry point for module ${sub.name}`,
+              });
             }
 
             modules.push({
@@ -265,12 +333,22 @@ export class OnboardingGenerator {
       }
     } else if (fsSync.existsSync(srcDir)) {
       const srcFiles = await this.scanDirFiles(srcDir);
-      const relativeSrcFiles = srcFiles.map((f) => path.relative(workspacePath, f).replace(/\\/g, "/"));
+      const relativeSrcFiles = srcFiles.map((f) =>
+        path.relative(workspacePath, f).replace(/\\/g, "/"),
+      );
       files.push(...relativeSrcFiles);
 
-      const indexFile = relativeSrcFiles.find((f) => f.endsWith("index.ts") || f.endsWith("main.ts") || f.endsWith("app.ts"));
+      const indexFile = relativeSrcFiles.find(
+        (f) =>
+          f.endsWith("index.ts") ||
+          f.endsWith("main.ts") ||
+          f.endsWith("app.ts"),
+      );
       if (indexFile) {
-        entryPoints.push({ path: indexFile, description: `Main source entry point` });
+        entryPoints.push({
+          path: indexFile,
+          description: `Main source entry point`,
+        });
       }
 
       modules.push({
@@ -283,7 +361,10 @@ export class OnboardingGenerator {
     }
 
     if (entryPoints.length === 0 && files.length > 0) {
-      entryPoints.push({ path: files[0], description: "First detected source file" });
+      entryPoints.push({
+        path: files[0],
+        description: "First detected source file",
+      });
     }
 
     return { modules, entryPoints, files };
@@ -291,7 +372,9 @@ export class OnboardingGenerator {
 
   private static async generateOverview(context: any): Promise<Section> {
     const techStack = context.techStack;
-    const frameworks = techStack.frameworks.filter((f: any) => f.confidence > 0.7);
+    const frameworks = techStack.frameworks.filter(
+      (f: any) => f.confidence > 0.7,
+    );
 
     return {
       title: "📋 Project Overview",
@@ -299,7 +382,10 @@ export class OnboardingGenerator {
         `**${context.projectName}** is a **${context.architecture.type}** built with **${context.primaryLanguage}**.`,
         "",
         "### Tech Stack",
-        ...frameworks.map((f: any) => `- **${f.name}** ${f.version ? `v${f.version}` : ""} — ${f.evidence[0] || ""}`),
+        ...frameworks.map(
+          (f: any) =>
+            `- **${f.name}** ${f.version ? `v${f.version}` : ""} — ${f.evidence[0] || ""}`,
+        ),
         "",
         "### Quick Stats",
         `- **Files:** ${context.fileCount.toLocaleString()}`,
@@ -311,7 +397,10 @@ export class OnboardingGenerator {
     };
   }
 
-  private static async generateArchitecture(context: any, index: CodebaseIndex): Promise<Section> {
+  private static async generateArchitecture(
+    context: any,
+    index: CodebaseIndex,
+  ): Promise<Section> {
     const modules = index.modules.slice(0, 10);
 
     return {
@@ -324,7 +413,14 @@ export class OnboardingGenerator {
           (m) =>
             `- **${m.name}/** — ${m.purpose || "No description"}` +
             ` (${m.fileCount} files)` +
-            `${m.keyFiles.length > 0 ? ` — Key files: ${m.keyFiles.slice(0, 3).map((f) => `\`${f}\``).join(", ")}` : ""}`
+            `${
+              m.keyFiles.length > 0
+                ? ` — Key files: ${m.keyFiles
+                    .slice(0, 3)
+                    .map((f) => `\`${f}\``)
+                    .join(", ")}`
+                : ""
+            }`,
         ),
         "",
         "### Architecture Diagram",
@@ -335,7 +431,10 @@ export class OnboardingGenerator {
     };
   }
 
-  private static async generateKeyModules(context: any, index: CodebaseIndex): Promise<Section> {
+  private static async generateKeyModules(
+    context: any,
+    index: CodebaseIndex,
+  ): Promise<Section> {
     const keyModules = index.modules.slice(0, 8);
 
     return {
@@ -351,13 +450,15 @@ export class OnboardingGenerator {
             "",
             `**${m.fileCount} files** | Dependencies: ${m.dependencies.length}`,
             "---",
-          ].join("\n")
+          ].join("\n"),
         )
         .join("\n"),
     };
   }
 
-  private static async generateEntryPoints(index: CodebaseIndex): Promise<Section> {
+  private static async generateEntryPoints(
+    index: CodebaseIndex,
+  ): Promise<Section> {
     const entryPoints = index.entryPoints.slice(0, 5);
 
     return {
@@ -366,13 +467,17 @@ export class OnboardingGenerator {
         "These are the files you should look at first:",
         "",
         ...entryPoints.map(
-          (ep, i) => `${i + 1}. **\`${ep.path}\`** — ${ep.description || "Application entry point"}`
+          (ep, i) =>
+            `${i + 1}. **\`${ep.path}\`** — ${ep.description || "Application entry point"}`,
         ),
       ].join("\n"),
     };
   }
 
-  private static async generateDataFlow(context: any, index: CodebaseIndex): Promise<Section> {
+  private static async generateDataFlow(
+    context: any,
+    index: CodebaseIndex,
+  ): Promise<Section> {
     return {
       title: "🔄 Data Flow",
       content: [
@@ -391,7 +496,8 @@ export class OnboardingGenerator {
       content: [
         "### Naming",
         ...context.conventions.naming.map(
-          (c: any) => `- **${c.type}:** ${c.pattern} (e.g., \`${c.examples[0] || ""}\`)`
+          (c: any) =>
+            `- **${c.type}:** ${c.pattern} (e.g., \`${c.examples[0] || ""}\`)`,
         ),
         "",
         "### Commits",
@@ -407,7 +513,9 @@ export class OnboardingGenerator {
     };
   }
 
-  private static async generateRecentChanges(gitHistory: GitHistory): Promise<Section> {
+  private static async generateRecentChanges(
+    gitHistory: GitHistory,
+  ): Promise<Section> {
     const recentCommits = gitHistory.commits.slice(0, 10);
     const changedFiles = new Set<string>();
 
@@ -424,20 +532,28 @@ export class OnboardingGenerator {
         "",
         "### Recently Changed Files",
         ...(changedFiles.size > 0
-          ? Array.from(changedFiles).slice(0, 10).map((f) => `- \`${f}\``)
+          ? Array.from(changedFiles)
+              .slice(0, 10)
+              .map((f) => `- \`${f}\``)
           : ["- No recently modified files detected in git history."]),
         "",
         "### Last Commits",
         ...(recentCommits.length > 0
-          ? recentCommits.slice(0, 5).map(
-              (c) => `- \`${c.hash.slice(0, 7)}\` — ${c.message.slice(0, 80)} — ${c.author} — ${c.date.slice(0, 10)}`
-            )
+          ? recentCommits
+              .slice(0, 5)
+              .map(
+                (c) =>
+                  `- \`${c.hash.slice(0, 7)}\` — ${c.message.slice(0, 80)} — ${c.author} — ${c.date.slice(0, 10)}`,
+              )
           : ["- No commit log found."]),
       ].join("\n"),
     };
   }
 
-  private static async generateGettingStarted(context: any, index: CodebaseIndex): Promise<Section> {
+  private static async generateGettingStarted(
+    context: any,
+    index: CodebaseIndex,
+  ): Promise<Section> {
     return {
       title: "🚀 Getting Started",
       content: [
@@ -450,9 +566,12 @@ export class OnboardingGenerator {
         "```",
         "",
         "### First Files to Read",
-        ...index.entryPoints.slice(0, 5).map(
-          (ep, i) => `${i + 1}. **\`${ep.path}\`** — ${ep.description || "Start here"}`
-        ),
+        ...index.entryPoints
+          .slice(0, 5)
+          .map(
+            (ep, i) =>
+              `${i + 1}. **\`${ep.path}\`** — ${ep.description || "Start here"}`,
+          ),
       ].join("\n"),
     };
   }
@@ -480,9 +599,13 @@ export class OnboardingGenerator {
     };
   }
 
-  private static async generateTestingGuide(index: CodebaseIndex, context: any): Promise<Section> {
+  private static async generateTestingGuide(
+    index: CodebaseIndex,
+    context: any,
+  ): Promise<Section> {
     const testFiles = index.files.filter(
-      (f) => f.includes(".test.") || f.includes(".spec.") || f.includes("__tests__")
+      (f) =>
+        f.includes(".test.") || f.includes(".spec.") || f.includes("__tests__"),
     );
 
     return {
@@ -528,7 +651,9 @@ export class OnboardingGenerator {
     };
   }
 
-  private static generateArchitectureMermaid(modules: CodebaseModule[]): string {
+  private static generateArchitectureMermaid(
+    modules: CodebaseModule[],
+  ): string {
     const lines = ["graph TD"];
 
     if (modules.length === 0) {
@@ -563,7 +688,10 @@ export class OnboardingGenerator {
     return "Add a new module file and export it from the primary module index.ts.";
   }
 
-  private static async scanDirFiles(dir: string, max: number = 100): Promise<string[]> {
+  private static async scanDirFiles(
+    dir: string,
+    max: number = 100,
+  ): Promise<string[]> {
     const list: string[] = [];
     const walk = async (current: string) => {
       if (list.length >= max) return;
@@ -573,7 +701,11 @@ export class OnboardingGenerator {
           if (list.length >= max) break;
           const full = path.join(current, entry.name);
           if (entry.isDirectory()) {
-            if (!entry.name.startsWith(".") && entry.name !== "node_modules" && entry.name !== "dist") {
+            if (
+              !entry.name.startsWith(".") &&
+              entry.name !== "node_modules" &&
+              entry.name !== "dist"
+            ) {
               await walk(full);
             }
           } else if (entry.isFile()) {

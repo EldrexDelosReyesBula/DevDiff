@@ -32,11 +32,24 @@ export async function securityCommand(
       console.log(pc.cyan("🧠 DevDiff Dynamic Security Engine v1.7.0"));
       console.log(pc.gray("═══════════════════════════════════════════\n"));
       console.log("Usage:");
-      console.log("  devdiff security profile  " + pc.gray("Show 7-day behavioral profile"));
-      console.log("  devdiff security check    " + pc.gray("Run real-time anomaly check"));
-      console.log("  devdiff security rules    " + pc.gray("List active adaptive rules"));
-      console.log("  devdiff security feedback " + pc.gray("Report true/false positive feedback"));
-      console.log("  devdiff security feed     " + pc.gray("Manage threat intelligence feed"));
+      console.log(
+        "  devdiff security profile  " +
+          pc.gray("Show 7-day behavioral profile"),
+      );
+      console.log(
+        "  devdiff security check    " + pc.gray("Run real-time anomaly check"),
+      );
+      console.log(
+        "  devdiff security rules    " + pc.gray("List active adaptive rules"),
+      );
+      console.log(
+        "  devdiff security feedback " +
+          pc.gray("Report true/false positive feedback"),
+      );
+      console.log(
+        "  devdiff security feed     " +
+          pc.gray("Manage threat intelligence feed"),
+      );
       break;
   }
 }
@@ -147,7 +160,9 @@ function showRules(): void {
   console.log(
     `Rules: ${pc.bold(String(stats.enabledRules))} enabled / ${stats.totalRules} total`,
   );
-  console.log(`High Confidence: ${pc.green(String(stats.highConfidenceRules))}`);
+  console.log(
+    `High Confidence: ${pc.green(String(stats.highConfidenceRules))}`,
+  );
   console.log(`Overall Accuracy: ${pc.bold(stats.accuracy + "%")}\n`);
 
   console.log(`Most Effective: ${pc.green(stats.mostEffectiveRule)}`);
@@ -155,7 +170,9 @@ function showRules(): void {
 
   const rules = AdaptiveRuleEngine.getRules();
   for (const rule of rules) {
-    const statusStr = rule.enabled ? pc.green("[ACTIVE]") : pc.red("[DISABLED]");
+    const statusStr = rule.enabled
+      ? pc.green("[ACTIVE]")
+      : pc.red("[DISABLED]");
     console.log(
       `${statusStr} ${pc.bold(rule.name)} (${pc.cyan(rule.category)})`,
     );
@@ -197,9 +214,15 @@ function handleFeed(options: Record<string, any>): void {
   console.log(pc.gray("═══════════════════════════════════"));
   const enabled = options.enable !== false;
 
-  console.log(`Status: ${enabled ? pc.green("Enabled (anonymized)") : pc.red("Disabled")}`);
-  console.log(`Last update: ${new Date().toISOString().replace("T", " ").slice(0, 16)} UTC`);
-  console.log("Endpoint: https://devdiff.vercel.app/api/security/threat-intel.json\n");
+  console.log(
+    `Status: ${enabled ? pc.green("Enabled (anonymized)") : pc.red("Disabled")}`,
+  );
+  console.log(
+    `Last update: ${new Date().toISOString().replace("T", " ").slice(0, 16)} UTC`,
+  );
+  console.log(
+    "Endpoint: https://devdiff.vercel.app/api/security/threat-intel.json\n",
+  );
 
   console.log(pc.bold("What's shared (anonymized):"));
   console.log("  " + pc.green("✅ Rule effectiveness statistics"));

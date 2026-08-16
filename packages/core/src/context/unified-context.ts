@@ -63,7 +63,10 @@ export class UnifiedContext {
         const contextContent = fs.readFileSync(contextPath, "utf-8");
         return {
           source: "context.md",
-          project: this.extractProjectFromContext(contextContent, workspacePath),
+          project: this.extractProjectFromContext(
+            contextContent,
+            workspacePath,
+          ),
           lastUpdated: this.getLastModified(contextPath),
         };
       } catch {
@@ -86,17 +89,18 @@ export class UnifiedContext {
    */
   private static extractProjectFromSkill(
     skill: SkillDocument,
-    workspacePath: string
+    workspacePath: string,
   ): ProjectKnowledge {
     const identitySection = skill.sections.find(
       (s) =>
         s.title.toLowerCase().includes("project identity") ||
-        s.title.toLowerCase().includes("overview")
+        s.title.toLowerCase().includes("overview"),
     );
 
     return {
       name:
-        this.extractField(identitySection, "name") || path.basename(workspacePath),
+        this.extractField(identitySection, "name") ||
+        path.basename(workspacePath),
       purpose:
         this.extractField(identitySection, "purpose") ||
         identitySection?.content.slice(0, 3).join(" ") ||
@@ -111,7 +115,7 @@ export class UnifiedContext {
    */
   private static extractProjectFromContext(
     content: string,
-    workspacePath: string
+    workspacePath: string,
   ): ProjectKnowledge {
     const lines = content.split("\n");
 
@@ -121,17 +125,21 @@ export class UnifiedContext {
 
     return {
       name:
-        projectLine?.replace("# Project:", "").trim() || path.basename(workspacePath),
+        projectLine?.replace("# Project:", "").trim() ||
+        path.basename(workspacePath),
       purpose: purposeLine
         ? lines
-          .slice(lines.indexOf(purposeLine) + 1, lines.indexOf(purposeLine) + 4)
-          .join(" ")
-          .trim()
+            .slice(
+              lines.indexOf(purposeLine) + 1,
+              lines.indexOf(purposeLine) + 4,
+            )
+            .join(" ")
+            .trim()
         : "",
       techStack: techLine
         ? lines
-          .slice(lines.indexOf(techLine) + 1, lines.indexOf(techLine) + 5)
-          .map((l) => l.replace("- ", "").trim())
+            .slice(lines.indexOf(techLine) + 1, lines.indexOf(techLine) + 5)
+            .map((l) => l.replace("- ", "").trim())
         : [],
       primaryLanguage: this.detectLanguageFromTechStack(content),
     };
@@ -140,10 +148,14 @@ export class UnifiedContext {
   /**
    * Auto-generate minimal context as last resort
    */
-  private static async autoGenerate(workspacePath: string): Promise<ProjectKnowledge> {
+  private static async autoGenerate(
+    workspacePath: string,
+  ): Promise<ProjectKnowledge> {
     const files = await this.scanProject(workspacePath);
     const extensions = this.countExtensions(files);
-    const primaryExt = Object.entries(extensions).sort((a, b) => b[1] - a[1])[0];
+    const primaryExt = Object.entries(extensions).sort(
+      (a, b) => b[1] - a[1],
+    )[0];
 
     return {
       name: path.basename(workspacePath),
@@ -155,12 +167,12 @@ export class UnifiedContext {
 
   private static extractField(
     section: SkillSection | undefined,
-    field: string
+    field: string,
   ): string | null {
     if (!section) return null;
 
     const line = section.content.find((l) =>
-      l.toLowerCase().includes(field.toLowerCase())
+      l.toLowerCase().includes(field.toLowerCase()),
     );
 
     return (
@@ -173,12 +185,12 @@ export class UnifiedContext {
 
   private static extractListField(
     section: SkillSection | undefined,
-    field: string
+    field: string,
   ): string[] {
     if (!section) return [];
 
     const startIndex = section.content.findIndex((l) =>
-      l.toLowerCase().includes(field.toLowerCase())
+      l.toLowerCase().includes(field.toLowerCase()),
     );
 
     if (startIndex === -1) return [];
@@ -186,12 +198,17 @@ export class UnifiedContext {
     return section.content
       .slice(startIndex + 1)
       .filter((l) => l.startsWith("-") || l.startsWith("*"))
-      .map((l) => l.replace(/^[*-]\s*/, "").replace(/\*\*/g, "").trim());
+      .map((l) =>
+        l
+          .replace(/^[*-]\s*/, "")
+          .replace(/\*\*/g, "")
+          .trim(),
+      );
   }
 
   private static detectPrimaryLanguage(skill: SkillDocument): string {
     const techSection = skill.sections.find((s) =>
-      s.title.toLowerCase().includes("tech stack")
+      s.title.toLowerCase().includes("tech stack"),
     );
     if (!techSection) return "TypeScript";
 
@@ -239,7 +256,11 @@ export class UnifiedContext {
         if (!fs.existsSync(dir)) return;
         const entries = fs.readdirSync(dir, { withFileTypes: true });
         for (const entry of entries) {
-          if (entry.name.startsWith(".") || entry.name === "node_modules" || entry.name === "dist") {
+          if (
+            entry.name.startsWith(".") ||
+            entry.name === "node_modules" ||
+            entry.name === "dist"
+          ) {
             continue;
           }
           const fullPath = path.join(dir, entry.name);

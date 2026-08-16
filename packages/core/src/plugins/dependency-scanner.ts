@@ -319,7 +319,11 @@ export class DependencyScanner {
 
       if (!res.ok) return false;
       const data = await res.json();
-      return Boolean(data?.alerts?.some((a: any) => a.severity === "critical" || a.severity === "high"));
+      return Boolean(
+        data?.alerts?.some(
+          (a: any) => a.severity === "critical" || a.severity === "high",
+        ),
+      );
     } catch {
       return false;
     }
@@ -496,9 +500,7 @@ export class DependencyScanner {
 
       graph.edges.push({
         from:
-          dep.depth === 0
-            ? rootName
-            : deps[dep.depth - 1]?.name || rootName,
+          dep.depth === 0 ? rootName : deps[dep.depth - 1]?.name || rootName,
         to: dep.name,
       });
     }

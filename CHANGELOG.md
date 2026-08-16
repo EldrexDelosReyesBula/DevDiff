@@ -9,27 +9,32 @@ The **v1.7.0** release introduces the Agent Orchestration & OpenClaw Integration
 ### 🌟 Added
 
 #### 🤖 Agent Orchestration Platform & OpenClaw Supervisor v2
+
 - **`AgentRegistry`**: Universal agent connector supporting OpenClaw, Copilot, Gemini, Claude, and custom agents. Implements capability scoring, task delegation with fallback routing, parallel swarm execution with pairwise consensus building (`agreements`, `disagreements`, `confidence`), and inter-agent bus messaging.
 - **`OpenClawSupervisorV2`**: Loads `.devdiff/agents/openclaw/supervisor.yaml` configuration. Decomposes tasks into subtask graphs (`changelog_generation`, `security_audit`, `answer_question`), enforces output validation thresholds (`auto_approve_threshold: 85`), and manages multi-channel escalation.
 - **CLI Commands**: `devdiff agent swarm`, `deploy`, `ask`, `parallel`, `converse`, `status`, `dashboard`.
 
 #### 📋 Universal AI Prompt Export & Import Engine
+
 - **`PromptGenerator`**: Generates copy-paste-ready prompts tailored for ChatGPT, Claude, Gemini, Copilot, or generic LLMs across 8 developer personas. Assembles project context, `SKILL.md` rules, recent changes, git diffs, and output schemas with token estimation.
 - **`ImportEngine`**: Strips conversational preambles/postscripts, extracts code blocks, validates completeness (`CompletenessValidator`) and quality (`OutputQualityGate`), reads from OS clipboards (`pbpaste`, `powershell Get-Clipboard`, `xclip`), and prepends to `CHANGELOG.md`.
 - **CLI Commands**: `devdiff prompt export` and `devdiff import changelog`.
 
 #### 🧠 Dynamic Security Engine
+
 - **`BehavioralEngine`**: Learns 7-day baseline profiles across 5 dimensions (Network, Filesystem, AI Usage, Plugins, Development) and detects real-time activity anomalies.
 - **`AdaptiveRuleEngine`**: Ingests threat feeds from `https://devdiff.vercel.app/api/security/threat-intel.json`, tracks true/false positive feedback, auto-disables rules hitting 5 false positives, and calculates accuracy metrics.
 - **CLI Commands**: `devdiff security profile`, `check`, `rules`, `feedback`, `feed`.
 
 #### 🛡️ Plugin Security & Supply Chain Protection
+
 - **`DependencyScanner`**: Scans transitive dependencies up to depth 10, queries live OSV API (`api.osv.dev`) and npm APIs, detects native binary modules (`.node`, `.so`, `.dll`), and extracts network endpoints.
 - **`ObfuscationDetector`**: 8-indicator code obfuscation threat scoring engine.
 - **`PermissionReviewer`**: Audits declared manifest permissions against code capabilities.
 - **`PluginConsentModal`**: VS Code webview consent modal rendering visual dependency tree nodes and threat findings.
 
 #### 🎨 VS Code Native UI/UX Overhaul & Full Chat Window
+
 - **`NativeTheme` & `Spacing`**: Uses VS Code `--vscode-*` CSS variables exclusively with 0 hardcoded colors and 4px grid spacing rhythm.
 - **`SidebarView`**: Undistracted Webview sidebar provider with single primary CTA and collapsible sections.
 - **`Accessibility`**: WCAG 2.1 AA compliant with high-contrast overrides (`prefers-contrast: high`), screen reader announcements (`aria-live`), focus indicators (`:focus-visible`), and reduced motion (`prefers-reduced-motion: reduce`).
@@ -37,38 +42,45 @@ The **v1.7.0** release introduces the Agent Orchestration & OpenClaw Integration
 - **`FullChatWindow` & `ChatHistory`**: Opens full editor tab chat panel (`vscode.ViewColumn.Active`) with state retention (`retainContextWhenHidden`), multi-thread conversation persistence in `globalState`, thread search, clear, and Markdown export (`devdiff.openFullChat`).
 
 #### 🛡️ Trust & Transparency Platform
+
 - **`NetworkGuardV2` & `NetworkConfig`**: Built-in 100+ domain blocklist across 5 categories (`telemetry`, `analytics`, `errorTracking`, `advertising`, `cdn_unknown`). Audits outbound requests into `.devdiff/audit/network.log`.
 - **`PluginAuditor`**: Audits installed plugins by comparing declared manifest permissions (network, filesystem, shell, AI) against real execution logs.
 - **`DisclosureReport`**: Generates full system transparency disclosure reports (`devdiff disclose`) detailing 30-day network activity, plugin behavior, filesystem access, shell execution history, AI processing, privacy guarantees, and compliance status (GDPR, HIPAA, SOC 2, CCPA).
 - **CLI Commands**: Added `devdiff network watch`, `history`, `block`, `unblock`, `blocked`, `allowed`, `allow`, `disallow`, `export`, `audit`, `devdiff plugin audit`, and `devdiff disclose`.
 
 #### 🗂️ Memory Timeline Control & Time-Aware Generation
+
 - **`MemoryManager` & `MemoryConfig`**: Date range snapshot deletion (`devdiff memory delete --from --to --dry-run`), active range scoping (`devdiff memory use`), snapshot labeling (`devdiff memory categorize`), and storage deduplication (`devdiff memory optimize`).
 - **`TimeAwareGenerator`**: Resolves human time expressions (`today`, `yesterday`, `this-week`, `date-range`, `since-initial`, `between-commits`) into git revision ranges.
 - **CLI Commands**: Added `devdiff memory list`, `delete`, `use`, `categorize`, `categories`, `optimize`, `status`.
 
 #### 🧠 Unified Knowledge Architecture & Hallucination Guard
+
 - **`UnifiedContext`**: Single source of truth knowledge resolution (`SKILL.md` → `.devdiff/context.md` → recursive tree scanner).
 - **`ContextMemorySync`**: Timestamp-based auto-synchronization between persistent memory and `SKILL.md` updates.
 - **`HallucinationGuard`**: Multi-stage verification verifying AI outputs against diff file paths, casing conventions, anti-pattern rules, and hedging language.
 
 #### 🎓 Universal Study Buddy Plugin (`@eldrex/plugin-study-buddy`)
+
 - **Standalone Plugin**: Universal code explanation engine supporting ANY programming language across 5 progressive levels (`beginner`, `student`, `developer`, `senior`, `architect`).
 - **Language Explainers**: Specialized explainers for CSS/SCSS (selectors and plain-English properties like `flex`, `grid`, `margin`, `padding`, `z-index`), JS/TS, Python, HTML, Rust, Go, plus universal fallback structural analyzer.
 - **`StudyBuddyAIRouter`**: Priority AI router (IDE Agent → Local Ollama → Cloud AI).
 - **CLI Commands**: `devdiff study explain` and `devdiff study ask`.
 
 #### 🎯 Output Quality Gates & Never-Push-Incomplete Protection
+
 - **`CompletenessValidator`**: 6 structural checks for cut-offs, minimum length, intro-only text, ending punctuation, template indicators, and balanced code blocks.
 - **`OutputQualityGate`**: 5-stage quality processor for AI outputs.
 - **`NeverPushIncomplete`**: Throws errors to block git push/commit when generated output is cut off.
 
 #### 📄 SKILL.md Universal Agent Standard & MCP Tool
+
 - **`SkillLoader`**: Loader, parser, auto-generator, and validator for 10-section `SKILL.md` files.
 - **`devdiff_read_skill`**: MCP tool registered in `@eldrex/mcp` server.
 - **CLI Commands**: `devdiff skill generate`, `validate`, `preview`.
 
 #### 🤝 Community Growth & Feedback Engine
+
 - **Trust Banners**: Added privacy trust banners to package READMEs.
 - **Review Prompt Manager**: `ReviewPrompt` managing milestone prompts (`[5, 10, 25, 50, 100]`), 30-day cooldown, and selection idle detection via `waitForIdle()`.
 - **Feedback Commands**: Added `devdiff.feedback` QuickPick dialog in VS Code extension.
@@ -78,6 +90,7 @@ The **v1.7.0** release introduces the Agent Orchestration & OpenClaw Integration
 ## [1.6.1] — 2026-08-09 🛠️ Monorepo Hardening & Type Exports
 
 ### Fixed & Improved
+
 - **Type Declaration Exports**: Re-exported `FileChangeInfo` from `@eldrex/core` (`packages/core/src/index.ts`) for clean TypeScript type resolution.
 - **Monorepo Typechecking**: Removed `rootDir: "./src"` constraint from package `tsconfig.json` files to support cross-package monorepo typechecking.
 - **Vercel ESM Compatibility**: Converted `scripts/build-docs.js` to ES module syntax (`import { execSync } from "child_process"`).

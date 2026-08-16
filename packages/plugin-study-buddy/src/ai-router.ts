@@ -34,8 +34,16 @@ export class StudyBuddyAIRouter {
     }
 
     // 3. Check Cloud AI key
-    if (process.env.OPENAI_API_KEY || process.env.GEMINI_API_KEY || process.env.ANTHROPIC_API_KEY) {
-      const provider = process.env.GEMINI_API_KEY ? "Gemini" : process.env.OPENAI_API_KEY ? "OpenAI" : "Anthropic";
+    if (
+      process.env.OPENAI_API_KEY ||
+      process.env.GEMINI_API_KEY ||
+      process.env.ANTHROPIC_API_KEY
+    ) {
+      const provider = process.env.GEMINI_API_KEY
+        ? "Gemini"
+        : process.env.OPENAI_API_KEY
+          ? "OpenAI"
+          : "Anthropic";
       return {
         type: "cloud",
         name: `Cloud AI (${provider})`,

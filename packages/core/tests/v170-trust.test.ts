@@ -8,9 +8,11 @@ import {
 import * as path from "path";
 
 describe("DevDiff v1.7.0 — Complete Trust & Transparency Platform", () => {
-  const rootDir = process.cwd().endsWith("packages\\core") || process.cwd().endsWith("packages/core")
-    ? path.resolve(process.cwd(), "../..")
-    : process.cwd();
+  const rootDir =
+    process.cwd().endsWith("packages\\core") ||
+    process.cwd().endsWith("packages/core")
+      ? path.resolve(process.cwd(), "../..")
+      : process.cwd();
 
   it("verifies 100+ blocked domains in NetworkGuardV2", () => {
     const count = NetworkGuardV2.getBlockedDomainCount();
@@ -43,7 +45,10 @@ describe("DevDiff v1.7.0 — Complete Trust & Transparency Platform", () => {
   });
 
   it("audits plugins and generates plugin audit verdicts", async () => {
-    const audit = await PluginAuditor.auditPlugin("@eldrex/plugin-slack", rootDir);
+    const audit = await PluginAuditor.auditPlugin(
+      "@eldrex/plugin-slack",
+      rootDir,
+    );
     expect(audit).toBeDefined();
     expect(audit.pluginName).toBe("@eldrex/plugin-slack");
     expect(audit.verdict).toBeDefined();

@@ -15,7 +15,10 @@ export class NeverPushIncomplete {
    * Before any git operation, verify output is complete.
    * BLOCKS commit/push if output is incomplete.
    */
-  static async guard(output: string, operation: "commit" | "push" | "pr"): Promise<void> {
+  static async guard(
+    output: string,
+    operation: "commit" | "push" | "pr",
+  ): Promise<void> {
     const validation = CompletenessValidator.validate(output);
 
     if (!validation.complete) {
@@ -40,7 +43,7 @@ export class NeverPushIncomplete {
 
       throw new IncompleteOutputError(
         `Cannot ${operation}: output is incomplete`,
-        validation.issues
+        validation.issues,
       );
     }
 

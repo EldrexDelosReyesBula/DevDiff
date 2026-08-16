@@ -9,9 +9,15 @@ import {
 
 describe("@eldrex/plugin-study-buddy — Universal Study Buddy", () => {
   it("detects languages correctly", () => {
-    expect(LanguageDetector.detect("const x = 10;", "app.ts")).toBe("typescript");
-    expect(LanguageDetector.detect("def foo(): pass", "script.py")).toBe("python");
-    expect(LanguageDetector.detect("body { margin: 0; }", "styles.css")).toBe("css");
+    expect(LanguageDetector.detect("const x = 10;", "app.ts")).toBe(
+      "typescript",
+    );
+    expect(LanguageDetector.detect("def foo(): pass", "script.py")).toBe(
+      "python",
+    );
+    expect(LanguageDetector.detect("body { margin: 0; }", "styles.css")).toBe(
+      "css",
+    );
     expect(LanguageDetector.detect("fn main() {}", "main.rs")).toBe("rust");
     expect(LanguageDetector.detect("package main", "main.go")).toBe("go");
   });
@@ -35,7 +41,9 @@ describe("@eldrex/plugin-study-buddy — Universal Study Buddy", () => {
 
     expect(explanation.language).toBe("CSS");
     expect(explanation.sections.length).toBeGreaterThan(0);
-    const layoutSection = explanation.sections.find((s) => s.title === "Layout Strategy");
+    const layoutSection = explanation.sections.find(
+      (s) => s.title === "Layout Strategy",
+    );
     expect(layoutSection?.content).toContain("Flexbox");
   });
 

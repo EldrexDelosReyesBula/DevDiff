@@ -4,9 +4,11 @@ import * as path from "path";
 import * as fs from "fs";
 
 describe("DevDiff v1.7.0 — Developer Experience & Agentic Platform", () => {
-  const rootDir = process.cwd().endsWith("packages\\core") || process.cwd().endsWith("packages/core")
-    ? path.resolve(process.cwd(), "../..")
-    : process.cwd();
+  const rootDir =
+    process.cwd().endsWith("packages\\core") ||
+    process.cwd().endsWith("packages/core")
+      ? path.resolve(process.cwd(), "../..")
+      : process.cwd();
 
   it("discovers all workspace packages with devdiff agentic manifests", () => {
     const packages = PackageDiscovery.discover(rootDir);
@@ -17,7 +19,9 @@ describe("DevDiff v1.7.0 — Developer Experience & Agentic Platform", () => {
     expect(corePkg?.packageType).toBe("engine");
     expect(corePkg?.capabilities).toContain("diff-parsing");
     expect(corePkg?.agentContext.purpose).toBeDefined();
-    expect(corePkg?.agentContext.quickStart?.install).toBe("npm install @eldrex/core");
+    expect(corePkg?.agentContext.quickStart?.install).toBe(
+      "npm install @eldrex/core",
+    );
   });
 
   it("generates structured markdown documentation prompt for AI agents", () => {

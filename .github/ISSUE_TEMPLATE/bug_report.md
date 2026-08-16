@@ -1,9 +1,9 @@
 ---
 name: 🐛 Bug Report
 about: Report something that's not working
-title: '[BUG] '
-labels: ['bug', 'triage']
-assignees: ''
+title: "[BUG] "
+labels: ["bug", "triage"]
+assignees: ""
 ---
 
 ## 🐛 What Happened?
@@ -12,9 +12,9 @@ assignees: ''
 
 ## 🔄 Steps to Reproduce
 
-1. 
-2. 
-3. 
+1.
+2.
+3.
 
 ## ✅ What I Expected
 

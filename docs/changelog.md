@@ -7,32 +7,38 @@ All notable changes to the DevDiff workspace packages will be documented in this
 The **v1.7.0** release introduces the Unified Knowledge Architecture, Memory Control & Timeline Management, Output Quality & Never-Push-Incomplete Protection, SKILL.md Universal Agent Standard, Universal Study Buddy Plugin (`@eldrex/plugin-study-buddy`), and the Complete Trust & Transparency Platform.
 
 ### 🛡️ Trust & Transparency Platform
+
 - **`NetworkGuardV2` & `NetworkConfig`**: Built-in 100+ domain blocklist across 5 categories (`telemetry`, `analytics`, `errorTracking`, `advertising`, `cdn_unknown`). Audits outbound requests into `.devdiff/audit/network.log`.
 - **`PluginAuditor` & `DisclosureReport`**: Plugin manifest permission auditor and system transparency disclosure reports (`devdiff disclose`) detailing network activity, plugin behavior, filesystem access, shell execution history, AI processing, privacy guarantees, and compliance status (GDPR, HIPAA, SOC 2, CCPA).
 - **CLI Commands**: `devdiff network watch`, `history`, `block`, `unblock`, `blocked`, `allowed`, `allow`, `disallow`, `export`, `audit`, `devdiff plugin audit`, `devdiff disclose`.
 
 ### 🗂️ Memory Timeline Control & Time-Aware Generation
+
 - **`MemoryManager` & `MemoryConfig`**: Date range snapshot deletion (`devdiff memory delete --from --to --dry-run`), active range scoping (`devdiff memory use`), snapshot labeling (`devdiff memory categorize`), and storage deduplication (`devdiff memory optimize`).
 - **`TimeAwareGenerator`**: Resolves human time expressions (`today`, `yesterday`, `this-week`, `date-range`, `since-initial`, `between-commits`) into git revision ranges.
 - **CLI Commands**: `devdiff memory list`, `delete`, `use`, `categorize`, `categories`, `optimize`, `status`.
 
 ### 🧠 Unified Knowledge Architecture & Hallucination Guard
+
 - **`UnifiedContext`**: Single source of truth knowledge resolution (`SKILL.md` → `.devdiff/context.md` → recursive tree scanner).
 - **`ContextMemorySync`**: Timestamp-based auto-synchronization between persistent memory and `SKILL.md` updates.
 - **`HallucinationGuard`**: Multi-stage verification verifying AI outputs against diff file paths, casing conventions, anti-pattern rules, and hedging language.
 
 ### 🎓 Universal Study Buddy Plugin (`@eldrex/plugin-study-buddy`)
+
 - **Standalone Plugin**: Universal code explanation engine supporting ANY programming language across 5 progressive levels (`beginner`, `student`, `developer`, `senior`, `architect`).
 - **Language Explainers**: Specialized explainers for CSS/SCSS (selectors and plain-English properties like `flex`, `grid`, `margin`, `padding`, `z-index`), JS/TS, Python, HTML, Rust, Go, plus universal fallback structural analyzer.
 - **`StudyBuddyAIRouter`**: Priority AI router (IDE Agent → Local Ollama → Cloud AI).
 - **CLI Commands**: `devdiff study explain`, `devdiff study ask`.
 
 ### 🎯 Output Quality Gates & Never-Push-Incomplete Protection
+
 - **`CompletenessValidator`**: 6 structural checks for cut-offs, minimum length, intro-only text, ending punctuation, template indicators, and balanced code blocks.
 - **`OutputQualityGate`**: 5-stage quality processor for AI outputs.
 - **`NeverPushIncomplete`**: Throws errors to block git push/commit when generated output is cut off.
 
 ### 📄 SKILL.md Universal Agent Standard & MCP Tool
+
 - **`SkillLoader`**: Loader, parser, auto-generator, and validator for 10-section `SKILL.md` files.
 - **`devdiff_read_skill`**: MCP tool registered in `@eldrex/mcp` server.
 - **CLI Commands**: `devdiff skill generate`, `validate`, `preview`.

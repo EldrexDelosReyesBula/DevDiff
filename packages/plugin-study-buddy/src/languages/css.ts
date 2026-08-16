@@ -64,7 +64,12 @@ export class CSSExplainer {
       sections,
       keyTakeaways: this.generateTakeaways(selectors, properties),
       suggestedNextLevel: params.level === "beginner" ? "student" : undefined,
-      relatedConcepts: ["CSS Box Model", "Specificity", "Responsive Design", "Flexbox & Grid"],
+      relatedConcepts: [
+        "CSS Box Model",
+        "Specificity",
+        "Responsive Design",
+        "Flexbox & Grid",
+      ],
     };
   }
 
@@ -113,15 +118,21 @@ export class CSSExplainer {
 
   private explainSelectors(selectors: CSSSelector[]): string {
     const explanations: Record<string, string> = {
-      class: "Targets elements with a specific class (`.class-name`) — reusable across elements",
+      class:
+        "Targets elements with a specific class (`.class-name`) — reusable across elements",
       id: "Targets a unique element (`#id-name`) — single element per page",
       element: "Targets all HTML elements of a type (`div`, `p`, `h1`)",
-      "at-rule": "Directive controlling media queries or keyframe animations (`@media`)",
-      "pseudo-class": "Targets elements in specific interaction states (`:hover`, `:focus`)",
+      "at-rule":
+        "Directive controlling media queries or keyframe animations (`@media`)",
+      "pseudo-class":
+        "Targets elements in specific interaction states (`:hover`, `:focus`)",
     };
 
     return selectors
-      .map((s) => `- **\`${s.selector}\`** — ${explanations[s.type] || "CSS selector"}`)
+      .map(
+        (s) =>
+          `- **\`${s.selector}\`** — ${explanations[s.type] || "CSS selector"}`,
+      )
       .join("\n");
   }
 
@@ -143,14 +154,18 @@ export class CSSExplainer {
 
     return properties
       .map((p) => {
-        const desc = commonExplanations[p.property] || `Sets the ${p.property} style attribute`;
+        const desc =
+          commonExplanations[p.property] ||
+          `Sets the ${p.property} style attribute`;
         return `- **\`${p.property}: ${p.value}\`** — ${desc}`;
       })
       .join("\n");
   }
 
   private detectLayout(properties: CSSProperty[]): boolean {
-    return properties.some((p) => ["display", "flex", "grid", "position"].includes(p.property));
+    return properties.some((p) =>
+      ["display", "flex", "grid", "position"].includes(p.property),
+    );
   }
 
   private explainLayout(properties: CSSProperty[]): string {
@@ -168,11 +183,21 @@ export class CSSExplainer {
     return `Styles ${selectors.length} selector target(s) in \`${filePath}\`.`;
   }
 
-  private generateTakeaways(selectors: CSSSelector[], properties: CSSProperty[]): string[] {
+  private generateTakeaways(
+    selectors: CSSSelector[],
+    properties: CSSProperty[],
+  ): string[] {
     const takeaways: string[] = [];
-    if (selectors.some((s) => s.type === "class")) takeaways.push("Class selectors enable reusable styles.");
-    if (properties.some((p) => p.property === "display" && p.value.includes("flex"))) takeaways.push("Flexbox arranges items dynamically.");
-    if (takeaways.length === 0) takeaways.push("CSS rules define element presentation.");
+    if (selectors.some((s) => s.type === "class"))
+      takeaways.push("Class selectors enable reusable styles.");
+    if (
+      properties.some(
+        (p) => p.property === "display" && p.value.includes("flex"),
+      )
+    )
+      takeaways.push("Flexbox arranges items dynamically.");
+    if (takeaways.length === 0)
+      takeaways.push("CSS rules define element presentation.");
     return takeaways;
   }
 }
