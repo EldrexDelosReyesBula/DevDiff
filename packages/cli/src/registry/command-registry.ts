@@ -1274,7 +1274,8 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
     subcommands: [
       {
         name: "clean",
-        description: "Remove expired cache (>7 days) and prune older checkpoints",
+        description:
+          "Remove expired cache (>7 days) and prune older checkpoints",
         category: "utility",
       },
     ],

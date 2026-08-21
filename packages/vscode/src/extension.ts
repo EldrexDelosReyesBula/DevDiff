@@ -31,16 +31,7 @@ interface DetectedModel {
 
 export async function activate(context: vscode.ExtensionContext) {
   outputChannel = vscode.window.createOutputChannel("DevDiff");
-  outputChannel.appendLine("DevDiff VS Code Extension v1.7.0 starting...");
-
-  // Register clean sidebar panel layout and new SidebarView Provider
-  CleanSidebar.register(context);
-  context.subscriptions.push(
-    vscode.window.registerWebviewViewProvider(
-      SidebarView.viewType,
-      new SidebarView(),
-    ),
-  );
+  outputChannel.appendLine("DevDiff VS Code Extension v1.8.0 starting...");
 
   // Register zero-impact lazy commands
   ZeroImpactPerformance.registerLazyCommands(context);

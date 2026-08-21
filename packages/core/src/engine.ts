@@ -12,7 +12,10 @@ import { PluginManager } from "./plugins/manager";
 import { PersonaRegistry } from "@eldrex/personas";
 import { AIDetector, AIDetectionResult } from "./onboarding/ai-detector";
 import { ConversationalQA } from "./qa/conversational-qa";
-import { ProgressiveExplainer, ExplanationLevel } from "./explain/progressive-explainer";
+import {
+  ProgressiveExplainer,
+  ExplanationLevel,
+} from "./explain/progressive-explainer";
 import { UniversalProjectDetector } from "./detection/universal-detector";
 
 function getSeverityScore(sev: string): number {
@@ -90,8 +93,16 @@ export class DevDiffEngine {
   }): Promise<string> {
     try {
       if (options.level && options.level !== "auto") {
-        const validLevels: ExplanationLevel[] = ["beginner", "student", "developer", "senior", "architect"];
-        const targetLevel: ExplanationLevel = validLevels.includes(options.level as ExplanationLevel)
+        const validLevels: ExplanationLevel[] = [
+          "beginner",
+          "student",
+          "developer",
+          "senior",
+          "architect",
+        ];
+        const targetLevel: ExplanationLevel = validLevels.includes(
+          options.level as ExplanationLevel,
+        )
           ? (options.level as ExplanationLevel)
           : "developer";
         const explanation = await ProgressiveExplainer.explain({
@@ -100,9 +111,15 @@ export class DevDiffEngine {
           level: targetLevel,
           projectContext: {},
         });
-        return `# 🎓 ${explanation.level.toUpperCase()} Explanation: ${path.basename(options.filePath || "Code Snippet")}\n\n${explanation.summary}\n\n` +
-          explanation.sections.map(s => `### ${s.title}\n${s.content}`).join("\n\n") +
-          (explanation.keyTakeaways.length > 0 ? `\n\n### 💡 Key Takeaways\n${explanation.keyTakeaways.map(k => `• ${k}`).join("\n")}` : "");
+        return (
+          `# 🎓 ${explanation.level.toUpperCase()} Explanation: ${path.basename(options.filePath || "Code Snippet")}\n\n${explanation.summary}\n\n` +
+          explanation.sections
+            .map((s) => `### ${s.title}\n${s.content}`)
+            .join("\n\n") +
+          (explanation.keyTakeaways.length > 0
+            ? `\n\n### 💡 Key Takeaways\n${explanation.keyTakeaways.map((k) => `• ${k}`).join("\n")}`
+            : "")
+        );
       }
       const config = await loadConfig(this.workspacePath);
       const router = new AIRouter(config);
@@ -140,13 +157,24 @@ export class DevDiffEngine {
     }
   }
 
+  private async execGit(args: string[]): Promise<string> {
+    try {
+      return await ShellSandbox.exec("git", args, { cwd: this.workspacePath });
+    } catch (err: any) {
+      if (
+        err.message &&
+        (err.message.includes("Not a git repository") ||
+          err.message.includes("not a git repository"))
+      ) {
+        return "";
+      }
+      throw err;
+    }
+  }
+
   async getStagedFiles(): Promise<Array<{ path: string }>> {
     try {
-      const stdout = await ShellSandbox.exec("git", [
-        "diff",
-        "--cached",
-        "--name-only",
-      ]);
+      const stdout = await this.execGit(["diff", "--cached", "--name-only"]);
       return stdout
         .split("\n")
         .map((line) => line.trim())
@@ -159,13 +187,13 @@ export class DevDiffEngine {
 
   private async getDiffForSince(since: string): Promise<string> {
     if (!since || since === "staged") {
-      const staged = await ShellSandbox.exec("git", ["diff", "--cached"]);
+      const staged = await this.execGit(["diff", "--cached"]);
       if (staged.trim()) return staged;
-      return await ShellSandbox.exec("git", ["diff"]);
+      return await this.execGit(["diff"]);
     }
 
     if (since.includes("..") || since.includes("~")) {
-      return await ShellSandbox.exec("git", ["diff", since]);
+      return await this.execGit(["diff", since]);
     }
 
     // Check if it's a natural time range, e.g. "24h" or "7d"
@@ -174,14 +202,22 @@ export class DevDiffEngine {
       const num = match[1];
       const unit =
         match[2] === "h" ? "hours" : match[2] === "d" ? "days" : "weeks";
-      return await ShellSandbox.exec("git", [
-        "diff",
-        `HEAD@{${num} ${unit} ago}`,
-      ]);
+      try {
+        const timeDiff = await this.execGit([
+          "diff",
+          `HEAD@{${num} ${unit} ago}`,
+        ]);
+        if (timeDiff.trim()) return timeDiff;
+      } catch {}
+      try {
+        return await this.execGit(["diff", "HEAD~1"]);
+      } catch {
+        return await this.execGit(["diff"]);
+      }
     }
 
     // Default fallback
-    return await ShellSandbox.exec("git", ["diff", since]);
+    return await this.execGit(["diff", since]);
   }
 
   private parseGitRange(since: string): string {
@@ -210,7 +246,7 @@ export class DevDiffEngine {
         diffText = await this.getDiffForSince(options.since);
       } else {
         const diffArg = options.staged ? ["--cached"] : [];
-        diffText = await ShellSandbox.exec("git", ["diff", ...diffArg]);
+        diffText = await this.execGit(["diff", ...diffArg]);
       }
 
       // Check format override for diagrams
@@ -284,9 +320,9 @@ export class DevDiffEngine {
     format?: "markdown" | "json" | "html";
   }): Promise<string> {
     try {
-      let diffText = await ShellSandbox.exec("git", ["diff", "--cached"]);
+      let diffText = await this.execGit(["diff", "--cached"]);
       if (!diffText.trim()) {
-        diffText = await ShellSandbox.exec("git", ["diff"]);
+        diffText = await this.execGit(["diff"]);
       }
 
       const config = await loadConfig(this.workspacePath);
@@ -443,25 +479,16 @@ Only report findings that are actually present in the diff.`;
     try {
       let diffText = "";
       if (options.commitSha) {
-        diffText = await ShellSandbox.exec("git", [
+        diffText = await this.execGit([
           "diff",
           `${options.commitSha}~1..${options.commitSha}`,
           "--",
           options.filePath,
         ]);
       } else {
-        diffText = await ShellSandbox.exec("git", [
-          "diff",
-          "HEAD",
-          "--",
-          options.filePath,
-        ]);
+        diffText = await this.execGit(["diff", "HEAD", "--", options.filePath]);
         if (!diffText.trim()) {
-          diffText = await ShellSandbox.exec("git", [
-            "diff",
-            "--",
-            options.filePath,
-          ]);
+          diffText = await this.execGit(["diff", "--", options.filePath]);
         }
       }
 
@@ -626,7 +653,7 @@ Do not include any commentary. Return ONLY the raw Mermaid.js code enclosed in \
   }): Promise<any[]> {
     try {
       const range = this.parseGitRange(options.since);
-      const stdout = await ShellSandbox.exec("git", [
+      const stdout = await this.execGit([
         "log",
         range,
         `-S${options.identifier}`,
@@ -697,7 +724,7 @@ Do not include any commentary. Return ONLY the raw Mermaid.js code enclosed in \
       const staged = await this.getStagedFiles();
       stagedCount = staged.length;
 
-      const unstaged = await ShellSandbox.exec("git", ["diff", "--name-only"]);
+      const unstaged = await this.execGit(["diff", "--name-only"]);
       unstagedCount = unstaged.split("\n").filter(Boolean).length;
     } catch {}
 

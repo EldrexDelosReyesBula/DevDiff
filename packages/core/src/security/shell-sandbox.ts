@@ -11,16 +11,21 @@ export class ShellAccessDeniedError extends Error {
 function execAsync(
   command: string,
   args: string[],
-  options: { timeout: number },
+  options: { timeout?: number; cwd?: string },
 ): Promise<{ stdout: string; stderr: string }> {
   return new Promise((resolve, reject) => {
-    execFile(command, args, options, (error, stdout, stderr) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve({ stdout, stderr });
-      }
-    });
+    execFile(
+      command,
+      args,
+      { timeout: options.timeout || 30000, cwd: options.cwd },
+      (error, stdout, stderr) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve({ stdout, stderr });
+        }
+      },
+    );
   });
 }
 
@@ -39,7 +44,11 @@ export class ShellSandbox {
     /;/,
   ];
 
-  static async exec(command: string, args: string[]): Promise<string> {
+  static async exec(
+    command: string,
+    args: string[],
+    options?: { timeout?: number; cwd?: string },
+  ): Promise<string> {
     const baseCommand = command.split(" ")[0];
     if (!this.ALLOWED_COMMANDS.includes(baseCommand)) {
       throw new ShellAccessDeniedError(
@@ -65,7 +74,10 @@ export class ShellSandbox {
       caller: new Error().stack?.split("\n")[2]?.trim(),
     });
 
-    const result = await execAsync(command, args, { timeout: 30000 });
+    const result = await execAsync(command, args, {
+      timeout: options?.timeout || 30000,
+      cwd: options?.cwd,
+    });
     return result.stdout;
   }
 

@@ -252,7 +252,6 @@ export type {
   PluginRecommendation,
 } from "./plugins/security-scanner";
 
-
 // DevDiff v1.7.0 Overhaul Exports
 export { MermaidEngineV2 } from "./outputs/mermaid/engine-v2";
 export type { MermaidResult, DiagramType } from "./outputs/mermaid/engine-v2";

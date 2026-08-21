@@ -50,26 +50,26 @@ export class StorageReport {
     if (devdiffSize > 0) {
       console.log("📁 .devdiff Directory:");
       console.log(
-        `   Memory: ${(await this.getDirectorySize(path.join(devdiffDir, "memory")) / 1024 / 1024).toFixed(2)}MB`,
+        `   Memory: ${((await this.getDirectorySize(path.join(devdiffDir, "memory"))) / 1024 / 1024).toFixed(2)}MB`,
       );
       console.log(
-        `   Cache: ${(await this.getDirectorySize(path.join(devdiffDir, "cache")) / 1024 / 1024).toFixed(2)}MB`,
+        `   Cache: ${((await this.getDirectorySize(path.join(devdiffDir, "cache"))) / 1024 / 1024).toFixed(2)}MB`,
       );
       console.log(
-        `   Checkpoints: ${(await this.getDirectorySize(path.join(devdiffDir, "checkpoints")) / 1024 / 1024).toFixed(2)}MB`,
+        `   Checkpoints: ${((await this.getDirectorySize(path.join(devdiffDir, "checkpoints"))) / 1024 / 1024).toFixed(2)}MB`,
       );
       console.log(
-        `   Audit logs: ${(await this.getDirectorySize(path.join(devdiffDir, "audit")) / 1024 / 1024).toFixed(2)}MB`,
+        `   Audit logs: ${((await this.getDirectorySize(path.join(devdiffDir, "audit"))) / 1024 / 1024).toFixed(2)}MB`,
       );
-      console.log(
-        `   Total: ${(devdiffSize / 1024 / 1024).toFixed(2)}MB`,
-      );
+      console.log(`   Total: ${(devdiffSize / 1024 / 1024).toFixed(2)}MB`);
       console.log("");
 
       console.log("💡 Cleanup tips:");
       console.log("   devdiff memory optimize    — Remove duplicate snapshots");
       console.log("   devdiff memory delete --from <date> --to <date>");
-      console.log("   rm -rf .devdiff/checkpoints/*.old  — Remove old checkpoints");
+      console.log(
+        "   rm -rf .devdiff/checkpoints/*.old  — Remove old checkpoints",
+      );
     }
   }
 
@@ -156,7 +156,12 @@ export class StorageReport {
       }
 
       // Check node_modules
-      const nodeModulesDir = path.resolve(process.cwd(), "node_modules", "@eldrex", basePkg);
+      const nodeModulesDir = path.resolve(
+        process.cwd(),
+        "node_modules",
+        "@eldrex",
+        basePkg,
+      );
       if (fs.existsSync(nodeModulesDir)) {
         return await this.getDirectorySize(nodeModulesDir);
       }
@@ -192,10 +197,7 @@ export class StorageReport {
   }
 }
 
-export async function storageCommand(
-  sub?: string,
-  _opts?: any,
-): Promise<void> {
+export async function storageCommand(sub?: string, _opts?: any): Promise<void> {
   if (sub === "clean") {
     await StorageReport.clean();
   } else {

@@ -11,7 +11,9 @@ export function registerStudyCommand(program: Command) {
 
   study
     .command("start")
-    .description("Activates Study & Code Intelligence mode for the current project")
+    .description(
+      "Activates Study & Code Intelligence mode for the current project",
+    )
     .action(async () => {
       console.log(
         picocolors.bold(
@@ -32,7 +34,9 @@ export function registerStudyCommand(program: Command) {
       );
       console.log(
         "  • " +
-          picocolors.green('devdiff study explain <file> --level <beginner|senior>') +
+          picocolors.green(
+            "devdiff study explain <file> --level <beginner|senior>",
+          ) +
           " — Progressive code breakdown",
       );
       console.log(
@@ -107,7 +111,9 @@ export function registerStudyCommand(program: Command) {
     .description("Asks a codebase intelligence question")
     .action(async (question: string) => {
       console.log(
-        picocolors.bold(picocolors.cyan("📖 DevDiff Intelligence is thinking...")),
+        picocolors.bold(
+          picocolors.cyan("📖 DevDiff Intelligence is thinking..."),
+        ),
       );
       const engine = new DevDiffEngine();
       const answer = await engine.ask({ question });
@@ -119,8 +125,6 @@ export function registerStudyCommand(program: Command) {
     .command("stop")
     .description("Exits Study Mode")
     .action(() => {
-      console.log(
-        picocolors.yellow("Study Mode deactivated. Happy coding!"),
-      );
+      console.log(picocolors.yellow("Study Mode deactivated. Happy coding!"));
     });
 }
