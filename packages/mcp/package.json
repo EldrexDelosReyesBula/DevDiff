@@ -1,6 +1,6 @@
 {
   "name": "@eldrex/mcp",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "description": "DevDiff MCP Server v2.0",
   "type": "module",
   "main": "./dist/server-v2.js",
