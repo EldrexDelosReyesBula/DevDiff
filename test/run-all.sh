@@ -1,6 +1,6 @@
 #!/bin/bash
 # test/run-all.sh
-# Runs the entire DevDiff v1.0.3 pre-release verification matrix
+# Runs the entire DevDiff E2E verification matrix
 
 cd "$(dirname "$0")/.."
-bash test/phase12-release-gate.sh
+bash test/e2e/13-release-gate.sh

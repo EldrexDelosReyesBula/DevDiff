@@ -4,7 +4,7 @@ DevDiff includes a 24/7 **Background Scheduler** (`BackgroundScheduler`) that ex
 
 ---
 
-## 📅 Built-In Default Schedules
+## Built-In Default Schedules
 
 - **Morning Standup Digest**: `0 8 * * 1-5` (Every weekday at 8:00 AM)
 - **Weekly Security Audit**: `0 9 * * 1` (Every Monday at 9:00 AM)
@@ -12,7 +12,7 @@ DevDiff includes a 24/7 **Background Scheduler** (`BackgroundScheduler`) that ex
 
 ---
 
-## 🚀 Schedule CLI Commands
+## Schedule CLI Commands
 
 ```bash
 # List all active background operation schedules
@@ -27,7 +27,7 @@ devdiff schedule disable --id morning-standup
 
 ---
 
-## 🛡️ Intelligent Constraints
+## Intelligent Constraints
 
 Background schedules automatically respect hardware constraints:
 

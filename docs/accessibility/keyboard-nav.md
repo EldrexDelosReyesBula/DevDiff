@@ -4,7 +4,7 @@ DevDiff (v1.6.0) is designed for 100% keyboard-navigable operation across all in
 
 ---
 
-## 🎯 Keyboard Shortcuts & Navigation Matrix
+## Keyboard Shortcuts & Navigation Matrix
 
 | Environment           | Action                  | Shortcut / Keyboard Pattern            | Focus Behavior                   |
 | --------------------- | ----------------------- | -------------------------------------- | -------------------------------- |
@@ -16,7 +16,7 @@ DevDiff (v1.6.0) is designed for 100% keyboard-navigable operation across all in
 
 ---
 
-## 🔒 Focus Ring & Contrast Standards
+## Focus Ring & Contrast Standards
 
 - **High Contrast Focus Rings**: All interactive buttons, dropdowns, input fields, and tab triggers feature a 2px high-contrast outline (`#6366f1` / `#a5b4fc`).
 - **Focus Restoration**: Closing modals or sidebar drawers automatically restores keyboard focus to the triggering element.

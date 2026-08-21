@@ -4,7 +4,7 @@ The **DevDiff Agent Orchestration Platform** (introduced in DevDiff v1.7.0) esta
 
 ---
 
-## 🎯 Architecture Vision
+## Architecture Vision
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -23,7 +23,7 @@ The **DevDiff Agent Orchestration Platform** (introduced in DevDiff v1.7.0) esta
 
 ---
 
-## 🦞 OpenClaw Supervisor v2 (`OpenClawSupervisorV2`)
+## OpenClaw Supervisor v2 (`OpenClawSupervisorV2`)
 
 The `OpenClawSupervisorV2` orchestrates specialized agent squads according to project configuration in `.devdiff/agents/openclaw/supervisor.yaml`:
 
@@ -51,7 +51,7 @@ The supervisor automatically decomposes user objectives into parallel and sequen
 
 ---
 
-## 🤖 Universal Agent Registry (`AgentRegistry`)
+## Universal Agent Registry (`AgentRegistry`)
 
 The `AgentRegistry` allows connecting ANY AI agent via OpenClaw, MCP, REST, or WebSockets:
 
@@ -95,7 +95,7 @@ const swarm = await AgentRegistry.swarm(
 
 ---
 
-## 💻 CLI Commands
+## CLI Commands
 
 ```bash
 # Deploy full multi-agent swarm on an objective

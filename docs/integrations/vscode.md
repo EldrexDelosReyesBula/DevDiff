@@ -1,14 +1,28 @@
-# VS Code Extension (`@eldrex/vscode` v1.6.0)
+# VS Code Extension (`@eldrex/vscode` v1.7.0)
 
-The DevDiff VS Code extension ([`@eldrex/vscode`](https://github.com/EldrexDelosReyesBula/DevDiff/tree/main/packages/vscode)) brings 100% IDE-native codebase intelligence directly inside Visual Studio Code. All features execute locally on developer workstations without switching tabs or opening web browser dashboards.
+The DevDiff VS Code extension brings 100% IDE-native codebase intelligence directly inside Visual Studio Code and all compatible open-source code editors. All features execute locally on developer workstations without switching tabs or opening browser windows.
 
 ---
 
-## 🎯 Extension Architecture
+## Installation & Registries
+
+DevDiff is published as a single, universal `.vsix` package providing identical functionality, offline privacy, and local AI capabilities across both official and open-source editor ecosystems:
+
+| Platform | Registry | Installation Command |
+|---|---|---|
+| **Visual Studio Code, Cursor, Windsurf, Trae** | [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=ebula.devdiff) | `code --install-extension ebula.devdiff` |
+| **VSCodium, Gitpod, Eclipse Theia, Code-OSS** | [Open VSX Registry](https://open-vsx.org/extension/ebula/devdiff) | `codium --install-extension ebula.devdiff` |
+
+> [!NOTE]
+> **Universal Binary**: The same `.vsix` release package is uploaded to both the VS Code Marketplace and Open VSX Registry, guaranteeing 100% feature parity across proprietary and open-source editor forks.
+
+---
+
+## Extension Architecture
 
 ```mermaid
 flowchart TD
-    VSCode[VS Code Workspace] --> Extension[@eldrex/vscode Extension Host]
+    VSCode[VS Code / VSCodium Workspace] --> Extension[@eldrex/vscode Extension Host]
 
     subgraph Panels [4 Dedicated Sidebar Views]
       P1[1. Changelog Explorer]
@@ -26,14 +40,11 @@ flowchart TD
     Extension --> Panels
     Extension --> Safeguard
     Extension --> ChatParticipant[@devdiff Chat Participant]
-
-    style Extension fill:#bbf,stroke:#333,stroke-width:2px
-    style Safeguard fill:#9f9,stroke:#333,stroke-width:2px
 ```
 
 ---
 
-## 🖥️ The 4 Sidebar Views
+## The 4 Sidebar Views
 
 1. **Changelog Explorer**: Inspect staged changes, preview changelogs, select active personas, and render inline Mermaid architecture diagrams.
 2. **Q&A Chat Panel**: Interactive sidebar chat to ask codebase questions against `.devdiff/memory/codebase-index.json`.
@@ -42,7 +53,7 @@ flowchart TD
 
 ---
 
-## 💬 `@devdiff` Native Chat Participant (`vscode.lm`)
+## `@devdiff` Native Chat Participant (`vscode.lm`)
 
 Type `@devdiff` directly in VS Code Chat:
 
@@ -54,16 +65,7 @@ Type `@devdiff` directly in VS Code Chat:
 
 ---
 
-## ⚡ CodeLens & Gutter Annotations
+## CodeLens & Gutter Annotations
 
 - **Inline CodeLens Triggers**: `⚡ DevDiff: Explain Changes` CodeLens links appear above modified functions in active text editors.
 - **Status Bar Integration**: Real-time indicator showing active AI model, memory status, and provider status.
-
----
-
-## 🛡️ `IDEGuardian` Protection
-
-- **Worker Thread Isolation**: Heavy processing tasks run in dedicated worker threads so VS Code never freezes.
-- **256MB RAM Cap**: Automatic heap monitoring prevents extension memory bloat.
-- **5s Typing Idle Tracking**: Scans automatically pause when active keyboard typing is detected.
-- **120s Timeout Protection**: Tasks time out safely after 120 seconds.

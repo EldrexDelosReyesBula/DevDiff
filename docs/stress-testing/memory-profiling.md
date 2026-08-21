@@ -6,7 +6,7 @@ DevDiff enforces a strict **256MB RAM ceiling in VS Code** and **512MB RAM cap a
 
 ---
 
-## 🎯 Memory Architecture & Heap Control
+## Memory Architecture & Heap Control
 
 ```mermaid
 flowchart TD
@@ -17,14 +17,11 @@ flowchart TD
     RAMGuard -->|> 256MB| GC[Trigger Force GC & Stream Buffer Flush]
     GC --> RAMGuard
     Normal --> MemoryIndex[.devdiff/memory/codebase-index.json]
-
-    style RAMGuard fill:#f99,stroke:#333,stroke-width:2px
-    style MemoryIndex fill:#9f9,stroke:#333,stroke-width:2px
 ```
 
 ---
 
-## 🧠 Memory Performance Standards & Features
+## Memory Performance Standards & Features
 
 ### 1. 256MB / 512MB RAM Hard Cap
 
@@ -44,7 +41,7 @@ flowchart TD
 
 ---
 
-## 📊 Memory Profiling Benchmark Data
+## Memory Profiling Benchmark Data
 
 | Workspace Scale  | Total Repository Size | File Count  | Peak Heap Memory | Peak RSS Memory | GC Pauses |
 | ---------------- | --------------------- | ----------- | ---------------- | --------------- | --------- |

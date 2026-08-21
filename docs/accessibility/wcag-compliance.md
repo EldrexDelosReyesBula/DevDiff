@@ -4,7 +4,7 @@ DevDiff aligns with the **Web Content Accessibility Guidelines (WCAG) 2.2 Level 
 
 ---
 
-## 🎯 WCAG 2.2 Level AA Success Criteria Alignment
+## WCAG 2.2 Level AA Success Criteria Alignment
 
 | WCAG Criteria | Criterion Name         | DevDiff Technical Implementation                                                                             |
 | ------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------ |
@@ -17,6 +17,6 @@ DevDiff aligns with the **Web Content Accessibility Guidelines (WCAG) 2.2 Level 
 
 ---
 
-## ⚙️ Reduced Motion Support
+## Reduced Motion Support
 
 DevDiff respects operating system preferences for reduced motion (`prefers-reduced-motion: reduce`), automatically disabling non-essential transition animations.

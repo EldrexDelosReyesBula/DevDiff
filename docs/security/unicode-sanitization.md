@@ -6,7 +6,7 @@ DevDiff includes built-in automated **Unicode Tag-Block Stripping & Sanitization
 
 ---
 
-## 🎯 Threat Analysis: How Unicode Tag Injection Works
+## Threat Analysis: How Unicode Tag Injection Works
 
 ```
 Visible to Human Reviewer:
@@ -20,7 +20,7 @@ When an AI agent reads the file contents via raw file inspection, the embedded U
 
 ---
 
-## 🛡️ Defended Unicode Ranges
+## Defended Unicode Ranges
 
 DevDiff's `PromptSanitizer` scans and strips characters across the following high-risk Unicode ranges:
 
@@ -34,7 +34,7 @@ DevDiff's `PromptSanitizer` scans and strips characters across the following hig
 
 ---
 
-## 🔧 Implementation Details
+## Implementation Details
 
 The `PromptSanitizer` utility handles sanitization automatically:
 
@@ -56,7 +56,7 @@ export class PromptSanitizer {
 
 ---
 
-## 🧪 Verification & Automated Tests
+## Verification & Automated Tests
 
 All sanitization filters are continuously validated in unit testing (`packages/core/tests/sanitizer.test.ts`):
 

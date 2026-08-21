@@ -4,7 +4,7 @@ Generate automated changelogs and compliance reports inside GitLab CI/CD runners
 
 ---
 
-## 🚀 `.gitlab-ci.yml` Setup
+## `.gitlab-ci.yml` Setup
 
 ```yaml
 stages:

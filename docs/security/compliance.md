@@ -4,7 +4,7 @@ DevDiff includes built-in compliance scanning capabilities to analyze code diffs
 
 ---
 
-## 🎯 Supported Compliance Frameworks
+## Supported Compliance Frameworks
 
 ```mermaid
 flowchart TD
@@ -25,13 +25,11 @@ flowchart TD
 
     Engine --> Frameworks
     Frameworks --> Report[Compliance Audit Report & Risk Rating]
-
-    style Report fill:#bbf,stroke:#333,stroke-width:2px
 ```
 
 ---
 
-## 📋 Framework Mapping & Rule Matrix
+## Framework Mapping & Rule Matrix
 
 | Framework        | Primary Focus Area          | Detection Rules & Patterns                                               |
 | ---------------- | --------------------------- | ------------------------------------------------------------------------ |
@@ -48,7 +46,7 @@ flowchart TD
 
 ---
 
-## 💻 Running Compliance Scans
+## Running Compliance Scans
 
 ### CLI Compliance Scan
 

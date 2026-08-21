@@ -4,7 +4,7 @@ DevDiff analyzes abstract syntax trees (ASTs) across git commits to detect break
 
 ---
 
-## 🎯 SemVer Detection Rules
+## SemVer Detection Rules
 
 DevDiff evaluates git diffs against strict AST rules:
 
@@ -16,7 +16,7 @@ DevDiff evaluates git diffs against strict AST rules:
 
 ---
 
-## 🚀 CLI Versioning Commands
+## CLI Versioning Commands
 
 ### 1. Evaluate Recommended Version Bump Type
 

@@ -4,7 +4,7 @@ DevDiff **v1.5.0** introduces the **Persistent Codebase Memory Engine** and **Co
 
 ---
 
-## 🎯 Key Capabilities
+## Key Capabilities
 
 - **One-Time Full Scan**: Scans the workspace once and builds an indexed codebase snapshot under `.devdiff/memory/codebase-index.json`.
 - **Sub-50ms Index Queries**: Instant responses for changes, entity histories, additions, purpose summaries, and dependency structures directly from memory without re-scanning code.
@@ -14,7 +14,7 @@ DevDiff **v1.5.0** introduces the **Persistent Codebase Memory Engine** and **Co
 
 ---
 
-## 🚀 CLI Commands
+## CLI Commands
 
 ### 1. Persistent Memory Commands (`devdiff memory`)
 
@@ -69,7 +69,7 @@ devdiff ask "What does it depend on?" # Resolves "it" to PersistentMemory
 
 ---
 
-## 🧠 Memory Storage Architecture
+## Memory Storage Architecture
 
 All persistent memory assets are stored inside the project workspace under `.devdiff/memory/`:
 
@@ -81,7 +81,7 @@ All persistent memory assets are stored inside the project workspace under `.dev
 
 ---
 
-## 📊 Performance Benchmark
+## Performance Benchmark
 
 | Operation                | Standard Re-Scan | Persistent Memory (v1.5.0) |
 | :----------------------- | :--------------- | :------------------------- |

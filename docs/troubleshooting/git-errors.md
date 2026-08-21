@@ -1,6 +1,6 @@
 # Git Errors
 
-## ❌ Error: "Not a git repository"
+## Error: "Not a git repository"
 
 ### What This Means
 
@@ -25,7 +25,7 @@ devdiff generate
 
 ---
 
-## ❌ Error: "No staged changes"
+## Error: "No staged changes"
 
 ### What This Means
 
@@ -49,7 +49,7 @@ devdiff generate
 
 ---
 
-## ❌ Error: "HEAD not found" or "initial commit"
+## Error: "HEAD not found" or "initial commit"
 
 ### What This Means
 
@@ -70,7 +70,7 @@ devdiff generate
 
 ---
 
-## ❌ Error: "Git not found" or "git: command not found"
+## Error: "Git not found" or "git: command not found"
 
 ### What This Means
 
@@ -113,7 +113,7 @@ sudo pacman -S git
 
 ---
 
-## ❌ Warning: "LF will be replaced by CRLF"
+## Warning: "LF will be replaced by CRLF"
 
 ### What This Means
 
@@ -127,7 +127,7 @@ git config core.autocrlf true
 
 ---
 
-## ❌ Error: "Permission denied (.git/index.lock)"
+## Error: "Permission denied (.git/index.lock)"
 
 ### What This Means
 
@@ -149,7 +149,7 @@ devdiff generate
 
 ---
 
-## ❌ DevDiff sees no changes after committing
+## DevDiff sees no changes after committing
 
 ### What This Means
 

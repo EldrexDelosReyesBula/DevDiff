@@ -4,7 +4,7 @@ This guide walks through setting up your local workstation for contributing to D
 
 ---
 
-## ⚙️ Prerequisites
+## Prerequisites
 
 - **Node.js**: `>= 20.0.0`
 - **pnpm**: `^9.0.0`
@@ -12,7 +12,7 @@ This guide walks through setting up your local workstation for contributing to D
 
 ---
 
-## 🚀 Quick Setup Instructions
+## Quick Setup Instructions
 
 ### 1. Clone & Install Dependencies
 

@@ -4,7 +4,7 @@ DevDiff processes source code, git metadata, configuration files, and terminal a
 
 ---
 
-## 🎯 Defense Architecture
+## Defense Architecture
 
 ```mermaid
 flowchart TD
@@ -21,14 +21,11 @@ flowchart TD
 
     Guard -->|Valid & Safe| Exec[Safe DevDiff Execution Context]
     Guard -->|Violates Guard Rule| Reject[Throw SecurityViolationError]
-
-    style Reject fill:#f99,stroke:#333,stroke-width:2px
-    style Exec fill:#9f9,stroke:#333,stroke-width:2px
 ```
 
 ---
 
-## 🛡️ Guard Categories & Mitigations
+## Guard Categories & Mitigations
 
 ### 1. Prompt Injection Defenses
 
@@ -62,7 +59,7 @@ flowchart TD
 
 ---
 
-## 🧪 Programmatic Guard Example
+## Programmatic Guard Example
 
 ```typescript
 import { InjectionGuardV2 } from "@eldrex/core";

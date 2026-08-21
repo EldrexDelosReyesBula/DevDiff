@@ -4,7 +4,7 @@ The **DevDiff Dynamic Security Engine** represents an adaptive, learning-based p
 
 ---
 
-## 🎯 Static vs Dynamic Security
+## Static vs Dynamic Security
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -24,7 +24,7 @@ The **DevDiff Dynamic Security Engine** represents an adaptive, learning-based p
 
 ---
 
-## 🧠 Behavioral Learning Engine (`BehavioralEngine`)
+## Behavioral Learning Engine (`BehavioralEngine`)
 
 The `BehavioralEngine` analyzes activity over a 7-day period to establish customized baselines across 5 core dimensions:
 
@@ -36,8 +36,6 @@ flowchart LR
     Engine --> AI[AI Usage Baseline]
     Engine --> Plug[Plugin Baseline]
     Engine --> Dev[Development Baseline]
-
-    style Engine fill:#9f9,stroke:#333,stroke-width:2px
 ```
 
 ### 1. Baselines Tracked
@@ -61,7 +59,7 @@ Comparing current activity snapshots against established baselines triggers anom
 
 ---
 
-## 🛡️ Adaptive Rule Engine (`AdaptiveRuleEngine`)
+## Adaptive Rule Engine (`AdaptiveRuleEngine`)
 
 The `AdaptiveRuleEngine` manages active `AdaptiveRule` definitions and incorporates real-time threat intelligence feeds:
 
@@ -86,7 +84,7 @@ if (!result.allowed) {
 
 ---
 
-## 💻 CLI Commands
+## CLI Commands
 
 Developers can inspect and manage dynamic security directly via the CLI:
 

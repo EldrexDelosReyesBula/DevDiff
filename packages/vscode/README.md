@@ -13,13 +13,39 @@ Privacy-first, BYOAI (Bring Your Own AI) inline codebase intelligence and change
   <a href="https://github.com/EldrexDelosReyesBula/devdiff">
     <img src="https://img.shields.io/badge/GitHub-Repository-181717.svg?style=for-the-badge&logo=github" alt="GitHub">
   </a>
-  <a href="https://marketplace.visualstudio.com/items?itemName=eldrex.devdiff">
+  <a href="https://marketplace.visualstudio.com/items?itemName=ebula.devdiff">
     <img src="https://img.shields.io/badge/VS_Code-Marketplace-007acc.svg?style=for-the-badge&logo=visual-studio-code" alt="Marketplace">
   </a>
-  <a href="https://open-vsx.org/extension/eldrex/devdiff">
+  <a href="https://open-vsx.org/extension/ebula/devdiff">
     <img src="https://img.shields.io/badge/Open_VSX-Registry-orange.svg?style=for-the-badge&logo=eclipse" alt="Open VSX">
   </a>
 </p>
+
+---
+
+## 📦 Installation & Registries
+
+DevDiff is published as a single, universal `.vsix` package providing identical functionality, offline privacy, and local AI capabilities across both official and open-source editor ecosystems:
+
+### Option A: VS Code Marketplace (VS Code, Cursor, Windsurf, Trae)
+- **Install from Web**: [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=ebula.devdiff)
+- **Install via CLI**:
+  ```bash
+  code --install-extension ebula.devdiff
+  ```
+
+### Option B: Open VSX Registry (VSCodium, Gitpod, Eclipse Theia, Code-OSS)
+- **Install from Web**: [Open VSX Registry](https://open-vsx.org/extension/ebula/devdiff)
+- **Install via CLI**:
+  ```bash
+  codium --install-extension ebula.devdiff
+  ```
+
+### Option C: Manual VSIX Installation
+Download the latest `devdiff-1.7.0.vsix` and run:
+```bash
+code --install-extension devdiff-1.7.0.vsix
+```
 
 ---
 
@@ -33,12 +59,11 @@ No telemetry. No analytics. No crash reports. [Full disclosure →](https://devd
 ## ⭐ Enjoying DevDiff?
 
 If this extension saves you time writing changelogs, please take 30 seconds to
-**[leave a review on the VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=eldrex.devdiff&ssr=false#review-details)**.
+**[leave a review on the VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=ebula.devdiff&ssr=false#review-details)** or star the **[GitHub Repository](https://github.com/EldrexDelosReyesBula/devdiff)**.
 
 Reviews help other developers discover DevDiff and help us prioritize features.
-Every review — even a short one — makes a difference.
 
-**[Leave a Review →](https://marketplace.visualstudio.com/items?itemName=eldrex.devdiff&ssr=false#review-details)**
+**[Leave a Review →](https://marketplace.visualstudio.com/items?itemName=ebula.devdiff&ssr=false#review-details)**
 
 ---
 

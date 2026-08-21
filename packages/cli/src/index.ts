@@ -165,6 +165,10 @@ async function executeCommand(fullPath: string, args: any[]) {
       const { releaseCommand } = await import("./commands/version");
       return releaseCommand(args[0] || {});
     }
+    case "storage": {
+      const { storageCommand } = await import("./commands/storage");
+      return storageCommand(sub, args[0]);
+    }
     case "plugin":
       console.log(
         "ℹ️  DevDiff plugins are managed programmatically via MCP server extensions.",

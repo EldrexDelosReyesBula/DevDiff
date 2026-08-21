@@ -2,7 +2,7 @@
   "name": "devdiff",
   "displayName": "DevDiff",
   "description": "Privacy-first, BYOAI inline changelog intelligence for VS Code",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
@@ -209,6 +209,6 @@
     "url": "https://github.com/EldrexDelosReyesBula/devdiff.git",
     "directory": "packages/vscode"
   },
-  "author": "Eldrex Delos Reyes Bula \u003celdrexdelosreyesbula@gmail.com\u003e",
+  "author": "Eldrex Delos Reyes Bula <eldrexdelosreyesbula@gmail.com>",
   "license": "MIT"
 }

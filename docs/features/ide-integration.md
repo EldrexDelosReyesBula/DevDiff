@@ -4,7 +4,7 @@ DevDiff is **100% IDE-Native**. Rather than forcing developers into external web
 
 ---
 
-## 🎯 IDE-Native Architecture
+## IDE-Native Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -28,7 +28,7 @@ DevDiff is **100% IDE-Native**. Rather than forcing developers into external web
 
 ---
 
-## 🖥️ 1. Full Editor Tab Chat Window & Persistent History (`FullChatWindow`)
+## 1. Full Editor Tab Chat Window & Persistent History (`FullChatWindow`)
 
 Introduced in DevDiff v1.7.0, the chat experience expands beyond a sidebar widget into a full editor tab workspace (`vscode.ViewColumn.Active`):
 
@@ -39,7 +39,7 @@ Introduced in DevDiff v1.7.0, the chat experience expands beyond a sidebar widge
 
 ---
 
-## 🎨 2. Native VS Code UI/UX Overhaul
+## 2. Native VS Code UI/UX Overhaul
 
 DevDiff v1.7.0 implements a complete native design overhaul:
 
@@ -51,7 +51,7 @@ DevDiff v1.7.0 implements a complete native design overhaul:
 
 ---
 
-## 🔌 3. MCP Server Protocol (`@eldrex/mcp`)
+## 3. MCP Server Protocol (`@eldrex/mcp`)
 
 DevDiff exposes sub-50ms query tools via MCP:
 
@@ -66,7 +66,7 @@ DevDiff exposes sub-50ms query tools via MCP:
 
 ---
 
-## 🚀 4. Command Summary
+## 4. Command Summary
 
 ```bash
 # VS Code Command Palette (Ctrl+Shift+P)

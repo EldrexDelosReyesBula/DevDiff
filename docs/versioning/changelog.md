@@ -4,36 +4,66 @@ All notable changes to DevDiff are documented here.
 
 DevDiff uses [Semantic Versioning](https://semver.org). Every published version is **immutable** — it works exactly as released, forever. See the [Version Policy](./policy) for details.
 
+## [1.8.0] — 2026-08-21 · Multi-Registry Extension Distribution, External Plugin Architecture & Documentation Overhaul
+
+The **v1.8.0** release establishes unified distribution across both the VS Code Marketplace and Open VSX Registry, cleanly decouples third-party plugins into standalone repositories, overhauls the documentation suite to human-craft engineering standards, and standardizes local release gate verification.
+
+### Multi-Registry Distribution
+
+- **VS Code & Open VSX**: Published and verified identical `.vsix` binaries across both the **VS Code Marketplace** (`ebula.devdiff`) and the **Open VSX Registry** (`ebula/devdiff`).
+- **Editor Compatibility**: Added clear installation instructions for VS Code, Cursor, Windsurf, VSCodium, Gitpod, and Eclipse Theia.
+
+### External Plugin Architecture
+
+- **Study Buddy Decoupling**: Extracted Study Buddy into a dedicated external standalone repository (`@eldrex/plugin-study-buddy` at [github.com/EldrexDelosReyesBula/devdiff-study-buddy](https://github.com/EldrexDelosReyesBula/devdiff-study-buddy)).
+- **Core Engine Integration**: Refactored core `explainCode` engine to natively utilize `ProgressiveExplainer` across 5 skill levels.
+- **Reference Examples**: Embedded working reference plugin implementations in documentation and template repository.
+
+### Documentation & UI/UX Standards
+
+- **Human-Craft Language**: Refactored entire documentation portal to senior engineering standards, eliminating robotic jargon and emoji clutter.
+- **Minimalist Dark Theme**: Configured high-contrast dark Mermaid diagram theme matching modern IDE design systems.
+- **Streamlined Navigation**: Simplified sidebar navigation with clear, developer-friendly titles.
+
+### Repository Hygiene & Test Suite
+
+- **Structured Test Hierarchy**: Reorganized tests into structured `test/e2e`, `test/stress`, and `test/performance` directories.
+- **Release Gate Scripts**: Added root release gate shortcuts (`pnpm gate` and `pnpm gate:ps`).
+- **Bundle Optimization**: Minified VS Code extension bundle to 3.82 MB.
+- **100% Test Pass Rate**: 38 test suites and 217 unit tests passing.
+
+---
+
 ## [1.7.0] — 2026-08-16 · Agentic Platform, Dynamic Security Engine, Universal Prompt Export, Plugin Protection & VS Code Overhaul
 
 The **v1.7.0** release introduces the Agent Orchestration & OpenClaw Integration Platform, Dynamic Security Engine, Universal AI Prompt Export & Import Engine, Plugin Security & Supply Chain Protection, Complete VS Code Native UI/UX Overhaul, Full Chat Editor Tab Window, Unified Knowledge Architecture, Memory Control & Timeline Management, Output Quality Gates, and the Complete Trust & Transparency Platform.
 
-### 🤖 Agent Orchestration Platform & OpenClaw Supervisor v2
+### Agent Orchestration Platform & OpenClaw Supervisor v2
 
 - **`AgentRegistry`**: Universal agent connector supporting OpenClaw, Copilot, Gemini, Claude, and custom agents. Implements capability scoring, task delegation with fallback routing, parallel swarm execution with pairwise consensus building (`agreements`, `disagreements`, `confidence`), and inter-agent bus messaging.
 - **`OpenClawSupervisorV2`**: Loads `.devdiff/agents/openclaw/supervisor.yaml` configuration. Decomposes tasks into subtask graphs (`changelog_generation`, `security_audit`, `answer_question`), enforces output validation thresholds (`auto_approve_threshold: 85`), and manages multi-channel escalation.
 - **CLI Commands**: `devdiff agent swarm`, `deploy`, `ask`, `parallel`, `converse`, `status`, `dashboard`.
 
-### 📋 Universal AI Prompt Export & Import Engine
+### Universal AI Prompt Export & Import Engine
 
 - **`PromptGenerator`**: Generates copy-paste-ready prompts tailored for ChatGPT, Claude, Gemini, Copilot, or generic LLMs across 8 developer personas. Assembles project context, `SKILL.md` rules, recent changes, git diffs, and output schemas with token estimation.
 - **`ImportEngine`**: Strips conversational preambles/postscripts, extracts code blocks, validates completeness (`CompletenessValidator`) and quality (`OutputQualityGate`), reads from OS clipboards (`pbpaste`, `powershell Get-Clipboard`, `xclip`), and prepends to `CHANGELOG.md`.
 - **CLI Commands**: `devdiff prompt export` and `devdiff import changelog`.
 
-### 🧠 Dynamic Security Engine
+### Dynamic Security Engine
 
 - **`BehavioralEngine`**: Learns 7-day baseline profiles across 5 dimensions (Network, Filesystem, AI Usage, Plugins, Development) and detects real-time activity anomalies.
 - **`AdaptiveRuleEngine`**: Ingests threat feeds from `https://devdiff.vercel.app/api/security/threat-intel.json`, tracks true/false positive feedback, auto-disables rules hitting 5 false positives, and calculates accuracy metrics.
 - **CLI Commands**: `devdiff security profile`, `check`, `rules`, `feedback`, `feed`.
 
-### 🛡️ Plugin Security & Supply Chain Protection
+### Plugin Security & Supply Chain Protection
 
 - **`DependencyScanner`**: Scans transitive dependencies up to depth 10, queries live OSV API (`api.osv.dev`) and npm APIs, detects native binary modules (`.node`, `.so`, `.dll`), and extracts network endpoints.
 - **`ObfuscationDetector`**: 8-indicator code obfuscation threat scoring engine.
 - **`PermissionReviewer`**: Audits declared manifest permissions against code capabilities.
 - **`PluginConsentModal`**: VS Code webview consent modal rendering visual dependency tree nodes and threat findings.
 
-### 🎨 VS Code Native UI/UX Overhaul & Full Chat Window
+### VS Code Native UI/UX Overhaul & Full Chat Window
 
 - **`NativeTheme` & `Spacing`**: Uses VS Code `--vscode-*` CSS variables exclusively with 0 hardcoded colors and 4px grid spacing rhythm.
 - **`SidebarView`**: Undistracted Webview sidebar provider with single primary CTA and collapsible sections.
@@ -41,38 +71,38 @@ The **v1.7.0** release introduces the Agent Orchestration & OpenClaw Integration
 - **`CalmNotifications` & `ZeroImpactPerformance`**: Non-intrusive status bar progress spinners, lazy command loading, and 1-second debounced file watching ($<50\text{MB}$ RAM).
 - **`FullChatWindow` & `ChatHistory`**: Opens full editor tab chat panel (`vscode.ViewColumn.Active`) with state retention (`retainContextWhenHidden`), multi-thread conversation persistence in `globalState`, thread search, clear, and Markdown export (`devdiff.openFullChat`).
 
-### 🛡️ Trust & Transparency Platform
+### Trust & Transparency Platform
 
 - **`NetworkGuardV2` & `NetworkConfig`**: Built-in 100+ domain blocklist across 5 categories (`telemetry`, `analytics`, `errorTracking`, `advertising`, `cdn_unknown`). Audits outbound requests into `.devdiff/audit/network.log`.
 - **`PluginAuditor` & `DisclosureReport`**: Plugin manifest permission auditor and system transparency disclosure reports (`devdiff disclose`) detailing network activity, plugin behavior, filesystem access, shell execution history, AI processing, privacy guarantees, and compliance status (GDPR, HIPAA, SOC 2, CCPA).
 - **CLI Commands**: `devdiff network watch`, `history`, `block`, `unblock`, `blocked`, `allowed`, `allow`, `disallow`, `export`, `audit`, `devdiff plugin audit`, `devdiff disclose`.
 
-### 🗂️ Memory Timeline Control & Time-Aware Generation
+### Codebase Memory & Time Filters
 
-- **`MemoryManager` & `MemoryConfig`**: Date range snapshot deletion (`devdiff memory delete --from --to --dry-run`), active range scoping (`devdiff memory use`), snapshot labeling (`devdiff memory categorize`), and storage deduplication (`devdiff memory optimize`).
-- **`TimeAwareGenerator`**: Resolves human time expressions (`today`, `yesterday`, `this-week`, `date-range`, `since-initial`, `between-commits`) into git revision ranges.
+- **Memory Management**: Date range snapshot deletion (`devdiff memory delete --from --to --dry-run`), active range scoping (`devdiff memory use`), snapshot labeling (`devdiff memory categorize`), and storage deduplication (`devdiff memory optimize`).
+- **Natural Time References**: Resolves human time expressions (`today`, `yesterday`, `this-week`, `date-range`, `since-initial`, `between-commits`) into git revision ranges.
 - **CLI Commands**: `devdiff memory list`, `delete`, `use`, `categorize`, `categories`, `optimize`, `status`.
 
-### 🧠 Unified Knowledge Architecture & Hallucination Guard
+### Project Context & Diff Fact-Checking
 
-- **`UnifiedContext`**: Single source of truth knowledge resolution (`SKILL.md` → `.devdiff/context.md` → recursive tree scanner).
-- **`ContextMemorySync`**: Timestamp-based auto-synchronization between persistent memory and `SKILL.md` updates.
-- **`HallucinationGuard`**: Multi-stage verification verifying AI outputs against diff file paths, casing conventions, anti-pattern rules, and hedging language.
+- **Workspace Context (`UnifiedContext`)**: Single source of truth knowledge resolution (`SKILL.md` → `.devdiff/context.md` → recursive tree scanner).
+- **Context-Memory Sync**: Timestamp-based auto-synchronization between persistent memory and `SKILL.md` updates.
+- **Diff Fact-Checking (`HallucinationGuard`)**: Multi-stage verification checking AI outputs against diff file paths, casing conventions, anti-pattern rules, and hedging language.
 
-### 🎓 Universal Study Buddy Plugin (`@eldrex/plugin-study-buddy`)
+### Educational Explanations & Study Buddy Plugin
 
 - **Standalone Plugin**: Universal code explanation engine supporting ANY programming language across 5 progressive levels (`beginner`, `student`, `developer`, `senior`, `architect`).
-- **Language Explainers**: Specialized explainers for CSS/SCSS (selectors and plain-English properties like `flex`, `grid`, `margin`, `padding`, `z-index`), JS/TS, Python, HTML, Rust, Go, plus universal fallback structural analyzer.
-- **`StudyBuddyAIRouter`**: Priority AI router (IDE Agent → Local Ollama → Cloud AI).
+- **Language Explainers**: Specialized explainers for CSS/SCSS, JS/TS, Python, HTML, Rust, Go, plus universal fallback structural analyzer.
+- **AI Router**: Priority AI router (IDE Agent → Local Ollama → Cloud AI).
 - **CLI Commands**: `devdiff study explain`, `devdiff study ask`.
 
-### 🎯 Output Quality Gates & Never-Push-Incomplete Protection
+### Output Validation & Completeness Gates
 
-- **`CompletenessValidator`**: 6 structural checks for cut-offs, minimum length, intro-only text, ending punctuation, template indicators, and balanced code blocks.
-- **`OutputQualityGate`**: 5-stage quality processor for AI outputs.
-- **`NeverPushIncomplete`**: Throws errors to block git push/commit when generated output is cut off.
+- **Completeness Validator**: 6 structural checks for cut-offs, minimum length, intro-only text, ending punctuation, template indicators, and balanced code blocks.
+- **Quality Gates**: Multi-stage quality processor for AI outputs.
+- **Never-Push-Incomplete**: Throws errors to block git push/commit when generated output is cut off.
 
-### 📄 SKILL.md Universal Agent Standard & MCP Tool
+### Agent Standards (SKILL.md & MCP)
 
 - **`SkillLoader`**: Loader, parser, auto-generator, and validator for 10-section `SKILL.md` files.
 - **`devdiff_read_skill`**: MCP tool registered in `@eldrex/mcp` server.
@@ -84,19 +114,19 @@ The **v1.7.0** release introduces the Agent Orchestration & OpenClaw Integration
 
 The **IDE-Native Reliability & Hardening** release pivots DevDiff to an IDE-native experience. Everything takes place inside VS Code, the CLI, and your custom SDK applications:
 
-### 🖥️ IDE-Native Architecture
+### IDE-Native Architecture
 
 - **4 VS Code Sidebar Panels**: Changelog Explorer, Q&A Chat Panel, Security & Compliance Panel, and Settings Panel.
 - **`@devdiff` Chat Integration**: Native VS Code chat participant (`@devdiff`) answering questions in <500ms using persistent memory.
 - **IDEGuardian Performance Protection**: Worker task execution, 256MB memory cap, 5s typing activity idle tracking, and 120s safety timeouts so DevDiff never freezes the editor.
 - **Gutter Annotations & CodeLens**: Inline `⚡ DevDiff: Explain Changes` CodeLens triggers directly inside active file editors.
 
-### 🎨 Unified Design System & SDK
+### Unified Design System & SDK
 
 - **Adaptive Design System Tokens**: Theme-adaptive VS Code colors, font tokens, and Codicon icons.
 - **Build-Your-Own-Dashboard**: SDK documentation and guides for developers building custom web dashboards, Slack integrations, or internal team tools.
 
-### 📊 Cross-Platform CLI Updates
+### Cross-Platform CLI Updates
 
 - **Improved Windows Support**: `win32-shell.ts` and `windows-hardening.ts` stabilize Windows execution, arg parsing, and shell command handling.
 - **Config Command**: New `devdiff config set` and `devdiff config get` commands to manage engine flags, scheduler settings, notification endpoints, cloud integrations, and memory policies.
@@ -107,7 +137,7 @@ The **IDE-Native Reliability & Hardening** release pivots DevDiff to an IDE-nati
 
 The **Persistent Codebase Memory & Continuous Chat** release introduces a persistent, fast-query codebase memory engine that eliminates re-scanning and remembers conversation context across sessions.
 
-### 🧠 Persistent Codebase Memory Engine
+### Persistent Codebase Memory Engine
 
 - **One-Time Full Scan**: Scans codebase once and saves indexed snapshot (`.devdiff/memory/codebase-index.json`).
 - **Sub-50ms Index Queries**: Instant index-based lookup for time-range diffs, entity change histories, creation dates, purpose summaries, and dependencies.
@@ -115,7 +145,7 @@ The **Persistent Codebase Memory & Continuous Chat** release introduces a persis
 - **Continuous Conversation Context**: Resolves pronouns (`it`, `this`, `that`) automatically across multi-turn session chat history (`.devdiff/memory/conversation-history.json`).
 - **Historical Snapshot Comparisons**: Saves historical repository snapshots over time (`.devdiff/memory/snapshot-history.json`).
 
-### 💻 New CLI Commands
+### New CLI Commands
 
 - `devdiff memory init` · `devdiff memory status` · `devdiff memory rescan` · `devdiff memory clear-conversation` · `devdiff memory clear-all`
 - `devdiff ask "<question>"`
@@ -137,21 +167,21 @@ The **Windows & Command Argument Hardening** release resolves critical command e
 
 The **Agentic Workspace & Supervisor** release introduces a hyper-optimized developer playground with a responsive React layout, CORS-enabled port routing, OpenClaw Supervisor automation, and comprehensive messaging connector integrations.
 
-### 🎮 Playground & Developer Workspace
+### Playground & Developer Workspace
 
 - **Enterprise-Grade React UI:** Overhauled the playground into a robust React application featuring collapsible three-panel file explorer, side-by-side code editor/diff viewer, and settings panel.
 - **Dynamic CORS & Port Routing:** Automatically detects custom port hosting (such as VS Code Live Server on port `5500`) and routes API calls securely back to the local backend gateway on port `3737`.
 - **AI Chat Relay & Animations:** Added smooth bouncing dot streaming loading animation and fade-in/slide-in bubble transitions for chat responses.
 - **Mobile Responsiveness:** Implemented custom bottom-tab-bar navigation for mobile screens, ensuring a full workspace layout experience on everything from a 5" phone to a 32" 4K display.
 
-### 🤖 OpenClaw Supervisor Swarm
+### OpenClaw Supervisor Swarm
 
 - **Supervisor Pipeline Automation:** Added YAML-based supervisor orchestration (`.devdiff/automations/supervisor-pipeline.yaml`) for routing tasks to distinct agent personas.
 - **Resilient Fallback Handlers:** Automatically intercepts model timeout, context overflow, connection refusal, or output format failures, and executes smart recovery chains (pruning context, switching models, re-prompting).
 - **Dependency Auto-Installation:** Standardized package manager detection (`npm`, `pnpm`, `yarn`, `bun`) to automatically verify and install missing local binaries and models.
 - **Human-in-the-Loop Reviews:** Provides interactive terminal TTY prompts (`Approve`, `Reject`, `Modify`, `Delegate`) with automatic non-interactive fallbacks for CI/CD environments.
 
-### 🔌 Connectors & Messaging Platforms
+### Connectors & Messaging Platforms
 
 - **Unified Connectors Registry:** Extracted notification pathways into `@eldrex/connectors` featuring complete credential validation.
 - **Multi-Platform Support:** Added native endpoints and formatting configurations for Slack, Discord, Telegram, Microsoft Teams, WhatsApp, Email, Custom HTTP Webhooks, OpenClaw Bus, and MCP Protocol.
@@ -162,7 +192,7 @@ The **Agentic Workspace & Supervisor** release introduces a hyper-optimized deve
 
 A maintenance update fixing internal workspace routing and dependency structures.
 
-### 🛠️ Internal Stability
+### Internal Stability
 
 - Resolves cross-dependency compilation order inside the pnpm workspace.
 - Cleans and aligns local TSConfig configurations across all monorepo packages.
@@ -173,7 +203,7 @@ A maintenance update fixing internal workspace routing and dependency structures
 
 The **Hardening & Reliability** release locks in production-grade stability, a fully functional local playground, `create-devdiff-app` scaffolding, strict privacy enforcement, and the immutable versioning contract.
 
-### 🔐 Security & Privacy
+### Security & Privacy
 
 - **API key masking in logs**: Sensitive API keys are now masked dynamically, displaying only the first 6 and last 4 characters.
 - **Secure File Permissions**: Enforced `600` read/write permissions on `.env` files automatically upon creation by the CLI tool.
@@ -184,7 +214,7 @@ The **Hardening & Reliability** release locks in production-grade stability, a f
 - **Encrypted Audit Trail**: Individual logs are now secured at rest using AES-256-GCM encryption with local key derivation.
 - **Secure MCP Server**: Enabled authorization tokens by default for stdio and HTTP Model Context Protocol integrations.
 
-### 🛠️ CLI Improvements
+### CLI Improvements
 
 - **`devdiff auth` command suite**: Native CLI key manager providing interactive addition, listing, deletion, validation, and rotation of cloud AI credentials.
 - **Secure terminal prompts**: Secure hidden password input streams (zero echo) implemented natively for CLI credential gathering.
@@ -194,14 +224,14 @@ The **Hardening & Reliability** release locks in production-grade stability, a f
 - **`devdiff monitor`**: Terminal-tail network monitoring dashboard streaming outbound requests in real-time.
 - **`devdiff disclose`**: Privacy dashboard outputting comprehensive lists of filesystem, network, process, and memory limits.
 
-### ⚡ Performance & Capping
+### Performance & Capping
 
 - **File Watcher Debounce**: Introduced adaptive debounce limits to prevent CPU usage spikes on rapid workspace changes.
 - **Large-Diff Streaming**: Diff parsers and sanitizers process files as streams, keeping memory spikes under 500MB on vibe coding edits.
 - **IDE Thread Protection**: Dispatched heavy changelog logic to non-blocking microtasks (`setImmediate`), maintaining vscode responsiveness.
 - **Checkers & Monitors**: Automated local storage caching and checkpoint compressions, reducing disk footprint by 60%.
 
-### 🧠 AI & Accuracy
+### AI & Accuracy
 
 - **Project Context Generation**: Introduced context scrapers grounding the LLM with local README, package metadata, and directory indexes.
 - **Ollama Model Auto-Detection**: Added dynamic model tag queries and code-specific capabilities scoring to routing loops.
@@ -212,12 +242,12 @@ The **Hardening & Reliability** release locks in production-grade stability, a f
 - **Verification Layer**: Validates generated summaries against the raw diff using AccuracyGuard pre-checks and post-checks.
 - **MVP (Deferred Queue) Mode**: Diffs exceeding 50,000 characters are saved as deferred JSON entries, enabling local templates fallback and async processing.
 
-### 🔌 Integrations
+### Integrations
 
 - **CI/CD Actions**: Standardized actions templates for GitHub Actions and GitLab CI.
 - **Webhook connectors**: Out-of-the-box streaming notifications support for Slack, Discord, Microsoft Teams, Telegram, and twilio-enabled WhatsApp.
 
-### 📚 Documentation
+### Documentation
 
 - **VitePress Command Reference**: Published a complete CLI Command Dictionary and ports reference guide.
 - **Troubleshooting guides**: Step-by-step resolution steps for Windows pathing, Ollama setup, network diagnostics, and WSL2 configurations.
@@ -228,31 +258,31 @@ The **Hardening & Reliability** release locks in production-grade stability, a f
 
 Enterprise-grade security hardening, compliance frameworks, multi-agent swarms, and hardware-accelerated local inference.
 
-### 🔒 Security & Privacy
+### Security & Privacy
 
 - Regex-based `PrivacyEnforcer` — blocks API keys, credentials, and private key structures before any AI provider sees them.
 - CVE fixes for webhook path traversal (CVSS 9.1) and prompt injection via commit messages.
 
-### 🌍 Compliance (10 Frameworks)
+### Compliance (10 Frameworks)
 
 - GDPR, CCPA, HIPAA, SOC 2, FedRAMP, ISO 27001, PIPEDA, LGPD, PDPA, Australia Privacy Act.
 - `devdiff compliance list|apply|status|validate|report`
 
-### ⚡ Local Inference & WebGPU
+### Local Inference & WebGPU
 
 - WebGPU provider via ONNX Runtime Web.
 - Resilient fallback chain: WebGPU → WebAssembly → CPU → Ollama.
 
-### 🤖 Multi-Agent Swarms
+### Multi-Agent Swarms
 
 - `MultiAgentOrchestrator` — 4 agents (Architect, Security, Performance, Docs) collaborate in 4 phases.
 
-### 🛡️ Vibe-Coder Guardian
+### Vibe-Coder Guardian
 
 - Pre-AI checkpoint snapshots + automatic fallback recovery.
 - `devdiff recover --checkpoint <id>` for manual rollback.
 
-### 🎭 Personas & VS Code
+### Personas & VS Code
 
 - 8 built-in personas: Developer, CEO, Educator, PM, Compliance, Journalist, Data Analyst, Robot.
 - VS Code extension v1.0.2 with PNG icon support and offline guides.
@@ -263,32 +293,32 @@ Enterprise-grade security hardening, compliance frameworks, multi-agent swarms, 
 
 Hardened the core diff engine, fixed post-launch edge cases, and expanded AI provider compatibility.
 
-### 🐛 Bug Fixes
+### Bug Fixes
 
 - Fixed silent failure on repos with no prior commits (empty `HEAD`).
 - Fixed `ENOENT` crash when `.devdiff.config.js` is absent — defaults gracefully.
 - Fixed incorrect token estimates for Unicode-heavy diffs.
 - Fixed `devdiff watch` not re-attaching after `git reset --hard`.
 
-### ⚡ Performance
+### Performance
 
 - AST trimmer improvements — 18% additional token size reduction.
 - Batch window tuned from 500ms → 250ms for faster changelog generation.
 - Caching now correctly invalidates on config file changes.
 
-### 🤖 AI Providers
+### AI Providers
 
 - Ollama health check on startup — clear error if not running.
 - Added Anthropic Claude 3.5 Sonnet and Claude 3 Haiku support.
 - Improved JSON response parsing — handles trailing commas and extra whitespace.
 
-### 🎭 New Personas
+### New Personas
 
 - `robot` — machine-readable structured JSON, no prose.
 - `data-analyst` — change metrics, file size deltas, complexity scores.
 - `journalist` — narrative-style changelog for release blog posts.
 
-### 🔌 Integration Fixes
+### Integration Fixes
 
 - GitHub Actions: fixed step ordering for `devdiff generate`.
 - Vite Plugin: HMR overlay now dismisses correctly after generation.
@@ -300,7 +330,7 @@ Hardened the core diff engine, fixed post-launch edge cases, and expanded AI pro
 
 The first public release — your codebase's memory, not just its history.
 
-### ✨ Core Engine
+### Core Engine
 
 - Git diff parser with structured extraction (additions, deletions, renames, binary file detection).
 - AST trimmer — reduces token usage by up to 85%.
@@ -308,31 +338,31 @@ The first public release — your codebase's memory, not just its history.
 - AI router with priority-based provider selection and fallback.
 - Changelog generator — Markdown, JSON, and Mermaid diagram output.
 
-### 🤖 AI Providers
+### AI Providers
 
 - Ollama (local, offline) — default, auto-detected on `localhost:11434`.
 - OpenAI — GPT-4o and GPT-3.5-turbo.
 - Anthropic — Claude 3 Opus.
 - Transformers.js — browser-based WebAssembly inference.
 
-### 💻 CLI Commands
+### CLI Commands
 
 - `devdiff init` · `devdiff generate` · `devdiff watch`
 - `devdiff vibe start|status|stop`
 - `devdiff audit ai-calls|network|shell`
 - `--persona`, `--format`, `--dry-run`, `--since`, `--verbose`
 
-### 🎭 Initial Personas
+### Initial Personas
 
 Developer · CEO · Educator · PM · Compliance
 
-### 🔌 Integrations
+### Integrations
 
 - VS Code extension with inline gutter annotations and sidebar.
 - Vite plugin with HMR changelog overlay.
 - GitHub Actions CI workflow for PR changelog comments.
 
-### 📦 Initial Package Releases
+### Initial Package Releases
 
 | Package            | Description                    |
 | ------------------ | ------------------------------ |

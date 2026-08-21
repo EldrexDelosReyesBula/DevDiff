@@ -4,7 +4,7 @@ DevDiff supports running open-source LLMs locally using hardware GPU acceleratio
 
 ---
 
-## 🎯 Supported In-Process Engines
+## Supported In-Process Engines
 
 ### 1. WebGPU / WebLLM Engine
 
@@ -19,7 +19,7 @@ Runs ONNX quantized models (`Qwen1.5-0.5B`, `Phi-3-Mini`) inside Node.js worker 
 
 ---
 
-## ⚙️ Configuration Setup
+## Configuration Setup
 
 Configure WebGPU or Transformers.js in `.devdiff/config.json`:
 

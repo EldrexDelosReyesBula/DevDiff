@@ -9,7 +9,7 @@ devdiff doctor
 
 ---
 
-## ❌ Error: "model 'llama3.1:8b' not found"
+## Error: "model 'llama3.1:8b' not found"
 
 ### What This Means
 
@@ -52,7 +52,7 @@ devdiff generate
 
 ---
 
-## ❌ Error: "ECONNREFUSED" or "fetch failed"
+## Error: "ECONNREFUSED" or "fetch failed"
 
 ### What This Means
 
@@ -108,7 +108,7 @@ sudo systemctl enable ollama
 
 ---
 
-## ❌ Error: "Ollama not found"
+## Error: "Ollama not found"
 
 ### What This Means
 
@@ -143,7 +143,7 @@ ollama pull llama3.2:3b
 
 ---
 
-## ❌ Error: "Out of memory" or crash during generation
+## Error: "Out of memory" or crash during generation
 
 ### What This Means
 
@@ -169,22 +169,22 @@ export default {
 
 ---
 
-## ✅ Verify Everything Works
+## Verify Everything Works
 
 ```bash
 # Complete health check
 devdiff doctor
 
 # Expected output:
-# ✅ Node.js v22.4.1
-# ✅ Git 2.45.0
-# ✅ Ollama installed: v0.3.0
-# ✅ Ollama running: http://localhost:11434
-# ✅ Models available: llama3.2:3b
-# ✅ Model responds: "Hello from Ollama!"
-# ✅ DevDiff config valid
-# ✅ Git repository detected
-# ✅ Staged changes: 3 files
+# Node.js v22.4.1
+# Git 2.45.0
+# Ollama installed: v0.3.0
+# Ollama running: http://localhost:11434
+# Models available: llama3.2:3b
+# Model responds: "Hello from Ollama!"
+# DevDiff config valid
+# Git repository detected
+# Staged changes: 3 files
 #
-# 🎉 All checks passed! Run: devdiff generate
+# All checks passed! Run: devdiff generate
 ```

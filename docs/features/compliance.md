@@ -49,18 +49,18 @@ devdiff compliance check --framework gdpr
 
 ## GDPR Compliance Check — July 1, 2026
 
-### ✅ Compliant
+### Compliant
 - No new personal data fields detected
 - Encryption at rest: unchanged (AES-256)
 - Audit logging: present
 
-### ⚠️ Review Required
+### Review Required
 - **Session duration extended to 7 days**
   → Article 5(1)(e): Data minimization principle
   → Recommendation: Update data retention policy documentation
   → Owner: Data Protection Officer
 
-### ❌ Violations
+### Violations
 None detected.
 
 ### Required Actions

@@ -1,0 +1,20 @@
+# Source
+src/**
+tests/**
+docs/**
+scripts/**
+**/*.ts
+**/*.test.ts
+**/*.map
+
+# Development
+node_modules/**
+.eslintrc*
+.prettierrc*
+tsconfig.json
+vitest.config.ts
+
+# CI/CD
+.github/**
+.gitlab-ci.yml
+.devdiff/**

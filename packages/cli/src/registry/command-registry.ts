@@ -1265,4 +1265,20 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
     category: "core",
     since: "1.5.0",
   },
+  {
+    name: "storage",
+    description: "Inspect package sizes and manage .devdiff storage footprint",
+    longDescription:
+      "Display sizes of all installed @eldrex packages and the workspace .devdiff directory. Supports storage cleanup for old cache and checkpoints.",
+    examples: ["devdiff storage", "devdiff storage clean"],
+    subcommands: [
+      {
+        name: "clean",
+        description: "Remove expired cache (>7 days) and prune older checkpoints",
+        category: "utility",
+      },
+    ],
+    category: "utility",
+    since: "1.7.0",
+  },
 ];

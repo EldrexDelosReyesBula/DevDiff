@@ -4,7 +4,7 @@ DevDiff integrates with IDE agent skills (`SKILL.md`) to provide persistent doma
 
 ---
 
-## 🎯 What is a DevDiff Skill?
+## What is a DevDiff Skill?
 
 A DevDiff skill is a folder containing a structured `SKILL.md` file (YAML frontmatter + markdown body) located in `.agents/skills/<skill-name>/SKILL.md` or global `~/.gemini/config/skills/`.
 
@@ -22,7 +22,7 @@ description: Enforces team-specific changelog formatting rules and breaking chan
 
 ---
 
-## 🚀 CLI Skill Commands
+## CLI Skill Commands
 
 ### 1. Initialize a New Skill in Workspace
 

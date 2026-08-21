@@ -4,7 +4,7 @@ This guide walks you through building, testing, and deploying a custom DevDiff p
 
 ---
 
-## 🛠️ Step 1: Initialize Your Plugin Project
+## Step 1: Initialize Your Plugin Project
 
 Create a new TypeScript project or module inside your repository or monorepo:
 
@@ -36,7 +36,7 @@ npm install -D typescript tsup
 
 ---
 
-## 💻 Step 2: Implement the Plugin Interface
+## Step 2: Implement the Plugin Interface
 
 Create `src/index.ts`:
 
@@ -76,7 +76,7 @@ export default MyCustomPlugin;
 
 ---
 
-## ⚙️ Step 3: Register Plugin in `.devdiff/config.json`
+## Step 3: Register Plugin in `.devdiff/config.json`
 
 Add your plugin entry to your project's `.devdiff/config.json`:
 
@@ -88,7 +88,7 @@ Add your plugin entry to your project's `.devdiff/config.json`:
 
 ---
 
-## 🧪 Step 4: Testing Your Plugin
+## Step 4: Testing Your Plugin
 
 Test your plugin using DevDiff CLI:
 

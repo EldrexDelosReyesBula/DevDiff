@@ -4,7 +4,7 @@ For enterprise teams, commercial software vendors, and healthcare/financial inst
 
 ---
 
-## 🎯 Code Isolation Architecture
+## Code Isolation Architecture
 
 ```mermaid
 flowchart TD
@@ -13,14 +13,11 @@ flowchart TD
     IgnoreFilter -->|Allowed Code| AST[AST Structural Indexing]
     AST --> Redact[RedactionEngineV2 Masking]
     Redact --> LocalEngine[DevDiff Local Engine]
-
-    style Excluded fill:#f99,stroke:#333,stroke-width:2px
-    style LocalEngine fill:#9f9,stroke:#333,stroke-width:2px
 ```
 
 ---
 
-## 🛡️ Key Protection Features
+## Key Protection Features
 
 ### 1. `.devdiffignore` Exclusion Rules
 

@@ -4,7 +4,7 @@ DevDiff provides structured codebase memory and intelligence to IDE AI agents (C
 
 ---
 
-## 🎯 Security Architecture & Principles
+## Security Architecture & Principles
 
 ```mermaid
 flowchart TD
@@ -14,14 +14,11 @@ flowchart TD
     C -->|Yes| E[Path Sanitization & Injection Guard]
     E -->|Read-Only AST Index| F[.devdiff/memory/codebase-index.json]
     F -->|Redacted & Sanitized Response| A
-
-    style D fill:#f9f,stroke:#333,stroke-width:2px
-    style F fill:#bbf,stroke:#333,stroke-width:2px
 ```
 
 ---
 
-## 🛡️ Core Safety Guarantees
+## Core Safety Guarantees
 
 ### 1. Read-Only Knowledge Provider Guarantee
 
@@ -41,7 +38,7 @@ flowchart TD
 
 ---
 
-## 📋 Recommended Agent System Instructions
+## Recommended Agent System Instructions
 
 When configuring custom IDE agents or MCP client rules, include the following baseline system instruction block in your workspace `.cursorrules`, `.windsurfrules`, or `.clauderules`:
 
@@ -56,7 +53,7 @@ When configuring custom IDE agents or MCP client rules, include the following ba
 
 ---
 
-## 🔍 Verification & Audit Logging
+## Verification & Audit Logging
 
 Every agent query is logged locally inside `.devdiff/logs/agent-activity.log`:
 

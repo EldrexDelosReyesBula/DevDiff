@@ -46,19 +46,19 @@ const PACKAGE_DISCLOSURES: Record<
       "Make network calls",
     ],
   },
-  "@eldrex/dashboard": {
-    name: "@eldrex/dashboard",
+  "create-devdiff-app": {
+    name: "create-devdiff-app",
     description:
-      "Visual, offline-first dashboard for DevDiff changelog management",
+      "Scaffold a DevDiff-powered changelog dashboard or CI integration template",
     socketScore: 76,
     accesses: {
-      fileSystem: "No",
+      fileSystem: "Writes scaffolding template files to target directory",
       shell: "No",
-      network: "No (Localhost only, connects to local gateway)",
+      network: "No",
     },
     neverDoes: [
       "Send telemetry or analytics",
-      "Read files outside local browser storage",
+      "Read files outside targeted directory",
       "Make external API calls",
     ],
   },

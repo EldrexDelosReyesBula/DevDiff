@@ -4,7 +4,7 @@ DevDiff is an open-source project maintained by **Eldrex Delos Reyes Bula** alon
 
 ---
 
-## 🎯 Governance Principles
+## Governance Principles
 
 1. **Privacy & Security First**: Core security guardrails (`NetworkGuard`, `RedactionEngineV2`, `InjectionGuardV2`) cannot be compromised or disabled by default.
 2. **Local-First Default**: Local execution (Ollama, WebGPU, ONNX) is always prioritized over cloud provider requirements.
@@ -12,7 +12,7 @@ DevDiff is an open-source project maintained by **Eldrex Delos Reyes Bula** alon
 
 ---
 
-## 👥 Roles & Decision Process
+## Roles & Decision Process
 
 - **Maintainer**: Eldrex Delos Reyes Bula (`@EldrexDelosReyesBula`) — Final authority on architecture, breaking changes, and releases.
 - **Contributors**: Anyone who submits pull requests, files issues, or improves documentation.

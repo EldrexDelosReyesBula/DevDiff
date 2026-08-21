@@ -4,7 +4,7 @@ DevDiff (v1.6.0) includes a local **Audit Logging Engine** that maintains transp
 
 ---
 
-## 🎯 Audit Architecture & Local Storage
+## Audit Architecture & Local Storage
 
 ```mermaid
 flowchart TD
@@ -14,14 +14,11 @@ flowchart TD
     Redact --> FileLog[.devdiff/audit/log-YYYY-MM-DD.json]
 
     FileLog --> CLI[devdiff audit CLI Viewer]
-
-    style AuditEngine fill:#bbf,stroke:#333,stroke-width:2px
-    style FileLog fill:#9f9,stroke:#333,stroke-width:2px
 ```
 
 ---
 
-## 📊 Audit Log Structure & Fields
+## Audit Log Structure & Fields
 
 Every audit entry logged locally to `.devdiff/audit/` contains non-sensitive metadata:
 
@@ -40,7 +37,7 @@ Every audit entry logged locally to `.devdiff/audit/` contains non-sensitive met
 
 ---
 
-## 🚀 CLI Audit Commands
+## CLI Audit Commands
 
 ### 1. View AI Call Audit Log
 

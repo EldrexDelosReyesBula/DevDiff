@@ -4,7 +4,7 @@ The `@eldrex/plugin-sdk` package provides TypeScript interfaces, lifecycle hook 
 
 ---
 
-## 📦 Import Syntax
+## Import Syntax
 
 ```typescript
 import {
@@ -20,7 +20,7 @@ import {
 
 ---
 
-## 🧩 Interface Specifications
+## Interface Specifications
 
 ### `DevDiffPlugin`
 

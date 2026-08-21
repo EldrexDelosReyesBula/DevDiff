@@ -4,7 +4,7 @@ DevDiff is designed as a **local-first developer security tool**. Because develo
 
 ---
 
-## 🔍 Threat Profile & Mitigation Matrix
+## Threat Profile & Mitigation Matrix
 
 ```mermaid
 quadrantChart
@@ -24,7 +24,7 @@ quadrantChart
 
 ---
 
-## 🛡️ Attack Surfaces & Defensive Mitigations
+## Attack Surfaces & Defensive Mitigations
 
 ### 1. File System Access Surface
 
@@ -58,7 +58,7 @@ quadrantChart
 
 ---
 
-## 📊 Security Vulnerability Classification
+## Security Vulnerability Classification
 
 | Threat Vector            | CVSS v3 Base Score | Severity Rating | Mitigation Mechanism                               |
 | ------------------------ | ------------------ | --------------- | -------------------------------------------------- |

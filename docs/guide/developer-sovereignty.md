@@ -4,7 +4,7 @@ DevDiff **v1.5.0** enforces strict **Developer Sovereignty**: your code and API 
 
 ---
 
-## 🔐 The 4 Pillars of Developer Sovereignty
+## The 4 Pillars of Developer Sovereignty
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -29,7 +29,7 @@ DevDiff **v1.5.0** enforces strict **Developer Sovereignty**: your code and API 
 
 ---
 
-## 🛡️ Pillar 1: No Auto Cloud AI (`CloudGuard`)
+## Pillar 1: No Auto Cloud AI (`CloudGuard`)
 
 ### The Problem
 
@@ -60,7 +60,7 @@ devdiff auth remove openai
 
 ---
 
-## 📂 Pillar 2: Flexible Ignore (`FlexibleIgnore`)
+## Pillar 2: Flexible Ignore (`FlexibleIgnore`)
 
 ### Engine Exclusions vs. `.devdiffignore`
 
@@ -75,7 +75,7 @@ Rather than polluting or overwriting your project's `.devdiffignore` file, `Flex
 
 ---
 
-## 📦 Pillar 3: Git Commit Safety (`CommitGuard`)
+## Pillar 3: Git Commit Safety (`CommitGuard`)
 
 DevDiff **never** automatically runs `git add` or `git commit`.
 
@@ -94,7 +94,7 @@ DevDiff **never** automatically runs `git add` or `git commit`.
 
 ---
 
-## ⚡ Summary Checklist
+## Summary Checklist
 
 | Principle                    | DevDiff Behavior                                  |
 | :--------------------------- | :------------------------------------------------ |

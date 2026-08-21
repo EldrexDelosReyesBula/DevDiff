@@ -4,7 +4,7 @@ This guide covers common errors, path resolution issues, and performance optimiz
 
 ---
 
-## 🛠️ PowerShell Execution Policy Errors
+## PowerShell Execution Policy Errors
 
 **Symptom:** `devdiff : File C:\Users\...\AppData\Roaming\npm\devdiff.ps1 cannot be loaded because running scripts is disabled on this system.`
 
@@ -16,7 +16,7 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 ---
 
-## 🔀 Line Ending Warnings (CRLF vs. LF)
+## Line Ending Warnings (CRLF vs. LF)
 
 **Symptom:** `warning: LF will be replaced by CRLF in ...`
 
@@ -28,7 +28,7 @@ git config --global core.autocrlf true
 
 ---
 
-## 🦙 Ollama Connection & Port 11434 on Windows
+## Ollama Connection & Port 11434 on Windows
 
 ### 1. Verification Checklist
 
@@ -58,7 +58,7 @@ New-NetFirewallRule -DisplayName "Ollama Local Service" -Direction Inbound -Loca
 
 ---
 
-## 🐧 WSL2 (Windows Subsystem for Linux) Cross-FileSystem Paths
+## WSL2 (Windows Subsystem for Linux) Cross-FileSystem Paths
 
 **Symptom:** Slow performance when accessing Windows file mounts (`/mnt/c/Users/...`) inside WSL2.
 
@@ -69,7 +69,7 @@ New-NetFirewallRule -DisplayName "Ollama Local Service" -Direction Inbound -Loca
 
 ---
 
-## 🖥️ VS Code Extension Output Channel & Host Diagnostics
+## VS Code Extension Output Channel & Host Diagnostics
 
 If the VS Code extension does not detect staged changes on Windows:
 

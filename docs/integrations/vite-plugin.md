@@ -4,7 +4,7 @@ The DevDiff Vite Plugin ([`@eldrex/vite-plugin`](https://github.com/EldrexDelosR
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Install `@eldrex/vite-plugin`
 
@@ -30,7 +30,7 @@ export default defineConfig({
 
 ---
 
-## ⚙️ Options & Configuration
+## Options & Configuration
 
 | Option             | Type       | Default               | Description                                                                 |
 | ------------------ | ---------- | --------------------- | --------------------------------------------------------------------------- |

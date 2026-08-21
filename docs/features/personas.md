@@ -24,7 +24,7 @@ devdiff generate -p ceo
 
 ## The 8 Personas
 
-### 🧑‍💻 `developer` (Default)
+### ‍💻 `developer` (Default)
 
 **Audience:** Engineers, technical contributors
 
@@ -35,17 +35,17 @@ devdiff generate -p ceo
 ```
 ## Changes — July 1, 2026
 
-### ✨ Added
+### Added
 - `src/auth/jwt.ts` — Added `refreshToken()` method with 7-day expiry
 - `src/middleware/auth.ts` — New rate limiter: 100 req/min per IP
 
-### 🔧 Changed
+### Changed
 - `package.json` — Updated `jsonwebtoken` from 8.5.1 → 9.0.2 (security patch)
 ```
 
 ---
 
-### 💼 `ceo`
+### `ceo`
 
 **Audience:** Executives, non-technical stakeholders
 
@@ -70,7 +70,7 @@ Low. Security library updated to latest version.
 
 ---
 
-### 📚 `educator`
+### `educator`
 
 **Audience:** Junior developers, bootcamp students, learners
 
@@ -81,7 +81,7 @@ Low. Security library updated to latest version.
 ```
 ## What We Changed Today — July 1, 2026
 
-### 🎓 Refresh Tokens (New Feature)
+### Refresh Tokens (New Feature)
 
 We added "refresh tokens" to our authentication system.
 
@@ -96,7 +96,7 @@ Think of it like a hotel key card (access token) + reservation confirmation (ref
 
 ---
 
-### 🤖 `robot`
+### `robot`
 
 **Audience:** Automated systems, CI pipelines, other tools
 
@@ -125,7 +125,7 @@ Think of it like a hotel key card (access token) + reservation confirmation (ref
 
 ---
 
-### 📊 `data-analyst`
+### `data-analyst`
 
 **Audience:** Product analysts, data engineers, metrics-focused teams
 
@@ -152,7 +152,7 @@ Think of it like a hotel key card (access token) + reservation confirmation (ref
 
 ---
 
-### 📰 `journalist`
+### `journalist`
 
 **Audience:** Blog posts, release announcements, product newsletters
 
@@ -177,7 +177,7 @@ that keeps projects healthy.
 
 ---
 
-### 📋 `pm`
+### `pm`
 
 **Audience:** Product managers, project leads, sprint planners
 
@@ -188,7 +188,7 @@ that keeps projects healthy.
 ```
 ## Sprint Update — July 1, 2026
 
-### ✅ Delivered
+### Delivered
 - **AUTH-247** — Extended session duration to 7 days (user story: "stay logged in")
 - **SEC-14** — Dependency security update (JWT library)
 
@@ -204,7 +204,7 @@ that keeps projects healthy.
 
 ---
 
-### ⚖️ `compliance`
+### `compliance`
 
 **Audience:** Legal, audit, security, regulatory teams
 

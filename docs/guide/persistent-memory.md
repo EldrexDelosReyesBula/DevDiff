@@ -4,7 +4,7 @@ This guide explains how to initialize, manage, and query DevDiff's **Persistent 
 
 ---
 
-## ⚡ Quick Start
+## Quick Start
 
 ### Step 1: Initialize Memory Index
 
@@ -63,7 +63,7 @@ devdiff ask "What changed since yesterday?"
 
 ---
 
-## 💬 Continuous Multi-Turn Chat
+## Continuous Multi-Turn Chat
 
 Persistent Memory tracks previous questions to resolve references automatically.
 
@@ -77,7 +77,7 @@ devdiff ask "What does it depend on?"
 
 ---
 
-## 🧹 Clearing & Resetting Memory
+## Clearing & Resetting Memory
 
 - To clear **conversation context only** (keeping codebase indices):
 

@@ -4,7 +4,7 @@ DevDiff enforces deep, zero-trust security controls on third-party plugins befor
 
 ---
 
-## 🎯 5 Core Plugin Security Risks & Mitigations
+## 5 Core Plugin Security Risks & Mitigations
 
 | Risk Vector                    | Description                                                                           | DevDiff v1.7.0 Protection Mechanism                                                                                                                            |
 | :----------------------------- | :------------------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -16,7 +16,7 @@ DevDiff enforces deep, zero-trust security controls on third-party plugins befor
 
 ---
 
-## 🛡️ Core Security Architecture
+## Core Security Architecture
 
 ```mermaid
 flowchart TD
@@ -45,7 +45,7 @@ flowchart TD
 
 ---
 
-## 🔍 Deep Dependency Tree Scanning (`DependencyScanner`)
+## Deep Dependency Tree Scanning (`DependencyScanner`)
 
 `DependencyScanner.scan(pluginPath: string)` inspects the entire tree of a plugin before installation:
 
@@ -67,7 +67,7 @@ console.log(`Action recommendation: ${scanResult.recommendation.action}`);
 
 ---
 
-## 🔎 Code Obfuscation Detection (`ObfuscationDetector`)
+## Code Obfuscation Detection (`ObfuscationDetector`)
 
 `ObfuscationDetector.analyze(code: string)` scores source code using 8 distinct heuristic indicators:
 
@@ -93,13 +93,13 @@ console.log(`Status: ${analysis.status}`); // clean | suspicious | obfuscated | 
 
 ---
 
-## 🔐 Requested vs Undeclared Permissions (`PermissionReviewer`)
+## Requested vs Undeclared Permissions (`PermissionReviewer`)
 
 `PermissionReviewer.review(declaredPermissions, sourceCode)` compares declared manifest capabilities against actual code usage. If a plugin attempts network calls or shell execution without declaring them in `package.json`, an undeclared capability finding is generated.
 
 ---
 
-## 🎨 Interactive VS Code Consent Modal (`PluginConsentModal`)
+## Interactive VS Code Consent Modal (`PluginConsentModal`)
 
 Before any plugin is activated in VS Code, `PluginConsentModal` opens an interactive Webview displaying:
 

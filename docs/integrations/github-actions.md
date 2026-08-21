@@ -4,7 +4,7 @@ Automate DevDiff changelog generation and security compliance checks inside your
 
 ---
 
-## 🚀 Recommended Workflow File (`.github/workflows/devdiff.yml`)
+## Recommended Workflow File (`.github/workflows/devdiff.yml`)
 
 ```yaml
 name: DevDiff Automated Changelog

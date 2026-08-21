@@ -4,7 +4,7 @@ DevDiff provides enterprise security teams with granular controls to enforce pri
 
 ---
 
-## 🔒 Enforcement Controls
+## Enforcement Controls
 
 ### 1. Apply Preset Regulatory Compliance Rules
 
@@ -20,7 +20,7 @@ devdiff compliance apply SOC2
 
 ---
 
-## ⚙️ Workspace File Exclusion (`.devdiffignore`)
+## Workspace File Exclusion (`.devdiffignore`)
 
 DevDiff respects standard `.gitignore` rules and workspace `.devdiffignore` files to ensure proprietary keys, certificates, and private directories are never processed:
 
@@ -36,7 +36,7 @@ config/secrets.json
 
 ---
 
-## 🛡️ Enforce Network Lockdown via Config
+## Enforce Network Lockdown via Config
 
 In `.devdiff/config.json`:
 

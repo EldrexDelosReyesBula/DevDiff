@@ -4,7 +4,7 @@ DevDiff integrates with Google's Gemini models (`gemini-1.5-flash`, `gemini-1.5-
 
 ---
 
-## ⚙️ Configuration Setup
+## Configuration Setup
 
 ### `.devdiff.config.js` Setup
 

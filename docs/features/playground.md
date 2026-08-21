@@ -4,7 +4,7 @@ DevDiff operates **100% natively inside your IDE**. All playground workflows —
 
 ---
 
-## 🎯 Native Interactive Workflows
+## Native Interactive Workflows
 
 ```mermaid
 flowchart LR
@@ -15,14 +15,11 @@ flowchart LR
     Terminal[Integrated Terminal @eldrex/cli] --> CLICommands[devdiff generate / devdiff memory]
 
     MCP[MCP Server @eldrex/mcp] --> Cursor[Cursor / Windsurf AI Assistant]
-
-    style VSCode fill:#bbf,stroke:#333,stroke-width:2px
-    style Terminal fill:#9f9,stroke:#333,stroke-width:2px
 ```
 
 ---
 
-## 🚀 Key IDE Native Capabilities
+## Key IDE Native Capabilities
 
 1. **Interactive Persona Preview**: Switch between Developer, Product Manager, Security Auditor, Executive, and Educator personas in real time inside the VS Code sidebar.
 2. **Inline CodeLens Triggers**: View and trigger `⚡ DevDiff: Explain Changes` directly above modified functions in your code editor.

@@ -1,6 +1,6 @@
 # DevDiff Troubleshooting Portal
 
-## 🩺 Quick Diagnostic Command
+## Quick Diagnostic Command
 
 ```bash
 devdiff doctor
@@ -10,7 +10,7 @@ Running `devdiff doctor` checks local Git status, active AI providers, network c
 
 ---
 
-## 🛠️ Common Errors by Symptom
+## Common Errors by Symptom
 
 ### 1. "No changes detected"
 
@@ -75,7 +75,7 @@ devdiff memory status
 
 ---
 
-## 📖 Specialized Troubleshooting Guides
+## Specialized Troubleshooting Guides
 
 - 🪟 [Windows-Specific Issues](./windows-issues) — PowerShell execution policy, line endings, firewall ports, WSL2.
 - 🍏 [macOS Issues](./macos-issues) — Keychain permissions, Homebrew Ollama service, Apple Silicon WebGPU acceleration.

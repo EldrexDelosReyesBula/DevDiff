@@ -1,6 +1,6 @@
 {
   "name": "@eldrex/plugin-sdk",
-  "version": "1.6.1",
+  "version": "1.8.0",
   "description": "SDK for building DevDiff plugins",
   "type": "module",
   "main": "./dist/index.js",
@@ -34,7 +34,7 @@
     "plugin",
     "sdk"
   ],
-  "author": "Eldrex Delos Reyes Bula \u003celdrexdelosreyesbula@gmail.com\u003e",
+  "author": "Eldrex Delos Reyes Bula <eldrexdelosreyesbula@gmail.com>",
   "license": "MIT",
   "devdiff": {
     "packageType": "plugin-sdk",

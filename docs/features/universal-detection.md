@@ -4,7 +4,7 @@ DevDiff **v1.6.0** includes **Universal Project Detection** (`UniversalProjectDe
 
 ---
 
-## 🎯 Multi-Tier Project Topology Matrix
+## Multi-Tier Project Topology Matrix
 
 | Tier       | Project Topology     | Example Tech Stack                             | DevDiff Action & AST Capabilities                                        |
 | :--------- | :------------------- | :--------------------------------------------- | :----------------------------------------------------------------------- |
@@ -15,7 +15,7 @@ DevDiff **v1.6.0** includes **Universal Project Detection** (`UniversalProjectDe
 
 ---
 
-## ⚡ Key Architectural Guarantees
+## Key Architectural Guarantees
 
 - ✅ **No `package.json` required**: Operates out-of-the-box on single-file scripts or vanilla HTML/CSS/JS projects.
 - ✅ **60+ Languages Supported**: Pre-mapped file extension registry covering all popular programming languages.

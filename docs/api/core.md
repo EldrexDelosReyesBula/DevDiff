@@ -4,7 +4,7 @@ The `@eldrex/core` package contains DevDiff's core engine, including AST parsing
 
 ---
 
-## 📦 Import Syntax
+## Import Syntax
 
 ```typescript
 import {
@@ -28,7 +28,7 @@ import {
 
 ---
 
-## 🛠️ Main Specification Highlights (v1.7.0)
+## Main Specification Highlights (v1.7.0)
 
 ### `UnifiedContext`
 

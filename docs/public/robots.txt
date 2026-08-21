@@ -1,0 +1,21 @@
+# Google, Bing, and Search Engine Crawlers
+User-agent: *
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+# Canonical Sitemap
+Sitemap: https://devdiff.vercel.app/sitemap.xml

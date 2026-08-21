@@ -4,7 +4,7 @@ For enterprises managing intellectual property within proprietary codebases, Dev
 
 ---
 
-## 🔒 Enterprise Deployment Strategies
+## Enterprise Deployment Strategies
 
 ### 1. Self-Hosted Local AI (Local-First)
 

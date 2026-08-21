@@ -4,7 +4,7 @@ DevDiff supports DeepSeek models (`deepseek-coder`, `deepseek-chat`) via both lo
 
 ---
 
-## 🎯 DeepSeek Execution Modes
+## DeepSeek Execution Modes
 
 ### Mode 1: Local Execution via Ollama (Offline & Free)
 

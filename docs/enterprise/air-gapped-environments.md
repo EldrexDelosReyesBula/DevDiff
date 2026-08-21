@@ -4,7 +4,7 @@ DevDiff is designed to function in highly secure, air-gapped environments that h
 
 ---
 
-## 🛠️ Setting up DevDiff Offline
+## Setting up DevDiff Offline
 
 ### 1. Local VSIX Installation
 

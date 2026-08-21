@@ -1,6 +1,6 @@
 # Network Errors
 
-## ❌ Error: "ECONNREFUSED" / "fetch failed" / "Connection refused"
+## Error: "ECONNREFUSED" / "fetch failed" / "Connection refused"
 
 ### What This Means
 
@@ -30,7 +30,7 @@ curl http://localhost:11434/api/tags
 
 ---
 
-## ❌ Error: "ENOTFOUND" / "DNS resolution failed"
+## Error: "ENOTFOUND" / "DNS resolution failed"
 
 ### What This Means
 
@@ -53,7 +53,7 @@ curl -H "Host: api.openai.com" https://104.18.6.192/v1/models
 
 ---
 
-## ❌ Error: "SSL certificate failed" / "CERT_UNTRUSTED"
+## Error: "SSL certificate failed" / "CERT_UNTRUSTED"
 
 ### What This Means
 
@@ -77,7 +77,7 @@ export NODE_EXTRA_CA_CERTS=/path/to/corporate-ca.crt
 
 ---
 
-## ❌ Error: "Request timeout" / "ETIMEDOUT"
+## Error: "Request timeout" / "ETIMEDOUT"
 
 ### What This Means
 
@@ -109,7 +109,7 @@ ollama pull llama3.2:1b   # Fastest, smallest
 
 ---
 
-## ❌ Error: "429 Too Many Requests"
+## Error: "429 Too Many Requests"
 
 ### What This Means
 
@@ -133,7 +133,7 @@ export default {
 
 ---
 
-## ❌ Error: "401 Unauthorized" / "Invalid API key"
+## Error: "401 Unauthorized" / "Invalid API key"
 
 ### What This Means
 

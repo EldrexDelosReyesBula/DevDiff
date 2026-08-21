@@ -9,8 +9,8 @@ export default defineConfig({
     };
   },
   clean: true,
-  sourcemap: true,
-  minify: false,
+  sourcemap: false,
+  minify: true,
   banner: {
     js: "#!/usr/bin/env node",
   },

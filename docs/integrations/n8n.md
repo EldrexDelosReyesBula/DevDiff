@@ -4,21 +4,18 @@ DevDiff integrates with **n8n** automation workflows using HTTP Request nodes co
 
 ---
 
-## 🎯 Architecture & Execution Flow
+## Architecture & Execution Flow
 
 ```mermaid
 flowchart LR
     n8n[n8n Workflow Engine] -->|HTTP POST /api/v1/analyze| Gateway[DevDiff Local Gateway / Port 3737]
     Gateway -->|Sub-second Changelog Output| n8n
     n8n -->|Dispatch Notification| Channels[Slack / Email / Discord / Teams]
-
-    style Gateway fill:#bbf,stroke:#333,stroke-width:2px
-    style Channels fill:#9f9,stroke:#333,stroke-width:2px
 ```
 
 ---
 
-## 🚀 Setting Up n8n HTTP Request Nodes
+## Setting Up n8n HTTP Request Nodes
 
 1. Add an **HTTP Request** Node in your n8n workflow Canvas.
 2. Configure Node parameters:

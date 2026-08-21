@@ -4,7 +4,7 @@ For high-reliability enterprise continuous deployment pipelines, DevDiff provide
 
 ---
 
-## 🎯 Features
+## Features
 
 - **Durable Execution**: Long-running monorepo analysis tasks resume automatically after network interruptions.
 - **Retry Safeguards**: Automatic exponential backoff retries on AI rate limit errors.

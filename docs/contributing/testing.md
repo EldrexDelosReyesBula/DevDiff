@@ -4,7 +4,7 @@ DevDiff enforces automated unit, integration, and stress testing across all mono
 
 ---
 
-## 🧪 Running Automated Tests
+## Running Automated Tests
 
 ```bash
 # Run unit tests across all packages via Vitest
@@ -19,7 +19,7 @@ pnpm --filter devdiff-stress-testing test
 
 ---
 
-## 📋 Testing Standards
+## Testing Standards
 
 - **Unit Tests**: Every new feature in `@eldrex/core` must include Vitest unit tests in `packages/core/test/`.
 - **Mocking External APIs**: Cloud AI providers must be mocked during unit tests (`msw` or `vitest.vi.fn()`). No real API calls are permitted during standard unit test execution.

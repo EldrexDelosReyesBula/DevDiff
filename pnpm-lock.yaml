@@ -270,22 +270,6 @@ importers:
         specifier: ^5.5.0
         version: 5.9.3
 
-  packages/plugin-study-buddy:
-    dependencies:
-      '@eldrex/plugin-sdk':
-        specifier: workspace:*
-        version: link:../plugin-sdk
-    devDependencies:
-      tsup:
-        specifier: ^8.5.1
-        version: 8.5.1(postcss@8.5.15)(typescript@5.9.3)
-      typescript:
-        specifier: ^5.9.3
-        version: 5.9.3
-      vitest:
-        specifier: ^3.2.6
-        version: 3.2.6(@types/node@22.20.0)
-
   packages/vite-plugin:
     dependencies:
       '@eldrex/core':
@@ -316,22 +300,6 @@ importers:
       typescript:
         specifier: ^5.5.0
         version: 5.9.3
-
-  template-plugin:
-    dependencies:
-      '@eldrex/plugin-sdk':
-        specifier: workspace:*
-        version: link:../packages/plugin-sdk
-    devDependencies:
-      tsup:
-        specifier: ^8.0.0
-        version: 8.5.1(postcss@8.5.15)(typescript@5.9.3)
-      typescript:
-        specifier: ^5.5.0
-        version: 5.9.3
-      vitest:
-        specifier: ^3.2.6
-        version: 3.2.6(@types/node@22.20.0)
 
 packages:
 

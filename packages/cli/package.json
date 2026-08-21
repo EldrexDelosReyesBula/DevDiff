@@ -1,6 +1,6 @@
 {
   "name": "@eldrex/cli",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org"
@@ -51,6 +51,6 @@
     "developer-tools",
     "cli"
   ],
-  "author": "Eldrex Delos Reyes Bula \u003celdrexdelosreyesbula@gmail.com\u003e",
+  "author": "Eldrex Delos Reyes Bula <eldrexdelosreyesbula@gmail.com>",
   "license": "MIT"
 }

@@ -10,6 +10,10 @@ import { diffParser } from "./diff/parser";
 import { AIRouter } from "./ai/router";
 import { PluginManager } from "./plugins/manager";
 import { PersonaRegistry } from "@eldrex/personas";
+import { AIDetector, AIDetectionResult } from "./onboarding/ai-detector";
+import { ConversationalQA } from "./qa/conversational-qa";
+import { ProgressiveExplainer, ExplanationLevel } from "./explain/progressive-explainer";
+import { UniversalProjectDetector } from "./detection/universal-detector";
 
 function getSeverityScore(sev: string): number {
   switch (sev.toLowerCase()) {
@@ -26,11 +30,114 @@ function getSeverityScore(sev: string): number {
   }
 }
 
+/**
+ * DevDiffEngine — Main programmatic orchestrator for diff analysis,
+ * changelog generation, security audits, and codebase intelligence.
+ */
 export class DevDiffEngine {
   private workspacePath: string;
+  private silent: boolean;
 
-  constructor(options: { workspacePath: string }) {
-    this.workspacePath = options.workspacePath || process.cwd();
+  constructor(options?: { workspacePath?: string; silent?: boolean }) {
+    this.workspacePath = options?.workspacePath || process.cwd();
+    this.silent = options?.silent || false;
+  }
+
+  /**
+   * Initializes the engine and loads local workspace configuration.
+   */
+  async initialize(): Promise<void> {
+    try {
+      await loadConfig(this.workspacePath);
+    } catch {}
+  }
+
+  /**
+   * Retrieves staged git diff metadata for the current workspace.
+   */
+  async getStagedDiff(): Promise<{ files: Array<{ path: string }> }> {
+    const files = await this.getStagedFiles();
+    return { files };
+  }
+
+  /**
+   * Proactively detects available local and cloud AI providers.
+   */
+  async detectAIProviders(): Promise<AIDetectionResult> {
+    return AIDetector.detectAll();
+  }
+
+  /**
+   * Ask natural-language codebase exploration questions.
+   */
+  async ask(options: { question: string }): Promise<string> {
+    try {
+      const qa = new ConversationalQA(this.workspacePath);
+      const res = await qa.ask(options.question);
+      return res.answer;
+    } catch (err: any) {
+      return `Q&A failed: ${err.message}`;
+    }
+  }
+
+  /**
+   * Explains code snippets using progressive depth levels (beginner, student, developer, senior, architect).
+   */
+  async explainCode(options: {
+    code: string;
+    filePath?: string;
+    level?: string;
+  }): Promise<string> {
+    try {
+      if (options.level && options.level !== "auto") {
+        const validLevels: ExplanationLevel[] = ["beginner", "student", "developer", "senior", "architect"];
+        const targetLevel: ExplanationLevel = validLevels.includes(options.level as ExplanationLevel)
+          ? (options.level as ExplanationLevel)
+          : "developer";
+        const explanation = await ProgressiveExplainer.explain({
+          code: options.code,
+          filePath: options.filePath || "snippet",
+          level: targetLevel,
+          projectContext: {},
+        });
+        return `# 🎓 ${explanation.level.toUpperCase()} Explanation: ${path.basename(options.filePath || "Code Snippet")}\n\n${explanation.summary}\n\n` +
+          explanation.sections.map(s => `### ${s.title}\n${s.content}`).join("\n\n") +
+          (explanation.keyTakeaways.length > 0 ? `\n\n### 💡 Key Takeaways\n${explanation.keyTakeaways.map(k => `• ${k}`).join("\n")}` : "");
+      }
+      const config = await loadConfig(this.workspacePath);
+      const router = new AIRouter(config);
+      const prompt = `Please explain the following code snippet concisely and clearly:\n\nFile: ${options.filePath || "snippet"}\n\`\`\`\n${options.code}\n\`\`\``;
+      const res = await router.getExplanation(prompt, { depth: "standard" });
+      return res.summary;
+    } catch (err: any) {
+      return `Failed to explain code: ${err.message}`;
+    }
+  }
+
+  /**
+   * Generates a structural onboarding overview and newcomer tour of the repository.
+   */
+  async generateOnboarding(): Promise<string> {
+    try {
+      const detection = UniversalProjectDetector.detect(this.workspacePath);
+      const entryPoints =
+        detection.entryPoints.length > 0
+          ? detection.entryPoints.join(", ")
+          : "Main directory";
+      return (
+        `# 🚀 Codebase Onboarding Tour: ${path.basename(this.workspacePath)}\n\n` +
+        `• **Project Type:** ${detection.type.toUpperCase()}\n` +
+        `• **Primary Language:** ${detection.primaryLanguage}\n` +
+        `• **Total Files Scanned:** ${detection.totalFiles}\n` +
+        `• **Suggested Entry Points:** ${entryPoints}\n\n` +
+        `## 🎯 Next Steps\n` +
+        `1. Make a change in any file\n` +
+        `2. Stage changes with \`git add\`\n` +
+        `3. Press **Ctrl+Shift+G** to generate an automated changelog!\n`
+      );
+    } catch (err: any) {
+      return `Failed to generate onboarding tour: ${err.message}`;
+    }
   }
 
   async getStagedFiles(): Promise<Array<{ path: string }>> {
@@ -172,7 +279,8 @@ export class DevDiffEngine {
     }
   }
 
-  async generateChangelog(options: {
+  async generateChangelog(options?: {
+    persona?: string;
     format?: "markdown" | "json" | "html";
   }): Promise<string> {
     try {
@@ -219,7 +327,8 @@ export class DevDiffEngine {
         return generateChangelog({
           diffText,
           repoPath: this.workspacePath,
-          format: options.format || "markdown",
+          format: options?.format || "markdown",
+          persona: options?.persona,
         });
       });
 
@@ -229,12 +338,12 @@ export class DevDiffEngine {
     }
   }
 
-  async securityScan(options: {
-    since: string;
+  async securityScan(options?: {
+    since?: string;
     threshold?: string;
   }): Promise<any> {
     try {
-      const diffText = await this.getDiffForSince(options.since);
+      const diffText = await this.getDiffForSince(options?.since || "staged");
       if (!diffText.trim()) {
         return { vulnerabilities: [] };
       }
@@ -269,7 +378,7 @@ Only report findings that are actually present in the diff.`;
       );
 
       const vulnerabilities: any[] = [];
-      const thresholdScore = getSeverityScore(options.threshold || "0.8");
+      const thresholdScore = getSeverityScore(options?.threshold || "0.8");
 
       for (const f of explanation.files || []) {
         const regex =
@@ -328,6 +437,7 @@ Only report findings that are actually present in the diff.`;
 
   async explainFile(options: {
     filePath: string;
+    level?: string;
     commitSha?: string;
   }): Promise<string> {
     try {
@@ -467,12 +577,12 @@ Only report findings that are actually present in the diff.`;
     }
   }
 
-  async generateDiagram(options: {
-    type: string;
-    since: string;
+  async generateDiagram(options?: {
+    type?: string;
+    since?: string;
   }): Promise<string> {
     try {
-      const diffText = await this.getDiffForSince(options.since);
+      const diffText = await this.getDiffForSince(options?.since || "staged");
       if (!diffText.trim()) {
         return "No changes detected to visualize.";
       }
@@ -480,12 +590,13 @@ Only report findings that are actually present in the diff.`;
       const config = await loadConfig(this.workspacePath);
       const router = new AIRouter(config);
 
+      const diagramType = options?.type || "architecture";
       const systemPrompt = `You are an AI that generates Mermaid.js diagrams from git diffs.
-Generate a diagram of type "${options.type}" representing the changes, files, or flow.
+Generate a diagram of type "${diagramType}" representing the changes, files, or flow.
 Do not include any commentary. Return ONLY the raw Mermaid.js code enclosed in \`\`\`mermaid ... \`\`\` code block.`;
 
       const explanation = await router.getExplanation(
-        `Generate a ${options.type} Mermaid.js diagram for this diff:\n${diffText.substring(0, 12000)}`,
+        `Generate a ${diagramType} Mermaid.js diagram for this diff:\n${diffText.substring(0, 12000)}`,
         { depth: "standard", projectContext: systemPrompt },
       );
 

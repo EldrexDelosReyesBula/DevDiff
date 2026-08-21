@@ -4,7 +4,7 @@ The **Universal AI Prompt Export & Import Engine** (introduced in DevDiff v1.7.0
 
 ---
 
-## 🎯 Vision & Concept
+## Vision & Concept
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -23,7 +23,7 @@ The **Universal AI Prompt Export & Import Engine** (introduced in DevDiff v1.7.0
 
 ---
 
-## 🚀 How It Works
+## How It Works
 
 ### 1. Prompt Assembly Engine (`PromptGenerator`)
 
@@ -43,11 +43,11 @@ When pasting back the AI response:
 - **Preamble & Postscript Cleaning**: Automatically strips conversational headers (_"Sure, here is your changelog..."_) and footers (_"Let me know if you need anything else..."_).
 - **Code Block Extraction**: Extracts raw content from markdown or JSON code fences.
 - **Completeness & Quality Gates**: Validates that output is non-truncated and passes `OutputQualityGate` rules.
-- **OS Clipboard Integration**: Seamlessly reads from clipboard (`pbpaste`, `powershell Get-Clipboard`, `xclip`).
+- **OS Clipboard Integration**: Reads directly from OS clipboard (`pbpaste`, `powershell Get-Clipboard`, `xclip`).
 
 ---
 
-## 💻 CLI Commands
+## CLI Commands
 
 ```bash
 # ── Export Prompt ──

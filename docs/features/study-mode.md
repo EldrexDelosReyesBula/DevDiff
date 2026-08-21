@@ -1,10 +1,18 @@
 # DevDiff Study Buddy Mode
 
+> [!TIP]
+> **Standalone Plugin & Dedicated Documentation**:  
+> Study Buddy has graduated into its own standalone repository!  
+> 🔗 **GitHub Repository**: [github.com/EldrexDelosReyesBula/devdiff-study-buddy](https://github.com/EldrexDelosReyesBula/devdiff-study-buddy)  
+> 📖 **GitHub Pages Documentation Portal**: [eldrexdelosreyesbula.github.io/devdiff-study-buddy](https://eldrexdelosreyesbula.github.io/devdiff-study-buddy/)
+
+---
+
 DevDiff is your interactive codebase study buddy. Designed for students, beginners, and developers exploring new projects, **Study Buddy Mode** turns every code explanation into an educational experience.
 
 ---
 
-## 🎓 Standalone Plugin (`@eldrex/plugin-study-buddy`)
+## Standalone Plugin (`@eldrex/plugin-study-buddy`)
 
 Study Buddy operates as a standalone DevDiff plugin (`@eldrex/plugin-study-buddy`) supporting code explanations in **ANY language** across 5 progressive levels:
 
@@ -26,7 +34,7 @@ Study Buddy operates as a standalone DevDiff plugin (`@eldrex/plugin-study-buddy
 
 ---
 
-## 🛠️ CLI Study Commands
+## CLI Study Commands
 
 ```bash
 # Start Study Buddy Mode
@@ -50,10 +58,18 @@ devdiff study stop
 
 ---
 
-## 🎭 `study-buddy` Persona
+## `educator` Persona
 
-You can pass `--persona study-buddy` to any `devdiff generate` command to produce educational, patient changelogs:
+You can pass `--persona educator` to any `devdiff generate` command to produce educational, beginner-friendly changelogs:
 
 ```bash
-devdiff generate --persona study-buddy
+devdiff generate --persona educator
 ```
+
+---
+
+## External Links
+
+- 📦 **NPM Package**: [`@eldrex/plugin-study-buddy`](https://www.npmjs.com/package/@eldrex/plugin-study-buddy)
+- 🐙 **Standalone Source Code**: [github.com/EldrexDelosReyesBula/devdiff-study-buddy](https://github.com/EldrexDelosReyesBula/devdiff-study-buddy)
+- 🌐 **GitHub Pages Documentation**: [eldrexdelosreyesbula.github.io/devdiff-study-buddy](https://eldrexdelosreyesbula.github.io/devdiff-study-buddy/)

@@ -4,7 +4,7 @@ DevDiff supports running open-source models in-process using `@xenova/transforme
 
 ---
 
-## ⚙️ Configuration Setup
+## Configuration Setup
 
 ### `.devdiff.config.js` Setup
 

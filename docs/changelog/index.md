@@ -4,7 +4,7 @@ The full, versioned release history for DevDiff is maintained at **[Release Chan
 
 ---
 
-## 🎯 Recent Major Releases
+## Recent Major Releases
 
 - **[v1.6.0 — IDE-Native Architecture & Hardening](/versioning/changelog#1-6-0-2026-08-08-ide-native-reliability-hardening)** _(Latest Release — August 8, 2026)_
   - 4 Sidebar Views in VS Code, `@devdiff` Chat Participant, sub-50ms MCP query tools, zero `file:///` local path documentation overhaul, and DepthIndex removal.

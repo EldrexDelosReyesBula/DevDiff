@@ -4,7 +4,7 @@ Detailed specification of `.devdiff.config.js` (and other `.devdiffrc`) paramete
 
 ---
 
-## 🤖 `ai` (AI Configurations)
+## `ai` (AI Configurations)
 
 The root configuration block for setting up model endpoints, API credentials, and query routing strategies.
 
@@ -28,7 +28,7 @@ An array of AI provider settings. DevDiff queries providers based on their prior
 
 ---
 
-## 🔀 `ai.routing` (Intelligent Router Settings)
+## `ai.routing` (Intelligent Router Settings)
 
 Controls how DevDiff determines which model to use.
 
@@ -57,7 +57,7 @@ When enabled, completely restricts all outgoing requests. DevDiff will only use 
 
 ---
 
-## 🚫 `exclude` (Ignore Paths)
+## `exclude` (Ignore Paths)
 
 A list of glob patterns representing files, directories, lockfiles, or binary assets to ignore during git diff generation.
 
@@ -66,7 +66,7 @@ A list of glob patterns representing files, directories, lockfiles, or binary as
 
 ---
 
-## 💾 `cache` (Local Cache Settings)
+## `cache` (Local Cache Settings)
 
 DevDiff caches generated summaries of previously seen Git diff hashes locally to prevent unnecessary AI token charges.
 
@@ -84,7 +84,7 @@ The workspace path where the JSON cache is stored.
 
 ---
 
-## 📝 `format` (Default Output Format)
+## `format` (Default Output Format)
 
 Sets the default presentation style for changelogs.
 

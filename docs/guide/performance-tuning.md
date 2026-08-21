@@ -4,7 +4,7 @@ DevDiff is optimized to run efficiently alongside resource-heavy IDEs, Docker co
 
 ---
 
-## ⚡ Performance Optimization Checklist
+## Performance Optimization Checklist
 
 ### 1. Enable Fast-Path Memory Queries
 

@@ -4,7 +4,7 @@ Automatically match Linear issue keys (e.g. `ENG-402`) in git commits and link t
 
 ---
 
-## 🚀 Setup via Plugin SDK
+## Setup via Plugin SDK
 
 ```typescript
 import { DevDiffPlugin, ParsedDiff } from "@eldrex/plugin-sdk";

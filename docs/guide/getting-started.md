@@ -80,7 +80,7 @@ You'll see output like:
 
 ## Changes — June 30, 2026
 
-### ✨ Added
+### Added
 - **src/app.js** — Added new feature entry point
 
 ### Impact: Low

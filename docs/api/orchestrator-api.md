@@ -4,7 +4,7 @@ The `SwarmOrchestrator` and OpenClaw Connector (`@eldrex/integrations/openclaw`)
 
 ---
 
-## 📦 Import Syntax
+## Import Syntax
 
 ```typescript
 import { SwarmOrchestrator, AgentConsensusEngine } from "@eldrex/core";
@@ -13,7 +13,7 @@ import { OpenClawDevDiffConnector } from "@eldrex/integrations/openclaw";
 
 ---
 
-## 🛠️ Class Specifications
+## Class Specifications
 
 ### `SwarmOrchestrator`
 

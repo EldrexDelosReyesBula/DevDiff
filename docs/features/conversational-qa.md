@@ -4,7 +4,7 @@ DevDiff **v1.5.0** introduces the **Conversational Q&A Engine** (`Conversational
 
 ---
 
-## 🎯 Architecture & Performance
+## Architecture & Performance
 
 ```mermaid
 flowchart TD
@@ -17,19 +17,11 @@ flowchart TD
     F -->|No| H["AI ROUTER FALLBACK"]
     H --> I["Local LLM<br/>llama3.2:3b / Ollama"]
     I --> G
-
-    style A fill:#6366f1,color:#fff,stroke:#4f46e5
-    style B fill:#0ea5e9,color:#fff,stroke:#0284c7
-    style D fill:#0ea5e9,color:#fff,stroke:#0284c7
-    style F fill:#f59e0b,color:#fff,stroke:#d97706
-    style G fill:#22c55e,color:#fff,stroke:#16a34a
-    style H fill:#f43f5e,color:#fff,stroke:#e11d48
-    style I fill:#8b5cf6,color:#fff,stroke:#7c3aed
 ```
 
 ---
 
-## ⚡ Performance Breakdown
+## Performance Breakdown
 
 | Query Type                                     | Typical Response Time | Data Source          |
 | :--------------------------------------------- | :-------------------- | :------------------- |
@@ -42,7 +34,7 @@ flowchart TD
 
 ---
 
-## 💬 Question Patterns & Pronoun Resolution
+## Question Patterns & Pronoun Resolution
 
 The Q&A engine dynamically resolves pronouns based on conversation history:
 
@@ -63,7 +55,7 @@ The Q&A engine dynamically resolves pronouns based on conversation history:
 
 ---
 
-## 💻 CLI Usage & Examples
+## CLI Usage & Examples
 
 ```bash
 # Ask initial question
@@ -86,7 +78,7 @@ devdiff ask "What depends on it?"
 
 ---
 
-## 🔧 Programmatic API (`@eldrex/core`)
+## Programmatic API (`@eldrex/core`)
 
 ```typescript
 import { ConversationalQA } from "@eldrex/core";

@@ -2,7 +2,7 @@
 
 ---
 
-## 🎯 HOW DEVDIFF HANDLES LANGUAGES
+## HOW DEVDIFF HANDLES LANGUAGES
 
 DevDiff operates at **three levels** of language support:
 
@@ -26,7 +26,7 @@ DevDiff operates at **three levels** of language support:
 
 ---
 
-## ✅ LEVEL 1: FULL SUPPORT
+## LEVEL 1: FULL SUPPORT
 
 ### JavaScript Ecosystem
 
@@ -76,7 +76,7 @@ DevDiff operates at **three levels** of language support:
 
 ---
 
-## ⚠️ LEVEL 2: PARTIAL SUPPORT
+## LEVEL 2: PARTIAL SUPPORT
 
 These languages get **basic diff parsing** + **AI explanations** but lack full AST optimization.
 
@@ -184,7 +184,7 @@ These languages get **basic diff parsing** + **AI explanations** but lack full A
 
 ---
 
-## 🔮 LEVEL 3: PASSTHROUGH SUPPORT
+## LEVEL 3: PASSTHROUGH SUPPORT
 
 These languages get **raw diff** + **template changelog** only. The AI can still attempt to explain, but without any language-specific optimization.
 
@@ -215,7 +215,7 @@ These languages get **raw diff** + **template changelog** only. The AI can still
 
 ---
 
-## 📊 FULL LANGUAGE COUNT
+## FULL LANGUAGE COUNT
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -248,7 +248,7 @@ These languages get **raw diff** + **template changelog** only. The AI can still
 
 ---
 
-## 🔜 PLANNED FULL SUPPORT (Next 6 Months)
+## PLANNED FULL SUPPORT (Next 6 Months)
 
 ```text
 v1.6.0:
@@ -269,7 +269,7 @@ v1.8.0:
 
 ---
 
-## 🌐 FRAMEWORK DETECTION — COMPLETE LIST
+## FRAMEWORK DETECTION — COMPLETE LIST
 
 ### JavaScript/TypeScript Frameworks (Level 1 Detection)
 
@@ -469,7 +469,7 @@ Build:
 
 ---
 
-## 📋 HOW TO VERIFY LANGUAGE SUPPORT
+## HOW TO VERIFY LANGUAGE SUPPORT
 
 ```bash
 # Check what DevDiff detects in your project
@@ -493,7 +493,7 @@ export default {
 
 ---
 
-## 🚫 WHAT DEVDIFF CANNOT ANALYZE
+## WHAT DEVDIFF CANNOT ANALYZE
 
 ```text
 ❌ Binary files (.exe, .dll, .so, .dylib, .wasm)
@@ -513,7 +513,7 @@ Add to .devdiffignore to ensure they're never processed.
 
 ---
 
-## 🔧 ADDING CUSTOM LANGUAGE SUPPORT
+## ADDING CUSTOM LANGUAGE SUPPORT
 
 ```typescript
 // For teams with proprietary languages or DSLs

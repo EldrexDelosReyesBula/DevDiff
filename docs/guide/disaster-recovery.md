@@ -4,7 +4,7 @@ DevDiff provides an automated local **Disaster Recovery Engine** to protect deve
 
 ---
 
-## 🎯 How Checkpoints Work
+## How Checkpoints Work
 
 DevDiff automatically records a snapshot fingerprint before executing any AI-assisted operation:
 
@@ -16,7 +16,7 @@ Snapshots reside locally inside `.devdiff/memory/snapshots/` and are strictly pr
 
 ---
 
-## 🚀 Recovery Steps
+## Recovery Steps
 
 ### Step 1: List Available Checkpoints
 
@@ -41,7 +41,7 @@ devdiff recover --checkpoint ckpt-1719000300-def456
 
 ---
 
-## 🧹 Clearing Old Checkpoints
+## Clearing Old Checkpoints
 
 To free local disk space, clear historical recovery snapshots:
 

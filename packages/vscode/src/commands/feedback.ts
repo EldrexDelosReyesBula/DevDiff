@@ -47,7 +47,7 @@ export function registerFeedbackCommands(
         case "review":
           await vscode.env.openExternal(
             vscode.Uri.parse(
-              "https://marketplace.visualstudio.com/items?itemName=eldrex.devdiff&ssr=false#review-details",
+              "https://marketplace.visualstudio.com/items?itemName=ebula.devdiff&ssr=false#review-details",
             ),
           );
           break;
@@ -111,7 +111,7 @@ export function registerFeedbackCommands(
           if (result === "Leave Review") {
             await vscode.env.openExternal(
               vscode.Uri.parse(
-                "https://marketplace.visualstudio.com/items?itemName=eldrex.devdiff&ssr=false#review-details",
+                "https://marketplace.visualstudio.com/items?itemName=ebula.devdiff&ssr=false#review-details",
               ),
             );
             await context.globalState.update(

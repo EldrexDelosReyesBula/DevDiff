@@ -4,7 +4,7 @@ The DevDiff Plugin System allows developers and enterprise teams to extend DevDi
 
 ---
 
-## 🎯 Plugin Architecture & Execution Lifecycle
+## Plugin Architecture & Execution Lifecycle
 
 ```mermaid
 flowchart LR
@@ -20,14 +20,11 @@ flowchart LR
       Storage[PluginStorage]
       Notify[PluginNotifications]
     end
-
-    style PluginSDK fill:#eef,stroke:#333,stroke-width:2px
-    style Output fill:#9f9,stroke:#333,stroke-width:2px
 ```
 
 ---
 
-## 🔌 Lifecycle Hooks
+## Lifecycle Hooks
 
 DevDiff plugins can register for 6 core execution hooks:
 
@@ -42,7 +39,7 @@ DevDiff plugins can register for 6 core execution hooks:
 
 ---
 
-## 🛠️ Plugin SDK Capabilities (`PluginContext`)
+## Plugin SDK Capabilities (`PluginContext`)
 
 Inside the `activate(context)` method, plugins receive a `PluginContext` object with access to:
 
@@ -54,7 +51,7 @@ Inside the `activate(context)` method, plugins receive a `PluginContext` object 
 
 ---
 
-## 🚀 Official Workspace Plugin Examples
+## Official Workspace Plugin Examples
 
 DevDiff includes 4 production-ready, fully working plugin implementations inside the repository:
 
@@ -65,6 +62,6 @@ DevDiff includes 4 production-ready, fully working plugin implementations inside
 
 ---
 
-## 🔒 Security & Supply Chain Protection
+## Security & Supply Chain Protection
 
 For details on how DevDiff scans transitive dependencies, detects obfuscated code, and reviews permissions before plugin installation, visit the [Plugin Security & Supply Chain Protection Documentation](./security.md).

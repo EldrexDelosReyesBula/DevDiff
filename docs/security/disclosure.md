@@ -6,7 +6,7 @@ If you discover a security vulnerability in DevDiff CLI, VS Code extension (`@el
 
 ---
 
-## 🎯 Reporting Guidelines
+## Reporting Guidelines
 
 To ensure responsible handling of potential security issues, please follow these guidelines:
 
@@ -16,7 +16,7 @@ To ensure responsible handling of potential security issues, please follow these
 
 ---
 
-## 📧 How to Submit a Vulnerability Report
+## How to Submit a Vulnerability Report
 
 Send your security advisory directly to our dedicated security team:
 
@@ -33,7 +33,7 @@ Send your security advisory directly to our dedicated security team:
 
 ---
 
-## ⏱️ Response Timeline & SLA
+## Response Timeline & SLA
 
 We are committed to responding to security reports swiftly:
 
@@ -44,6 +44,6 @@ We are committed to responding to security reports swiftly:
 
 ---
 
-## 🏆 Hall of Fame & Recognition
+## Hall of Fame & Recognition
 
 Security researchers who responsibly report valid vulnerabilities will be recognized in our **Security Hall of Fame** in our release notes and repository `SECURITY.md`.

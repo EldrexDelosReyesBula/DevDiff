@@ -4,7 +4,7 @@ DevDiff **v1.6.0** includes an automated **Versioning & Release Engine** (`Semve
 
 ---
 
-## 🎯 AST Versioning Detection Engine
+## AST Versioning Detection Engine
 
 ```mermaid
 flowchart TD
@@ -23,15 +23,11 @@ flowchart TD
     Patch --> Generator
 
     Generator --> Release[Automated Git Tagging & Release]
-
-    style Major fill:#f99,stroke:#333,stroke-width:2px
-    style Minor fill:#bbf,stroke:#333,stroke-width:2px
-    style Patch fill:#9f9,stroke:#333,stroke-width:2px
 ```
 
 ---
 
-## ⚙️ Key Capabilities
+## Key Capabilities
 
 - **Automated SemVer Detection**: Analyzes breaking changes (removed exports, signature alterations, dropped SQL tables) $\rightarrow$ `MAJOR`, new features $\rightarrow$ `MINOR`, bug fixes $\rightarrow$ `PATCH`.
 - **Keep a Changelog Standard**: Groups changes into standardized sections: `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`, and `Security`.
@@ -39,7 +35,7 @@ flowchart TD
 
 ---
 
-## 🚀 CLI Release Commands
+## CLI Release Commands
 
 ```bash
 # Auto-detect version bump type and update package.json + CHANGELOG.md + Git tag

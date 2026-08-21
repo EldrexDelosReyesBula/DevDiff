@@ -4,7 +4,7 @@ Understanding what changed across commits, PRs, and monorepo merges is critical 
 
 ---
 
-## 🎯 Detailed Feature Comparison Matrix
+## Detailed Feature Comparison Matrix
 
 | Feature                      | `git log`                           | DevDiff (v1.6.0)                                                         |
 | ---------------------------- | ----------------------------------- | ------------------------------------------------------------------------ |
@@ -19,7 +19,7 @@ Understanding what changed across commits, PRs, and monorepo merges is critical 
 
 ---
 
-## 📄 Raw `git log` Example vs DevDiff Natural Output
+## Raw `git log` Example vs DevDiff Natural Output
 
 ### Traditional `git log` Output
 
@@ -38,7 +38,7 @@ _Problem:_ `git log` only shows what the developer typed. It does not explain wh
 ### DevDiff AI Explanation Output
 
 ```markdown
-### ⚡ Reactivity System Refactoring (`packages/core`)
+### Reactivity System Refactoring (`packages/core`)
 
 - **Added**: `batch()` utility function to group signal state updates into a single re-render cycle (`packages/core/src/signals.ts`).
 - **Fixed**: Prevented unnecessary layout thrashing on heavy dashboard components.

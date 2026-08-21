@@ -1,31 +1,27 @@
-# Network Guard & Offline Mode
+# Network Firewall & Offline Mode
 
-DevDiff is designed with a **100% Offline-First Architecture**. By default, DevDiff requires zero internet connectivity to index codebase memory, analyze AST diffs, generate changelogs, or run security scans.
+DevDiff is designed with an **Offline-First Architecture**. By default, DevDiff requires zero internet connectivity to index codebase memory, analyze AST diffs, generate changelogs, or run security scans.
 
-When cloud-hosted AI models (OpenAI, Anthropic, Gemini) are explicitly configured, DevDiff's **Network Guard** (`NetworkGuardV2`) enforces strict host allowlists, zero-telemetry outbound filtering, and local proxy control.
+When cloud-hosted AI models (OpenAI, Anthropic, Gemini) are explicitly configured, DevDiff's **Network Firewall** enforces strict host allowlists, zero-telemetry outbound filtering, and local proxy control.
 
 ---
 
-## 🎯 Architecture & Outbound Flow
+## Architecture & Outbound Flow
 
 ```mermaid
 flowchart TD
     A[DevDiff Engine] --> B{Network Request Triggered?}
     B -->|Offline Mode / Ollama| C[Process Locally on Workstation]
-    B -->|Cloud Provider Enabled| D[NetworkGuardV2 Interceptor]
+    B -->|Cloud Provider Enabled| D[Local Network Firewall]
     D --> E{Host in Allowlist?}
     E -->|No| F[BLOCK: Unauthorized Outbound Connection]
     E -->|Yes| G[Redact Secrets & Sanitize Payload]
     G --> H[Dispatch via Secure TLS 1.3 Proxy]
-
-    style C fill:#9f9,stroke:#333,stroke-width:2px
-    style F fill:#f99,stroke:#333,stroke-width:2px
-    style H fill:#bbf,stroke:#333,stroke-width:2px
 ```
 
 ---
 
-## 🛡️ Core Security Capabilities
+## Security Capabilities
 
 ### 1. 100% Offline Mode (Default)
 
@@ -34,7 +30,7 @@ flowchart TD
 
 ### 2. Strict Host Allowlist Enforcement
 
-When cloud providers are enabled, `NetworkGuardV2` restricts outbound connections exclusively to verified AI endpoint domains:
+When cloud providers are enabled, the network firewall restricts outbound connections exclusively to verified AI endpoint domains:
 
 - `api.openai.com` (OpenAI API)
 - `api.anthropic.com` (Anthropic API)
@@ -42,9 +38,9 @@ When cloud providers are enabled, `NetworkGuardV2` restricts outbound connection
 
 Any attempt to open connections to unrecognized domains or IP addresses is blocked with a security exception.
 
-### 3. Zero Telemetry & 100+ Domain Category Blocklist
+### 3. Zero Telemetry & Category Blocklist
 
-- **Built-in Category Blocking**: `NetworkGuardV2` automatically blocks 100+ known tracking domains across 5 categories: `telemetry` (Mixpanel, Segment, Amplitude), `analytics` (Google Analytics, Tag Manager), `errorTracking` (Sentry, LogRocket, Rollbar), `advertising` (DoubleClick, LinkedIn Ads), and `cdn_unknown`.
+- **Built-in Category Blocking**: The firewall automatically blocks 100+ known tracking domains across 5 categories: `telemetry` (Mixpanel, Segment, Amplitude), `analytics` (Google Analytics, Tag Manager), `errorTracking` (Sentry, LogRocket, Rollbar), `advertising` (DoubleClick, LinkedIn Ads), and `cdn_unknown`.
 - **Auditing & Control**: Inspect network history via `devdiff network history`, watch connections in real time via `devdiff network watch`, and verify system disclosure with `devdiff disclose`.
 
 ### 4. Custom Enterprise Proxy Support
@@ -59,7 +55,7 @@ export NO_PROXY="localhost,127.0.0.1"
 
 ---
 
-## ⚙️ Configuration in `.devdiff/config.json`
+## Configuration in `.devdiff/config.json`
 
 ```json
 {

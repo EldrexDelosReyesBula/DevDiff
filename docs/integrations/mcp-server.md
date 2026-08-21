@@ -4,21 +4,18 @@ DevDiff includes a native **Model Context Protocol (MCP) Server** package ([`@el
 
 ---
 
-## 🎯 Architecture & Data Flow
+## Architecture & Data Flow
 
 ```mermaid
 flowchart LR
     IDEAgent[Cursor / Claude / Copilot] -->|Stdio or SSE / JSON-RPC| MCPServer[DevDiff MCP Server @eldrex/mcp]
     MCPServer -->|Sub-50ms Read-Only Queries| MemoryIndex[.devdiff/memory/codebase-index.json]
     MemoryIndex -->|Redacted & Sanitized Payload| IDEAgent
-
-    style MCPServer fill:#bbf,stroke:#333,stroke-width:2px
-    style MemoryIndex fill:#9f9,stroke:#333,stroke-width:2px
 ```
 
 ---
 
-## 🚀 Starting the MCP Server
+## Starting the MCP Server
 
 Start the MCP server using the DevDiff CLI:
 
@@ -32,7 +29,7 @@ npx @eldrex/mcp start
 
 ---
 
-## 💻 Cursor Integration
+## Cursor Integration
 
 Add DevDiff to your Cursor MCP settings (`.cursor/mcp.json` or Cursor Settings $\rightarrow$ Features $\rightarrow$ MCP):
 
@@ -50,7 +47,7 @@ Add DevDiff to your Cursor MCP settings (`.cursor/mcp.json` or Cursor Settings $
 
 ---
 
-## 💻 Claude Desktop Integration
+## Claude Desktop Integration
 
 Add DevDiff to your Claude Desktop configuration:
 
@@ -68,7 +65,7 @@ Add DevDiff to your Claude Desktop configuration:
 
 ---
 
-## 🛠️ Exposed MCP Query Tools (8 Tools)
+## Exposed MCP Query Tools (8 Tools)
 
 DevDiff exposes **8 dedicated, sub-50ms codebase query tools**:
 
@@ -85,7 +82,7 @@ DevDiff exposes **8 dedicated, sub-50ms codebase query tools**:
 
 ---
 
-## 🛡️ Safety & Read-Only Guarantees
+## Safety & Read-Only Guarantees
 
 - **Read-Only**: MCP query tools only read `.devdiff/memory/codebase-index.json`. They never modify files or trigger git actions.
 - **Rate Limited**: Default rate limit of 30 queries per minute per client connection.

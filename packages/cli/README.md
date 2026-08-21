@@ -18,39 +18,39 @@ npm install -g @eldrex/cli
 
 ## CLI Commands
 
-### Generation & Analysis
+### Generation & Inspection
 
-- `devdiff init` — Set up configuration and local Git hooks.
-- `devdiff generate` — Generate changelogs (`--since today|yesterday|this-week|2026-08-01`, `--commit`, `--from..--to`).
-- `devdiff watch` — Monitor repository diffs in real-time.
-- `devdiff report` — Launch local dashboard interface.
+- `devdiff init` — Initialize configuration and local Git hooks.
+- `devdiff generate` — Generate AI changelog summaries (`--since today|yesterday|this-week`, `--commit`, `--from..<ref>`).
+- `devdiff watch` — Monitor repository changes in real-time.
+- `devdiff report` — Output detailed codebase summary reports.
 - `devdiff audit` — View execution history and security logs.
+- `devdiff ask` — Query repository history and codebase memory.
 
-### 🗂️ Memory Timeline Management (`devdiff memory`)
+### Codebase Memory Management (`devdiff memory`)
 
-- `devdiff memory list` — List memory snapshots (`--from`, `--to`, `--category`).
+- `devdiff memory list` — List memory snapshots with date filters (`--from`, `--to`).
 - `devdiff memory delete` — Delete snapshots in range (`--dry-run` available).
-- `devdiff memory use` — Scope active context (`--from`, `--to`, `--all`).
+- `devdiff memory use` — Scope active context to specific date bounds.
 - `devdiff memory categorize` — Assign snapshot labels (`--label production|experimentation`).
 - `devdiff memory categories` — List snapshot categories with date bounds.
-- `devdiff memory optimize` — Deduplicate snapshots and compact storage.
-- `devdiff memory status` — View overall memory storage status.
+- `devdiff memory optimize` — Deduplicate snapshots and compact local storage.
+- `devdiff memory status` — View memory storage metrics.
 
-### 📡 Network Transparency Suite (`devdiff network`)
+### Network Firewall & Policy (`devdiff network`)
 
-- `devdiff network watch` — Real-time network monitor.
-- `devdiff network history` — View network logs (`--since`, `--plugin`, `--domain`).
+- `devdiff network watch` — Real-time outbound network monitor.
+- `devdiff network history` — View network connection logs (`--since`, `--domain`).
 - `devdiff network block` — Block domain or category (`--category telemetry|analytics`).
 - `devdiff network unblock` — Unblock domain.
-- `devdiff network allow` / `disallow` — Manage allowlist.
-- `devdiff network blocked` / `allowed` — List network policies.
-- `devdiff network export` — Export report (`--format json|markdown`).
-- `devdiff network audit` — Run network security audit.
+- `devdiff network allow` / `disallow` — Manage local allowlist rules.
+- `devdiff network export` — Export network audit report (`--format json|markdown`).
+- `devdiff network audit` — Run network security audit against active plugins.
 
-### 🔌 Plugin Transparency & Disclosure
+### Plugin Auditing & Transparency
 
-- `devdiff plugin audit <name>` — Compare declared vs actual plugin behavior.
-- `devdiff disclose` — Generate full disclosure transparency report.
+- `devdiff plugin audit <name>` — Compare declared vs actual plugin permissions.
+- `devdiff disclose` — Generate full zero-telemetry disclosure report.
 
 ## 🔒 Security & Privacy
 

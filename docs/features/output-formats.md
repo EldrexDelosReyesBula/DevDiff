@@ -33,24 +33,24 @@ devdiff generate
 ```markdown
 ## Changes — July 1, 2026
 
-### ✨ Added
+### Added
 
 - `src/auth/jwt.ts` — Added refresh token support with 7-day expiry
 - `src/middleware/rate-limit.ts` — New rate limiter: 100 requests/min per IP
 
-### 🔧 Changed
+### Changed
 
 - `package.json` — Updated `jsonwebtoken` 8.5.1 → 9.0.2
 
-### 🗑️ Removed
+### Removed
 
 - `src/auth/legacy-session.ts` — Removed deprecated cookie-based sessions
 
-### ⚠️ Breaking Changes
+### Breaking Changes
 
 None
 
-### 🔒 Security Notes
+### Security Notes
 
 - JWT library updated to patch potential timing vulnerability
 ```

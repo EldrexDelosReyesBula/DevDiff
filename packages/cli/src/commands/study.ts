@@ -1,30 +1,30 @@
 import { Command } from "commander";
 import picocolors from "picocolors";
-import { StudyEngine } from "@eldrex/core";
+import { DevDiffEngine, ProgressiveExplainer } from "@eldrex/core";
 
 export function registerStudyCommand(program: Command) {
   const study = program
     .command("study")
     .description(
-      "DevDiff Study Buddy Mode — Learn any codebase with interactive guidance",
+      "DevDiff Study & Code Intelligence (powered by @eldrex/plugin-study-buddy)",
     );
 
   study
     .command("start")
-    .description("Activates Study Buddy Mode for the current project workspace")
+    .description("Activates Study & Code Intelligence mode for the current project")
     .action(async () => {
       console.log(
         picocolors.bold(
-          picocolors.cyan("📖 DevDiff Study Buddy Mode Activated!"),
+          picocolors.cyan("📖 DevDiff Study & Code Intelligence Activated!"),
         ),
       );
       console.log(
         picocolors.dim(
-          "DevDiff is ready to explain code, build learning paths, and guide your exploration.",
+          "Powered by DevDiff core intelligence and @eldrex/plugin-study-buddy.",
         ),
       );
       console.log("");
-      console.log(picocolors.yellow("Try these commands:"));
+      console.log(picocolors.yellow("Available commands:"));
       console.log(
         "  • " +
           picocolors.green("devdiff study tour") +
@@ -32,13 +32,24 @@ export function registerStudyCommand(program: Command) {
       );
       console.log(
         "  • " +
-          picocolors.green("devdiff study learn auth") +
-          "     — Create a learning path for authentication",
+          picocolors.green('devdiff study explain <file> --level <beginner|senior>') +
+          " — Progressive code breakdown",
       );
       console.log(
         "  • " +
           picocolors.green('devdiff study ask "what is a Promise?"') +
-          " — Ask any educational question",
+          " — Ask any architectural question",
+      );
+      console.log("");
+      console.log(
+        picocolors.dim(
+          "💡 For standalone full quizzes and interactive tutorials, install:",
+        ),
+      );
+      console.log(
+        picocolors.dim(
+          "   npm install -g @eldrex/plugin-study-buddy\n   https://github.com/EldrexDelosReyesBula/devdiff-study-buddy",
+        ),
       );
     });
 
@@ -49,114 +60,67 @@ export function registerStudyCommand(program: Command) {
       console.log(
         picocolors.bold(picocolors.cyan("🗺️ Generating Codebase Tour...")),
       );
-      const engine = new StudyEngine();
-      const tour = await engine.generateCodebaseTour();
-
+      const engine = new DevDiffEngine();
+      const tour = await engine.generateOnboarding();
       console.log("");
-      console.log(picocolors.bold(`## 📖 Welcome to ${tour.projectName}!`));
-      console.log(tour.overview);
-      console.log("");
-      console.log(picocolors.bold("## 🛠️ Tech Stack Detected:"));
-      console.log("• " + tour.techStack.join(", "));
-      console.log("");
-      console.log(picocolors.bold("## 🔑 Key Entry Files to Start With:"));
-      for (const f of tour.suggestedFirstFiles) {
-        console.log(`• ${picocolors.cyan(f)}`);
-      }
-      console.log("");
-      console.log(picocolors.bold("## 💡 Questions to Explore Next:"));
-      for (const p of tour.explorationPrompts) {
-        console.log(`• ${p}`);
-      }
+      console.log(tour);
     });
 
   study
-    .command("learn <topic>")
-    .description(
-      "Generates an interactive learning path for a specific topic in this repository",
+    .command("explain [file]")
+    .option(
+      "-l, --level <level>",
+      "Explanation level (beginner, student, developer, senior, architect)",
+      "developer",
     )
-    .action(async (topic: string) => {
+    .description("Explains a file or snippet across 5 progressive levels")
+    .action(async (file?: string, options?: { level?: string }) => {
       console.log(
         picocolors.bold(
-          picocolors.cyan(`📚 Generating Learning Path for "${topic}"...`),
-        ),
-      );
-      const engine = new StudyEngine();
-      const path = await engine.generateLearningPath(topic);
-
-      console.log("");
-      console.log(
-        picocolors.bold(
-          `## 📚 Learning Path: ${path.topic} (${path.totalDurationMinutes} mins)`,
-        ),
-      );
-      console.log(path.overview);
-      console.log("");
-
-      for (const step of path.steps) {
-        console.log(
-          picocolors.bold(
-            `### Step ${step.step}: ${step.title} (${step.durationMinutes} min)`,
+          picocolors.cyan(
+            `🎓 Explaining ${file || "code"} at level: ${options?.level || "developer"}...`,
           ),
-        );
-        console.log(`• ${step.explanation}`);
-        console.log(`• Key Concept: ${picocolors.yellow(step.keyConcept)}`);
-        console.log(
-          `• Files: ${step.relevantFiles.map((f) => picocolors.cyan(f)).join(", ")}`,
-        );
-        console.log("");
+        ),
+      );
+      const engine = new DevDiffEngine();
+      let code = "";
+      if (file) {
+        try {
+          const fs = await import("fs/promises");
+          code = await fs.readFile(file, "utf-8");
+        } catch (err: any) {
+          console.error(picocolors.red(`Could not read file: ${err.message}`));
+          return;
+        }
       }
+      const explanation = await engine.explainCode({
+        code: code || "const greeting = 'Hello, DevDiff!';",
+        filePath: file,
+        level: options?.level || "developer",
+      });
+      console.log("");
+      console.log(explanation);
     });
 
   study
     .command("ask <question>")
-    .description(
-      "Asks an educational question about the codebase in Study Buddy Mode",
-    )
+    .description("Asks a codebase intelligence question")
     .action(async (question: string) => {
       console.log(
-        picocolors.bold(picocolors.cyan("📖 Study Buddy is thinking...")),
+        picocolors.bold(picocolors.cyan("📖 DevDiff Intelligence is thinking...")),
       );
-      const engine = new StudyEngine();
-      const answer = await engine.explainCode(question);
+      const engine = new DevDiffEngine();
+      const answer = await engine.ask({ question });
       console.log("");
       console.log(answer);
     });
 
   study
-    .command("quiz <topic>")
-    .description("Generates a self-quiz on a topic in this codebase")
-    .action(async (topic: string) => {
-      console.log(
-        picocolors.bold(
-          picocolors.cyan(`🧪 Generating Self-Quiz for "${topic}"...`),
-        ),
-      );
-      const engine = new StudyEngine();
-      const quiz = await engine.generateQuiz(topic);
-
-      console.log("");
-      console.log(picocolors.bold(`## 🧪 Self-Quiz: ${quiz.topic}`));
-      for (const q of quiz.questions) {
-        console.log("");
-        console.log(picocolors.bold(`Q${q.id}: ${q.question}`));
-        q.options.forEach((opt, idx) => {
-          console.log(`   ${idx + 1}) ${opt}`);
-        });
-        console.log(
-          picocolors.dim(
-            `   (Correct: Option ${q.correctAnswerIndex + 1}) — ${q.explanation}`,
-          ),
-        );
-      }
-    });
-
-  study
     .command("stop")
-    .description("Exits Study Buddy Mode")
+    .description("Exits Study Mode")
     .action(() => {
       console.log(
-        picocolors.yellow("Study Buddy Mode deactivated. Happy coding!"),
+        picocolors.yellow("Study Mode deactivated. Happy coding!"),
       );
     });
 }

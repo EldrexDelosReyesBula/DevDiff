@@ -40,7 +40,7 @@ export class ReviewPrompt {
     if (result?.title === "⭐ Leave a Review") {
       await vscode.env.openExternal(
         vscode.Uri.parse(
-          "https://marketplace.visualstudio.com/items?itemName=eldrex.devdiff&ssr=false#review-details",
+          "https://marketplace.visualstudio.com/items?itemName=ebula.devdiff&ssr=false#review-details",
         ),
       );
     }

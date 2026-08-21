@@ -8,7 +8,7 @@ DevDiff follows a strict immutability contract: once a version is published to n
 
 ---
 
-## 📐 Strict SemVer 2.0.0 Enforcement Policy (v1.7.0+)
+## Strict SemVer 2.0.0 Enforcement Policy (v1.7.0+)
 
 Starting with **v1.7.0** and for all future releases, DevDiff strictly adheres to the [Semantic Versioning 2.0.0 Specification](https://semver.org):
 
@@ -27,7 +27,7 @@ $$\text{Version Format: } \mathbf{\text{MAJOR}}.\mathbf{\text{MINOR}}.\mathbf{\t
 
 ---
 
-## 🎓 Immutable Release Policy
+## Immutable Release Policy
 
 A published version is a snapshot in time. `v1.6.0` on 2026-08-08 works identically on 2027-08-08.
 

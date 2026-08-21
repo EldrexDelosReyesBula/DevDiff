@@ -4,7 +4,7 @@ DevDiff helps organizations enforce security, privacy, and sovereignty policies 
 
 ---
 
-## 🔒 Supported Frameworks
+## Supported Frameworks
 
 Use the compliance engine to immediately audit and enforce policies for the following regulatory frameworks:
 

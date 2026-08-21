@@ -4,7 +4,7 @@ The AI Provider API in `@eldrex/core` allows developers to implement custom LLM 
 
 ---
 
-## 📦 Import Syntax
+## Import Syntax
 
 ```typescript
 import { AIProvider, AIExplanationResult, ProviderConfig } from "@eldrex/core";
@@ -12,7 +12,7 @@ import { AIProvider, AIExplanationResult, ProviderConfig } from "@eldrex/core";
 
 ---
 
-## 🧩 Interface Specification
+## Interface Specification
 
 ```typescript
 export interface AIProvider {

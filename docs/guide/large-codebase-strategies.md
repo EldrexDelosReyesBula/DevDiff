@@ -6,7 +6,7 @@ DevDiff includes built-in strategies for scaling efficiently across large reposi
 
 ---
 
-## 🎯 Scaling Architecture
+## Scaling Architecture
 
 ```mermaid
 flowchart TD
@@ -23,14 +23,11 @@ flowchart TD
     Part3 --> AST
 
     AST --> Summary[Synthesize Hierarchical Monorepo Summary]
-
-    style Chunker fill:#bbf,stroke:#333,stroke-width:2px
-    style Summary fill:#9f9,stroke:#333,stroke-width:2px
 ```
 
 ---
 
-## ⚙️ Monorepo Best Practices
+## Monorepo Best Practices
 
 ### 1. Target Specific Package Scopes
 

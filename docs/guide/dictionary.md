@@ -4,7 +4,7 @@ The complete, authoritative dictionary for DevDiff commands, settings, tools, en
 
 ---
 
-## 📖 CLI Commands Dictionary
+## CLI Commands Dictionary
 
 | Command Syntax                                             | Description                                                                                                                                 | Common Flags / Options                                                                       |
 | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
@@ -32,7 +32,7 @@ The complete, authoritative dictionary for DevDiff commands, settings, tools, en
 
 ---
 
-## 🖥️ VS Code Commands & Shortcuts Dictionary
+## VS Code Commands & Shortcuts Dictionary
 
 | VS Code Command              | Title in Command Palette                  | Default Keybinding             | Description                                                         |
 | ---------------------------- | ----------------------------------------- | ------------------------------ | ------------------------------------------------------------------- |
@@ -50,7 +50,7 @@ The complete, authoritative dictionary for DevDiff commands, settings, tools, en
 
 ---
 
-## 🤖 MCP Server Tools Dictionary (`@eldrex/mcp`)
+## MCP Server Tools Dictionary (`@eldrex/mcp`)
 
 | Tool Identifier         | Input Parameters                         | Description                                                             |
 | ----------------------- | ---------------------------------------- | ----------------------------------------------------------------------- |
@@ -63,7 +63,7 @@ The complete, authoritative dictionary for DevDiff commands, settings, tools, en
 
 ---
 
-## ⚙️ Configuration Settings Dictionary (`.vscode` & `.devdiff.config.js`)
+## Configuration Settings Dictionary (`.vscode` & `.devdiff.config.js`)
 
 | Setting Key                             | Data Type | Default Value    | Description                                                                                                                                                                  |
 | --------------------------------------- | --------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -82,7 +82,7 @@ The complete, authoritative dictionary for DevDiff commands, settings, tools, en
 
 ---
 
-## 🔑 Environment Variables Dictionary
+## Environment Variables Dictionary
 
 | Variable Name             | Description                                              | Default / Example        |
 | ------------------------- | -------------------------------------------------------- | ------------------------ |
@@ -96,7 +96,7 @@ The complete, authoritative dictionary for DevDiff commands, settings, tools, en
 
 ---
 
-## 🎭 Personas Dictionary
+## Personas Dictionary
 
 | Persona ID     | Output Focus & Tone                                                       | Target Audience                     |
 | -------------- | ------------------------------------------------------------------------- | ----------------------------------- |
@@ -111,7 +111,7 @@ The complete, authoritative dictionary for DevDiff commands, settings, tools, en
 
 ---
 
-## 🔌 Default Network Ports Reference
+## Default Network Ports Reference
 
 | Port Number | Protocol / Service              | Description                                            |
 | ----------- | ------------------------------- | ------------------------------------------------------ |

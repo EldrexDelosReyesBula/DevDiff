@@ -6,7 +6,7 @@ DevDiff provides **MVP Mode** (Most Valuable Deferral) — a non-blocking queuei
 
 ---
 
-## 🎯 MVP Deferral Flow
+## MVP Deferral Flow
 
 ```mermaid
 flowchart TD
@@ -19,14 +19,11 @@ flowchart TD
 
     Summary --> AsyncProcess[Process Queue via Background CLI / Manual Command]
     AsyncProcess --> FinalChangelog[Final Generated Changelog]
-
-    style Defer fill:#f99,stroke:#333,stroke-width:2px
-    style AsyncProcess fill:#9f9,stroke:#333,stroke-width:2px
 ```
 
 ---
 
-## ⚙️ CLI Commands
+## CLI Commands
 
 ```bash
 # View queue status of deferred changelogs

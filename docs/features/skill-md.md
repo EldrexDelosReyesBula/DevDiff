@@ -2,7 +2,7 @@
 
 `SKILL.md` is a declarative knowledge base specification that teaches DevDiff's AI engine how to understand, analyze, and explain your project's specific architecture, coding standards, terminology, and anti-patterns.
 
-## 🧠 Unified Source of Truth (`UnifiedContext`)
+## Unified Source of Truth (`UnifiedContext`)
 
 In DevDiff v1.7.0, `SKILL.md` serves as the primary source of truth across all tools and AI agents:
 
@@ -43,7 +43,7 @@ description: Standardized project rules and architectural standards.
 
 ---
 
-## 🚀 CLI Skill Commands
+## CLI Skill Commands
 
 ```bash
 # Auto-generate SKILL.md by scanning project topology and Git history

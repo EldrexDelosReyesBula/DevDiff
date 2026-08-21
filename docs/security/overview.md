@@ -6,7 +6,7 @@ This overview outlines DevDiff's comprehensive security architecture, defense-in
 
 ---
 
-## 🎯 Defense-in-Depth Architecture
+## Defense-in-Depth Architecture
 
 ```mermaid
 flowchart TD
@@ -15,17 +15,11 @@ flowchart TD
     L2 -->|Path Bounded & Prompt Sanitized| L3[3. Redaction Engine V2]
     L3 -->|Secrets Masked| L4[4. Network Guard V2]
     L4 -->|Offline-First / Allowlist Enforcement| Core[DevDiff Core Engine & Memory Index]
-
-    style L1 fill:#eef,stroke:#333,stroke-width:2px
-    style L2 fill:#dde,stroke:#333,stroke-width:2px
-    style L3 fill:#ccd,stroke:#333,stroke-width:2px
-    style L4 fill:#bbc,stroke:#333,stroke-width:2px
-    style Core fill:#9f9,stroke:#333,stroke-width:2px
 ```
 
 ---
 
-## 🛡️ Core Security Modules & Safeguards
+## Core Security Modules & Safeguards
 
 | Security Module                                   | Function & Purpose                                                                                             | Primary Guide                                                |
 | ------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
@@ -41,7 +35,7 @@ flowchart TD
 
 ---
 
-## 🔒 The 4 Guarantees of DevDiff Security
+## The 4 Guarantees of DevDiff Security
 
 1. **Your Code Stays Local**: Memory indexes (`.devdiff/memory/codebase-index.json`) and AST graphs run 100% locally on your workstation.
 2. **Zero Telemetry**: No tracking pings, usage metrics, or analytics beacons.

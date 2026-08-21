@@ -4,7 +4,7 @@ DevDiff v1.6.0 provides first-class extension hooks via `@eldrex/core`, `@eldrex
 
 ---
 
-## 🔧 Building a Custom MCP Agent Integration
+## Building a Custom MCP Agent Integration
 
 DevDiff exposes 8 sub-50ms query tools via its Model Context Protocol (MCP) server. Any agent compatible with standard MCP can query codebase changes, security scans, or architecture graphs.
 

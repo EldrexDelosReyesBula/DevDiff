@@ -10,7 +10,19 @@ export default withMermaid({
     math: false,
   },
   mermaid: {
-    theme: "default",
+    theme: "dark",
+    themeVariables: {
+      darkMode: true,
+      background: "#18181b",
+      mainBkg: "#27272a",
+      nodeBorder: "#3f3f46",
+      clusterBkg: "#18181b",
+      clusterBorder: "#27272a",
+      lineColor: "#71717a",
+      textColor: "#f4f4f5",
+      fontSize: "13px",
+      fontFamily: "Inter, system-ui, sans-serif",
+    },
   },
   sitemap: {
     hostname: "https://devdiff.vercel.app",
@@ -82,18 +94,46 @@ export default withMermaid({
       },
     ],
 
-    // Additional SEO
+    // Search Engine Crawlers & Indexing Directives
     ["meta", { name: "author", content: "Eldrex Delos Reyes Bula" }],
-    ["meta", { name: "robots", content: "index, follow" }],
+    ["meta", { name: "robots", content: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" }],
+    ["meta", { name: "googlebot", content: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" }],
+    ["meta", { name: "bingbot", content: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" }],
     [
       "meta",
       {
         name: "keywords",
         content:
-          "devdiff, changelog, ai, developer tools, privacy, local-first, git, byoai, ollama, VS Code, IDE",
+          "devdiff, changelog, ai, developer tools, privacy, local-first, git, byoai, ollama, VS Code, IDE, open vsx, diff",
       },
     ],
     ["link", { rel: "canonical", href: "https://devdiff.vercel.app" }],
+
+    // Structured Data (Schema.org)
+    [
+      "script",
+      { type: "application/ld+json" },
+      JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "DevDiff",
+        "operatingSystem": "Windows, macOS, Linux",
+        "applicationCategory": "DeveloperApplication",
+        "url": "https://devdiff.vercel.app",
+        "description": "Privacy-first, BYOAI codebase intelligence and changelog generator running entirely on local developer workstations.",
+        "author": {
+          "@type": "Person",
+          "name": "Eldrex Delos Reyes Bula",
+          "url": "https://github.com/EldrexDelosReyesBula"
+        },
+        "license": "https://opensource.org/licenses/MIT",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }),
+    ],
   ],
 
   themeConfig: {
@@ -106,7 +146,7 @@ export default withMermaid({
       { text: "Troubleshooting", link: "/troubleshooting/" },
       { text: "API", link: "/api/core" },
       {
-        text: "v1.7.0",
+        text: "v1.8.0",
         items: [
           { text: "Changelog", link: "/versioning/changelog" },
           { text: "Version Policy", link: "/versioning/policy" },
@@ -136,66 +176,36 @@ export default withMermaid({
         ],
       },
       {
-        text: "Features (v1.7.0)",
+        text: "Features",
         collapsed: false,
         items: [
-          {
-            text: "Agent Orchestration Platform (v1.7.0)",
-            link: "/features/agent-orchestration",
-          },
-          {
-            text: "Universal AI Prompt Export (v1.7.0)",
-            link: "/features/prompt-export",
-          },
-          {
-            text: "Dynamic Security Engine (v1.7.0)",
-            link: "/security/dynamic-security",
-          },
-          {
-            text: "Trust & Transparency (v1.7.0)",
-            link: "/security/network-guard",
-          },
-          {
-            text: "Memory Timeline Control (v1.7.0)",
-            link: "/features/persistent-memory",
-          },
-          {
-            text: "Universal Study Buddy Plugin (v1.7.0)",
-            link: "/features/study-mode",
-          },
-          {
-            text: "IDE-Native Architecture",
-            link: "/features/ide-integration",
-          },
-          { text: "Conversational Q&A", link: "/features/conversational-qa" },
-          {
-            text: "Automated Versioning",
-            link: "/features/automated-versioning",
-          },
-          {
-            text: "Universal Detection",
-            link: "/features/universal-detection",
-          },
-          { text: "Natural Changelogs", link: "/features/natural-changelogs" },
-          { text: "SKILL.md Knowledge Base", link: "/features/skill-md" },
-          {
-            text: "Developer Sovereignty",
-            link: "/guide/developer-sovereignty",
-          },
-          { text: "Personas", link: "/features/personas" },
+          { text: "Multi-Agent Orchestration", link: "/features/agent-orchestration" },
+          { text: "Prompt Export & Offline AI", link: "/features/prompt-export" },
+          { text: "Security & Vulnerability Audits", link: "/security/dynamic-security" },
+          { text: "Network Firewall & Offline Mode", link: "/security/network-guard" },
+          { text: "Codebase Memory & History", link: "/features/persistent-memory" },
+          { text: "Study Mode Plugin", link: "/features/study-mode" },
+          { text: "VS Code & IDE Features", link: "/features/ide-integration" },
+          { text: "Conversational Codebase Q&A", link: "/features/conversational-qa" },
+          { text: "Automated SemVer Versioning", link: "/features/automated-versioning" },
+          { text: "Project & Language Detection", link: "/features/universal-detection" },
+          { text: "Changelog Formatting", link: "/features/natural-changelogs" },
+          { text: "SKILL.md Context Standard", link: "/features/skill-md" },
+          { text: "Data Ownership & Privacy", link: "/guide/developer-sovereignty" },
+          { text: "Personas & Perspectives", link: "/features/personas" },
           { text: "Output Formats", link: "/features/output-formats" },
-          { text: "Multi-Agent Swarms", link: "/features/multi-agent" },
-          { text: "Compliance Engine", link: "/features/compliance" },
-          { text: "Project Context", link: "/features/project-context" },
-          { text: "MVP Mode", link: "/features/mvp-mode" },
+          { text: "Collaborative Agent Swarms", link: "/features/multi-agent" },
+          { text: "Compliance Frameworks", link: "/features/compliance" },
+          { text: "Workspace Context", link: "/features/project-context" },
+          { text: "Large Diff Deferral (MVP)", link: "/features/mvp-mode" },
         ],
       },
       {
-        text: "SDK & Custom Dashboards (v1.6.0)",
+        text: "Extensibility & Custom Integrations",
         collapsed: false,
         items: [
           {
-            text: "Build Your Own Dashboard",
+            text: "Build Custom Dashboards & UIs",
             link: "/advanced/build-your-own-dashboard",
           },
           {

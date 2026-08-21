@@ -4,7 +4,7 @@ DevDiff's core philosophy: **You control the AI, not us.**
 
 ## Provider Tiers
 
-### 🏠 Local & Free (No API Keys)
+### Local & Free (No API Keys)
 
 | Provider            | Setup                 | Best For                        |
 | ------------------- | --------------------- | ------------------------------- |
@@ -13,7 +13,7 @@ DevDiff's core philosophy: **You control the AI, not us.**
 | **Transformers.js** | Zero config           | Node.js without native deps     |
 | **WebLLM**          | Zero config           | Browser-based, Chrome           |
 
-### ☁️ Self-Hosted (Your Servers)
+### Self-Hosted (Your Servers)
 
 | Provider                      | Config Key                 |
 | ----------------------------- | -------------------------- |
@@ -22,7 +22,7 @@ DevDiff's core philosophy: **You control the AI, not us.**
 | **Text Generation Inference** | `tgi://localhost:3000`     |
 | **Ollama (remote)**           | `ollama://my-server:11434` |
 
-### 🌐 Cloud (Your API Keys)
+### Cloud (Your API Keys)
 
 | Provider      | Config Key                                           |
 | ------------- | ---------------------------------------------------- |

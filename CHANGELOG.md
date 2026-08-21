@@ -2,6 +2,31 @@
 
 All notable changes to DevDiff are documented here.
 
+## [1.8.0] — 2026-08-21 · Multi-Registry Extension Distribution, External Plugin Architecture & Documentation Overhaul
+
+The **v1.8.0** release establishes unified distribution across both the VS Code Marketplace and Open VSX Registry, cleanly decouples third-party plugins into standalone repositories, overhauls the documentation suite to human-craft engineering standards, and standardizes local release gate verification.
+
+### Added & Enhanced
+
+- **Universal Multi-Registry Distribution**:
+  - Published and verified identical `.vsix` binaries across both the **VS Code Marketplace** (`ebula.devdiff`) and the **Open VSX Registry** (`ebula/devdiff`).
+  - Added dedicated installation instructions for VS Code, Cursor, Windsurf, VSCodium, Gitpod, and Eclipse Theia.
+- **External Plugin Decoupling**:
+  - Extracted Study Buddy into a dedicated external standalone repository (`@eldrex/plugin-study-buddy` at [github.com/EldrexDelosReyesBula/devdiff-study-buddy](https://github.com/EldrexDelosReyesBula/devdiff-study-buddy)).
+  - Refactored core `explainCode` engine to natively utilize `ProgressiveExplainer` with 5 skill levels.
+  - Consolidated official reference plugins into documentation and template repository.
+- **Documentation & UI/UX Overhaul**:
+  - Refactored entire documentation portal to human-craft engineering standards, eliminating robotic jargon and emoji clutter.
+  - Configured minimalist, high-contrast dark Mermaid diagram theme matching modern IDE design systems.
+  - Streamlined sidebar navigation with clear, developer-friendly titles.
+- **Repository Hygiene & Test Architecture**:
+  - Reorganized end-to-end and stress tests into structured `test/e2e`, `test/stress`, and `test/performance` directories.
+  - Added root release gate shortcuts (`pnpm gate` and `pnpm gate:ps`).
+  - Minified VS Code extension bundle to 3.82 MB.
+  - 100% test pass rate across 38 test suites (217 unit tests).
+
+---
+
 ## [1.7.0] — 2026-08-16 🚀 Agentic Platform, Dynamic Security Engine, Universal Prompt Export, Plugin Protection & VS Code Overhaul
 
 The **v1.7.0** release introduces the Agent Orchestration & OpenClaw Integration Platform, Dynamic Security Engine, Universal AI Prompt Export & Import Engine, Plugin Security & Supply Chain Protection, Complete VS Code Native UI/UX Overhaul, Full Chat Editor Tab Window, Unified Knowledge Architecture, Memory Control & Timeline Management, Output Quality Gates, and the Complete Trust & Transparency Platform.

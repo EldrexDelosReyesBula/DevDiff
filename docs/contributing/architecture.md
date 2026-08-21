@@ -4,7 +4,7 @@ This document details the monorepo architecture of DevDiff (v1.6.0). DevDiff is 
 
 ---
 
-## 🎯 Package Dependency Graph
+## Package Dependency Graph
 
 ```mermaid
 flowchart TD
@@ -16,14 +16,11 @@ flowchart TD
 
     SDK[@eldrex/plugin-sdk] --> Plugins[examples/plugins/*]
     Core --> Integrations[@eldrex/integrations]
-
-    style Core fill:#9f9,stroke:#333,stroke-width:2px
-    style SDK fill:#bbf,stroke:#333,stroke-width:2px
 ```
 
 ---
 
-## 📂 Directory Structure
+## Directory Structure
 
 | Package Path           | Package Name          | Responsibility & Scope                                                                  |
 | ---------------------- | --------------------- | --------------------------------------------------------------------------------------- |

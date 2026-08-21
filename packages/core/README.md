@@ -19,11 +19,11 @@
 If DevDiff saves you time, **leave a review** — it helps other developers find us.
 
 <p align="center">
-  <a href="https://marketplace.visualstudio.com/items?itemName=eldrex.devdiff&ssr=false#review-details">
+  <a href="https://marketplace.visualstudio.com/items?itemName=ebula.devdiff&ssr=false#review-details">
     <img src="https://img.shields.io/badge/VS%20Code-Review%20on%20Marketplace-6366f1?style=for-the-badge&logo=visualstudiocode" alt="Review on VS Code Marketplace">
   </a>
   &nbsp;&nbsp;
-  <a href="https://open-vsx.org/extension/eldrex/devdiff/reviews">
+  <a href="https://open-vsx.org/extension/ebula/devdiff/reviews">
     <img src="https://img.shields.io/badge/Open%20VSX-Review%20Extension-6366f1?style=for-the-badge" alt="Review on Open VSX">
   </a>
 </p>
@@ -49,13 +49,13 @@ const result = await generateChangelog({
 console.log(result.formattedOutput);
 ```
 
-## Key Features (v1.7.0)
+## Key Capabilities
 
-- **🧠 Unified Knowledge Architecture**: Single source of truth loading (`SKILL.md` → `.devdiff/context.md` → `autoGenerate`).
-- **🛡️ Multi-Stage Hallucination Guard**: `HallucinationGuard` verifying output against diffs, naming conventions, anti-pattern rules, and AI hedging language.
-- **🗂️ Memory Control & Timeline Manager**: Browser-history-like control over codebase memory (`MemoryManager`), date range deletions, dry-run previews, active range scoping, and storage deduplication.
-- **📅 Time-Aware Generator**: Resolves human time expressions (`today`, `yesterday`, `this-week`, `date-range`, `since-initial`, `between-commits`) to exact git revision ranges.
-- **🔒 Complete Trust & Transparency**: `NetworkGuardV2` with 100+ domain blocklist across 5 categories, `PluginAuditor`, and `DisclosureReport` (`devdiff disclose`).
+- **Project Context Awareness**: Automatically loads workspace rules (`SKILL.md`, `.devdiff/context.md`) so summaries reflect your actual codebase conventions.
+- **Diff Fact-Checking**: Validates AI-generated explanations against raw git diffs and syntax trees to eliminate fabricated changes or non-existent files.
+- **Codebase Memory & History**: Maintains a persistent local timeline of changes with pruning, deduplication, and date range filtering.
+- **Natural Time References**: Resolves human time ranges (`today`, `yesterday`, `this-week`, ISO dates) directly to git revision ranges.
+- **Network Firewall & Secret Redaction**: Intercepts outbound traffic to block telemetry, scrubs high-entropy credentials, and audits plugin permissions.
 
 ## API Reference
 
@@ -140,7 +140,7 @@ npx devdiff audit --package @eldrex/core
 </p>
 
 <p align="center">
-  <sub>Enjoying DevDiff? <a href="https://marketplace.visualstudio.com/items?itemName=eldrex.devdiff&ssr=false#review-details">Leave a review</a> — it takes 30 seconds and helps more than you know.</sub>
+  <sub>Enjoying DevDiff? <a href="https://marketplace.visualstudio.com/items?itemName=ebula.devdiff&ssr=false#review-details">Leave a review</a> — it takes 30 seconds and helps more than you know.</sub>
 </p>
 
 ## License

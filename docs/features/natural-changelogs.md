@@ -4,7 +4,7 @@ DevDiff's **Natural Changelog Generator** (`NaturalChangelogGenerator`) enforces
 
 ---
 
-## 🎯 Direct Developer Voice vs. Hedged AI Output
+## Direct Developer Voice vs. Hedged AI Output
 
 ```text
 BEFORE (ROBOTIC / HEDGED AI OUTPUT):
@@ -25,7 +25,7 @@ AFTER (DEVDIFF NATURAL DEVELOPER VOICE):
 
 ---
 
-## 🛡️ Banned AI Hedging Phrases
+## Banned AI Hedging Phrases
 
 DevDiff automatically strips hedging phrases from generated summaries before output is returned:
 
@@ -37,7 +37,7 @@ DevDiff automatically strips hedging phrases from generated summaries before out
 
 ---
 
-## 📋 Keep a Changelog Standard Formatting
+## Keep a Changelog Standard Formatting
 
 All natural changelogs conform strictly to the [Keep a Changelog](https://keepachangelog.com) standard, organizing entries into clean, scannable categories:
 

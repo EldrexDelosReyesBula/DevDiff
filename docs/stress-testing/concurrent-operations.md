@@ -6,7 +6,7 @@ DevDiff guarantees **thread-safe, lock-free concurrent execution** across multi-
 
 ---
 
-## 🎯 Concurrency Architecture & Thread Isolation
+## Concurrency Architecture & Thread Isolation
 
 ```mermaid
 flowchart TD
@@ -31,14 +31,11 @@ flowchart TD
     WorkerPool --> SafeIndex[.devdiff/memory/codebase-index.json]
     Lock --> SafeIndex
     Cache --> SafeIndex
-
-    style Lock fill:#bbf,stroke:#333,stroke-width:2px
-    style SafeIndex fill:#9f9,stroke:#333,stroke-width:2px
 ```
 
 ---
 
-## 🛡️ Concurrency Safeguards
+## Concurrency Safeguards
 
 ### 1. Isolated Temporary Workspaces
 
@@ -57,7 +54,7 @@ flowchart TD
 
 ---
 
-## 📊 Concurrency Benchmark Results
+## Concurrency Benchmark Results
 
 | Concurrent Client Swarm                   | Parallel Requests | Storage Lock Collisions | Average Query Latency | Execution Status |
 | ----------------------------------------- | ----------------- | ----------------------- | --------------------- | ---------------- |

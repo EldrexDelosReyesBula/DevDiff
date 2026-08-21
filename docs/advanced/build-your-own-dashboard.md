@@ -1,10 +1,10 @@
 # Building Your Own Dashboard with DevDiff SDK
 
-DevDiff v1.6.0 adopts an **IDE-Native Architecture**. Instead of forcing developers into a generic web dashboard browser tab, DevDiff exposes a powerful, local-first engine and SDK (`@eldrex/core` and `@eldrex/sdk`) so you can build custom web dashboards, internal admin tools, or Slack bots tailored to your team's workflow.
+DevDiff adopts an **IDE-Native Architecture**. Instead of forcing developers into a generic web dashboard browser tab, DevDiff exposes a modular, local-first engine (`@eldrex/core`) so you can build custom dashboards, internal admin tools, or CI/CD automations tailored to your team's workflow.
 
 ---
 
-## 🏗️ Architecture: Engine + SDK
+## Architecture: Engine + SDK
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -26,7 +26,7 @@ DevDiff v1.6.0 adopts an **IDE-Native Architecture**. Instead of forcing develop
 
 ---
 
-## 🚀 Quick Example: React / Next.js Dashboard Component
+## Quick Example: React / Next.js Dashboard Component
 
 ```typescript
 import React, { useEffect, useState } from 'react';
@@ -60,7 +60,7 @@ export function TeamChangelogDashboard() {
 
 ---
 
-## 💬 Slack Standup Integration Example
+## Slack Standup Integration Example
 
 ```typescript
 import { DevDiffEngine } from "@eldrex/core";

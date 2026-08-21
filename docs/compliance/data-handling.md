@@ -4,7 +4,7 @@ DevDiff is engineered under a **Local-First, Zero-Telemetry Data Handling Archit
 
 ---
 
-## 🔒 Framework Compliance Matrix
+## Framework Compliance Matrix
 
 | Regulatory Framework    | Compliance Control                                   | DevDiff Architectural Implementation                                         |
 | ----------------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------- |
@@ -16,7 +16,7 @@ DevDiff is engineered under a **Local-First, Zero-Telemetry Data Handling Archit
 
 ---
 
-## 🛡️ Data Redaction & Sanitization Pipeline
+## Data Redaction & Sanitization Pipeline
 
 Before any code diff leaves local workstation memory:
 

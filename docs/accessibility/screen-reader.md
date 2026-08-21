@@ -4,7 +4,7 @@ DevDiff is tested for compatibility with major assistive technologies and screen
 
 ---
 
-## 🎯 Assistive Technology Architecture
+## Assistive Technology Architecture
 
 ```mermaid
 flowchart LR
@@ -13,14 +13,11 @@ flowchart LR
 
     CLI[Terminal CLI Engine] --> NoColorMode[--no-color & Plain Text Mode]
     NoColorMode --> ScreenReader
-
-    style ARIA fill:#bbf,stroke:#333,stroke-width:2px
-    style ScreenReader fill:#9f9,stroke:#333,stroke-width:2px
 ```
 
 ---
 
-## ⚙️ Key Screen Reader Safeguards
+## Key Screen Reader Safeguards
 
 ### 1. ARIA Live Regions (`aria-live="polite"`)
 

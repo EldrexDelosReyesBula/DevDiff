@@ -4,7 +4,7 @@ This guide provides solutions for common issues, error messages, and environment
 
 ---
 
-## 🔍 Common Issues & Resolutions
+## Common Issues & Resolutions
 
 ### 1. Local LLM / Ollama Connection Refused (`ECONNREFUSED 127.0.0.1:11434`)
 

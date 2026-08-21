@@ -4,7 +4,7 @@ DevDiff integrates with Groq's Language Processing Unit (LPU) cloud engine (`gro
 
 ---
 
-## ⚙️ Configuration Setup
+## Configuration Setup
 
 ### `.devdiff.config.js` Setup
 

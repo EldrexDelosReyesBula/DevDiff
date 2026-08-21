@@ -4,7 +4,7 @@ DevDiff v1.6.0 introduces enterprise-grade hardening for Model Context Protocol 
 
 ---
 
-## 🎯 Architecture & Hardening Pillars
+## Architecture & Hardening Pillars
 
 ```mermaid
 flowchart LR
@@ -18,14 +18,11 @@ flowchart LR
     end
 
     Shield -->|Sanitized Payload| Core[DevDiff Local Memory Index]
-
-    style Shield fill:#eef,stroke:#333,stroke-width:2px
-    style Core fill:#ddf,stroke:#333,stroke-width:2px
 ```
 
 ---
 
-## 🛡️ Hardening Features
+## Hardening Features
 
 ### 1. Local-First Execution Boundary
 
@@ -62,7 +59,7 @@ flowchart LR
 
 ---
 
-## 📋 MCP Tool Security Matrix
+## MCP Tool Security Matrix
 
 | MCP Tool Name                | Access Type       | Path Validation | Secret Redaction | Rate Limited |
 | ---------------------------- | ----------------- | --------------- | ---------------- | ------------ |

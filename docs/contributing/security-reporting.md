@@ -4,7 +4,7 @@ The DevDiff team takes the security of our software seriously. If you believe yo
 
 ---
 
-## 🔒 Responsible Disclosure Channel
+## Responsible Disclosure Channel
 
 > [!CAUTION]
 > Do NOT file public GitHub Issues for unpatched security vulnerabilities.
@@ -16,7 +16,7 @@ Please report security vulnerabilities through our **private advisory channel**:
 
 ---
 
-## ⏱️ Response SLA
+## Response SLA
 
 - **Initial Response**: Within **48 hours**.
 - **Triage & Impact Assessment**: Within **5 business days**.

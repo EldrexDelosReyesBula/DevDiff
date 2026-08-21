@@ -6,7 +6,7 @@ DevDiff handles large diff scenarios using **Progressive Directory Chunking**, *
 
 ---
 
-## 🎯 Progressive Chunking Architecture
+## Progressive Chunking Architecture
 
 ```mermaid
 flowchart TD
@@ -27,14 +27,11 @@ flowchart TD
     Process3 --> Synthesize
 
     Synthesize --> FinalReport[Final DevDiff Summary & Changelog]
-
-    style Chunker fill:#bbf,stroke:#333,stroke-width:2px
-    style FinalReport fill:#9f9,stroke:#333,stroke-width:2px
 ```
 
 ---
 
-## ⚙️ Resilience Mechanisms
+## Resilience Mechanisms
 
 ### 1. Progressive Directory Partitioning
 
@@ -54,7 +51,7 @@ flowchart TD
 
 ---
 
-## 📊 Large Diff Performance Benchmarks
+## Large Diff Performance Benchmarks
 
 | Monorepo Scenario  | File Count  | Lines Changed | Raw Diff Size | Standard LLM Time         | DevDiff Progressive Time | Token Reduction |
 | ------------------ | ----------- | ------------- | ------------- | ------------------------- | ------------------------ | --------------- |

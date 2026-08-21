@@ -4,7 +4,7 @@ The `WebLLMProvider` in `@eldrex/core` manages hardware-accelerated local AI mod
 
 ---
 
-## 📦 Import Syntax
+## Import Syntax
 
 ```typescript
 import { WebLLMProvider, MLCModelConfig } from "@eldrex/core";
@@ -12,7 +12,7 @@ import { WebLLMProvider, MLCModelConfig } from "@eldrex/core";
 
 ---
 
-## 🛠️ Class Specifications
+## Class Specifications
 
 ```typescript
 const provider = new WebLLMProvider({

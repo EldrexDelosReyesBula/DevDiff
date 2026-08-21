@@ -252,16 +252,6 @@ export type {
   PluginRecommendation,
 } from "./plugins/security-scanner";
 
-// Study Buddy Mode Exports
-export { StudyEngine } from "./study/study-engine";
-export type {
-  LearningPath,
-  LearningStep,
-  CodebaseTour,
-  CodebaseTourSection,
-  StudyQuiz,
-  QuizQuestion,
-} from "./study/study-engine";
 
 // DevDiff v1.7.0 Overhaul Exports
 export { MermaidEngineV2 } from "./outputs/mermaid/engine-v2";

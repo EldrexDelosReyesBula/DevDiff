@@ -1,6 +1,6 @@
 {
   "name": "@eldrex/antigravity",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "Antigravity IDE Extension for DevDiff",
   "type": "module",
   "main": "./dist/index.js",
@@ -29,6 +29,6 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "author": "Eldrex Delos Reyes Bula \u003celdrexdelosreyesbula@gmail.com\u003e",
+  "author": "Eldrex Delos Reyes Bula <eldrexdelosreyesbula@gmail.com>",
   "license": "MIT"
 }

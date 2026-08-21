@@ -4,7 +4,7 @@ DevDiff supports multi-agent swarm workflows using the OpenClaw supervisor frame
 
 ---
 
-## 🎯 Swarm Consensus Flow
+## Swarm Consensus Flow
 
 ```mermaid
 flowchart TD
@@ -29,14 +29,11 @@ flowchart TD
 
     Consensus -->|Yes| FinalChangelog[Final Consensus Changelog]
     Consensus -->|Conflict| HumanReview[Human-in-the-Loop Review Trigger]
-
-    style Supervisor fill:#bbf,stroke:#333,stroke-width:2px
-    style FinalChangelog fill:#9f9,stroke:#333,stroke-width:2px
 ```
 
 ---
 
-## 💻 CLI Multi-Agent Execution
+## CLI Multi-Agent Execution
 
 ```bash
 # Run multi-agent swarm analysis

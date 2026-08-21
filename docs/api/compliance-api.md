@@ -4,7 +4,7 @@ The Compliance API provides functions for applying, validating, and deep-merging
 
 ---
 
-## 📦 Import Syntax
+## Import Syntax
 
 ```typescript
 import {
@@ -17,7 +17,7 @@ import {
 
 ---
 
-## 🛠️ Function Specifications
+## Function Specifications
 
 ### `applyCompliance(frameworkId: string, config: DevDiffConfig): Promise<DevDiffConfig>`
 

@@ -14,6 +14,12 @@
   <a href="https://www.npmjs.com/package/@eldrex/cli">
     <img src="https://img.shields.io/npm/v/@eldrex/cli" alt="npm">
   </a>
+  <a href="https://marketplace.visualstudio.com/items?itemName=ebula.devdiff">
+    <img src="https://img.shields.io/badge/VS_Code-Marketplace-007acc.svg?style=flat&logo=visual-studio-code" alt="Marketplace">
+  </a>
+  <a href="https://open-vsx.org/extension/ebula/devdiff">
+    <img src="https://img.shields.io/badge/Open_VSX-ebula%2Fdevdiff-orange.svg?style=flat&logo=eclipse" alt="Open VSX">
+  </a>
   <a href="https://opensource.org/licenses/MIT">
     <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT">
   </a>
@@ -118,7 +124,7 @@ Your Code Changes
 - 🤖 **BYOAI** — Your AI, your rules
 - ⚡ **Token Optimized** — Up to 85% less token usage
 - 🔌 **Integrations** — VS Code, Vite, GitHub Actions, Linear, Jira
-- 📊 **Dashboard** — Beautiful web UI and terminal dashboard
+- 💻 **IDE & CLI First** — VS Code extension, terminal explorer, and Model Context Protocol (MCP) server
 - 🌍 **MIT Licensed** — Free forever
 
 ---
@@ -130,7 +136,7 @@ Your Code Changes
 | [`@eldrex/core`](/packages/core)        | Core changelog engine  | [![npm](https://img.shields.io/npm/v/@eldrex/core)](https://www.npmjs.com/package/@eldrex/core) |
 | [`@eldrex/cli`](/packages/cli)          | Command-line interface | [![npm](https://img.shields.io/npm/v/@eldrex/cli)](https://www.npmjs.com/package/@eldrex/cli)   |
 | [`@eldrex/vite`](/packages/vite-plugin) | Vite plugin            | [![npm](https://img.shields.io/npm/v/@eldrex/vite)](https://www.npmjs.com/package/@eldrex/vite) |
-| [`@eldrex/vscode`](/packages/vscode)    | VS Code extension      | [Marketplace](https://marketplace.visualstudio.com/items?itemName=ebula.devdiff)                |
+| [`@eldrex/vscode`](/packages/vscode)    | VS Code extension      | [Marketplace](https://marketplace.visualstudio.com/items?itemName=ebula.devdiff) · [Open VSX](https://open-vsx.org/extension/ebula/devdiff) |
 
 ---
 

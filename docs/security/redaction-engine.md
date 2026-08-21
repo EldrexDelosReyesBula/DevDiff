@@ -4,7 +4,7 @@ DevDiff includes an automated, high-entropy secret detection and redaction engin
 
 ---
 
-## 🎯 Architecture & Workflow
+## Architecture & Workflow
 
 ```mermaid
 flowchart TD
@@ -17,14 +17,11 @@ flowchart TD
     E -->|No| G[Clean Text Stream]
     F --> H[Sanitized Payload to LLM / MCP]
     G --> H
-
-    style F fill:#f99,stroke:#333,stroke-width:2px
-    style H fill:#9f9,stroke:#333,stroke-width:2px
 ```
 
 ---
 
-## 🔒 Redaction Rules & Supported Credentials
+## Redaction Rules & Supported Credentials
 
 `RedactionEngineV2` enforces built-in detection patterns across 5 core credential categories:
 
@@ -55,7 +52,7 @@ flowchart TD
 
 ---
 
-## ⚙️ Custom Redaction Rules & Configuration
+## Custom Redaction Rules & Configuration
 
 Developers and security teams can configure custom regex patterns or extend redaction rules in `.devdiff/config.json`:
 
@@ -79,7 +76,7 @@ Developers and security teams can configure custom regex patterns or extend reda
 
 ---
 
-## 🧪 Verification & Usage Example
+## Verification & Usage Example
 
 ```typescript
 import { RedactionEngineV2 } from "@eldrex/core";

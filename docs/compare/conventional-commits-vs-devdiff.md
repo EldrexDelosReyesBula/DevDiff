@@ -4,7 +4,7 @@ This guide compares **Conventional Commits** (manual commit message prefixes lik
 
 ---
 
-## 🎯 Architectural Comparison
+## Architectural Comparison
 
 | Comparison Dimension         | Conventional Commits                                              | DevDiff Automated AST Engine                                                       |
 | ---------------------------- | ----------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
@@ -15,7 +15,7 @@ This guide compares **Conventional Commits** (manual commit message prefixes lik
 
 ---
 
-## 🚀 Why DevDiff Supercedes Manual Commit Conventions
+## Why DevDiff Supercedes Manual Commit Conventions
 
 Developer commit messages are often vague or rushed (e.g. `wip`, `fix stuff`, `updates`). Conventional Commits require strict pre-commit linters (`commitlint`).
 

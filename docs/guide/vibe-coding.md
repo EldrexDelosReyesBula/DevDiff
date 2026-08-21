@@ -4,7 +4,7 @@
 
 ---
 
-## 🎯 Architecture & Safety Flow
+## Architecture & Safety Flow
 
 ```mermaid
 flowchart TD
@@ -14,15 +14,11 @@ flowchart TD
     Test -->|Yes| Commit[3. Session Continues / Git Commit]
     Test -->|No / Corrupted Code| Revert[4. devdiff recover Rollback]
     Revert --> Restore[Instant Restoration to Pre-AI State]
-
-    style Checkpoint fill:#bbf,stroke:#333,stroke-width:2px
-    style Revert fill:#f99,stroke:#333,stroke-width:2px
-    style Restore fill:#9f9,stroke:#333,stroke-width:2px
 ```
 
 ---
 
-## 🛡️ Core Safety Guarantees
+## Core Safety Guarantees
 
 ### 1. Automated Pre-AI Checkpoints
 
@@ -39,7 +35,7 @@ flowchart TD
 
 ---
 
-## 💻 CLI Commands
+## CLI Commands
 
 ### 1. Start a Vibe-Coding Session
 

@@ -4,7 +4,7 @@ Privacy is the foundational guarantee of DevDiff. Your source code represents yo
 
 ---
 
-## 🎯 Privacy Guarantees
+## Privacy Guarantees
 
 ```mermaid
 flowchart LR
@@ -15,14 +15,11 @@ flowchart LR
     end
 
     LocalWorkstation -.->|BLOCKED BY DEFAULT| Cloud[External Cloud / Telemetry]
-
-    style LocalWorkstation fill:#eef,stroke:#333,stroke-width:2px
-    style Cloud fill:#fee,stroke:#333,stroke-width:2px,stroke-dasharray: 5 5
 ```
 
 ---
 
-## 🔒 5 Privacy Pillars
+## 5 Privacy Pillars
 
 ### 1. Local-First Storage & Memory Indexing
 

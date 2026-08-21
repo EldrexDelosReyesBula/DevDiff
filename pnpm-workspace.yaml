@@ -2,8 +2,6 @@ packages:
   - "packages/*"
   - "packages/integrations/*"
   - "docs"
-  - "examples/*"
-  - "template-plugin"
 
 overrides:
   vite: "^6.4.3"

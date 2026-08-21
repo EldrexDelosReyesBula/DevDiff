@@ -1,6 +1,6 @@
 {
   "name": "@eldrex/mcp",
-  "version": "1.6.1",
+  "version": "1.8.0",
   "description": "DevDiff MCP Server v2.0",
   "type": "module",
   "main": "./dist/server-v2.js",
@@ -38,6 +38,6 @@
     "mcp",
     "server"
   ],
-  "author": "Eldrex Delos Reyes Bula \u003celdrexdelosreyesbula@gmail.com\u003e",
+  "author": "Eldrex Delos Reyes Bula <eldrexdelosreyesbula@gmail.com>",
   "license": "MIT"
 }
