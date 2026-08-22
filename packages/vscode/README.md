@@ -28,6 +28,7 @@ Privacy-first, BYOAI (Bring Your Own AI) inline codebase intelligence and change
 DevDiff is published as a single, universal `.vsix` package providing identical functionality, offline privacy, and local AI capabilities across both official and open-source editor ecosystems:
 
 ### Option A: VS Code Marketplace (VS Code, Cursor, Windsurf, Trae)
+
 - **Install from Web**: [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=ebula.devdiff)
 - **Install via CLI**:
   ```bash
@@ -35,6 +36,7 @@ DevDiff is published as a single, universal `.vsix` package providing identical 
   ```
 
 ### Option B: Open VSX Registry (VSCodium, Gitpod, Eclipse Theia, Code-OSS)
+
 - **Install from Web**: [Open VSX Registry](https://open-vsx.org/extension/ebula/devdiff)
 - **Install via CLI**:
   ```bash
@@ -42,7 +44,9 @@ DevDiff is published as a single, universal `.vsix` package providing identical 
   ```
 
 ### Option C: Manual VSIX Installation
+
 Download the latest `devdiff-1.9.0.vsix` and run:
+
 ```bash
 code --install-extension devdiff-1.9.0.vsix
 ```

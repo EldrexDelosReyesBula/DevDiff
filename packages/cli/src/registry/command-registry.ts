@@ -1065,7 +1065,8 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
   },
   {
     name: "mcp",
-    description: "Manage Universal MCP (Model Context Protocol) configurations and server",
+    description:
+      "Manage Universal MCP (Model Context Protocol) configurations and server",
     longDescription:
       "Generate, install, and check status of MCP server configurations for VS Code, Cursor, Windsurf, Antigravity, Claude Desktop, and JetBrains. Also supports running MCP server and testing connectivity.",
     examples: [
@@ -1086,11 +1087,13 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
     options: [
       {
         flags: "--ide <ide>",
-        description: "Target IDE for MCP configuration (vscode, cursor, windsurf, antigravity, claude-desktop, jetbrains)",
+        description:
+          "Target IDE for MCP configuration (vscode, cursor, windsurf, antigravity, claude-desktop, jetbrains)",
       },
       {
         flags: "--all",
-        description: "Install MCP configurations for all supported IDEs at once",
+        description:
+          "Install MCP configurations for all supported IDEs at once",
       },
       {
         flags: "--http",

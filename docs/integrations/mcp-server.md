@@ -113,24 +113,24 @@ devdiff mcp serve
 
 DevDiff exposes **16 dedicated, sub-50ms codebase query tools**:
 
-| MCP Tool Name | Function & Capability | Latency |
-| :--- | :--- | :--- |
-| `devdiff_generate_changelog` | Generates persona-tailored changelog for staged diffs | **< 45ms** |
-| `devdiff_parse_diff` | Parses git diff into structured AST additions/deletions | **< 20ms** |
-| `devdiff_generate_diagram` | Generates Mermaid architecture flowchart for recent changes | **< 35ms** |
-| `devdiff_security_scan` | Scans staged files for credential leaks and CVEs | **< 30ms** |
-| `devdiff_query_entity` | Query entity history, methods, and parent scopes | **< 35ms** |
-| `devdiff_query_changes` | Scan time-range modifications across files | **< 40ms** |
-| `devdiff_query_dependencies` | Upstream and downstream module dependency graph | **< 30ms** |
+| MCP Tool Name                | Function & Capability                                        | Latency    |
+| :--------------------------- | :----------------------------------------------------------- | :--------- |
+| `devdiff_generate_changelog` | Generates persona-tailored changelog for staged diffs        | **< 45ms** |
+| `devdiff_parse_diff`         | Parses git diff into structured AST additions/deletions      | **< 20ms** |
+| `devdiff_generate_diagram`   | Generates Mermaid architecture flowchart for recent changes  | **< 35ms** |
+| `devdiff_security_scan`      | Scans staged files for credential leaks and CVEs             | **< 30ms** |
+| `devdiff_query_entity`       | Query entity history, methods, and parent scopes             | **< 35ms** |
+| `devdiff_query_changes`      | Scan time-range modifications across files                   | **< 40ms** |
+| `devdiff_query_dependencies` | Upstream and downstream module dependency graph              | **< 30ms** |
 | `devdiff_query_architecture` | Generate Mermaid architecture graph for module relationships | **< 45ms** |
-| `devdiff_query_search` | Sub-string and AST entity search | **< 35ms** |
-| `devdiff_query_compliance` | Scan staged changes against 10 compliance frameworks | **< 50ms** |
-| `devdiff_query_stats` | Codebase metrics, lines changed, file counts | **< 20ms** |
-| `devdiff_query_timeline` | Chronological change timeline | **< 40ms** |
-| `devdiff_ask` | Multi-turn conversational Q&A against persistent memory | **< 40ms** |
-| `devdiff_read_skill` | Reads and validates repository `.devdiff/SKILL.md` rules | **< 15ms** |
-| `devdiff_study_explain` | Progressive code explainer across 5 skill levels | **< 35ms** |
-| `devdiff_version` | Returns current DevDiff engine version and build metadata | **< 10ms** |
+| `devdiff_query_search`       | Sub-string and AST entity search                             | **< 35ms** |
+| `devdiff_query_compliance`   | Scan staged changes against 10 compliance frameworks         | **< 50ms** |
+| `devdiff_query_stats`        | Codebase metrics, lines changed, file counts                 | **< 20ms** |
+| `devdiff_query_timeline`     | Chronological change timeline                                | **< 40ms** |
+| `devdiff_ask`                | Multi-turn conversational Q&A against persistent memory      | **< 40ms** |
+| `devdiff_read_skill`         | Reads and validates repository `.devdiff/SKILL.md` rules     | **< 15ms** |
+| `devdiff_study_explain`      | Progressive code explainer across 5 skill levels             | **< 35ms** |
+| `devdiff_version`            | Returns current DevDiff engine version and build metadata    | **< 10ms** |
 
 ---
 

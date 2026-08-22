@@ -202,7 +202,10 @@ export async function activate(context: vscode.ExtensionContext) {
       vscode.window.registerWebviewViewProvider(ChatPanel.viewType, chatPanel),
     );
 
-    const securityPanel = new SecurityPanel(context.extensionUri, currentEngine);
+    const securityPanel = new SecurityPanel(
+      context.extensionUri,
+      currentEngine,
+    );
     context.subscriptions.push(
       vscode.window.registerWebviewViewProvider(
         SecurityPanel.viewType,
@@ -385,7 +388,9 @@ async function generateChangelogWithProgress() {
     },
     async () => {
       try {
-        const changelog = await engine.generateChangelog({ format: "markdown" });
+        const changelog = await engine.generateChangelog({
+          format: "markdown",
+        });
         const doc = await vscode.workspace.openTextDocument({
           content: changelog,
           language: "markdown",
@@ -395,10 +400,15 @@ async function generateChangelogWithProgress() {
           viewColumn: vscode.ViewColumn.Active,
         });
         try {
-          await vscode.commands.executeCommand("markdown.showPreviewToSide", doc.uri);
+          await vscode.commands.executeCommand(
+            "markdown.showPreviewToSide",
+            doc.uri,
+          );
         } catch {}
       } catch (err: any) {
-        vscode.window.showErrorMessage(`DevDiff: Failed to generate changelog: ${err.message}`);
+        vscode.window.showErrorMessage(
+          `DevDiff: Failed to generate changelog: ${err.message}`,
+        );
       }
     },
   );
@@ -415,7 +425,8 @@ async function showProjectSummary() {
       try {
         let summary = await engine.getProjectContext();
         if (!summary || !summary.trim()) {
-          summary = "# 📋 Project Summary\n\nNo project context found yet. Stage changes and initialize DevDiff to build repository context.";
+          summary =
+            "# 📋 Project Summary\n\nNo project context found yet. Stage changes and initialize DevDiff to build repository context.";
         } else if (!summary.startsWith("#")) {
           summary = `# 📋 Project Summary\n\n${summary}`;
         }
@@ -428,10 +439,15 @@ async function showProjectSummary() {
           viewColumn: vscode.ViewColumn.Active,
         });
         try {
-          await vscode.commands.executeCommand("markdown.showPreviewToSide", doc.uri);
+          await vscode.commands.executeCommand(
+            "markdown.showPreviewToSide",
+            doc.uri,
+          );
         } catch {}
       } catch (err: any) {
-        vscode.window.showErrorMessage(`DevDiff: Failed to load project summary: ${err.message}`);
+        vscode.window.showErrorMessage(
+          `DevDiff: Failed to load project summary: ${err.message}`,
+        );
       }
     },
   );
@@ -481,7 +497,9 @@ async function generateDiagram() {
           </body>
           </html>`;
       } catch (err: any) {
-        vscode.window.showErrorMessage(`DevDiff: Failed to generate diagram: ${err.message}`);
+        vscode.window.showErrorMessage(
+          `DevDiff: Failed to generate diagram: ${err.message}`,
+        );
       }
     },
   );

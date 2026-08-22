@@ -309,7 +309,11 @@ export class UniversalMCPConfig {
       } catch {}
     }
 
-    fs.writeFileSync(configPath, JSON.stringify(mergedConfig, null, 2), "utf-8");
+    fs.writeFileSync(
+      configPath,
+      JSON.stringify(mergedConfig, null, 2),
+      "utf-8",
+    );
     return `✅ ${displayName} MCP config written to ${configPath}`;
   }
 }

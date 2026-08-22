@@ -15,6 +15,7 @@ As you edit or stage files, multiple untitled markdown tabs (`Untitled-1`, `Unti
 Background change monitoring (`autoStart` or watch mode) triggered automatic document previews on file system events.
 
 **Instant Self-Fix:**
+
 1. **Close all open untitled tabs at once**:
    - Press <kbd>Ctrl+K Ctrl+W</kbd> (or <kbd>Cmd+K Cmd+W</kbd> on macOS) to run **`View: Close All Editors`**.
    - Or open Command Palette (<kbd>Ctrl+Shift+P</kbd>) and select **`View: Close All Editor Groups`**.
@@ -36,6 +37,7 @@ Clicking sidebar items or running commands from the Command Palette shows an err
 An uncaught error in extension startup halted `activate()` before all command handlers could be registered into VS Code.
 
 **Instant Self-Fix:**
+
 1. **Reload VS Code Window**:
    - Press <kbd>Ctrl+Shift+P</kbd> $\rightarrow$ select **`Developer: Reload Window`**.
 2. **Inspect the Extension Startup Log**:
@@ -54,18 +56,22 @@ An uncaught error in extension startup halted `activate()` before all command ha
 
 **Symptom:**
 Running `devdiff mcp start` prints:
+
 ```
 ⚡ Starting DevDiff MCP Server v2.0...
 ✅ MCP Server listening on stdio (stdin/stdout)
 DevDiff MCP Server running via stdio transport.
 ```
+
 and the terminal cursor remains active without returning to the shell prompt.
 
 **Explanation:**
+
 - **This is expected behavior.** Model Context Protocol (MCP) servers run over `stdio` (JSON-RPC) waiting for AI clients (Cursor, Claude Desktop, Antigravity) to send tool queries.
 - It is not meant to be run interactively by humans in a shell prompt.
 
 **Instant Solution:**
+
 - Press <kbd>Ctrl+C</kbd> to exit.
 - To use the MCP server with an AI IDE, configure your client config file (`claude_desktop_config.json` or `.cursor/mcp.json`) as follows:
 
@@ -88,6 +94,7 @@ and the terminal cursor remains active without returning to the shell prompt.
 When generating changelogs or diagrams on large repositories, Ollama or local LLMs time out or trigger MVP fallback mode: `[MVP Mode Triggered - Saved as mvp-...]`.
 
 **Instant Self-Fix:**
+
 1. **Use Minimal Depth**:
    ```bash
    devdiff generate --depth minimal
@@ -105,8 +112,8 @@ When generating changelogs or diagrams on large repositories, Ollama or local LL
      ai: {
        provider: "ollama",
        model: "llama3.2:3b",
-       timeoutMs: 180000 // 3 minutes
-     }
+       timeoutMs: 180000, // 3 minutes
+     },
    };
    ```
 
@@ -136,10 +143,10 @@ code --install-extension devdiff-1.9.0.vsix --force
 
 ## 📋 VS Code Settings Reference
 
-| Setting | Type | Default | Description |
-| :--- | :---: | :---: | :--- |
-| `devdiff.autoStart` | `boolean` | `false` | Enables background file monitoring for status bar updates. |
-| `devdiff.defaultPersona` | `string` | `"developer"` | Default persona for changelog synthesis (`developer`, `ceo`, `pm`, etc.). |
-| `devdiff.aiProvider` | `string` | `"auto"` | Preferred AI engine (`auto`, `ollama`, `webgpu`, `openai`, `anthropic`). |
-| `devdiff.showDiagramPreview` | `boolean` | `true` | Automatically renders Mermaid diagrams in beside webview. |
-| `devdiff.securityScanOnStage` | `boolean` | `true` | Runs lightweight credential check when files are staged. |
+| Setting                       |   Type    |    Default    | Description                                                               |
+| :---------------------------- | :-------: | :-----------: | :------------------------------------------------------------------------ |
+| `devdiff.autoStart`           | `boolean` |    `false`    | Enables background file monitoring for status bar updates.                |
+| `devdiff.defaultPersona`      | `string`  | `"developer"` | Default persona for changelog synthesis (`developer`, `ceo`, `pm`, etc.). |
+| `devdiff.aiProvider`          | `string`  |   `"auto"`    | Preferred AI engine (`auto`, `ollama`, `webgpu`, `openai`, `anthropic`).  |
+| `devdiff.showDiagramPreview`  | `boolean` |    `true`     | Automatically renders Mermaid diagrams in beside webview.                 |
+| `devdiff.securityScanOnStage` | `boolean` |    `true`     | Runs lightweight credential check when files are staged.                  |

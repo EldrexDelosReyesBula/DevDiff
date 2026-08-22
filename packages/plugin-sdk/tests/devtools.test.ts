@@ -102,7 +102,9 @@ describe("DevDiff Foundations DevTools", () => {
       },
     };
 
-    const result = await DevDiffDevTools.benchmarkPlugin(plugin, { iterations: 10 });
+    const result = await DevDiffDevTools.benchmarkPlugin(plugin, {
+      iterations: 10,
+    });
     expect(result.iterations).toBe(10);
     expect(result.averageDurationMs).toBeGreaterThanOrEqual(0);
     expect(result.pluginId).toBe("bench-plugin");

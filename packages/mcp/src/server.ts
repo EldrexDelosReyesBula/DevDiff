@@ -55,7 +55,8 @@ export class DevDiffMCPServer {
             properties: {
               since: {
                 type: "string",
-                description: 'Time range or git revision (e.g. "today", "24h", "HEAD~5..HEAD")',
+                description:
+                  'Time range or git revision (e.g. "today", "24h", "HEAD~5..HEAD")',
               },
               persona: {
                 type: "string",
@@ -84,7 +85,13 @@ export class DevDiffMCPServer {
               file: { type: "string", description: "File path for context" },
               level: {
                 type: "string",
-                enum: ["beginner", "student", "developer", "senior", "architect"],
+                enum: [
+                  "beginner",
+                  "student",
+                  "developer",
+                  "senior",
+                  "architect",
+                ],
                 description: "Explanation depth level",
               },
             },
@@ -97,7 +104,10 @@ export class DevDiffMCPServer {
           inputSchema: {
             type: "object",
             properties: {
-              question: { type: "string", description: "Natural language query" },
+              question: {
+                type: "string",
+                description: "Natural language query",
+              },
             },
             required: ["question"],
           },
@@ -108,7 +118,10 @@ export class DevDiffMCPServer {
           inputSchema: {
             type: "object",
             properties: {
-              since: { type: "string", description: "Time range or git revision" },
+              since: {
+                type: "string",
+                description: "Time range or git revision",
+              },
               threshold: {
                 type: "string",
                 enum: ["low", "medium", "high", "critical"],
@@ -119,7 +132,8 @@ export class DevDiffMCPServer {
         },
         {
           name: "devdiff_diagram",
-          description: "Generate architecture or sequence diagram in Mermaid format",
+          description:
+            "Generate architecture or sequence diagram in Mermaid format",
           inputSchema: {
             type: "object",
             properties: {
@@ -244,7 +258,12 @@ export class DevDiffMCPServer {
               return await devdiff_read_skill.handler(params);
             }
             return {
-              content: [{ type: "text", text: skill?.raw || "No SKILL.md found in workspace." }],
+              content: [
+                {
+                  type: "text",
+                  text: skill?.raw || "No SKILL.md found in workspace.",
+                },
+              ],
             };
           }
 
@@ -277,14 +296,22 @@ export class DevDiffMCPServer {
           name: "summarize_changes",
           description: "Generate a structured changelog summary",
           arguments: [
-            { name: "since", description: "Time range or git rev", required: false },
+            {
+              name: "since",
+              description: "Time range or git rev",
+              required: false,
+            },
           ],
         },
         {
           name: "security_review",
           description: "Security audit prompt for recent changes",
           arguments: [
-            { name: "since", description: "Time range to audit", required: false },
+            {
+              name: "since",
+              description: "Time range to audit",
+              required: false,
+            },
           ],
         },
       ],
@@ -347,8 +374,13 @@ export class DevDiffMCPServer {
       "llama3.2:3b";
     const port =
       options?.port ||
-      parseInt(process.env.DEVVIFF_MCP_PORT || process.env.DEVDIFF_MCP_PORT || "3739", 10);
-    const transportMode = options?.transport || (process.env.DEVDIFF_MCP_TRANSPORT === "http" ? "http" : "stdio");
+      parseInt(
+        process.env.DEVVIFF_MCP_PORT || process.env.DEVDIFF_MCP_PORT || "3739",
+        10,
+      );
+    const transportMode =
+      options?.transport ||
+      (process.env.DEVDIFF_MCP_TRANSPORT === "http" ? "http" : "stdio");
 
     console.error("🔌 DevDiff MCP Server");
     console.error("═".repeat(50));
@@ -391,7 +423,10 @@ export class DevDiffMCPServer {
         if (parsedUrl.pathname === "/sse") {
           sseTransport = new SSEServerTransport("/messages", res);
           await server.connect(sseTransport);
-        } else if (parsedUrl.pathname === "/messages" && req.method === "POST") {
+        } else if (
+          parsedUrl.pathname === "/messages" &&
+          req.method === "POST"
+        ) {
           if (sseTransport) {
             await sseTransport.handlePostMessage(req, res);
           } else {
@@ -405,7 +440,9 @@ export class DevDiffMCPServer {
       });
 
       httpServer.listen(port, () => {
-        console.error(`✅ DevDiff MCP Server listening on http://localhost:${port}/sse`);
+        console.error(
+          `✅ DevDiff MCP Server listening on http://localhost:${port}/sse`,
+        );
       });
     }
   }
@@ -427,7 +464,7 @@ export class DevDiffMCPServer {
       const aiStatus = await checkAIStatus();
       const isAvailable = aiStatus.status === "connected";
       const localModel = isAvailable
-        ? (aiStatus.modelsAvailable[0] || "llama3.2:3b (local)")
+        ? aiStatus.modelsAvailable[0] || "llama3.2:3b (local)"
         : null;
 
       const engine = new DevDiffEngine({

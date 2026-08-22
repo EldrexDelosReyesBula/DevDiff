@@ -51,7 +51,11 @@ export class DevDiffDevTools {
     const customPaths = options?.filePaths || [];
 
     const files: ParsedFileDiff[] = [];
-    const changes: Array<{ type: "addition" | "deletion"; line: number; content: string }> = [];
+    const changes: Array<{
+      type: "addition" | "deletion";
+      line: number;
+      content: string;
+    }> = [];
 
     for (let i = 0; i < count; i++) {
       const filePath = customPaths[i] || `src/module_${i + 1}.ts`;
@@ -97,7 +101,11 @@ export class DevDiffDevTools {
 
       files.push({
         path: filePath,
-        oldPath: isRename ? `src/old_module_${i + 1}.ts` : isNew ? null : filePath,
+        oldPath: isRename
+          ? `src/old_module_${i + 1}.ts`
+          : isNew
+            ? null
+            : filePath,
         newPath: filePath,
         isNew,
         isDeleted: false,
@@ -151,7 +159,9 @@ export class DevDiffDevTools {
    */
   static mockChangelog(summary?: string): ChangelogResult {
     return {
-      summary: summary || "## Added\n- Added modular DevTools suite for DevDiff Foundations.",
+      summary:
+        summary ||
+        "## Added\n- Added modular DevTools suite for DevDiff Foundations.",
       impact: "minor",
       breaking: false,
       files: [
@@ -161,7 +171,8 @@ export class DevDiffDevTools {
         },
       ],
       relatedIssues: ["#42"],
-      formattedOutput: summary || "# Changelog\n\n## Added\n- Added modular DevTools suite.",
+      formattedOutput:
+        summary || "# Changelog\n\n## Added\n- Added modular DevTools suite.",
     };
   }
 
@@ -173,13 +184,19 @@ export class DevDiffDevTools {
     const warnings: string[] = [];
 
     if (!plugin || typeof plugin !== "object") {
-      return { valid: false, errors: ["Plugin must be an object."], warnings: [] };
+      return {
+        valid: false,
+        errors: ["Plugin must be an object."],
+        warnings: [],
+      };
     }
 
     if (!plugin.id || typeof plugin.id !== "string") {
       errors.push("Plugin 'id' is required and must be a non-empty string.");
     } else if (!/^[a-z0-9-_@/]+$/.test(plugin.id)) {
-      warnings.push("Plugin 'id' should be alphanumeric with hyphens or underscores (e.g. '@org/my-plugin').");
+      warnings.push(
+        "Plugin 'id' should be alphanumeric with hyphens or underscores (e.g. '@org/my-plugin').",
+      );
     }
 
     if (!plugin.name || typeof plugin.name !== "string") {
@@ -189,7 +206,9 @@ export class DevDiffDevTools {
     if (!plugin.version || typeof plugin.version !== "string") {
       errors.push("Plugin 'version' is required (SemVer format).");
     } else if (!/^\d+\.\d+\.\d+/.test(plugin.version)) {
-      warnings.push("Plugin 'version' should follow standard SemVer (e.g. '1.0.0').");
+      warnings.push(
+        "Plugin 'version' should follow standard SemVer (e.g. '1.0.0').",
+      );
     }
 
     if (plugin.activate && typeof plugin.activate !== "function") {
@@ -215,7 +234,9 @@ export class DevDiffDevTools {
         ];
         for (const hookName of Object.keys(plugin.hooks)) {
           if (!allowedHooks.includes(hookName)) {
-            warnings.push(`Unknown hook '${hookName}' may not be called by the engine.`);
+            warnings.push(
+              `Unknown hook '${hookName}' may not be called by the engine.`,
+            );
           } else if (typeof plugin.hooks[hookName] !== "function") {
             errors.push(`Hook '${hookName}' must be a function.`);
           }
@@ -282,7 +303,9 @@ export class DevDiffDevTools {
           workspacePath: process.cwd(),
         }),
         getProjectContext: async () => DevDiffDevTools.mockContext(),
-        getRecentChanges: async () => [{ path: "src/index.ts", status: "modified" }],
+        getRecentChanges: async () => [
+          { path: "src/index.ts", status: "modified" },
+        ],
       },
     };
 
@@ -302,17 +325,27 @@ export class DevDiffDevTools {
         }
       },
 
-      async runBeforeAnalysis(diff?: ParsedDiff, context?: ProjectContext): Promise<ParsedDiff> {
+      async runBeforeAnalysis(
+        diff?: ParsedDiff,
+        context?: ProjectContext,
+      ): Promise<ParsedDiff> {
         const inputDiff = diff || DevDiffDevTools.mockDiff();
         const inputContext = context || DevDiffDevTools.mockContext();
         if (plugin.hooks?.beforeAnalysis) {
           try {
-            const res = await plugin.hooks.beforeAnalysis(inputDiff, inputContext);
+            const res = await plugin.hooks.beforeAnalysis(
+              inputDiff,
+              inputContext,
+            );
             return res || inputDiff;
           } catch (err: any) {
             errorsCaught.push(err);
             if (plugin.hooks?.onError) {
-              await plugin.hooks.onError({ name: err.name || "Error", message: err.message, stack: err.stack });
+              await plugin.hooks.onError({
+                name: err.name || "Error",
+                message: err.message,
+                stack: err.stack,
+              });
             }
             throw err;
           }
@@ -320,7 +353,9 @@ export class DevDiffDevTools {
         return inputDiff;
       },
 
-      async runAfterAnalysis(changelog?: ChangelogResult): Promise<ChangelogResult> {
+      async runAfterAnalysis(
+        changelog?: ChangelogResult,
+      ): Promise<ChangelogResult> {
         const inputChangelog = changelog || DevDiffDevTools.mockChangelog();
         if (plugin.hooks?.afterAnalysis) {
           try {
@@ -329,7 +364,11 @@ export class DevDiffDevTools {
           } catch (err: any) {
             errorsCaught.push(err);
             if (plugin.hooks?.onError) {
-              await plugin.hooks.onError({ name: err.name || "Error", message: err.message, stack: err.stack });
+              await plugin.hooks.onError({
+                name: err.name || "Error",
+                message: err.message,
+                stack: err.stack,
+              });
             }
             throw err;
           }
@@ -347,7 +386,9 @@ export class DevDiffDevTools {
     options?: { iterations?: number; sampleDiff?: ParsedDiff },
   ): Promise<BenchmarkResult> {
     const iterations = options?.iterations || 50;
-    const diff = options?.sampleDiff || this.mockDiff({ filesCount: 5, additionsPerFile: 10 });
+    const diff =
+      options?.sampleDiff ||
+      this.mockDiff({ filesCount: 5, additionsPerFile: 10 });
     const context = this.mockContext();
     const changelog = this.mockChangelog();
 

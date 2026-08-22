@@ -1,5 +1,9 @@
 import pc from "picocolors";
-import { UniversalMCPConfig, DevDiffMCPServer, startMcpServer } from "@eldrex/mcp";
+import {
+  UniversalMCPConfig,
+  DevDiffMCPServer,
+  startMcpServer,
+} from "@eldrex/mcp";
 
 export async function mcpCommand(
   action: string,
@@ -15,12 +19,16 @@ export async function mcpCommand(
   switch (normalizedAction) {
     case "install": {
       if (options.all) {
-        console.log(pc.blue("🔌 Installing MCP configuration for all supported IDEs..."));
+        console.log(
+          pc.blue("🔌 Installing MCP configuration for all supported IDEs..."),
+        );
         const results = await UniversalMCPConfig.installAll(process.cwd());
         for (const res of results) {
           console.log(`   ${res}`);
         }
-        console.log(pc.green("\n✅ All MCP configurations generated successfully."));
+        console.log(
+          pc.green("\n✅ All MCP configurations generated successfully."),
+        );
         return;
       }
 
@@ -37,7 +45,10 @@ export async function mcpCommand(
       }
 
       try {
-        const res = await UniversalMCPConfig.install(options.ide, process.cwd());
+        const res = await UniversalMCPConfig.install(
+          options.ide,
+          process.cwd(),
+        );
         console.log(pc.green(res));
       } catch (err: any) {
         console.error(pc.red(`❌ Installation failed: ${err.message}`));
@@ -76,12 +87,18 @@ export async function mcpCommand(
         if (result.skillDetected) {
           console.log(pc.green("✅ SKILL.md detected and loaded"));
         } else {
-          console.log(pc.yellow("⚠️ No SKILL.md detected (using auto-context)"));
+          console.log(
+            pc.yellow("⚠️ No SKILL.md detected (using auto-context)"),
+          );
         }
         if (result.localModel) {
-          console.log(pc.green(`✅ Local model detected (${result.localModel})`));
+          console.log(
+            pc.green(`✅ Local model detected (${result.localModel})`),
+          );
         } else {
-          console.log(pc.dim("ℹ️ Local Ollama not running — using default providers"));
+          console.log(
+            pc.dim("ℹ️ Local Ollama not running — using default providers"),
+          );
         }
       } else {
         console.error(pc.red(`❌ ${result.message}`));
@@ -103,7 +120,9 @@ export async function mcpCommand(
           );
           await startMcpServer({ transport: "http", port });
         } else {
-          console.log(pc.green("✅ MCP Server listening on stdio (stdin/stdout)"));
+          console.log(
+            pc.green("✅ MCP Server listening on stdio (stdin/stdout)"),
+          );
           await DevDiffMCPServer.start({ transport: "stdio" });
         }
       } catch (err: any) {
@@ -114,9 +133,7 @@ export async function mcpCommand(
     }
 
     default: {
-      console.log(
-        pc.red(`❌ Unknown action: "${action}".`),
-      );
+      console.log(pc.red(`❌ Unknown action: "${action}".`));
       console.log("   Available actions: install, status, test, serve");
       console.log("   Example: devdiff mcp status");
       console.log("   Example: devdiff mcp install --all");

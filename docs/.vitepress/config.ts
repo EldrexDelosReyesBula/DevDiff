@@ -96,9 +96,30 @@ export default withMermaid({
 
     // Search Engine Crawlers & Indexing Directives
     ["meta", { name: "author", content: "Eldrex Delos Reyes Bula" }],
-    ["meta", { name: "robots", content: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" }],
-    ["meta", { name: "googlebot", content: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" }],
-    ["meta", { name: "bingbot", content: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" }],
+    [
+      "meta",
+      {
+        name: "robots",
+        content:
+          "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
+      },
+    ],
+    [
+      "meta",
+      {
+        name: "googlebot",
+        content:
+          "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
+      },
+    ],
+    [
+      "meta",
+      {
+        name: "bingbot",
+        content:
+          "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
+      },
+    ],
     [
       "meta",
       {
@@ -116,22 +137,23 @@ export default withMermaid({
       JSON.stringify({
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
-        "name": "DevDiff",
-        "operatingSystem": "Windows, macOS, Linux",
-        "applicationCategory": "DeveloperApplication",
-        "url": "https://devdiff.vercel.app",
-        "description": "Privacy-first, BYOAI codebase intelligence and changelog generator running entirely on local developer workstations.",
-        "author": {
+        name: "DevDiff",
+        operatingSystem: "Windows, macOS, Linux",
+        applicationCategory: "DeveloperApplication",
+        url: "https://devdiff.vercel.app",
+        description:
+          "Privacy-first, BYOAI codebase intelligence and changelog generator running entirely on local developer workstations.",
+        author: {
           "@type": "Person",
-          "name": "Eldrex Delos Reyes Bula",
-          "url": "https://github.com/EldrexDelosReyesBula"
+          name: "Eldrex Delos Reyes Bula",
+          url: "https://github.com/EldrexDelosReyesBula",
         },
-        "license": "https://opensource.org/licenses/MIT",
-        "offers": {
+        license: "https://opensource.org/licenses/MIT",
+        offers: {
           "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "USD"
-        }
+          price: "0",
+          priceCurrency: "USD",
+        },
       }),
     ],
   ],
@@ -179,19 +201,49 @@ export default withMermaid({
         text: "Features",
         collapsed: false,
         items: [
-          { text: "Multi-Agent Orchestration", link: "/features/agent-orchestration" },
-          { text: "Prompt Export & Offline AI", link: "/features/prompt-export" },
-          { text: "Security & Vulnerability Audits", link: "/security/dynamic-security" },
-          { text: "Network Firewall & Offline Mode", link: "/security/network-guard" },
-          { text: "Codebase Memory & History", link: "/features/persistent-memory" },
+          {
+            text: "Multi-Agent Orchestration",
+            link: "/features/agent-orchestration",
+          },
+          {
+            text: "Prompt Export & Offline AI",
+            link: "/features/prompt-export",
+          },
+          {
+            text: "Security & Vulnerability Audits",
+            link: "/security/dynamic-security",
+          },
+          {
+            text: "Network Firewall & Offline Mode",
+            link: "/security/network-guard",
+          },
+          {
+            text: "Codebase Memory & History",
+            link: "/features/persistent-memory",
+          },
           { text: "Study Mode Plugin", link: "/features/study-mode" },
           { text: "VS Code & IDE Features", link: "/features/ide-integration" },
-          { text: "Conversational Codebase Q&A", link: "/features/conversational-qa" },
-          { text: "Automated SemVer Versioning", link: "/features/automated-versioning" },
-          { text: "Project & Language Detection", link: "/features/universal-detection" },
-          { text: "Changelog Formatting", link: "/features/natural-changelogs" },
+          {
+            text: "Conversational Codebase Q&A",
+            link: "/features/conversational-qa",
+          },
+          {
+            text: "Automated SemVer Versioning",
+            link: "/features/automated-versioning",
+          },
+          {
+            text: "Project & Language Detection",
+            link: "/features/universal-detection",
+          },
+          {
+            text: "Changelog Formatting",
+            link: "/features/natural-changelogs",
+          },
           { text: "SKILL.md Context Standard", link: "/features/skill-md" },
-          { text: "Data Ownership & Privacy", link: "/guide/developer-sovereignty" },
+          {
+            text: "Data Ownership & Privacy",
+            link: "/guide/developer-sovereignty",
+          },
           { text: "Personas & Perspectives", link: "/features/personas" },
           { text: "Output Formats", link: "/features/output-formats" },
           { text: "Collaborative Agent Swarms", link: "/features/multi-agent" },

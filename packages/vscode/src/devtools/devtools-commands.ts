@@ -143,10 +143,14 @@ export function registerDevToolsCommands(
               providers.recommendedPath?.name ||
               providers.availablePaths[0]?.name ||
               "Template Mode (Local)";
-            const isLocal = providers.availablePaths.some((p) =>
-              p.name.toLowerCase().includes("ollama") || p.id.toLowerCase().includes("ollama"),
+            const isLocal = providers.availablePaths.some(
+              (p) =>
+                p.name.toLowerCase().includes("ollama") ||
+                p.id.toLowerCase().includes("ollama"),
             );
-            const isConnected = providers.onboardingStage === "ready" || providers.availablePaths.length > 0;
+            const isConnected =
+              providers.onboardingStage === "ready" ||
+              providers.availablePaths.length > 0;
 
             panel.webview.html = `<!DOCTYPE html>
             <html>

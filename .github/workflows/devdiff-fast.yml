@@ -14,50 +14,45 @@ permissions:
 jobs:
   changelog:
     runs-on: ubuntu-latest
-    timeout-minutes: 5  # Hard limit — never runs longer than 5 min
+    timeout-minutes: 5 # Hard limit — never runs longer than 5 min
 
     steps:
       # ── Step 1: Checkout (minimal fetch for speed) ──
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 50  # Only last 50 commits — not full history
+          fetch-depth: 50
 
-      # ── Step 2: Setup Node (fast) ──
+      # ── Step 2: Setup pnpm and Node ──
+      - uses: pnpm/action-setup@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
+          cache: "pnpm"
 
-      # ── Step 3: Install ONLY what's needed ──
-      - name: Install DevDiff CLI
-        run: npm install -g @eldrex/cli
-        # Global install is fast (~2 seconds)
+      # ── Step 3: Install and Build CLI ──
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
-      # ── Step 4: SKILL.md setup (if exists) ──
-      - name: Check for SKILL.md
-        id: skill
+      - name: Build Core & CLI
         run: |
-          if [ -f SKILL.md ]; then
-            echo "exists=true" >> $GITHUB_OUTPUT
-          else
-            echo "exists=false" >> $GITHUB_OUTPUT
-          fi
+          pnpm --filter @eldrex/core build
+          pnpm --filter @eldrex/cli build
 
-      # ── Step 5: Generate changelog via CLI (fast path) ──
+      # ── Step 4: Generate changelog via CLI (fast path) ──
       - name: Generate Changelog
         id: changelog
         run: |
-          # Use template mode for speed (no AI waiting)
-          # Or use local model if available
-          devdiff generate \
-            --since "${{ github.event.before }}..${{ github.sha }}" \
+          RANGE="${{ github.event.before }}..${{ github.sha }}"
+          if [ "${{ github.event.before }}" = "0000000000000000000000000000000000000000" ] || [ -z "${{ github.event.before }}" ]; then
+            RANGE="HEAD~1..HEAD"
+          fi
+          node packages/cli/dist/index.js generate \
+            --range "$RANGE" \
             --dry-run \
-            --output CHANGELOG_PREVIEW.md
+            --output CHANGELOG_PREVIEW.md || true
 
-          echo "generated=true" >> $GITHUB_OUTPUT
-
-      # ── Step 6: Post PR comment (only if PR) ──
+      # ── Step 5: Post PR comment (only if PR) ──
       - name: Comment PR
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v7
@@ -73,16 +68,3 @@ jobs:
                 body: `## 📝 DevDiff Changelog\n\n${changelog}`
               })
             }
-
-      # ── Step 7: Commit changelog (only on main) ──
-      - name: Commit Changelog
-        if: github.ref == 'refs/heads/main'
-        run: |
-          git config user.name "devdiff[bot]"
-          git config user.email "bot@devdiff.dev"
-
-          if [ -f CHANGELOG_PREVIEW.md ]; then
-            cp CHANGELOG_PREVIEW.md CHANGELOG.md
-            git add CHANGELOG.md
-            git diff --staged --quiet || git commit -m "docs: update changelog [skip ci]" && git push
-          fi

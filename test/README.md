@@ -39,6 +39,7 @@ test/
 ## 🚀 Running Tests
 
 ### 1. Primary Automated Unit Test Suite (Vitest)
+
 Unit tests for all packages are managed by Vitest and Turborepo:
 
 ```bash
@@ -50,6 +51,7 @@ pnpm test --coverage
 ```
 
 ### 2. End-to-End Bash Verification Matrix
+
 Run all sequential E2E validation phases:
 
 ```bash
