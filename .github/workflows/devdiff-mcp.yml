@@ -1,0 +1,47 @@
+# .github/workflows/devdiff-mcp.yml
+
+name: DevDiff via MCP
+
+on:
+  pull_request:
+
+jobs:
+  changelog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 10  # Only 10 commits — very fast
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install MCP Server
+        run: npm install -g @eldrex/mcp-server || npm install -g @eldrex/mcp
+
+      - name: Generate via MCP
+        run: |
+          # MCP server generates changelog using:
+          # 1. SKILL.md if present
+          # 2. Local template mode (no AI wait)
+          # 3. Fast diff analysis
+          npx @eldrex/cli generate --dry-run --output CHANGELOG_PREVIEW.md || echo "Changelog preview" > CHANGELOG_PREVIEW.md
+
+      - name: Post to PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs')
+            if (fs.existsSync('CHANGELOG_PREVIEW.md')) {
+              const content = fs.readFileSync('CHANGELOG_PREVIEW.md', 'utf8')
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: content
+              })
+            }

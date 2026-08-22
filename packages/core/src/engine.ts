@@ -33,6 +33,15 @@ function getSeverityScore(sev: string): number {
   }
 }
 
+export interface DevDiffEngineOptions {
+  workspacePath?: string;
+  silent?: boolean;
+  useLocalAI?: boolean;
+  localModel?: string;
+  skillDocument?: any;
+  projectContext?: any;
+}
+
 /**
  * DevDiffEngine — Main programmatic orchestrator for diff analysis,
  * changelog generation, security audits, and codebase intelligence.
@@ -40,10 +49,18 @@ function getSeverityScore(sev: string): number {
 export class DevDiffEngine {
   private workspacePath: string;
   private silent: boolean;
+  private useLocalAI?: boolean;
+  private localModel?: string;
+  private skillDocument?: any;
+  private projectContext?: any;
 
-  constructor(options?: { workspacePath?: string; silent?: boolean }) {
+  constructor(options?: DevDiffEngineOptions) {
     this.workspacePath = options?.workspacePath || process.cwd();
     this.silent = options?.silent || false;
+    this.useLocalAI = options?.useLocalAI;
+    this.localModel = options?.localModel;
+    this.skillDocument = options?.skillDocument;
+    this.projectContext = options?.projectContext;
   }
 
   /**
@@ -316,13 +333,19 @@ export class DevDiffEngine {
   }
 
   async generateChangelog(options?: {
+    since?: string;
     persona?: string;
     format?: "markdown" | "json" | "html";
   }): Promise<string> {
     try {
-      let diffText = await this.execGit(["diff", "--cached"]);
-      if (!diffText.trim()) {
-        diffText = await this.execGit(["diff"]);
+      let diffText = "";
+      if (options?.since) {
+        diffText = await this.getDiffForSince(options.since);
+      } else {
+        diffText = await this.execGit(["diff", "--cached"]);
+        if (!diffText.trim()) {
+          diffText = await this.execGit(["diff"]);
+        }
       }
 
       const config = await loadConfig(this.workspacePath);

@@ -372,6 +372,17 @@ devdiff study ask "How does Flexbox work here?"   # Ask learning question
 
 ---
 
+## Universal MCP Server Commands (`devdiff mcp`)
+
+```bash
+devdiff mcp install        # Auto-detect and configure MCP client settings across IDEs
+devdiff mcp status         # Inspect current MCP server state and tool health
+devdiff mcp test           # Run automated self-diagnostic test on tool registry
+devdiff mcp serve          # Launch the high-performance MCP server on stdio
+```
+
+---
+
 ## Exit Codes
 
 | Code | Meaning                      |

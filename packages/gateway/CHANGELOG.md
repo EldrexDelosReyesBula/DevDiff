@@ -1,5 +1,23 @@
 # @eldrex/gateway
 
+## 1.8.0
+
+### Minor Changes
+
+- **Mermaid Diagram Sanitizer v2**: Enhanced sanitizer stripping unsafe node labels, HTML tags, and invalid Mermaid syntax for dark-mode IDE rendering.
+- **Provider Connection Health**: Added automatic health pings and graceful degradation to local stubs.
+
+---
+
+## 1.7.0
+
+### Minor Changes
+
+- **Multi-Agent Swarm Coordinator**: Agent swarm consensus voting and pairwise agreement analysis across parallel AI provider streams.
+- **Dynamic Threat Feed Routing**: Integrated threat intelligence gateway endpoints.
+
+---
+
 ## 1.6.0
 
 ### Major Changes

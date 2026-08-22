@@ -12,15 +12,15 @@ __tests__/
 # Development configs
 tsconfig.json
 tsup.config.ts
+esbuild.config.mjs
 .eslintrc*
 .prettierrc*
 biome.json
 
-# Node modules (not needed in VSIX; bundled by tsup)
+# Node modules (not needed in VSIX; bundled by esbuild)
 node_modules/
 
 # Build artifacts not part of the extension
-*.map
 *.tsbuildinfo
 
 # Documentation and repo files
@@ -29,7 +29,7 @@ docs/
 !README.md
 CHANGELOG.md
 CONTRIBUTING.md
-LICENSE
+!LICENSE
 
 # CI and tooling
 .github/

@@ -14,6 +14,7 @@ import { registerFeedbackCommands } from "./commands/feedback";
 
 import { OnboardingBanner } from "./onboarding/onboarding-banner";
 import { OnboardingGuide } from "./onboarding/guide-opener";
+import { registerDevToolsCommands } from "./devtools/devtools-commands";
 
 let engine: DevDiffEngine;
 let statusBar: vscode.StatusBarItem;
@@ -29,183 +30,48 @@ interface DetectedModel {
   status: string;
 }
 
+// ── Optional dependencies: dynamic loading ──
+let ollamaClient: any = null;
+
+export async function getOllamaClient() {
+  if (ollamaClient) return ollamaClient;
+
+  try {
+    const { Ollama } = await import("ollama");
+    ollamaClient = new Ollama();
+  } catch {
+    ollamaClient = {
+      generate: async (params: any) => {
+        const res = await fetch("http://localhost:11434/api/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(params),
+        });
+        return ((await res.json()) as any).response;
+      },
+    };
+  }
+
+  return ollamaClient;
+}
+
+export function getEngine(): DevDiffEngine {
+  if (!engine) {
+    const workspacePath =
+      vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || process.cwd();
+    engine = new DevDiffEngine({ workspacePath });
+  }
+  return engine;
+}
+
 export async function activate(context: vscode.ExtensionContext) {
   outputChannel = vscode.window.createOutputChannel("DevDiff");
-  outputChannel.appendLine("DevDiff VS Code Extension v1.8.0 starting...");
-
-  // Register zero-impact lazy commands
-  ZeroImpactPerformance.registerLazyCommands(context);
-
-  // Register full editor tab chat window command
-  context.subscriptions.push(
-    vscode.commands.registerCommand("devdiff.openFullChat", async () => {
-      const { FullChatWindow } = await import("./chat/full-chat-window");
-      await FullChatWindow.open(context);
-    }),
-  );
-
-  // Register feedback and review commands
-  registerFeedbackCommands(context);
-
-  // Register virtual document provider and commands for getting started guide
-  OnboardingGuide.register(context);
-
-  // Show personalized onboarding guide on first install
-  OnboardingGuide.showIfFirstTime(context).catch((err) => {
-    outputChannel.appendLine(`Onboarding guide notice: ${err}`);
-  });
-
-  // Show zero-friction onboarding banner based on AI detection
-  OnboardingBanner.show(context).catch((err) => {
-    outputChannel.appendLine(`Onboarding banner notice: ${err}`);
-  });
-
-  const config = vscode.workspace.getConfiguration("devdiff");
-  const autoStart = config.get("autoStart", true);
-
-  const workspacePath =
-    vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || process.cwd();
+  outputChannel.appendLine("DevDiff VS Code Extension v1.9.0 active");
 
   // Track editor typing/activity for health checks
   vscode.workspace.onDidChangeTextDocument(() => IDEGuardian.trackActivity());
 
-  // Validate workspace safety
-  const validation = ExtensionSecurityGuard.validateWorkspace(workspacePath);
-  if (!validation.safe) {
-    outputChannel.appendLine(
-      `❌ Security block: Workspace failed security validation.`,
-    );
-    vscode.window.showErrorMessage(
-      "DevDiff: Workspace security checks failed. Extension has been disabled for safety.",
-    );
-    return;
-  }
-
-  // Initialize Engine
-  try {
-    engine = new DevDiffEngine({ workspacePath });
-    outputChannel.appendLine("✅ DevDiff engine initialized");
-  } catch (error) {
-    outputChannel.appendLine(`❌ Engine init failed: ${error}`);
-    return;
-  }
-
-  // ── REGISTER SIDEBAR PANELS (IDE-NATIVE) ──
-  const changelogExplorer = new ChangelogExplorer(context, engine);
-  vscode.window.registerTreeDataProvider(
-    "devdiff-changelog",
-    changelogExplorer,
-  );
-
-  const chatPanel = new ChatPanel(context.extensionUri, engine);
-  vscode.window.registerWebviewViewProvider(ChatPanel.viewType, chatPanel);
-
-  const securityPanel = new SecurityPanel(context.extensionUri, engine);
-  vscode.window.registerWebviewViewProvider(
-    SecurityPanel.viewType,
-    securityPanel,
-  );
-
-  const settingsPanel = new SettingsPanel(context.extensionUri);
-  vscode.window.registerWebviewViewProvider(
-    SettingsPanel.viewType,
-    settingsPanel,
-  );
-
-  // ── REGISTER CODELENS / GUTTER ANNOTATIONS ──
-  context.subscriptions.push(
-    vscode.languages.registerCodeLensProvider(
-      { scheme: "file" },
-      new ChangelogCodeLensProvider(),
-    ),
-  );
-
-  // ── REGISTER @devdiff CHAT PARTICIPANT ──
-  if ((vscode as any).lm && (vscode as any).lm.registerChatParticipant) {
-    try {
-      const qa = new ConversationalQA(workspacePath);
-      const participant = (vscode as any).lm.registerChatParticipant(
-        "devdiff.chat",
-        async (request: any, chatContext: any, stream: any) => {
-          const prompt = request.prompt.toLowerCase();
-          if (prompt.includes("changelog") || prompt.includes("what changed")) {
-            const changelog = await IDEGuardian.runTask(
-              "generateChangelog",
-              () => engine.analyze({ since: "24h" }),
-            );
-            stream.markdown(
-              typeof changelog === "string"
-                ? changelog
-                : changelog.summary || JSON.stringify(changelog),
-            );
-          } else if (prompt.includes("security") || prompt.includes("scan")) {
-            const report = await IDEGuardian.runTask("securityScan", () =>
-              engine.securityScan({ since: "1 week" }),
-            );
-            stream.markdown(JSON.stringify(report, null, 2));
-          } else {
-            const answer = await IDEGuardian.runTask("askQA", () =>
-              qa.ask(request.prompt),
-            );
-            stream.markdown(answer.answer);
-          }
-        },
-      );
-      context.subscriptions.push(participant);
-    } catch {
-      outputChannel.appendLine(
-        "ℹ️ Chat participant registration bypassed (API not supported in host version)",
-      );
-    }
-  }
-
-  // Status Bar setup
-  statusBar = vscode.window.createStatusBarItem(
-    vscode.StatusBarAlignment.Right,
-    100,
-  );
-  statusBar.text = "$(symbol-misc) DevDiff";
-  statusBar.tooltip = "DevDiff Active — Click for options";
-  statusBar.command = "devdiff.showMenu";
-  statusBar.show();
-  context.subscriptions.push(statusBar);
-
-  // Auto-detect Local Models
-  const models = await detectLocalModels();
-  if (models.length > 0) {
-    statusBar.text = `$(pulse) ${models[0].name}`;
-    statusBar.tooltip = `DevDiff Active\nModel: ${models[0].name}\nClick for options`;
-    vscode.window.showInformationMessage(
-      `DevDiff: ${models.length} local model(s) detected — ${models[0].name} ready`,
-    );
-  } else if (autoStart) {
-    vscode.window
-      .showInformationMessage(
-        "DevDiff: No local AI models detected. Install one for best experience?",
-        "Install Ollama",
-        "Use Cloud AI",
-        "Later",
-      )
-      .then((selection) => {
-        if (selection === "Install Ollama") {
-          vscode.env.openExternal(
-            vscode.Uri.parse("https://ollama.com/download"),
-          );
-        } else if (selection === "Use Cloud AI") {
-          vscode.commands.executeCommand("devdiff.showOutput");
-        }
-      });
-  }
-
-  // Auto-start Monitoring
-  if (autoStart) {
-    outputChannel.appendLine(
-      "🚀 Auto-starting background change monitoring...",
-    );
-    startBackgroundWatcher(context);
-  }
-
-  // Register VS Code Commands & Keyboard Shortcuts
+  // ── 1. REGISTER ALL VS CODE COMMANDS SYNCHRONOUSLY FIRST ──
   context.subscriptions.push(
     vscode.commands.registerCommand("devdiff.showChangelog", async () => {
       await showChangelogView();
@@ -217,6 +83,10 @@ export async function activate(context: vscode.ExtensionContext) {
 
     vscode.commands.registerCommand("devdiff.generateDiagram", async () => {
       await generateDiagram();
+    }),
+
+    vscode.commands.registerCommand("devdiff.showProjectSummary", async () => {
+      await showProjectSummary();
     }),
 
     vscode.commands.registerCommand("devdiff.securityScan", async () => {
@@ -247,7 +117,9 @@ export async function activate(context: vscode.ExtensionContext) {
 
     vscode.commands.registerCommand("devdiff.toggleWatch", () => {
       isWatching = !isWatching;
-      statusBar.text = isWatching ? "$(eye) DevDiff" : "$(pulse) DevDiff";
+      if (statusBar) {
+        statusBar.text = isWatching ? "$(eye) DevDiff" : "$(pulse) DevDiff";
+      }
       vscode.window.showInformationMessage(
         isWatching ? "DevDiff: Auto-watch ON" : "DevDiff: Auto-watch OFF",
       );
@@ -257,16 +129,26 @@ export async function activate(context: vscode.ExtensionContext) {
       outputChannel.show();
     }),
 
+    vscode.commands.registerCommand("devdiff.openFullChat", async () => {
+      const { FullChatWindow } = await import("./chat/full-chat-window");
+      await FullChatWindow.open(context);
+    }),
+
     vscode.commands.registerCommand("devdiff.showMenu", () => {
       vscode.window
         .showQuickPick([
           "Show Changelog Panel",
           "Generate Changelog (Progress)",
           "Generate Architecture Diagram",
+          "Show Project Summary",
           "Run Security Scan",
           "Ask AI",
           "Toggle Watch Mode",
           "Show Output Logs",
+          "Open Full Chat Tab",
+          "DevTools: Inspect Context",
+          "DevTools: AI Benchmark",
+          "DevTools: Export Prompt",
         ])
         .then((selection) => {
           if (selection === "Show Changelog Panel")
@@ -275,6 +157,8 @@ export async function activate(context: vscode.ExtensionContext) {
             vscode.commands.executeCommand("devdiff.generateChangelog");
           else if (selection === "Generate Architecture Diagram")
             vscode.commands.executeCommand("devdiff.generateDiagram");
+          else if (selection === "Show Project Summary")
+            vscode.commands.executeCommand("devdiff.showProjectSummary");
           else if (selection === "Run Security Scan")
             vscode.commands.executeCommand("devdiff.securityScan");
           else if (selection === "Ask AI")
@@ -283,85 +167,149 @@ export async function activate(context: vscode.ExtensionContext) {
             vscode.commands.executeCommand("devdiff.toggleWatch");
           else if (selection === "Show Output Logs")
             vscode.commands.executeCommand("devdiff.showOutput");
+          else if (selection === "Open Full Chat Tab")
+            vscode.commands.executeCommand("devdiff.openFullChat");
+          else if (selection === "DevTools: Inspect Context")
+            vscode.commands.executeCommand("devdiff.devtools.inspectContext");
+          else if (selection === "DevTools: AI Benchmark")
+            vscode.commands.executeCommand("devdiff.devtools.testAI");
+          else if (selection === "DevTools: Export Prompt")
+            vscode.commands.executeCommand("devdiff.devtools.exportPrompt");
         });
     }),
   );
 
-  // Register VS Code Language Model Chat Participant
-  const vscodeLm = (vscode as any).lm;
-  if (vscodeLm && vscodeLm.registerChatParticipant) {
-    context.subscriptions.push(
-      vscodeLm.registerChatParticipant("devdiff", {
-        async handler(request: any, chatContext: any, stream: any, token: any) {
-          const userPrompt = (request.prompt || "").toLowerCase();
+  // ── 2. REGISTER FEEDBACK & ONBOARDING COMMANDS ──
+  registerFeedbackCommands(context);
+  OnboardingGuide.register(context);
 
-          if (
-            userPrompt.includes("what changed") ||
-            userPrompt.includes("changelog")
-          ) {
-            const range = extractTimeRange(userPrompt) || "24h";
-            const result = await engine.analyze({
-              since: range,
-              persona: "developer",
-            });
-            stream.markdown(result.summary);
-          } else if (
-            userPrompt.includes("security") ||
-            userPrompt.includes("vulnerab")
-          ) {
-            const report = await engine.securityScan({
-              since: "1 week",
-              threshold: "medium",
-            });
-            const list = report.vulnerabilities || [];
-            if (list.length === 0) {
-              stream.markdown(
-                "No security concerns found in the recent changes.",
-              );
-            } else {
-              stream.markdown(
-                `### Security Audit Report\n\nDetected ${list.length} concerns:\n` +
-                  list
-                    .map(
-                      (v: any) =>
-                        `- **[${v.severity.toUpperCase()}]** ${v.file}: ${v.description} (Remediation: ${v.remediation})`,
-                    )
-                    .join("\n"),
-              );
-            }
-          } else if (
-            userPrompt.includes("explain") ||
-            userPrompt.includes("why")
-          ) {
-            const filePath = extractFilePath(userPrompt) || "";
-            if (filePath) {
-              const explanation = await engine.explainFile({ filePath });
-              stream.markdown(explanation);
-            } else {
-              stream.markdown("Please specify a file path to explain.");
-            }
-          } else if (
-            userPrompt.includes("diagram") ||
-            userPrompt.includes("architecture")
-          ) {
-            const diagram = await engine.generateDiagram({
-              type: "architecture",
-              since: "24h",
-            });
-            stream.markdown(`\`\`\`mermaid\n${diagram}\n\`\`\``);
-          } else {
-            const response = await engine.chat({
-              prompt: request.prompt || "",
-              context: await engine.getProjectContext(),
-            });
-            stream.markdown(response);
-          }
-        },
-      }),
+  // ── 3. INITIALIZE ENGINE & DEVTOOLS COMMANDS ──
+  const currentEngine = getEngine();
+  registerDevToolsCommands(context, currentEngine);
+
+  // ── 4. REGISTER SIDEBAR PANELS ──
+  try {
+    const changelogExplorer = new ChangelogExplorer(context, currentEngine);
+    context.subscriptions.push(
+      vscode.window.registerTreeDataProvider(
+        "devdiff-changelog",
+        changelogExplorer,
+      ),
     );
+
+    const chatPanel = new ChatPanel(context.extensionUri, currentEngine);
+    context.subscriptions.push(
+      vscode.window.registerWebviewViewProvider(ChatPanel.viewType, chatPanel),
+    );
+
+    const securityPanel = new SecurityPanel(context.extensionUri, currentEngine);
+    context.subscriptions.push(
+      vscode.window.registerWebviewViewProvider(
+        SecurityPanel.viewType,
+        securityPanel,
+      ),
+    );
+
+    const settingsPanel = new SettingsPanel(context.extensionUri);
+    context.subscriptions.push(
+      vscode.window.registerWebviewViewProvider(
+        SettingsPanel.viewType,
+        settingsPanel,
+      ),
+    );
+  } catch (err) {
+    outputChannel.appendLine(`Sidebar panel registration notice: ${err}`);
   }
 
-  outputChannel.appendLine("✅ DevDiff extension v2.0 ready");
+  // ── 5. REGISTER CODELENS / GUTTER ANNOTATIONS ──
+  try {
+    context.subscriptions.push(
+      vscode.languages.registerCodeLensProvider(
+        { scheme: "file" },
+        new ChangelogCodeLensProvider(),
+      ),
+    );
+  } catch (err) {
+    outputChannel.appendLine(`CodeLens registration notice: ${err}`);
+  }
+
+  // ── 6. REGISTER @devdiff CHAT PARTICIPANT ──
+  const vscodeLm = (vscode as any).lm;
+  if (vscodeLm && vscodeLm.registerChatParticipant) {
+    try {
+      const workspacePath =
+        vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || process.cwd();
+      const qa = new ConversationalQA(workspacePath);
+      const participant = vscodeLm.registerChatParticipant(
+        "devdiff.chat",
+        async (request: any, chatContext: any, stream: any) => {
+          const prompt = (request.prompt || "").toLowerCase();
+          if (prompt.includes("changelog") || prompt.includes("what changed")) {
+            const changelog = await IDEGuardian.runTask(
+              "generateChangelog",
+              () => currentEngine.analyze({ since: "24h" }),
+            );
+            stream.markdown(
+              typeof changelog === "string"
+                ? changelog
+                : changelog.summary || JSON.stringify(changelog),
+            );
+          } else if (prompt.includes("security") || prompt.includes("scan")) {
+            const report = await IDEGuardian.runTask("securityScan", () =>
+              currentEngine.securityScan({ since: "1 week" }),
+            );
+            stream.markdown(JSON.stringify(report, null, 2));
+          } else {
+            const answer = await IDEGuardian.runTask("askQA", () =>
+              qa.ask(request.prompt),
+            );
+            stream.markdown(answer.answer);
+          }
+        },
+      );
+      context.subscriptions.push(participant);
+    } catch (err) {
+      outputChannel.appendLine(`Chat participant notice: ${err}`);
+    }
+  }
+
+  // ── 7. STATUS BAR SETUP ──
+  statusBar = vscode.window.createStatusBarItem(
+    vscode.StatusBarAlignment.Right,
+    100,
+  );
+  statusBar.text = "$(symbol-misc) DevDiff";
+  statusBar.tooltip = "DevDiff Active — Click for options";
+  statusBar.command = "devdiff.showMenu";
+  statusBar.show();
+  context.subscriptions.push(statusBar);
+
+  // ── 8. NON-BLOCKING BACKGROUND TASKS ──
+  const config = vscode.workspace.getConfiguration("devdiff");
+  const autoStart = config.get("autoStart", true);
+
+  OnboardingGuide.showIfFirstTime(context).catch((err) => {
+    outputChannel.appendLine(`Onboarding guide notice: ${err}`);
+  });
+
+  OnboardingBanner.show(context).catch((err) => {
+    outputChannel.appendLine(`Onboarding banner notice: ${err}`);
+  });
+
+  detectLocalModels()
+    .then((models) => {
+      if (models.length > 0) {
+        statusBar.text = `$(pulse) ${models[0].name}`;
+        statusBar.tooltip = `DevDiff Active\nModel: ${models[0].name}\nClick for options`;
+      }
+    })
+    .catch(() => {});
+
+  if (autoStart) {
+    startBackgroundWatcher(context);
+  }
+
+  outputChannel.appendLine("✅ DevDiff extension v1.9.0 fully ready");
 }
 
 async function detectLocalModels(): Promise<DetectedModel[]> {
@@ -445,12 +393,55 @@ async function generateChangelogWithProgress() {
       cancellable: false,
     },
     async () => {
-      const changelog = await engine.generateChangelog({ format: "markdown" });
-      const doc = await vscode.workspace.openTextDocument({
-        content: changelog,
-        language: "markdown",
-      });
-      await vscode.window.showTextDocument(doc, vscode.ViewColumn.Active);
+      try {
+        const changelog = await engine.generateChangelog({ format: "markdown" });
+        const doc = await vscode.workspace.openTextDocument({
+          content: changelog,
+          language: "markdown",
+        });
+        await vscode.window.showTextDocument(doc, {
+          preview: false,
+          viewColumn: vscode.ViewColumn.Active,
+        });
+        try {
+          await vscode.commands.executeCommand("markdown.showPreviewToSide", doc.uri);
+        } catch {}
+      } catch (err: any) {
+        vscode.window.showErrorMessage(`DevDiff: Failed to generate changelog: ${err.message}`);
+      }
+    },
+  );
+}
+
+async function showProjectSummary() {
+  vscode.window.withProgress(
+    {
+      location: vscode.ProgressLocation.Notification,
+      title: "DevDiff: Loading project summary...",
+      cancellable: false,
+    },
+    async () => {
+      try {
+        let summary = await engine.getProjectContext();
+        if (!summary || !summary.trim()) {
+          summary = "# 📋 Project Summary\n\nNo project context found yet. Stage changes and initialize DevDiff to build repository context.";
+        } else if (!summary.startsWith("#")) {
+          summary = `# 📋 Project Summary\n\n${summary}`;
+        }
+        const doc = await vscode.workspace.openTextDocument({
+          content: summary,
+          language: "markdown",
+        });
+        await vscode.window.showTextDocument(doc, {
+          preview: false,
+          viewColumn: vscode.ViewColumn.Active,
+        });
+        try {
+          await vscode.commands.executeCommand("markdown.showPreviewToSide", doc.uri);
+        } catch {}
+      } catch (err: any) {
+        vscode.window.showErrorMessage(`DevDiff: Failed to load project summary: ${err.message}`);
+      }
     },
   );
 }
@@ -463,26 +454,44 @@ async function generateDiagram() {
       cancellable: false,
     },
     async () => {
-      const diagram = await engine.generateDiagram({
-        type: "architecture",
-        since: "24h",
-      });
-      const panel = vscode.window.createWebviewPanel(
-        "devdiff-diagram",
-        "Architecture Diagram",
-        vscode.ViewColumn.Beside,
-        { enableScripts: true },
-      );
-      panel.webview.html = `<!DOCTYPE html>
-        <html>
-        <head>
-          <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-          <script>mermaid.initialize({ startOnLoad: true, theme: 'dark' });</script>
-        </head>
-        <body style="background:#0f172a; color:#f8fafc; padding:20px;">
-          <pre class="mermaid">${diagram}</pre>
-        </body>
-        </html>`;
+      try {
+        const diagram = await engine.generateDiagram({
+          type: "architecture",
+          since: "24h",
+        });
+        const panel = vscode.window.createWebviewPanel(
+          "devdiff-diagram",
+          "DevDiff: Architecture Diagram",
+          vscode.ViewColumn.Beside,
+          { enableScripts: true },
+        );
+        panel.webview.html = `<!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+            <script>mermaid.initialize({ startOnLoad: true, theme: 'dark' });</script>
+            <style>
+              body {
+                background: #0f172a;
+                color: #f8fafc;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                padding: 24px;
+                line-height: 1.5;
+              }
+              h2 { margin-top: 0; color: #38bdf8; }
+              .mermaid { background: #1e293b; padding: 20px; border-radius: 8px; overflow-x: auto; }
+            </style>
+          </head>
+          <body>
+            <h2>📊 Architecture Diagram (Recent Changes)</h2>
+            <div class="mermaid">${diagram}</div>
+          </body>
+          </html>`;
+      } catch (err: any) {
+        vscode.window.showErrorMessage(`DevDiff: Failed to generate diagram: ${err.message}`);
+      }
     },
   );
 }

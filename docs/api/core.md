@@ -1,4 +1,4 @@
-# Core Library API Reference (`@eldrex/core` v1.7.0)
+# Core Library API Reference (`@eldrex/core` v1.9.0)
 
 The `@eldrex/core` package contains DevDiff's core engine, including AST parsing, unified knowledge resolution, persistent codebase memory timeline indexing, credential redaction, network firewalls, and AI provider routing.
 

@@ -61,7 +61,7 @@ export {
   SHELL_ACCESS_CONFIG,
 } from "./security/shell-sandbox";
 export { NETWORK_ACCESS } from "./security/network-disclosure";
-export { DevDiffEngine } from "./engine";
+export { DevDiffEngine, DevDiffEngineOptions } from "./engine";
 export { PromptSanitizer, SanitizationResult } from "./security/sanitization";
 export { SecretScanner } from "./diff/secret-scanner";
 export { VERSION_GUARANTEE } from "./version/guarantee";

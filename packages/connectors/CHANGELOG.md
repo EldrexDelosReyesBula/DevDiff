@@ -1,5 +1,22 @@
 # @eldrex/connectors
 
+## 1.8.0
+
+### Minor Changes
+
+- **Streamlined Delivery Pipeline**: Reduced payload serialization latency for webhook distribution.
+- **Connection Retry Guard**: Circuit-breaker pattern prevents cascading retries during external webhook outages.
+
+---
+
+## 1.7.0
+
+### Minor Changes
+
+- **Prompt Export Destination**: Added connector endpoints for exporting changelogs directly to team chat channels.
+
+---
+
 ## 1.6.0
 
 ### Major Changes

@@ -80,9 +80,12 @@ export class ChangelogExplorer implements vscode.TreeDataProvider<ChangelogItem>
         return [
           new ChangelogItem(
             "Project Summary",
-            contextData.slice(0, 40) + "...",
+            "View project summary & architecture",
             vscode.TreeItemCollapsibleState.None,
-            undefined,
+            {
+              command: "devdiff.showProjectSummary",
+              title: "Show Project Summary",
+            },
             "info",
           ),
         ];

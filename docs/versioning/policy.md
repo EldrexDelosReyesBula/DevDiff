@@ -1,4 +1,4 @@
-# Version Policy & Strict SemVer Enforcement (v1.7.0)
+# Version Policy & Strict SemVer Enforcement (v1.9.0)
 
 ## The Immutable Version Guarantee
 
@@ -8,28 +8,28 @@ DevDiff follows a strict immutability contract: once a version is published to n
 
 ---
 
-## Strict SemVer 2.0.0 Enforcement Policy (v1.7.0+)
+## Strict SemVer 2.0.0 Enforcement Policy (v1.9.0+)
 
-Starting with **v1.7.0** and for all future releases, DevDiff strictly adheres to the [Semantic Versioning 2.0.0 Specification](https://semver.org):
+Starting with **v1.9.0** and for all future releases, DevDiff strictly adheres to the [Semantic Versioning 2.0.0 Specification](https://semver.org):
 
 $$\text{Version Format: } \mathbf{\text{MAJOR}}.\mathbf{\text{MINOR}}.\mathbf{\text{PATCH}}$$
 
 ### Strict Rules Enforced:
 
-1. **`PATCH` Increments (`1.6.X`)**:
+1. **`PATCH` Increments (`1.9.X` $\rightarrow$ `1.9.1`)**:
    - **Allowed**: Backward-compatible bug fixes, performance optimizations, documentation updates, security advisories.
    - **Forbidden**: Adding new CLI commands, new provider drivers, new personas, or breaking API schema changes.
-2. **`MINOR` Increments (`1.X.0`)**:
+2. **`MINOR` Increments (`1.X.0` $\rightarrow$ `1.10.0`)**:
    - **Allowed**: New backward-compatible features, new CLI commands, new AI providers, new personas, structural indexing capabilities.
-   - **Sequential Requirement**: Minor versions increment sequentially (`1.5.0` $\rightarrow$ `1.6.0` $\rightarrow$ `1.7.0`).
-3. **`MAJOR` Increments (`X.0.0`)**:
+   - **Sequential Requirement**: Minor versions increment sequentially (`1.7.0` $\rightarrow$ `1.8.0` $\rightarrow$ `1.9.0` $\rightarrow$ `1.10.0`).
+3. **`MAJOR` Increments (`X.0.0` $\rightarrow$ `2.0.0`)**:
    - **Required**: Any breaking CLI argument changes, altered exit code contracts, configuration schema deprecations, or backward-incompatible API changes.
 
 ---
 
 ## Immutable Release Policy
 
-A published version is a snapshot in time. `v1.6.0` on 2026-08-08 works identically on 2027-08-08.
+A published version is a snapshot in time. `v1.9.0` on 2026-08-22 works identically on 2027-08-22.
 
 ### Updates Are Always Opt-In
 
@@ -40,7 +40,7 @@ DevDiff **does not auto-update**. You upgrade only when you choose to:
 npm install -g @eldrex/cli@latest
 
 # Or pin to a specific version forever
-npm install -g @eldrex/cli@1.6.0
+npm install -g @eldrex/cli@1.9.0
 ```
 
 ### Check Your Version

@@ -1,5 +1,22 @@
 # @eldrex/personas
 
+## 1.8.0
+
+### Minor Changes
+
+- **Persona Output Optimization**: Reduced token verbosity across `developer`, `ceo`, and `educator` personas for faster local LLM generation.
+- **Human-Craft Tone Refinement**: Standardized changelog phrasing to eliminate robotic filler sentences.
+
+---
+
+## 1.7.0
+
+### Minor Changes
+
+- **Universal Prompt Export Templates**: Added persona prompt formatting layers tailored for Claude, ChatGPT, Gemini, and Copilot.
+
+---
+
 ## 1.6.0
 
 ### Major Changes

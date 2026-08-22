@@ -1065,20 +1065,44 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
   },
   {
     name: "mcp",
-    description: "Start the DevDiff MCP Server",
-    examples: ["devdiff mcp serve"],
+    description: "Manage Universal MCP (Model Context Protocol) configurations and server",
+    longDescription:
+      "Generate, install, and check status of MCP server configurations for VS Code, Cursor, Windsurf, Antigravity, Claude Desktop, and JetBrains. Also supports running MCP server and testing connectivity.",
+    examples: [
+      "devdiff mcp status",
+      "devdiff mcp install --ide vscode",
+      "devdiff mcp install --all",
+      "devdiff mcp test",
+      "devdiff mcp serve",
+    ],
+    args: [
+      {
+        name: "action",
+        description: "Action to perform: install, status, test, serve",
+        required: false,
+        choices: ["install", "status", "test", "serve"],
+      },
+    ],
     options: [
       {
-        flags: "--http",
-        description: "Use HTTP SSE transport instead of stdio",
+        flags: "--ide <ide>",
+        description: "Target IDE for MCP configuration (vscode, cursor, windsurf, antigravity, claude-desktop, jetbrains)",
       },
       {
-        flags: "--port <port>",
-        description: "Port for HTTP SSE transport",
-        defaultValue: "3739",
+        flags: "--all",
+        description: "Install MCP configurations for all supported IDEs at once",
+      },
+      {
+        flags: "--http",
+        description: "Run MCP server in HTTP SSE mode (default is stdio)",
+      },
+      {
+        flags: "-p, --port <port>",
+        description: "Port to bind HTTP SSE server to (default: 3739)",
       },
     ],
     category: "integration",
+    since: "1.7.0",
   },
   {
     name: "plugin",

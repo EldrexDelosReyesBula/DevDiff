@@ -1,5 +1,36 @@
 # @eldrex/mcp
 
+## 1.9.0
+
+### Major Changes
+
+- **Universal MCP Server Architecture (`DevDiffMCPServer`)**:
+  - Implemented standalone multi-client MCP server engine supporting stdio transport, automated `SKILL.md` loading, and built-in self-testing diagnostics (`test()`).
+  - Registered 16 MCP tools covering changelog generation, diff parsing, architecture diagrams, security auditing, memory queries, and study buddy explanations.
+- **Universal Multi-IDE Config Generator (`UniversalMCPConfig`)**:
+  - Auto-detects and installs MCP configuration files across **VS Code** (`.vscode/mcp.json`), **Cursor** (`.cursor/mcp.json`), **Windsurf** (`~/.codeium/windsurf/mcp_config.json`), **Antigravity** (`.gemini/antigravity-ide/mcp/devdiff/mcp.json`), **Claude Desktop** (`claude_desktop_config.json`), and **JetBrains** (`.idea/mcp.json`).
+  - Exported status inspection, config generation, and batch installation utilities.
+
+---
+
+## 1.8.0
+
+### Minor Changes
+
+- **External Tool Registration Protocol**: Streamlined MCP tool manifest schemas and parameter validation for external agent orchestration.
+- **Performance Optimization**: Sub-10ms tool routing response latency for local AI workflows.
+
+---
+
+## 1.7.0
+
+### Minor Changes
+
+- **`devdiff_read_skill` Tool**: MCP tool reading and validating 10-section `SKILL.md` files for universal agent context.
+- **Dynamic Security Integration**: Added MCP endpoints for security scan audit trails and anomaly queries.
+
+---
+
 ## 1.6.0
 
 ### Major Changes

@@ -1,5 +1,23 @@
 # create-devdiff-app
 
+## 1.8.0
+
+### Minor Changes
+
+- **MCP Scaffolding Templates**: Added `--template mcp-server` to scaffold custom Model Context Protocol servers on DevDiff Foundations.
+- **Plugin Templates**: Added `--template plugin` with preconfigured `@eldrex/plugin-sdk` DevTools test harness.
+
+---
+
+## 1.7.0
+
+### Minor Changes
+
+- **Agent Scaffold Configurations**: Added OpenClaw supervisor YAML scaffolds (`.devdiff/agents/openclaw/supervisor.yaml`) to new project templates.
+- **Universal Skill Template**: Added 10-section `.devdiff/SKILL.md` default scaffolding.
+
+---
+
 ## 1.6.0
 
 ### Major Changes

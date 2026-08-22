@@ -36,7 +36,9 @@ export class FullChatWindow {
 
           let assistantReply = "I have analyzed your workspace changes.";
           try {
-            const qa = new ConversationalQA({ workspacePath: process.cwd() });
+            const workspacePath =
+              vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || process.cwd();
+            const qa = new ConversationalQA(workspacePath);
             const res = await qa.ask(message.text);
             assistantReply = res.answer || assistantReply;
           } catch {

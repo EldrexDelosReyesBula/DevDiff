@@ -1,4 +1,4 @@
-# DevDiff VS Code Extension (v1.7.0)
+# DevDiff VS Code Extension (v1.9.0)
 
 Privacy-first, BYOAI (Bring Your Own AI) inline codebase intelligence and changelog generation for Visual Studio Code.
 
@@ -42,9 +42,9 @@ DevDiff is published as a single, universal `.vsix` package providing identical 
   ```
 
 ### Option C: Manual VSIX Installation
-Download the latest `devdiff-1.7.0.vsix` and run:
+Download the latest `devdiff-1.9.0.vsix` and run:
 ```bash
-code --install-extension devdiff-1.7.0.vsix
+code --install-extension devdiff-1.9.0.vsix
 ```
 
 ---
@@ -94,16 +94,16 @@ Search for **DevDiff** in the Extensions view (`Ctrl+Shift+X` or `Cmd+Shift+X`) 
 
 For offline development, air-gapped environments, or pre-release verification:
 
-1. Download the packaged VSIX artifact: `devdiff-vscode-1.7.0.vsix` (available on [GitHub Releases](https://github.com/EldrexDelosReyesBula/devdiff/releases))
+1. Download the packaged VSIX artifact: `devdiff-vscode-1.9.0.vsix` (available on [GitHub Releases](https://github.com/EldrexDelosReyesBula/devdiff/releases))
 2. Open VS Code.
 3. Open the Extensions view (`Ctrl+Shift+X` or `Cmd+Shift+X`).
 4. Click the `...` (More Actions) button in the upper-right corner of the Extensions view.
 5. Select **Install from VSIX...**
-6. Select `devdiff-vscode-1.7.0.vsix` and click **Install**.
+6. Select `devdiff-vscode-1.9.0.vsix` and click **Install**.
 
 ---
 
-## 🚀 Key v1.7.0 Features
+## 🚀 Key v1.9.0 Features
 
 - 🖥️ **4 Dedicated Sidebar Views**:
   1. **Changelog Explorer**: Inspect staged changes, preview changelogs, and render inline Mermaid architecture graphs.

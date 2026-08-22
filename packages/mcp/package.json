@@ -1,16 +1,31 @@
 {
   "name": "@eldrex/mcp",
-  "version": "1.8.1",
+  "version": "1.9.0",
   "description": "DevDiff MCP Server v2.0",
   "type": "module",
-  "main": "./dist/server-v2.js",
-  "module": "./dist/server-v2.js",
-  "types": "./dist/server-v2.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./server-v2": {
       "types": "./dist/server-v2.d.ts",
       "import": "./dist/server-v2.js",
       "default": "./dist/server-v2.js"
+    },
+    "./server": {
+      "types": "./dist/server.d.ts",
+      "import": "./dist/server.js",
+      "default": "./dist/server.js"
+    },
+    "./universal-config": {
+      "types": "./dist/universal-config.d.ts",
+      "import": "./dist/universal-config.js",
+      "default": "./dist/universal-config.js"
     }
   },
   "files": [

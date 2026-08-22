@@ -1,5 +1,36 @@
 # @eldrex/plugin-sdk
 
+## 1.9.0
+
+### Major Changes
+
+- **DevDiff Foundations DevTools Suite**: Complete testing, validation, and benchmarking utilities for plugin authors (`DevDiffDevTools`):
+  - **`mockDiff(options)`**: Realistic synthetic git diff generator supporting customizable file counts, line additions, line deletions, hunks, and renames for zero-dependency unit tests.
+  - **`mockContext(options)`**: Mock project context generator producing structured hierarchies, languages, dependencies, and raw summaries.
+  - **`createTestHarness(plugin)`**: In-memory lifecycle simulation harness with `activate`, `beforeAnalysis`, `afterAnalysis`, `onError`, and `deactivate` execution and log/error capture.
+  - **`validatePlugin(plugin)`**: Structural and SemVer validator verifying plugin manifest schema, hook signatures, and version constraints.
+  - **`benchmarkPlugin(plugin, options)`**: Performance profiler measuring average execution latency (ms) and memory overhead across iterations.
+
+---
+
+## 1.8.0
+
+### Minor Changes
+
+- **Decoupled Plugin Architecture**: Standardized standalone third-party plugin loading and isolated lifecycle boundaries.
+- **Progressive Explainer Protocol**: Exported interface definitions for 5-stage progressive code explanation plugins.
+
+---
+
+## 1.7.0
+
+### Minor Changes
+
+- **Supply Chain Security & Permission Hooks**: Added plugin lifecycle contracts for permission declaration audits and dependency scanning validation.
+- **Universal Prompt Transformer Support**: Plugins can now intercept and format prompt export outputs for external LLM models.
+
+---
+
 ## 1.6.0
 
 ### Major Changes

@@ -1,8 +1,8 @@
 {
   "name": "devdiff",
   "displayName": "DevDiff",
-  "description": "Privacy-first, BYOAI inline changelog intelligence for VS Code",
-  "version": "1.8.1",
+  "description": "Privacy-first, BYOAI codebase intelligence and automated release note synthesizer",
+  "version": "1.9.0",
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
@@ -20,16 +20,22 @@
   ],
   "main": "./dist/extension.js",
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
-    "compile": "tsup",
-    "watch": "tsup --watch",
-    "vscode:prepublish": "npm run compile"
+    "build": "node esbuild.config.mjs",
+    "dev": "node esbuild.config.mjs --watch",
+    "compile": "node esbuild.config.mjs",
+    "watch": "node esbuild.config.mjs --watch",
+    "vscode:prepublish": "npm run compile",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@eldrex/core": "workspace:*"
+  },
+  "optionalDependencies": {
+    "ollama": "^0.5.0"
   },
   "devDependencies": {
-    "@eldrex/core": "workspace:*",
     "@types/vscode": "^1.85.0",
-    "tsup": "^8.0.0",
+    "esbuild": "^0.24.0",
     "typescript": "^5.5.0"
   },
   "contributes": {
@@ -38,7 +44,7 @@
         {
           "id": "devdiff-sidebar",
           "title": "DevDiff",
-          "icon": "$(symbol-misc)"
+          "icon": "asset/devdiff.svg"
         }
       ]
     },
@@ -47,23 +53,24 @@
         {
           "id": "devdiff-changelog",
           "name": "Changelog Explorer",
+          "type": "tree",
           "icon": "$(git-commit)"
         },
         {
-          "id": "devdiff-chat",
-          "name": "Q&A Chat Panel",
+          "id": "devdiff.chatPanel",
+          "name": "Q&A Assistant",
           "type": "webview",
           "icon": "$(comment-discussion)"
         },
         {
-          "id": "devdiff-security",
+          "id": "devdiff.securityPanel",
           "name": "Security & Compliance",
           "type": "webview",
           "icon": "$(shield)"
         },
         {
-          "id": "devdiff-settings",
-          "name": "Settings",
+          "id": "devdiff.settingsPanel",
+          "name": "Settings & Personas",
           "type": "webview",
           "icon": "$(settings-gear)"
         }
@@ -80,6 +87,14 @@
       {
         "command": "devdiff.showChangelog",
         "title": "DevDiff: Show Changelog"
+      },
+      {
+        "command": "devdiff.showMenu",
+        "title": "DevDiff: Quick Menu"
+      },
+      {
+        "command": "devdiff.openFullChat",
+        "title": "DevDiff: Open Full Editor Chat Tab"
       },
       {
         "command": "devdiff.explainChanges",
@@ -112,6 +127,26 @@
       {
         "command": "devdiff.askAI",
         "title": "DevDiff: Ask DevDiff (natural language)"
+      },
+      {
+        "command": "devdiff.showProjectSummary",
+        "title": "DevDiff: Show Project Summary"
+      },
+      {
+        "command": "devdiff.devtools.inspectContext",
+        "title": "DevDiff DevTools: Inspect Repository Context"
+      },
+      {
+        "command": "devdiff.devtools.exportPrompt",
+        "title": "DevDiff DevTools: Export AI Prompt"
+      },
+      {
+        "command": "devdiff.devtools.testAI",
+        "title": "DevDiff DevTools: AI Latency & Connectivity Diagnostic"
+      },
+      {
+        "command": "devdiff.devtools.mockDiff",
+        "title": "DevDiff DevTools: Simulate Synthetic Diff"
       }
     ],
     "keybindings": [

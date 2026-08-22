@@ -2,6 +2,30 @@
 
 All notable changes to DevDiff are documented here.
 
+## [1.9.0] — 2026-08-22 · Full DevTools Suite, Universal MCP Server & VS Code Bundling Fixes
+
+The **v1.9.0** release delivers a complete programmatic DevTools suite for DevDiff Foundations in `@eldrex/plugin-sdk`, universal Model Context Protocol (MCP) server & multi-IDE installer across VS Code, Cursor, Windsurf, Antigravity, Claude Desktop, and JetBrains, and fixes VSIX module resolution, synchronous command registration, and side-by-side markdown rendering in the VS Code extension.
+
+### Added & Enhanced
+
+- **DevDiff Foundations DevTools Suite (`@eldrex/plugin-sdk`)**:
+  - **`DevDiffDevTools.mockDiff()`**: Realistic synthetic git diff generator with customizable file counts, line additions, line deletions, and rename actions for zero-dependency plugin unit testing.
+  - **`DevDiffDevTools.mockContext()`**: Synthetic project context generator for testing context-aware hooks.
+  - **`DevDiffDevTools.createTestHarness()`**: In-memory lifecycle runner testing plugin activation, `beforeAnalysis`, `afterAnalysis`, `onError`, and deactivation with assertion helpers.
+  - **`DevDiffDevTools.validatePlugin()`**: Structural and SemVer validator verifying plugin manifest conformity with DevDiff plugin specifications.
+  - **`DevDiffDevTools.benchmarkPlugin()`**: Profiler measuring average execution time (ms) and heap memory overhead across repeated iterations.
+- **Universal MCP Server & Multi-IDE Installer (`@eldrex/mcp` & `@eldrex/cli`)**:
+  - **`UniversalMCPConfig`**: Automated 1-click MCP configuration generator and installer supporting VS Code, Cursor, Windsurf, Antigravity, Claude Desktop, and JetBrains.
+  - **`DevDiffMCPServer`**: Universal MCP server implementation with 16 registered tools, `SKILL.md` loading, and self-diagnostics.
+  - **CLI Command Suite**: Added `devdiff mcp install`, `devdiff mcp status`, `devdiff mcp test`, and `devdiff mcp serve`.
+- **VS Code Extension Improvements (`packages/vscode`)**:
+  - **VSIX Standalone Bundling**: Created `esbuild.config.mjs` bundling internal workspace dependencies (`@eldrex/core`, `@eldrex/gateway`, `@eldrex/personas`, `@eldrex/plugin-sdk`, `@eldrex/mcp`) into a standalone `dist/extension.js` bundle with sourcemap support.
+  - **Synchronous Command Registration**: Fixed `command 'devdiff.generateDiagram' not found` by registering all VS Code commands immediately upon extension activation.
+  - **Markdown Editor Previews**: "Generate Recent Changelog" and "Project Summary" now automatically open the markdown document in the code editor and render the side-by-side Markdown preview (`markdown.showPreviewToSide`).
+  - **DevTools Command Suite**: Added `devdiff.devtools.inspectContext`, `devdiff.devtools.exportPrompt`, `devdiff.devtools.testAI`, and `devdiff.devtools.mockDiff`.
+
+---
+
 ## [1.8.0] — 2026-08-21 · Multi-Registry Extension Distribution, External Plugin Architecture & Documentation Overhaul
 
 The **v1.8.0** release establishes unified distribution across both the VS Code Marketplace and Open VSX Registry, cleanly decouples third-party plugins into standalone repositories, overhauls the documentation suite to human-craft engineering standards, and standardizes local release gate verification.

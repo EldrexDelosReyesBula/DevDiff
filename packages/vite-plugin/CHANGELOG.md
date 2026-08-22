@@ -1,5 +1,22 @@
 # @eldrex/vite
 
+## 1.8.0
+
+### Minor Changes
+
+- **Vite 6 Compatibility**: Verified and tuned hot module replacement (HMR) changelog overlay for Vite 6 and Rollup 4 bundling pipelines.
+- **Fast Build Mode**: Added `skipAIOnDev` config option for instant dev server startups.
+
+---
+
+## 1.7.0
+
+### Minor Changes
+
+- **Dynamic Security Build Gates**: Integrates `BehavioralEngine` scan during production builds.
+
+---
+
 ## 1.6.0
 
 ### Major Changes

@@ -2,6 +2,32 @@
 
 All notable changes to the DevDiff workspace packages will be documented in this file.
 
+## [1.9.0] — 2026-08-22 · Full DevTools Suite, Universal MCP Server & VS Code Bundling Fixes
+
+The **v1.9.0** release delivers a complete programmatic DevTools suite for DevDiff Foundations in `@eldrex/plugin-sdk`, universal Model Context Protocol (MCP) server & multi-IDE installer across VS Code, Cursor, Windsurf, Antigravity, Claude Desktop, and JetBrains, and fixes VSIX module resolution, synchronous command registration, and side-by-side markdown rendering in the VS Code extension.
+
+### DevTools Suite (`@eldrex/plugin-sdk`)
+
+- **Synthetic Diff & Context Generators**: `DevDiffDevTools.mockDiff()` and `DevDiffDevTools.mockContext()` for zero-dependency unit tests without live git repos.
+- **In-Memory Test Harness**: `DevDiffDevTools.createTestHarness()` testing plugin activation, beforeAnalysis, afterAnalysis, error handling, and deactivation.
+- **Plugin Manifest Validator**: `DevDiffDevTools.validatePlugin()` verifying plugin schemas and SemVer constraints.
+- **Performance Profiler**: `DevDiffDevTools.benchmarkPlugin()` measuring execution duration (ms) and memory footprint.
+
+### Universal MCP Integration (`@eldrex/mcp` & `@eldrex/cli`)
+
+- **Universal Config Generator (`UniversalMCPConfig`)**: 1-click configuration installer for VS Code, Cursor, Windsurf, Antigravity, Claude Desktop, and JetBrains.
+- **Universal Server (`DevDiffMCPServer`)**: MCP server with 16 registered tools, `SKILL.md` loading, and self-testing diagnostics.
+- **CLI Commands**: `devdiff mcp install`, `devdiff mcp status`, `devdiff mcp test`, `devdiff mcp serve`.
+
+### VS Code Extension Enhancements (`packages/vscode`)
+
+- **Standalone VSIX Bundling**: Bundles all workspace dependencies into `dist/extension.js` with sourcemaps.
+- **Synchronous Command Registration**: Fixed `command 'devdiff.generateDiagram' not found` on early startup.
+- **Rendered Markdown Previews**: Automatically displays changelog and Project Summary documents with side-by-side rendered Markdown preview (`markdown.showPreviewToSide`).
+- **DevTools Command Suite**: Added `devdiff.devtools.inspectContext`, `devdiff.devtools.exportPrompt`, `devdiff.devtools.testAI`, and `devdiff.devtools.mockDiff`.
+
+---
+
 ## [1.8.0] — 2026-08-21 · Multi-Registry Extension Distribution, External Plugin Architecture & Documentation Overhaul
 
 The **v1.8.0** release establishes unified distribution across both the VS Code Marketplace and Open VSX Registry, cleanly decouples third-party plugins into standalone repositories, overhauls the documentation suite to human-craft engineering standards, and standardizes local release gate verification.

@@ -17,6 +17,7 @@
 .VPHero {
   position: relative;
   overflow: hidden;
+  contain: layout style;
 }
 
 .VPHero::before {
@@ -58,6 +59,7 @@
 /* ── Hero Image Backdrop Aura ── */
 .VPHero .image-container {
   position: relative;
+  min-height: 280px;
 }
 
 .VPHero .image-bg {
@@ -81,6 +83,10 @@
 .VPHero .image-src {
   position: relative;
   z-index: 1;
+  width: 280px;
+  height: 280px;
+  max-width: 100%;
+  aspect-ratio: 1 / 1;
   filter: drop-shadow(0 20px 30px rgba(99, 102, 241, 0.25));
 }
 

@@ -139,7 +139,20 @@ async function executeCommand(fullPath: string, args: any[]) {
     }
     case "mcp": {
       const { mcpCommand } = await import("./commands/mcp");
-      return mcpCommand(sub || "serve", args[0]);
+      let action = sub || "";
+      let opts: any = {};
+
+      for (const arg of args) {
+        if (typeof arg === "string" && !action) {
+          action = arg;
+        } else if (typeof arg === "object" && arg !== null) {
+          opts = { ...opts, ...arg };
+          if (arg.action && !action) {
+            action = arg.action;
+          }
+        }
+      }
+      return mcpCommand(action || "status", opts);
     }
     case "memory": {
       const { memoryCommand } = await import("./commands/memory");

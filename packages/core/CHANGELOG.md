@@ -1,13 +1,35 @@
 # @eldrex/core
 
-## 1.7.0
+## 1.9.0
 
 ### Minor Changes
+
+- **Engine Configuration Options**: Added `DevDiffEngineOptions` interface to `DevDiffEngine` constructor allowing programmatic binding of custom `workspacePath` and config overrides.
+
+---
+
+## 1.8.0
+
+### Minor Changes
+
+- **Progressive Explainer Integration**: Built-in 5-stage progressive code explanation engine with skill levels (`beginner`, `student`, `developer`, `senior`, `architect`).
+- **Core Decoupling**: Refactored core engine to support standalone decoupled plugin instances.
+
+---
+
+## 1.7.0
+
+### Major Changes
 
 - **AgentRegistry & OpenClawSupervisorV2**: Multi-agent squad orchestration (`architect`, `security`, `performance`, `docs`, `qa`), fallback task routing, parallel swarm consensus building, and `.devdiff/agents/openclaw/supervisor.yaml` task graph decomposition.
 - **PromptGenerator & ImportEngine**: Universal AI prompt exporter for ChatGPT, Claude, Gemini, Copilot, and clipboard-based response importer with completeness and quality validation.
 - **BehavioralEngine & AdaptiveRuleEngine**: Dynamic security baseline engine with threat feed synchronization and auto-disabling rule learning.
 - **DependencyScanner & ObfuscationDetector**: Supply chain protection with live OSV API & npm query integration, native binary detection, and 8-indicator threat scoring.
+- **Trust & Transparency Platform**: `NetworkGuardV2`, `PluginAuditor`, and `DisclosureReport` generating 30-day network and filesystem audit disclosures.
+- **Memory Timeline Control**: `MemoryManager` and `TimeAwareGenerator` enabling date-range snapshot deletion and time-aware changelog generation.
+- **Unified Knowledge Architecture**: Single source of truth knowledge resolution (`SKILL.md` → `.devdiff/context.md` → recursive AST scanner) with `HallucinationGuard`.
+
+---
 
 ## 1.6.0
 

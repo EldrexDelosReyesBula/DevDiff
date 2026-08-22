@@ -1,6 +1,24 @@
 # @eldrex/openclaw
 
-## 1.5.0 → 1.6.0
+## 1.8.0
+
+### Minor Changes
+
+- **Supervisor Multi-Channel Routing**: Streamlined supervisor error escalation and retry fallbacks.
+- **Provider Resilience**: Automatic fallback to local Ollama endpoints during upstream rate limits.
+
+---
+
+## 1.7.0
+
+### Major Changes
+
+- **OpenClaw Supervisor v2**: Task graph decomposition (`changelog_generation`, `security_audit`, `answer_question`) with automated approval thresholds.
+- **Multi-Agent Consensus Integration**: Inter-agent event bus communication for parallel analysis swarms.
+
+---
+
+## 1.6.0
 
 ### Minor Changes
 

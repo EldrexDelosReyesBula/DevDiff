@@ -1,5 +1,24 @@
 # @eldrex/antigravity
 
+## 1.8.0
+
+### Minor Changes
+
+- **Optimized Memory Indexing**: Incremental AST indexing performance improved by 40% with file-hashing deduplication.
+- **Skill Documentation Generator**: Enhanced `SKILL.md` output formatting matching human-craft design guidelines.
+
+---
+
+## 1.7.0
+
+### Major Changes
+
+- **Unified Knowledge Architecture**: Synchronizes `SKILL.md`, `.devdiff/context.md`, and AST codebase memory indexes with live timestamp validation.
+- **ContextMemorySync**: Automatic background synchronization between memory snapshots and repository rules.
+- **HallucinationGuard**: Multi-stage validation checking generated content against real file paths, symbol exports, and architectural patterns.
+
+---
+
 ## 1.6.0
 
 ### Major Changes

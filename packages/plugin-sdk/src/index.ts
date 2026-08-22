@@ -228,3 +228,13 @@ export interface NotificationOptions {
   title?: string;
   url?: string;
 }
+
+// ── DEVTOOLS SUITE FOR DEVS & EXTENSION AUTHORS ──
+export {
+  DevDiffDevTools,
+  MockDiffOptions,
+  MockContextOptions,
+  PluginValidationResult,
+  BenchmarkResult,
+} from "./devtools";
+
