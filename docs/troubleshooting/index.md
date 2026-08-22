@@ -77,6 +77,7 @@ devdiff memory status
 
 ## Specialized Troubleshooting Guides
 
+- 🔌 [VS Code & IDE Extension Issues](./vscode-extension) — Auto-spawning tabs fix, command not found resolution, MCP stdio setup, and local patching recipes.
 - 🪟 [Windows-Specific Issues](./windows-issues) — PowerShell execution policy, line endings, firewall ports, WSL2.
 - 🍏 [macOS Issues](./macos-issues) — Keychain permissions, Homebrew Ollama service, Apple Silicon WebGPU acceleration.
 - 🐧 [Linux Issues](./linux-issues) — Systemd services, user permissions, headless server configuration.

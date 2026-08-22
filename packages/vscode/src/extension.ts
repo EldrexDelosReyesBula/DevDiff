@@ -344,22 +344,13 @@ function startBackgroundWatcher(context: vscode.ExtensionContext) {
   const onChange = async () => {
     if (!isWatching) return;
     try {
-      const files = await engine.getStagedFiles();
-      if (files.length > 5) {
-        statusBar.text = `$(pulse) ${files.length} changes`;
-        statusBar.backgroundColor = new vscode.ThemeColor(
-          "statusBarItem.warningBackground",
-        );
-
-        if (autoGenerateTimeout) clearTimeout(autoGenerateTimeout);
-        autoGenerateTimeout = setTimeout(async () => {
-          await generateChangelogWithProgress();
-          statusBar.backgroundColor = undefined;
-          statusBar.text = `$(pulse) DevDiff`;
-        }, 5000);
+      const currentEngine = getEngine();
+      const files = await currentEngine.getStagedFiles();
+      if (files.length > 0 && statusBar) {
+        statusBar.text = `$(pulse) ${files.length} staged`;
       }
     } catch (err) {
-      outputChannel.appendLine(`Watcher error: ${err}`);
+      outputChannel.appendLine(`Watcher notice: ${err}`);
     }
   };
 

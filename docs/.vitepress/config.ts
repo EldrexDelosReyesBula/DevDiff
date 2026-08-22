@@ -340,7 +340,15 @@ export default withMermaid({
         text: "Troubleshooting",
         collapsed: true,
         items: [
-          { text: "Troubleshooting Overview", link: "/troubleshooting/" },
+          { text: "Troubleshooting Portal", link: "/troubleshooting/" },
+          {
+            text: "VS Code & IDE Extension",
+            link: "/troubleshooting/vscode-extension",
+          },
+          {
+            text: "Quick Fixes Reference",
+            link: "/troubleshooting/common-fixes",
+          },
           {
             text: "Troubleshooting Ollama",
             link: "/guide/troubleshooting-ollama-timeouts",
